@@ -17,7 +17,7 @@ import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from group import group_notices, notice_label
+from group import group_notices, has_details, notice_label
 
 ROOT = Path(__file__).resolve().parent.parent
 EXTRACTED_DIR = ROOT / "data" / "extracted"
@@ -26,9 +26,11 @@ EVENT_REVIEW = REVIEWED_DIR / "events.json"
 OUT = ROOT / "web" / "public" / "events.json"
 KST = timezone(timedelta(hours=9))
 
-# 화면에 넘기지 않는 필드 (분류 쪽 내부 필드 + 묶기에만 쓰는 필드)
+# 화면에 넘기지 않는 필드. 앞줄은 분류 쪽 내부 필드로 classifier/build.py의 INTERNAL_KEYS와 같게 둔다
+# (분류가 내부 필드를 늘리면 여기도 늘린다). 뒷줄은 묶기에만 쓰는 필드다.
 INTERNAL_KEYS = ["notice_kind", "notice_kind_reason", "content_hash", "exclude", "filtered_conditions", "duplicate_of",
-                 "from_attachment", "label", "year", "semester", "round", "_label"]
+                 "from_attachment", "duplicate_split", "label", "label_reason",
+                 "year", "semester", "round", "_label"]
 # 최근 공지에 값이 없으면 앞 공지 값으로 채우는 필드
 FILL_FIELDS = ["category", "summary", "amount", "eligibility", "burden", "duplicate_restriction"]
 
@@ -108,9 +110,9 @@ def _empty(field: str, value) -> bool:
 
 
 def make_event(notices: list[dict], grouped_by: str) -> dict | None:
-    """공지 묶음 하나 → 이벤트 하나. 모집·수정 공지가 없으면(결과 공지만 있으면) None."""
+    """공지 묶음 하나 → 이벤트 하나. 상세가 있는 공지(모집·수정, 마감된 모집)가 없으면(결과 공지만 있으면) None."""
     notices = sorted(notices, key=lambda n: (n["source"].get("posted_at") or "", int(n["id"])))
-    active = [n for n in notices if n["_label"] in ("모집", "수정")]
+    active = [n for n in notices if has_details(n)]
     if not active:
         return None
     latest = active[-1]
@@ -175,7 +177,7 @@ def build_events(notices: list[dict], review: dict) -> list[dict]:
     labels = {str(k): v for k, v in review.get("labels", {}).items()}
     labeled = []
     for n in notices:
-        n["_label"] = labels.get(str(n["id"])) or notice_label(n)
+        n["_label"] = labels[str(n["id"])] if str(n["id"]) in labels else notice_label(n)
         if n["_label"] in ("모집", "수정", "완료"):
             labeled.append(n)
 

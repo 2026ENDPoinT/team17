@@ -44,10 +44,10 @@ _KIND_WORDS = ["선발", "모집", "신청", "결과", "알림", "안내", "공�
 
 
 def notice_label(item: dict) -> str | None:
-    """공지 라벨: '모집' / '수정' / '완료' / None(안내 등, 이벤트에 넣지 않음)."""
-    label = item.get("label")
-    if label in LABELS:
-        return label
+    """공지 라벨: '모집' / '수정' / '완료' / None(장학금 공지가 아님, 이벤트에 넣지 않음).
+    분류가 label 필드를 주면(값이 null이어도) 그대로 쓴다. label 필드가 없는 옛 추출 결과만 notice_kind로 대신 정한다."""
+    if "label" in item:
+        return item["label"] if item["label"] in LABELS else None
     kind = item.get("notice_kind")
     if kind == "결과":
         return "완료"
@@ -144,20 +144,31 @@ def _order(item: dict):
     return (item["source"].get("posted_at") or "", int(item["id"]))
 
 
+def has_details(item: dict) -> bool:
+    """장학금 상세(금액·조건·마감)가 있는 공지인가: 모집·수정 공지, 또는 마감된 모집 공지.
+    분류는 "… 모집 안내(마감)"에도 '완료' 라벨을 붙이므로 notice_kind로 결과 공지와 가린다."""
+    return item["_label"] in ("모집", "수정") or item.get("notice_kind") == "모집"
+
+
+def opens_event(item: dict) -> bool:
+    """새 이벤트를 여는 공지: '모집' 공지와 마감된 모집 공지("… 모집 안내(마감)", 라벨 '완료').
+    마감된 모집 공지는 그 자체가 모집 공지라서, 앞의 같은 이름 모집(다른 학기·다른 기관일 수 있음)에 붙이지 않는다."""
+    return item["_label"] == "모집" or (item["_label"] == "완료" and item.get("notice_kind") == "모집")
+
+
 def group_notices(items: list[dict]) -> list[list[dict]]:
     """공지(라벨이 있는 것만)를 게시 순서대로 보며 이벤트로 묶는다.
 
-    - 모집 공지는 항상 새 이벤트를 연다. (같은 이름의 모집 공지가 또 오면 다음 차수나 재모집일 수 있다)
-    - 수정·완료 공지는 같은 장학금인 이벤트 중 가장 최근 것에 붙는다. 없으면 혼자 이벤트가 된다.
+    - 모집 공지(마감된 모집 공지 포함)는 항상 새 이벤트를 연다. (같은 이름의 모집 공지가 또 오면 다음 차수나 재모집일 수 있다)
+    - 수정 공지와 결과 공지(완료)는 같은 장학금인 이벤트 중 가장 최근 것에 붙는다. 없으면 혼자 이벤트가 된다.
     - 같은 장학금인지는 이벤트의 **첫 공지**와 비교한다 (사슬처럼 이어 묶지 않는다).
     """
     events: list[dict] = []  # {"key", "posted_at", "notices"}
     for item in sorted(items, key=_order):
-        label = item["_label"]
         key = scholarship_key(item)
         posted = item["source"].get("posted_at")
         target = None
-        if label != "모집":
+        if not opens_event(item):
             for ev in reversed(events):
                 if _days_apart(ev["posted_at"], posted) <= MAX_DAYS and same_scholarship(ev["key"], key):
                     target = ev
