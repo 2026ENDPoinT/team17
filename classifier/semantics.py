@@ -6,17 +6,22 @@ lexer.py가 토큰을, phrases.py가 구(문법 트리의 마디)를 만들면, 
 상속 속성이 모두 왼쪽에서만 오므로(L-attributed) 줄을 왼쪽에서 오른쪽으로 한 번 읽으면 모든 속성이 정해진다.
 오른쪽 값을 기다려야 하는 속성은 두지 않는다.
 
-기간 (마감일)   줄 → 항목+     항목 → 이름표 기간     기간 → 시작날짜? ~ 끝날짜
+기간 (마감일)   줄 → 항목+     항목 → 앞이름표 기간 뒷이름표?     기간 → 시작날짜? ~ 끝날짜
   항목.label    ↓  앞 기간이 끝난 곳부터 이 기간 시작까지의 글자 ("대출실행기간: ")
-  항목.applies  ↓  label에 (요일 "(수)"를 빼고) 한글이 있으면 "다른 기간 말(실행·발표·지급 …)이 없다",
-                   한글이 없으면 앞 항목의 값을 이어받는다
+  항목.post     ↑  기간 바로 뒤부터 구분 기호(, ; | ( [)까지의 이름표 토큰 ("7. 20. 발표", "10. 1. 이후 발급").
+                   구분 기호보다 다음 기간이 먼저 오면 그 말은 다음 항목의 앞이름표라서 쓰지 않는다
+                   ("7. 30. 면접 8. 3."의 "면접"은 8/3의 이름표). 어느 항목에 붙는지는 구문이 정하는 일이라 L-attributed를 깨지 않는다
+  항목.applies  ↑  신청 기간으로 쓸 수 있는지. 순서대로 본다
+                   1) 앞이름표에 APPLY·OTHER 토큰이 있으면 가장 가까운 것 (APPLY면 True: "합격자 발표 후 서류 제출: 8.20")
+                   2) 앞이름표에 (요일 "(수)"를 빼고) 한글이 있으면 True, 한글이 없으면 앞 항목의 값을 이어받는다 (↓)
+                   3) 뒷이름표: REF("이후·이전·기준")면 False. 앞이름표 토큰이 없을 때만 OTHER면 False, APPLY면 True
   날짜.year     ↓  적힌 연도(오타면 게시 연도) → 왼쪽 날짜의 연도 → 게시 연도 (게시일보다 60일 넘게 앞이면 다음 해)
   날짜.prev     ↓  바로 왼쪽 날짜. 왼쪽에 연도가 적혀 있고 연도 없는 날짜가 그보다 180일 넘게 앞이면 해를 넘긴 것이다
                    ("2026. 12. 20. ~ 1. 5.")
   날짜.fixed    ↓  이 날짜, 또는 연도를 물려준 왼쪽 날짜의 연도 오타를 고쳤는지
   일만 쓴 끝    ↓  "8. 13. ~ 14."의 14는 시작 날짜의 달·연도를 받는다 (시작보다 작으면 다음 달)
   기간.date     ↑  끝 날짜 (끝이 없으면 그 날짜 하나)
-  줄.deadline   ↑  applies인 항목 중 마지막 기간 (하나도 없으면 마지막 기간)
+  줄.deadline   ↑  applies인 항목 중 마지막 기간. 하나도 없으면 이 줄에는 마감이 없다
 
 금액   항목 → 앞말 금액 뒷말
   금액.pre      ↓  금액 앞 CONTEXT_BEFORE자. 앞 금액이 그 안에서 끝나면 앞 금액이 끝난 곳부터 ("예산 500만원, 1인 100만원")
@@ -47,6 +52,9 @@ ROLLOVER_DAYS = 60  # 연도 없는 날짜가 게시일보다 이만큼 넘게 �
 BACKWARD_DAYS = 180  # 연도 없는 날짜가 왼쪽 날짜보다 이만큼 넘게 앞이면 다음 해다 ("2026. 12. 20. ~ 1. 5.")
 _WEEKDAY = re.compile(r"\(\s*[월화수목금토일](?:요일)?\s*\)")  # 이름표에 남은 요일 "(수)"는 이름표 글자가 아니다
 _POST_END = re.compile(r"[(（,，|]")  # 뒷말은 괄호·쉼표·표 칸에서 끊는다
+_LABEL_STOP = re.compile(r"[(（\[,，;|‖]")  # 기간의 뒷이름표는 이 기호 앞까지
+POST_LABEL_MAX = 10  # 기간 뒤 몇 글자까지 뒷이름표로 볼지
+_LABEL_KINDS = ("APPLY", "OTHER")
 MIN_HOURLY = 5_000  # 시급 최저값 (rules.py의 시급 대체 찾기도 쓴다)
 _MIN_VALUE = {"lump_sum": 10_000, "hourly": MIN_HOURLY, "tuition_ratio": 1}  # "1원", "3원"처럼 금액일 수 없는 값
 # 1인당 장학금으로 보기에 너무 큰 금액은 총 예산이다 ("우수장학금 | 대학생 | 115명 | 180백만원", raw_test 894772)
@@ -73,6 +81,7 @@ class DatedPeriod:
     applies: bool  # ↓ 신청 기간으로 쓸 수 있는지
     date: date | None  # ↑ 끝 날짜 (날짜를 못 만들면 None)
     fixed: bool  # ↓ 연도 오타를 고친 날짜인지
+    apply_label: bool = False  # ↑ 앞뒤 이름표에 신청 말(APPLY)이 있어 신청 기간으로 정해졌는지
 
 
 @dataclass
@@ -144,9 +153,25 @@ def dated_periods(line: str, posted: date, tokens: list[Token] | None = None) ->
     tokens = tokenize(line) if tokens is None else tokens
     ctx = _DateContext()
     result: list[DatedPeriod] = []
-    for p in periods(tokens):
+    found = periods(tokens)
+    for i, p in enumerate(found):
         label = line[ctx.prev_end : p.first]
-        applies = not _has_any(label, PERIOD_OTHER_WORDS) if _has_hangul(_WEEKDAY.sub("", label)) else ctx.applies
+        # 앞이름표는 같은 표 칸 안에서만 찾는다 ("… 제출한 자격증 | … 2026. 3. 3."의 "제출"은 다른 칸의 말이다)
+        cell_start = line.rfind("|", ctx.prev_end, p.first) + 1
+        pre = [t for t in tokens if t.kind in _LABEL_KINDS and max(ctx.prev_end, cell_start) <= t.start < p.first]
+        post, post_end = _post_labels(line, tokens, p, found[i + 1].first if i + 1 < len(found) else None)
+        if pre:
+            applies = pre[-1].kind == "APPLY"
+        elif _has_hangul(_WEEKDAY.sub("", label)):
+            applies = not _has_any(label, PERIOD_OTHER_WORDS)
+        else:
+            applies = ctx.applies
+        if "REF" in post:
+            applies = False
+        elif not pre and "OTHER" in post:
+            applies = False
+        elif not pre and "APPLY" in post:
+            applies = True
         begin, begin_fixed = _date_of(p.start, ctx, posted) if p.start is not None else (None, False)
         if p.end is None:  # "~ 선발완료 시까지"
             value, fixed = None, begin_fixed
@@ -155,16 +180,38 @@ def dated_periods(line: str, posted: date, tokens: list[Token] | None = None) ->
             ctx.prev = value or ctx.prev
         else:
             value, fixed = _date_of(p.end, ctx, posted)
-        result.append(DatedPeriod(p, label, applies, value, fixed or begin_fixed))
-        ctx.applies, ctx.prev_end = applies, p.last
+        apply_label = applies and ((bool(pre) and pre[-1].kind == "APPLY") or (not pre and "APPLY" in post))
+        result.append(DatedPeriod(p, label, applies, value, fixed or begin_fixed, apply_label))
+        ctx.applies, ctx.prev_end = applies, post_end  # 뒷이름표로 쓴 말은 다음 항목의 이름표에 넣지 않는다
     return result
 
 
-def line_deadline(items: list[DatedPeriod]) -> DatedPeriod | None:
-    """줄.deadline ↑: 신청 기간으로 쓸 수 있는 항목 중 마지막."""
-    if not items:
-        return None
-    return ([d for d in items if d.applies] or items)[-1]
+def _post_labels(line: str, tokens: list[Token], p: Period, next_first: int | None) -> tuple[list[str], int]:
+    """항목.post: 기간 바로 뒤 이름표 토큰의 종류와, 뒷이름표가 끝난 위치. 구분 기호나 다음 기간 전까지만 본다."""
+    end = min(p.last + POST_LABEL_MAX, len(line))
+    stop = _LABEL_STOP.search(line, p.last, end)
+    end = stop.start() if stop else end
+    if next_first is not None and next_first <= end:  # 다음 기간이 먼저 온다: 뒤의 말은 다음 항목의 앞이름표다
+        return [], p.last
+    found = [t for t in tokens if t.kind in _LABEL_KINDS + ("REF",) and p.last <= t.start < end]
+    return [t.kind for t in found], (found[-1].end if found else p.last)
+
+
+def has_apply_period(line: str, posted: date) -> bool:
+    """줄에 신청 말 이름표가 붙은 기간이 있는지 ("6. 제출 기간: 9. 22.", "(지원서 접수) 10. 5. ~ 10. 18.")."""
+    return any(d.apply_label for d in dated_periods(line, posted))
+
+
+def line_deadline(items: list[DatedPeriod], fallback: bool = False) -> DatedPeriod | None:
+    """줄.deadline ↑: 신청 기간으로 쓸 수 있는 항목 중 마지막. 없으면 None (발표일·근무기간만 있는 줄).
+
+    fallback: 하나도 없으면 마지막 기간을 쓴다. 제목에 쓴다. 제목의 "(~7/10까지)"는 이름표가
+    "지급요청서 작성 요청"처럼 다른 일정 말을 품어도 마감이다 (891758, 894077).
+    """
+    applying = [d for d in items if d.applies]
+    if applying:
+        return applying[-1]
+    return items[-1] if fallback and items else None
 
 
 # ── 금액 ──

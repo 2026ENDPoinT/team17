@@ -21,7 +21,6 @@ from config import (
     CONTEXT_BEFORE,
     CONTINUATION_MARKS,
     DEADLINE_LINE_WORDS,
-    DEADLINE_SKIP_WORDS,
     DEPARTMENT_LINE_WORDS,
     DOCUMENT_HEAD_WORDS,
     DOCUMENT_SKIP_WORDS,
@@ -60,7 +59,7 @@ from config import (
 from dictionary import COLLEGES, DEPARTMENTS, FIELDS, NOT_REGION, SIDO, SIGUNGU
 from lexer import tokenize
 from phrases import amounts
-from semantics import MIN_HOURLY, dated_periods, line_deadline, roled_amounts
+from semantics import MIN_HOURLY, dated_periods, has_apply_period, line_deadline, roled_amounts
 
 
 def _lines(text: str) -> list[str]:
@@ -255,7 +254,7 @@ YEAR_FIX_NOTE = "원문 연도를 게시 연도로 고침"  # deadline_text에 �
 OPEN_END_NOTE = "끝 날짜가 적혀 있지 않음"  # "6. 8.(월) 10:00 ~": 시작일일 수 있다
 
 
-def _deadline_in(line: str, posted: date) -> tuple[str, date | None, bool, bool] | None:
+def _deadline_in(line: str, posted: date, title: bool = False) -> tuple[str, date | None, bool, bool] | None:
     """한 줄의 기간 구로 마감을 정한다. 날짜·이름표·쓰임은 semantics.py가 속성으로 계산해 둔다.
 
     반환: ("date", 날짜, 연도 고침, 끝 날짜 없음) / ("rolling", None, False, False) / None.
@@ -263,7 +262,8 @@ def _deadline_in(line: str, posted: date) -> tuple[str, date | None, bool, bool]
     "대출신청기간: 7. 1. ~ 11. 17., 대출실행기간: 7. 1. ~ 11. 18."은 실행기간의 applies가 False라 11/17이다.
     "6. 8.(월) 10:00 ~"처럼 "~" 뒤에 끝이 없으면 그 날짜를 쓰되 확인 필요로 표시한다 (시작일일 수 있다).
     """
-    chosen = line_deadline(dated_periods(line, posted))
+    items = dated_periods(line, posted)
+    chosen = line_deadline(items, fallback=title)
     if chosen is None:
         return None
     if chosen.period.rolling:
@@ -283,11 +283,13 @@ def extract_deadline(title: str, body: str, posted: date) -> tuple[str | None, s
         return f"{text} ({', '.join(notes)})" if notes else text
 
     if "~" in title or "까지" in title:
-        found = _deadline_in(title, posted)
+        found = _deadline_in(title, posted, title=True)
         if found and found[0] == "date":
             return found[1].isoformat(), note(title, found), _short(title)
     for line in _lines(body):
-        if not _has_any(line, DEADLINE_LINE_WORDS) or _has_any(line, DEADLINE_SKIP_WORDS):
+        # 마감 말("신청기간", "까지" …)이 있거나, 기간 앞뒤 이름표에 신청 말이 붙은 줄만 본다 ("6. 제출 기간: 9. 22.").
+        # 발표일·근무기간은 줄을 통째로 버리지 않고 기간마다 이름표(semantics.py의 applies)로 거른다
+        if not _has_any(line, DEADLINE_LINE_WORDS) and not has_apply_period(line, posted):
             continue
         found = _deadline_in(line, posted)
         if found is None:
@@ -693,6 +695,71 @@ def _looks_like_doc(text: str) -> bool:
     """서류 이름처럼 보이는지. 설명 문장('~할 경우', '업무: ...')은 뺀다."""
     if not text or ":" in text or "http" in text or _has_any(text, DOCUMENT_SKIP_WORDS):
         return False
+    return _has_any(text, DOCUMENT_WORDS)
+
+
+_NAME_EXT = re.compile(r"\.[A-Za-z0-9]{2,5}$")
+# 파일 이름 앞의 번호·꼬리표: "1.", "3)", "(붙임2)", "[학생용]", "붙임1_", "2027년도_"
+_NAME_HEAD = re.compile(r"^\s*(?:\d+\s*[.)]|[\[(（【][^\])）】]{0,10}[\])）】]|(?:붙임|서식|양식)\s*\d*\s*[.)_]?|\d{4}\s*(?:학년도|년도|년)?|\d\s*학기|[상하]반기)\s*_?\s*")
+_NAME_FORM_WORDS = re.compile(r"\s*(?:작성\s*)?(?:양식|서식)\s*")  # "신청서 양식", "신청서(작성서식)"
+_NAME_SKIP_WORDS = ["기준", "요강", "시행", "계획(안)", "운영 계획", "안내", "공고"]
+# 파일 이름에 적으라는 자리 "(학교명, 지원자명)", "(행정_홍길동)", "_학번_성명"
+_NAME_PLACEHOLDER = re.compile(r"\([^)]*(?:명|이름|학번|홍길동)[^)]*\)")  # 양식 말이 있어도 공고문·기준표다
+
+
+def _doc_from_name(name: str) -> list[str]:
+    """양식 첨부 이름 하나 → 서류 이름들. "[학생용] 붙임2. 자기소개서 양식 1부.hwp" → ["자기소개서"]."""
+    text = _NAME_EXT.sub("", name)
+    if _has_any(text, _NAME_SKIP_WORDS):
+        return []
+    while (stripped := _NAME_HEAD.sub("", text, count=1)) != text:
+        text = stripped
+    text = _NAME_PLACEHOLDER.sub("", text)
+    docs = []
+    for part in re.split(r"[,，]", text):
+        # "_학번_성명", "_팀이름" 같은 파일 이름 꼬리는 버리고, 서류 말이 있는 조각을 쓴다
+        pieces = [p for p in part.split("_") if _has_any(p, DOCUMENT_WORDS)]
+        if not pieces:
+            continue
+        doc = _NAME_FORM_WORDS.sub(" ", pieces[0])
+        doc = re.sub(r"\(\s*\)", "", doc)
+        # "서류(지원서)"처럼 괄호 밖에 서류 말이 없으면 괄호 안을 쓴다
+        inner = re.search(r"\(([^)]*)\)", doc)
+        if inner and not _has_any(doc[: inner.start()] + doc[inner.end() :], DOCUMENT_WORDS):
+            doc = inner.group(1)
+        doc = re.sub(r"(?<![가-힣\d])\d+\s*부(?![가-힣])", "", doc)  # "1부"
+        doc = re.sub(r"\s+", " ", doc).strip(" .,_-")
+        if _has_any(doc, DOCUMENT_WORDS) and len(doc) <= 40:
+            docs.append(doc)
+    return docs
+
+
+def documents_from_names(names: list[str]) -> list[str]:
+    """본문·첨부 텍스트에 서류 목록이 없을 때, 양식 첨부 파일 이름으로 서류 목록을 만든다.
+
+    "(GTM전공) 생활비지원장학금 신청서 양식.hwp", "개인정보동의서(학생).hwp" → ["생활비지원장학금 신청서", "개인정보동의서(학생)"].
+    같은 양식을 hwp·pdf로 함께 올린 것은 한 번만 쓴다.
+    """
+    docs: list[str] = []
+    for name in names:
+        for doc in _doc_from_name(name):
+            if doc not in docs:
+                docs.append(doc)
+    return docs
+
+
+def has_amount_phrase(text: str) -> bool:
+    """글 어디든 금액 구("100만원", "수업료 전액" …)가 있는지. 없으면 금액은 원문에 적혀 있지 않다."""
+    return any(amounts(tokenize(line)) for line in _lines(text))
+
+
+def has_date(text: str) -> bool:
+    """글 어디든 날짜 토큰이 있는지. 없으면 마감일은 원문에 적혀 있지 않다."""
+    return any(t.kind == "DATE" for line in _lines(text) for t in tokenize(line))
+
+
+def has_document_words(text: str) -> bool:
+    """글 어디든 서류 이름 말("신청서", "증명서" …)이 있는지."""
     return _has_any(text, DOCUMENT_WORDS)
 
 

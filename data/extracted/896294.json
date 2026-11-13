@@ -32,7 +32,10 @@
     ]
   },
   "burden": {
-    "documents": [],
+    "documents": [
+      "학술발표대회 참가 신청서",
+      "지도교수 추천서"
+    ],
     "interview": false
   },
   "duplicate_restriction": null,
@@ -53,11 +56,11 @@
   "filtered_conditions": [],
   "from_attachment": [
     "departments",
+    "documents",
     "other_conditions"
   ],
   "needs_check": [
-    "amount",
-    "documents"
+    "amount"
   ],
   "content_hash": "sha256:79bacd5c3f827df69ea5b98a63034c838edc54393927c25e810b4e0bfa48bffd",
   "reviewed": false

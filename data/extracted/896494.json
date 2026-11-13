@@ -31,7 +31,10 @@
     "other_conditions": []
   },
   "burden": {
-    "documents": [],
+    "documents": [
+      "LBSemicon 장학생 지원 신청서",
+      "개인정보이용 동의서"
+    ],
     "interview": false
   },
   "duplicate_restriction": null,
@@ -50,10 +53,11 @@
     "residence": null
   },
   "filtered_conditions": [],
-  "from_attachment": [],
-  "needs_check": [
-    "amount",
+  "from_attachment": [
     "documents"
+  ],
+  "needs_check": [
+    "amount"
   ],
   "content_hash": "sha256:95d3b5ec81bd5773170212fe81a2abbebe83cbc5e2c5d45561d2333b93af9f53",
   "reviewed": false

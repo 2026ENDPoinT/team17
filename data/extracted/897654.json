@@ -47,11 +47,7 @@
   },
   "filtered_conditions": [],
   "from_attachment": [],
-  "needs_check": [
-    "amount",
-    "deadline",
-    "documents"
-  ],
+  "needs_check": [],
   "content_hash": "sha256:9819c297a958688dd14e7edca6c970e0029290fe9301672c82bed1248c48a111",
   "reviewed": false
 }

@@ -27,7 +27,9 @@
     "other_conditions": []
   },
   "burden": {
-    "documents": [],
+    "documents": [
+      "유하푸른재단 제 10기 장학생 지원서"
+    ],
     "interview": false
   },
   "duplicate_restriction": null,
@@ -46,10 +48,11 @@
     "residence": null
   },
   "filtered_conditions": [],
-  "from_attachment": [],
+  "from_attachment": [
+    "documents"
+  ],
   "needs_check": [
     "amount",
-    "documents",
     "poster_only"
   ],
   "content_hash": "sha256:67848b6ec6937b72e61e8477079554fa335c3f26c9f139469da83d78f48ab449",
