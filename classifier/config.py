@@ -11,6 +11,9 @@ EXTRACTED_DIR = ROOT / "data" / "extracted"  # 출력: 자동 추출 결과 data
 REVIEWED_DIR = ROOT / "data" / "reviewed"  # 사람이 고친 값 data/reviewed/{bidx}.json
 BUILD_OUT = ROOT / "web" / "public" / "scholarships.json"  # 화면 담당이 읽는 최종 파일
 
+# ── 재게시 묶음 나누기 (extract.split_by_deadline) ──
+HQ_SITE = "www"  # 본부 게시판의 site 값. 나뉜 묶음의 새 대표를 고를 때 본부 글을 먼저 고른다 (크롤러와 같은 순서)
+
 # ── 공지 종류 (모집 / 결과 / 안내 / 확인필요) ──
 # 위에서부터 차례로 검사한다. 결과·안내 단어가 있으면 모집 단어가 있어도 모집이 아니다.
 RESULT_WORDS = ["지급완료", "지급 완료", "선발 결과", "선발결과", "심사 결과", "합격자", "결과 안내", "결과 발표"]

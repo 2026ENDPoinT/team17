@@ -9,7 +9,7 @@ import time
 from datetime import date
 from pathlib import Path
 
-from config import EXTRACTED_DIR, RAW_DIR
+from config import EXTRACTED_DIR, HQ_SITE, RAW_DIR
 from parser import NOT_VALUE_KINDS, Document, other_conditions, parse
 from rules import (
     classify_category,
@@ -251,9 +251,46 @@ def write_json(path: Path, data: dict) -> None:
             time.sleep(1)
 
 
+def split_by_deadline(items: dict[str, dict], sites: dict[str, str]) -> list[str]:
+    """크롤러가 제목으로 묶은 재게시 그룹을 마감일로 다시 나눈다. 나눈 글의 id 목록을 돌려준다.
+
+    크롤러는 제목의 괄호 "(~11/6(금))"를 지우고 비교해서, 같은 제목에 마감일만 다른 공지
+    (같은 이름의 다른 차수 모집)도 한 그룹으로 묶을 수 있다. 분류는 공지마다 마감일을 뽑았으니
+    그룹 안에서 마감일이 다르면 따로 둔다.
+    - 마감일을 모르는 글은 대표 글 쪽에 남긴다 (다르다는 근거가 없다).
+    - 제목에 "연장"이 있는 글은 같은 공지의 기간 연장이라 나누지 않는다.
+    - 나뉜 쪽에서는 크롤러와 같은 순서(본부 글 > 먼저 올라온 글 > bidx가 작은 글)로 새 대표를 고른다.
+    """
+    groups: dict[str, list[dict]] = {}
+    for item in items.values():
+        rep_id = item["duplicate_of"]
+        if rep_id and rep_id in items:
+            groups.setdefault(rep_id, [items[rep_id]]).append(item)
+
+    def priority(item: dict) -> tuple:
+        return (sites.get(item["id"]) != HQ_SITE, item["source"]["posted_at"], int(item["id"]))
+
+    split: list[str] = []
+    for rep_id, members in groups.items():
+        rep_deadline = items[rep_id]["deadline"]
+        by_deadline: dict[str, list[dict]] = {}
+        for item in members[1:]:
+            if item["deadline"] and rep_deadline and item["deadline"] != rep_deadline and "연장" not in item["title"]:
+                by_deadline.setdefault(item["deadline"], []).append(item)
+        for deadline, others in by_deadline.items():
+            new_rep = min(others, key=priority)
+            for item in others:
+                item["duplicate_of"] = None if item is new_rep else new_rep["id"]
+                item["duplicate_split"] = (f"대표 글 {rep_id}와 마감일이 달라 따로 둠 "
+                                           f"({rep_deadline} / {deadline})")
+                split.append(item["id"])
+    return split
+
+
 def main() -> None:
     EXTRACTED_DIR.mkdir(parents=True, exist_ok=True)
     items: dict[str, dict] = {}
+    sites: dict[str, str] = {}
     for path in sorted(RAW_DIR.glob("*.json")):
         if path.name.startswith("_"):  # _sample.json 등은 건너뛴다
             continue
@@ -262,6 +299,10 @@ def main() -> None:
             continue
         item = extract_one(raw)
         items[item["id"]] = item
+        sites[item["id"]] = raw.get("site", "")
+
+    # 크롤러가 제목으로 묶은 재게시 그룹을 마감일로 한 번 더 나눈다
+    split = split_by_deadline(items, sites)
 
     # 다시 올린 글을 대표 글의 also_posted_bidx에 모은다. 다시 올린 글 파일도 남겨 두고, 빌드할 때 뺀다.
     for item in items.values():
@@ -272,11 +313,12 @@ def main() -> None:
     counts: dict[str, int] = {}
     for item in items.values():
         out = EXTRACTED_DIR / f"{item['id']}.json"
-        out.write_text(json.dumps(item, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
+        write_json(out, item)
         counts[item["notice_kind"]] = counts.get(item["notice_kind"], 0) + 1
     duplicates = sum(1 for i in items.values() if i["duplicate_of"])
     summary = ", ".join(f"{k} {v}" for k, v in sorted(counts.items()))
-    print(f"{len(items)}건 추출 → {EXTRACTED_DIR.relative_to(EXTRACTED_DIR.parents[1])} ({summary}, 재게시 {duplicates})")
+    print(f"{len(items)}건 추출 → {EXTRACTED_DIR.relative_to(EXTRACTED_DIR.parents[1])} "
+          f"({summary}, 재게시 {duplicates}, 마감일이 달라 나눈 글 {len(split)})")
 
 
 if __name__ == "__main__":

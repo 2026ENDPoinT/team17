@@ -145,25 +145,80 @@ raw JSON (본문 + 첨부)
 
 ## 추출 결과 필드 (`data/extracted/{bidx}.json`)
 
-`data/scholarships.sample.json`의 항목 하나와 같고, 아래 필드가 더 있다. 아래 필드는 빌드할 때 빠진다.
+공지 1건 = 파일 1개. 화면용 `scholarships.json`의 항목은 이 파일에서 `notice_kind`, `notice_kind_reason`, `duplicate_of`, `duplicate_split`, `filtered_conditions`, `from_attachment`, `content_hash`, `exclude`를 뺀 것이다 (`build.py`의 `INTERNAL_KEYS`). 화면 쪽 기준 샘플은 [`data/scholarships.sample.json`](../data/scholarships.sample.json).
 
-| 필드 | 설명 |
-|---|---|
-| `notice_kind` | `모집` / `결과` / `안내` / `확인필요` |
-| `notice_kind_reason` | 그렇게 판단한 이유 (예: "제목에 '지급완료'") |
-| `content_hash` | 원본의 해시. 원본이 바뀌었는지 비교할 때 쓴다 |
-| `filtered_conditions` | 학과·지역 이름이 나왔지만 조건이 아니라고 보고 거른 것. `{field, text, reason, line}` |
-| `from_attachment` | 본문에 없어서 첨부에서 채운 필드 이름 목록 (예: `["amount", "deadline"]`) |
+**기본 정보**
 
-화면까지 가는 필드 중 샘플에 새로 넣은 것:
+| 필드 | 타입 | 뜻 | 예 |
+|---|---|---|---|
+| `id` | string | 공지 글 번호(bidx) | `"896867"` |
+| `name` | string | 장학금 이름. 제목에서 "(홍보)", "(마감)", "선발 안내" 등을 뗀 것 | `"2026학년도 2학기 2차 어의장학생"` |
+| `title` | string | 원문 제목 그대로 | |
+| `category` | string | 유형: `교내` / `교외` / `근로` | |
+| `summary` | string | 본문 첫 문장을 80자로 자른 것. 첨부 내용은 쓰지 않는다 | |
+| `source.board` | string | 게시판 이름 | `"공지사항"` |
+| `source.url` | string | 원문 링크 | |
+| `source.posted_at` | string | 게시일 `YYYY-MM-DD` | |
 
-| 필드 | 설명 |
-|---|---|
-| `closed` | 제목에 "(마감)", "선발완료" 등이 있으면 `true`. 마감일을 모르는 공지도 모집이 끝났는지 알 수 있다 |
-| `needs_check` | 사람이 확인해야 하는 항목: `amount`, `deadline`, `documents`, `poster_only`(본문 없이 포스터만), `body_short`(본문 100자 미만) |
-| `eligibility.score_min` | 100점 만점 성적 하한 (예: "백분율 85점 이상", "C0(70점) 이상"). 4.5 만점 평점은 `gpa_min` |
-| `eligibility.other_conditions` | 값으로 못 바꾸는 조건 문장 목록 (읽기용, 필터에 쓰지 않음). `우대:`, `가산점:`, `우선순위:`, `제외:`로 시작하는 문장은 필수 자격이 아니다 |
-| `evidence.departments`, `evidence.residence` | 학과·거주지 값을 뽑은 원문 줄 (제목에서 뽑았으면 제목) |
+**분류**
+
+| 필드 | 타입 | 뜻 |
+|---|---|---|
+| `notice_kind` | string | `모집` / `결과` / `안내` / `확인필요`. 빌드에는 `모집`만 들어간다 |
+| `notice_kind_reason` | string | 그렇게 판단한 이유. 예: "제목에 '장학', '선발'" |
+| `closed` | bool | 제목에 "(마감)", "선발완료" 등이 있으면 `true`. 마감일을 모르는 공지도 모집이 끝났는지 알 수 있다 |
+
+**금액·마감**
+
+| 필드 | 타입 | 뜻 |
+|---|---|---|
+| `amount.type` | string | `lump_sum`(일시금) / `tuition_ratio`(등록금 %) / `hourly`(시급) / `unknown` |
+| `amount.value` | number \| null | 일시금·시급은 원, 등록금 비율은 %. 예: `100` = 수업료 100% |
+| `amount.text` | string \| null | 원문 표기. "또는·택1"이면 줄 전체 |
+| `deadline` | string \| null | 마감일 `YYYY-MM-DD` |
+| `deadline_text` | string \| null | 원문 표기. 상시 모집이면 `"상시 모집 (…)"`이고 `deadline`은 `null` |
+
+**자격 조건 (`eligibility`)**
+
+| 필드 | 타입 | 뜻 |
+|---|---|---|
+| `grades` | number[] \| null | 학년. "3학년 이상"은 `[3, 4]` |
+| `gpa_min` | number \| null | 최소 평점 (4.5 만점) |
+| `score_min` | number \| null | 최소 점수 (100점 만점). 예: "백분율 85점 이상", "C0(70점) 이상" |
+| `income_max` | number \| null | 학자금 지원구간(분위) 상한. `5`면 5구간 이하 |
+| `departments` | string[] \| null | 학과·단과대·계열 이름 |
+| `residence` | string \| null | 거주지 조건. 여러 곳이면 쉼표로 잇는다 |
+| `other_conditions` | string[] | 값으로 못 바꾸는 조건 문장 (읽기용, 필터에 쓰지 않음). `우대:`, `가산점:`, `우선순위:`, `제외:`로 시작하는 문장은 필수 자격이 아니다 |
+| `unclear` | string[] | 확실하지 않은 조건 필드 이름. 예: `["residence"]` → 화면에서 "확인 필요" |
+
+`null`은 "조건이 없음"과 "찾지 못함"을 구분하지 않는다. 확실하지 않으면 `unclear`에 넣는다.
+
+**준비 부담·기타**
+
+| 필드 | 타입 | 뜻 |
+|---|---|---|
+| `burden.documents` | string[] | 제출서류 이름 목록. 가성비 계산의 "서류 수" |
+| `burden.interview` | bool \| null | 면접 여부. 본문이 없으면 `null` |
+| `duplicate_restriction` | bool \| null | 다른 장학금과 중복 수혜 제한. `true` 제한 있음 / `false` 가능 / `null` 모름 |
+
+**재게시**
+
+| 필드 | 타입 | 뜻 |
+|---|---|---|
+| `duplicate_of` | string \| null | 다른 글의 재게시면 대표 글 bidx. 값이 있으면 빌드에서 빠진다 |
+| `also_posted_bidx` | string[] | (대표 글에만) 같은 공지를 다시 올린 글 번호들 |
+| `duplicate_split` | string | (있을 때만) 마감일이 달라 크롤러 묶음에서 뗀 이유 |
+
+**근거·검수용**
+
+| 필드 | 타입 | 뜻 |
+|---|---|---|
+| `evidence.amount`, `.deadline`, `.duplicate_restriction`, `.departments`, `.residence` | string \| null | 그 값을 뽑은 원문 줄. 첨부에서 찾았으면 앞에 `[첨부: 파일명]`, 거주지를 제목에서 찾았으면 제목 |
+| `needs_check` | string[] | 사람이 확인할 항목: `amount`, `deadline`, `documents`, `poster_only`(본문 없이 포스터만), `body_short`(본문 100자 미만) |
+| `from_attachment` | string[] | 본문에 없어서 첨부에서 채운 필드 이름. 예: `["amount", "deadline"]` |
+| `filtered_conditions` | object[] | 학과·지역 이름이 나왔지만 조건이 아니라고 보고 거른 것. `{field, text, reason, line}` |
+| `content_hash` | string | 원본의 해시. 원본이 바뀌었는지 비교할 때 쓴다 |
+| `reviewed` | bool | 검수 파일이 있으면 빌드할 때 `true`가 된다 |
 
 ## 검수 (`data/reviewed/{bidx}.json`)
 
@@ -177,6 +232,14 @@ raw JSON (본문 + 첨부)
 }
 ```
 
+검수 파일에서만 쓰는 키:
+
+| 키 | 뜻 |
+|---|---|
+| (추출 결과의 아무 필드) | 그 값을 덮어쓴다. 안쪽 필드는 그 필드만 바뀐다: `{"amount": {"value": 3000000}}` |
+| `exclude` | `true`면 화면 목록에서 뺀다. 원본·추출 결과는 그대로 남아서, 지우면 다시 들어간다 |
+| `_comment` (`_`로 시작하는 키) | 메모. 빌드가 무시한다 |
+
 - 모집이 아닌데 `모집`으로 분류됐으면 `{"exclude": true}`
 - 모집인데 다른 종류로 분류됐으면 `{"notice_kind": "모집"}`
 - 검수 파일이 있는 항목은 빌드 결과에 `reviewed: true`가 붙는다.
@@ -184,9 +247,15 @@ raw JSON (본문 + 첨부)
 
 ## 재게시 묶기 (`duplicate_of`)
 
-묶기는 **크롤러가 한다** ([crawler/README.md](../crawler/README.md) "재게시 묶기", 2026-11-13 결정). 분류는 크롤러가 준 `duplicate_of`를 그대로 쓴다.
+묶기는 **크롤러가 한다** ([crawler/README.md](../crawler/README.md) "재게시 묶기", 2026-11-13 결정). 크롤러는 **제목으로만** 묶는다 (괄호 안 "(~11/6(금))"를 지우고 유사도 0.9 이상). 분류는 그 결과를 받아 **마감일로 한 번 더 나눈다.**
 
-- `extract.py`: raw의 `duplicate_of`를 그대로 옮기고, 같은 대표를 가리키는 글 번호를 대표 글의 `also_posted_bidx`에 모은다. 재게시 글도 추출 파일은 남긴다 (검수에서 묶음을 풀 수 있게).
+- `extract.py`
+  - raw의 `duplicate_of`를 옮긴다.
+  - **마감일로 나누기** (`split_by_deadline`): 같은 제목에 마감일만 다른 공지(같은 이름의 다른 차수 모집)는 크롤러가 한 묶음으로 만들 수 있다. 묶음 안에서 대표 글과 마감일이 다른 글은 따로 떼어, 같은 마감일끼리 새 묶음을 만든다. 새 대표는 크롤러와 같은 순서(본부 글 > 먼저 올라온 글 > `bidx`가 작은 글)로 고른다. 뗀 글에는 이유가 `duplicate_split`에 남는다 (빌드할 때 빠짐).
+    - 마감일을 모르는 글은 대표 쪽에 남긴다 (다르다는 근거가 없다).
+    - 제목에 "연장"이 있으면 같은 공지의 기간 연장이라 나누지 않는다.
+  - 같은 대표를 가리키는 글 번호를 대표 글의 `also_posted_bidx`에 모은다. 재게시 글도 추출 파일은 남긴다 (검수에서 묶음을 풀 수 있게).
+  - 정답 세트 `regroup` 5개로 확인한다. 2026-11-13 데이터(재게시 6건)에서는 모두 대표 글과 마감일이 같아 나뉜 글이 없다.
 - `build.py`: 검수값을 덮어쓴 뒤 `also_posted_bidx`를 다시 모으고, `duplicate_of`가 있는 글은 화면 목록에서 뺀다. `duplicate_of` 필드는 화면에 넘기지 않는다.
 
 ## 첨부 텍스트 (`attachments[].text`)

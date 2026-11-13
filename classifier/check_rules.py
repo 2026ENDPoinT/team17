@@ -5,6 +5,7 @@
 문장은 data/raw의 실제 공지에서 가져온 것(bidx 표시)과, 자주 나올 만한 함정 문장을 섞었다.
 """
 
+from extract import split_by_deadline
 from rules import (
     extract_amount,
     extract_departments,
@@ -45,6 +46,32 @@ def departments(text):
 
 def residence(text):
     return extract_residence("", text)[0]
+
+
+# 재게시 묶음 나누기용 가짜 공지 3건. 크롤러가 셋 다 1번 글로 묶었다고 가정한다 (2, 3 → 1).
+# 값: (2번 마감일, 3번 마감일, 3번 제목). 1번 마감일은 2026-11-06.
+GROUPS = {
+    "마감일 같음": ("2026-11-06", "2026-11-06", "장학생 선발 안내"),
+    "마감일 다름": ("2026-12-04", "2026-11-06", "장학생 선발 안내"),
+    "마감일 다름 2건": ("2026-12-04", "2026-12-04", "장학생 선발 안내"),
+    "마감일 모름": (None, None, "장학생 선발 안내"),
+    "기간 연장": ("2026-11-13", "2026-11-13", "장학생 선발 안내(신청기간 연장)"),
+}
+
+
+def regroup(name):
+    d2, d3, title3 = GROUPS[name]
+    items = {
+        "1": {"id": "1", "title": "장학생 선발 안내", "deadline": "2026-11-06", "duplicate_of": None,
+              "source": {"posted_at": "2026-10-20"}},
+        "2": {"id": "2", "title": "장학생 선발 안내", "deadline": d2, "duplicate_of": "1",
+              "source": {"posted_at": "2026-10-21"}},
+        "3": {"id": "3", "title": title3, "deadline": d3, "duplicate_of": "1", "source": {"posted_at": "2026-10-22"}},
+    }
+    if name == "기간 연장":
+        items["2"]["title"] = title3
+    split_by_deadline(items, {"1": "www", "2": "dept", "3": "dept"})
+    return {k: v["duplicate_of"] for k, v in items.items()}
 
 
 # (필드 함수, 입력 문장, 정답, 설명)
@@ -101,6 +128,12 @@ CASES = [
     (residence, "- 희망사항: 학교인근 거주자 우대, 컴퓨터활용능력자격증 소지자 우대 (필수사항은 아님)", None, "897664"),
     (residence, "5. 신청방법 : 등기우편 및 방문접수 (서울특별시 은평구 은평로195 은평구청 3층 시민교육과)", None, "896404 접수처"),
     (residence, "지원자격: 서울 소재 대학 재학생, 거주지 무관", None, "학교 위치·무관"),
+    # ── 재게시 묶음 나누기 (입력: 아래 GROUPS의 이름, 출력: {id: duplicate_of}) ──
+    (regroup, "마감일 같음", {"1": None, "2": "1", "3": "1"}, "같은 마감일이면 크롤러 묶음 그대로"),
+    (regroup, "마감일 다름", {"1": None, "2": None, "3": "1"}, "2차 모집(마감일 다름)은 따로 대표"),
+    (regroup, "마감일 다름 2건", {"1": None, "2": None, "3": "2"}, "같은 새 마감일끼리는 다시 묶임"),
+    (regroup, "마감일 모름", {"1": None, "2": "1", "3": "1"}, "마감일을 모르면 나눌 근거가 없음"),
+    (regroup, "기간 연장", {"1": None, "2": "1", "3": "1"}, "제목에 '연장'이면 같은 공지"),
 ]
 
 
