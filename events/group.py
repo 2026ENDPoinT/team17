@@ -17,20 +17,29 @@ MIN_NAME = 4  # 정리한 이름이 이보다 짧으면 같은 장학금인지 �
 # 분류 라벨이 없을 때: 모집 공지 제목에 이 말이 있으면 '수정' 공지로 본다
 CHANGE_WORDS = ["연장", "수정", "변경", "추가 선발", "추가선발", "추가 모집", "추가모집", "재공지", "재공고"]
 
-# 괄호는 두 종류다. 잡음 괄호 "(마감)", "[학부]", "(~11/6)", "(홍보)"는 지우고,
-# 이름 괄호 "[대림수암장학문화재단]", "(수학)", "[생활협동조합]"은 안의 글자를 이름에 남긴다.
-# 이름 괄호를 지우면 "튜터 장학생(한국어)"와 "(수학)", 기관마다 다른 "국가근로장학생 모집"이 같은 이름이 된다.
+# 괄호 안 내용을 세 층으로 나눈다. 기준은 crawler/README.md "재게시 표시 > 제목 정규화" 절과 crawler/dedup.py이다.
+# 크롤러 함수를 import하지 않고 목록만 맞춘다 (2026-11-14 팀 결정: 역할 사이에는 JSON으로만 주고받는다).
+# 크롤러 목록을 고치면 여기도 같이 고친다. 원본 제목은 그대로 두고 비교할 때 만드는 임시 사본에만 쓴다.
 _INNER_BRACKET = re.compile(r"\(([^()]*)\)|\[([^\[\]]*)\]|【([^】]*)】|<([^<>]*)>")
-NOISE_BRACKET_WORDS = ["마감", "완료", "홍보", "학부", "대학원", "안내", "공지", "수정", "연장", "변경", "추가", "결과",
-                       "지급", "모집", "선발", "신청", "접수", "기한", "필독", "중요", "예정", "까지", "교체"]
-NOISE_BRACKET_EXACT = ["장학", "발전기금"]  # 이 말만 있는 괄호는 게시판 분류 표시다 ("[대림수암장학문화재단]"은 이름)
+# [항상 지움] 날짜·기한, 상태 꼬리표("수정 3차"도 상태), 게시판 분류 표시(한 글자 괄호, 정확히 "장학"·"발전기금")
+_DATE_LIKE = re.compile(r"\d.*(~|/|\.|:|까지|시|예정|월)|^(~|까지)|^[월화수목금토일]$")
+_BRACKET_STATUS = re.compile(r"마감|홍보|완료|수정|필독|필수|중요|연장|안내|공지|교체|추가|신규|타과생")
+_BOARD_LABEL = re.compile(r"^(.|장학|발전기금)$")
+#   대상 표시 (누구에게 보이는 글인지): 같은 장학금 공지에 붙었다 안 붙었다 한다
+#   ("[학부] … 대림수암장학문화재단 장학생"과 "[대림수암장학문화재단] … 장학생")
+_AUDIENCE = re.compile(r"^(학부|대학원|일반대학원|재학생|학부생|학부 재학생)$")
+# [목적에 따라 다름] 학교 부서 (공지를 낸 곳): 이벤트 묶기는 남긴다 (크롤러의 drop_units=False와 같음).
+#   "[도서관] 국가근로장학생 모집"과 "[생활협동조합] …"은 다른 모집이다. 재게시는 duplicate_of로 이미 걸러졌다.
+# [항상 남김] 재단·장학회·협회 이름(상태 꼬리표와 같이 있어도), 희망사다리·유형·N차·금액, 모르는 내용
+_ORG_NAME = re.compile(r"재단|장학회|협회|사랑의열매")
+_IDENTIFIER = re.compile(r"희망사다리|유형|\d+차|^\d[\d,]*만?원$")
 # "2026학년도", "2026년", "2026.", "2026-2학기", "26년". 두 자리는 '년'이 붙을 때만 ("11.13"을 연도로 읽지 않게)
 _YEAR = re.compile(r"(?<!\d)(20\d{2})(?!\d)\s*(?:학년도|년도|년|\.|-)?|(?<!\d)(\d{2})\s*(?:학년도|년도|년)")
 _SEMESTER = re.compile(r"([12])\s*학기|(상|하)반기")
 _ROUND = re.compile(r"(\d+)\s*차|제\s*(\d+)\s*(?:기|회)")
 _REVISION = re.compile(r"수정\s*\d+\s*차")  # "(수정 3차)"는 차수가 아니라 몇 번째 수정인지다
-# 이름에서 지우는 말: 공지 종류·상태를 나타내는 말이라 같은 장학금의 공지마다 다르다
-_STATUS_WORDS = ["선발", "모집", "신청", "결과", "알림", "안내", "공고", "발표", "대상자", "기간", "추가", "연장",
+# 괄호 밖에서도 지우는 말: 공지 종류·상태를 나타내는 말이라 같은 장학금의 공지마다 다르다
+_KIND_WORDS = ["선발", "모집", "신청", "결과", "알림", "안내", "공고", "발표", "대상자", "기간", "추가", "연장",
                  "수정", "변경", "마감", "완료", "후지급", "지급", "재공지", "홍보", "학년도", "년도"]
 
 
@@ -71,31 +80,33 @@ def _round(text: str) -> int | None:
     return int(m.group(1) or m.group(2))
 
 
-def is_noise_bracket(content: str) -> bool:
-    """괄호 안이 날짜·숫자, 한 글자("(재)"), 공지 종류·상태 말이면 잡음이다."""
-    c = content.strip()
-    if len(c) <= 1 or c in NOISE_BRACKET_EXACT or re.search(r"\d", c):
-        return True
-    return any(w in c for w in NOISE_BRACKET_WORDS)
-
-
-def _replace_bracket(m: re.Match) -> str:
-    content = next(g for g in m.groups() if g is not None)
-    return " " if is_noise_bracket(content) else f" {content} "
+def bracket_kept(inner: str) -> str:
+    """괄호 안 내용을 남길지 정한다. 남기면 괄호 기호만 빼고 내용을 돌려준다. 판정 순서는 크롤러와 같다:
+    빈 값·분류 표시·날짜 → 지움 / 기관 이름 → 남김 / 상태 꼬리표 → 지움 / 차수·유형·금액 → 남김 / 나머지 → 남김"""
+    s = inner.strip()
+    if not s or _BOARD_LABEL.match(s) or _AUDIENCE.match(s) or _DATE_LIKE.search(s.replace(" ", "")):
+        return " "
+    if _ORG_NAME.search(s):
+        return f" {s} "
+    if _BRACKET_STATUS.search(s):
+        return " "
+    if _IDENTIFIER.search(s):
+        return f" {s} "
+    return f" {s} "  # 학교 부서(이벤트 묶기는 남김), 모르는 내용은 남긴다
 
 
 def core_name(text: str) -> str:
-    """제목에서 잡음 괄호, 연도·학기·차수, 공지 종류를 나타내는 말, 공백·기호를 지운다. 이름 괄호의 글자는 남긴다."""
+    """비교용 이름: 괄호를 위 세 층 규칙으로 정리한 뒤, 연도·학기·차수, 공지 종류를 나타내는 말, 공백·기호를 지운다."""
     t = text.lower()
     prev = None
     while prev != t:  # 괄호 안에 괄호가 있을 수 있어 안쪽부터 반복해서 처리한다
         prev = t
-        t = _INNER_BRACKET.sub(_replace_bracket, t)
+        t = _INNER_BRACKET.sub(lambda m: bracket_kept(next(g for g in m.groups() if g is not None)), t)
     t = _REVISION.sub(" ", t)
     t = _YEAR.sub(" ", t)
     t = _SEMESTER.sub(" ", t)
     t = _ROUND.sub(" ", t)
-    for w in _STATUS_WORDS:
+    for w in _KIND_WORDS:
         t = t.replace(w, " ")
     return re.sub(r"[^0-9a-z가-힣]", "", t)
 
