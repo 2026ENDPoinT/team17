@@ -8,7 +8,9 @@ import re
 from datetime import date, timedelta
 
 from config import (
+    AMOUNT_AFTER_SKIP,
     AMOUNT_BEFORE_SKIP,
+    AMOUNT_LINE_SKIP,
     AMOUNT_LINE_WORDS,
     CLOSED_WORDS,
     COND_AFTER_SKIP,
@@ -31,6 +33,8 @@ from config import (
     EVIDENCE_MAX,
     EXCLUDE_AFTER_WORDS,
     EXTERNAL_WORDS,
+    FORM_ATTACHMENT_WORDS,
+    IGNORED_ATTACHMENT_WORDS,
     INCOME_WORDS,
     INFO_WORDS,
     INTERVIEW_AFTER,
@@ -39,11 +43,13 @@ from config import (
     MULTI_AMOUNT_WORDS,
     NO_LIMIT_WORDS,
     NOT_CONDITION_WORDS,
+    NOTICE_ATTACHMENT_WORDS,
     PREFERENCE_HEAD_WORDS,
     PREFERENCE_TAGS,
     RECRUIT_WORDS,
     RESIDENCE_WORDS,
     RESULT_WORDS,
+    ROLLING_SKIP_WORDS,
     ROLLING_WORDS,
     SCHOLARSHIP_WORDS,
     SUMMARY_MAX,
@@ -170,11 +176,15 @@ def _amount_from_line(line: str) -> dict | None:
     income_at = min((line.find(w) for w in INCOME_WORDS if w in line), default=len(line))
 
     def first(pattern: re.Pattern) -> re.Match | None:
-        # 소득 단어 뒤의 금액, "총 예산 …", "작년 지급액 …" 같은 금액은 건너뛰고 다음 금액을 본다
-        for m in pattern.finditer(line):
-            if m.start() < income_at and not _context_skip(line, m.start(), m.end(), AMOUNT_BEFORE_SKIP, []):
+        # 소득 단어 뒤의 금액, "총 예산 …", "작년 지급액 …", "100만원 미만" 같은 금액은 건너뛴다
+        ok = [m for m in pattern.finditer(line)
+              if m.start() < income_at
+              and not _context_skip(line, m.start(), m.end(), AMOUNT_BEFORE_SKIP, AMOUNT_AFTER_SKIP)]
+        # "고등학생 50만원, 대학생 최대 100만원"처럼 대상별 금액이면 대학생 금액을 고른다
+        for m in ok:
+            if "대학" in line[max(0, m.start() - CONTEXT_BEFORE) : m.start()]:
                 return m
-        return None
+        return ok[0] if ok else None
 
     if m := first(_TUITION_FULL):
         return {"type": "tuition_ratio", "value": 100, "text": m.group(0)}
@@ -194,7 +204,7 @@ def extract_amount(body: str) -> tuple[dict, str | None]:
     lines = _lines(body)
     # 1) 금액 단어가 있는 줄을 먼저 본다 (소득 기준 같은 다른 숫자를 피하려고)
     for line in lines:
-        if _has_any(line, AMOUNT_LINE_WORDS):
+        if _has_any(line, AMOUNT_LINE_WORDS) and not _has_any(line, AMOUNT_LINE_SKIP):
             if found := _amount_from_line(line):
                 # "등록금 전액 또는 학기당 350만원 (택1)"처럼 고르는 금액이면 값은 첫 금액, 표시는 줄 전체로 한다
                 if _has_any(line, MULTI_AMOUNT_WORDS):
@@ -248,7 +258,8 @@ def extract_deadline(title: str, body: str, posted: date) -> tuple[str | None, s
             return dates[-1].isoformat(), _short(_after_colon(line), 60), _short(line)
     # 날짜 없이 "선발 완료시까지"인 상시 모집: 마감일은 없지만 원문 표기는 남긴다
     for line in _lines(body):
-        if _has_any(line, ROLLING_WORDS) and _has_any(line, DEADLINE_LINE_WORDS + ["지원기간", "지원 기간"]):
+        if (_has_any(line, ROLLING_WORDS) and _has_any(line, DEADLINE_LINE_WORDS + ["지원기간", "지원 기간"])
+                and not _has_any(line, ROLLING_SKIP_WORDS)):
             return None, "상시 모집 (" + _short(_after_colon(line), 40) + ")", _short(line)
     return None, None, None
 
@@ -577,6 +588,37 @@ def extract_other_conditions(body: str) -> list[str]:
                 results.append(text)
         i = j
     return results[:CONDITION_LIST_MAX]
+
+
+# ── 첨부 텍스트 ──
+# 크롤러가 넣어 준 attachments[].text를 본문과 같은 규칙에 넣을 수 있게 다듬는다.
+
+_SPACED = re.compile(r"(?<![가-힣])((?:[가-힣] ){1,}[가-힣])(?![가-힣])")  # PDF의 "선 발 대 상"
+_TABLE_RULE = re.compile(r"^\s*\|(\s*:?-+:?\s*\|)+\s*$")  # 마크다운 표의 "| --- | --- |" 줄
+
+
+def is_form_attachment(name: str) -> bool:
+    """신청서·동의서 같은 양식 첨부인지. 이름에 '공고·안내'가 있으면 공고문으로 본다."""
+    return _has_any(name, FORM_ATTACHMENT_WORDS) and not _has_any(name, NOTICE_ATTACHMENT_WORDS)
+
+
+def is_ignored_attachment(name: str) -> bool:
+    """자주 묻는 질문·매뉴얼처럼 예시 숫자가 많아 값을 뽑으면 안 되는 첨부인지."""
+    return _has_any(name, IGNORED_ATTACHMENT_WORDS)
+
+
+def prepare_attachment_text(text: str) -> str:
+    """'선 발 대 상' → '선발대상', 표 구분선 줄 삭제, 표 칸 '|'는 줄 안의 구분으로 둔다."""
+    # 일부 PDF는 띄어쓰기를 \x00으로, 한글 문서는 전각·줄바꿈 없는 공백으로 넣는다
+    text = re.sub(r"[\x00 　 -​]", " ", text)
+    lines = []
+    for line in text.splitlines():
+        if _TABLE_RULE.match(line):
+            continue
+        line = _SPACED.sub(lambda m: m.group(1).replace(" ", ""), line)
+        line = line.strip().strip("|").strip()
+        lines.append(line)
+    return "\n".join(lines)
 
 
 # ── 준비 부담 ──

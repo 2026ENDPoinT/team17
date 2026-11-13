@@ -7,9 +7,9 @@
   "category": "교내",
   "summary": "본문 없이 포스터 이미지로 안내된 공지입니다. 원문을 확인하세요.",
   "amount": {
-    "type": "unknown",
-    "value": null,
-    "text": null
+    "type": "tuition_ratio",
+    "value": 100,
+    "text": "수업료 100%"
   },
   "deadline": "2026-11-06",
   "deadline_text": "2026학년도 2학기 2차 어의장학생 선발 안내(~11/6(금))",
@@ -17,18 +17,18 @@
   "eligibility": {
     "grades": null,
     "departments": null,
-    "gpa_min": null,
+    "gpa_min": 2.75,
     "score_min": null,
-    "income_max": null,
+    "income_max": 5,
     "residence": null,
     "unclear": [],
     "other_conditions": []
   },
   "burden": {
     "documents": [],
-    "interview": null
+    "interview": false
   },
-  "duplicate_restriction": null,
+  "duplicate_restriction": true,
   "source": {
     "board": "학부공지",
     "url": "https://computer.seoultech.ac.kr/info/notice?do=view&bnum=58476&bidx=896882",
@@ -37,15 +37,20 @@
   "duplicate_of": "896867",
   "also_posted_bidx": [],
   "evidence": {
-    "amount": null,
+    "amount": "[첨부: (붙임1) 2026학년도 2학기 2차 어의장학생 선발 안내문.hwp] ▶ 지원금액: 수업료 100% 면제",
     "deadline": "2026학년도 2학기 2차 어의장학생 선발 안내(~11/6(금))",
-    "duplicate_restriction": null,
+    "duplicate_restriction": "[첨부: (붙임1) 2026학년도 2학기 2차 어의장학생 선발 안내문.hwp] - 교내 타 장학금 이중수혜 불가",
     "departments": null,
     "residence": null
   },
   "filtered_conditions": [],
-  "needs_check": [
+  "from_attachment": [
     "amount",
+    "duplicate_restriction",
+    "gpa_min",
+    "income_max"
+  ],
+  "needs_check": [
     "documents",
     "poster_only"
   ],

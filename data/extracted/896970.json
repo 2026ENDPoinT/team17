@@ -7,19 +7,19 @@
   "category": "교내",
   "summary": "2026학년도 2학기 2차 어의장학생 선발 안내",
   "amount": {
-    "type": "unknown",
-    "value": null,
-    "text": null
+    "type": "tuition_ratio",
+    "value": 100,
+    "text": "수업료 100%"
   },
-  "deadline": null,
-  "deadline_text": null,
+  "deadline": "2026-11-06",
+  "deadline_text": "2026. 10. 23.(금)~11. 6.(금)",
   "closed": false,
   "eligibility": {
     "grades": null,
     "departments": null,
-    "gpa_min": null,
+    "gpa_min": 2.75,
     "score_min": null,
-    "income_max": null,
+    "income_max": 5,
     "residence": null,
     "unclear": [],
     "other_conditions": []
@@ -28,7 +28,7 @@
     "documents": [],
     "interview": false
   },
-  "duplicate_restriction": null,
+  "duplicate_restriction": true,
   "source": {
     "board": "공지사항",
     "url": "https://iise.seoultech.ac.kr/notice/faculty_announcements_?do=view&bnum=1302&bidx=896970",
@@ -37,16 +37,21 @@
   "duplicate_of": "896867",
   "also_posted_bidx": [],
   "evidence": {
-    "amount": null,
-    "deadline": null,
-    "duplicate_restriction": null,
+    "amount": "[첨부: (붙임1) 2026학년도 2학기 2차 어의장학생 선발 안내문.hwp] ▶ 지원금액: 수업료 100% 면제",
+    "deadline": "[첨부: (붙임1) 2026학년도 2학기 2차 어의장학생 선발 안내문.hwp] ▶ 신청기간: 2026. 10. 23.(금)~11. 6.(금)",
+    "duplicate_restriction": "[첨부: (붙임1) 2026학년도 2학기 2차 어의장학생 선발 안내문.hwp] - 교내 타 장학금 이중수혜 불가",
     "departments": null,
     "residence": null
   },
   "filtered_conditions": [],
-  "needs_check": [
+  "from_attachment": [
     "amount",
     "deadline",
+    "duplicate_restriction",
+    "gpa_min",
+    "income_max"
+  ],
+  "needs_check": [
     "documents",
     "poster_only"
   ],

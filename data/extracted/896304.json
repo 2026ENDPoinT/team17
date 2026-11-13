@@ -25,7 +25,9 @@
     "other_conditions": []
   },
   "burden": {
-    "documents": [],
+    "documents": [
+      "증빙서류는 각 인정발급일 기준에 맞춰 발급한 서류만 인정하며, 각 서류의"
+    ],
     "interview": false
   },
   "duplicate_restriction": null,
@@ -44,10 +46,12 @@
     "residence": null
   },
   "filtered_conditions": [],
+  "from_attachment": [
+    "documents"
+  ],
   "needs_check": [
     "amount",
     "deadline",
-    "documents",
     "poster_only"
   ],
   "content_hash": "sha256:63a576f0d69fd2ea1fc10b956be4b844d175b1b1f6ff838d1344e2afd4c996c9",

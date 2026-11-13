@@ -7,28 +7,49 @@
   "category": "교외",
   "summary": "관심있는 학생은 첨부파일을 참고하시어, 기간내에 신청하시기 바랍니다.",
   "amount": {
-    "type": "unknown",
-    "value": null,
-    "text": null
+    "type": "lump_sum",
+    "value": 1000000,
+    "text": "100만원"
   },
-  "deadline": null,
-  "deadline_text": null,
+  "deadline": "2026-10-07",
+  "deadline_text": "2026. 9. 28.(월) ~ 10. 7.(수) [10일간]",
   "closed": true,
   "eligibility": {
-    "grades": null,
-    "departments": null,
+    "grades": [
+      3
+    ],
+    "departments": [
+      "이공계"
+    ],
     "gpa_min": null,
     "score_min": null,
     "income_max": null,
-    "residence": null,
-    "unclear": [],
-    "other_conditions": []
+    "residence": "춘천시, 지급일시, 반드시",
+    "unclear": [
+      "departments"
+    ],
+    "other_conditions": [
+      "춘천인재육성장학재단 장학금 지원 선발기준에 의함",
+      "수여식 당일 교부(일시·장소 별도 안내) 또는 우편 발송",
+      "고등학생 50만원, 대학생 최대 100만원",
+      "공고일 현재 주민등록 주소지가 1년 이상 춘천시에 등록된 시민 또는 그 자녀로서 중‧고등학교 및 대학(교)에 재학 중인 학생 * 주소이전 장학생, 세인트존스대학교 장학생 예외",
+      "애향 장학금 | 저소득 자녀(손) | 관내 1년 이상 | 高·大 | 국민기초생활보장법 제2조에 따른 기초생활수급자·차상위계층 및 한부모 가족지원법 제5조·제5조의2에 따른 한부모…",
+      "통리반장 자녀 | 〃 | 〃 | 공고일 현재 이․통․반장으로 2년 이상 재직자 본인 또는 자녀 | 직전학기 전 과목(예체능 제외) 평균 5등급(5.0) 이하(고) / 직전학기 1…",
+      "시정유공 본인‧자녀 | 〃 | 〃 | 시정유공자로 시장 또는 강원도지사와 중앙부처 장의 포상을 받은 후 1년이 경과하지 않은 본인 또는 자녀 ※ 시·도청·중앙부처 내부직원이 받은…",
+      "환경공원 주변자녀 | 〃 | 〃 | 환경공원 주변 (혈동2리, 팔미3리, 증2리) 거주자 본인 또는 자녀 | 〃 | 〃 | 〃",
+      "성적우수 장학금 | 〃 | 高·大 | 성적 우수 재학생 - 고등학생:평균2등급(2.0) 이하 - 대학생 :12학점이상 이수 & 평균A 학점 이상(4.5기준 4,0) | 12학점 …",
+      "특기 장학금 | 〃 | 中·高·大 | 공고일로부터 1년 이내 광역시․도 단위 대회(경진대회) 1위 입상자 또는 국제․전국대회 3위 이상 입상자 - 중학생은 중학교 재학 후 실적 …",
+      "춘천인재육성장학재단 장학금 지원 신청서 및 신청인 서약서 각 1부[별지] ○ 장학금 수혜 여부 확인서 및 개인정보 수집·이용·제공 동의서 각 1부[별지] ○ 춘천인재육성장학재단 …",
+      "애향 장학생 | 저소득 본인‧자녀(손) | ○ 기초생활수급, 차상위, 한부모가정, 조부모가정 등 증명서류 1부"
+    ]
   },
   "burden": {
-    "documents": [],
+    "documents": [
+      "춘천인재육성장학재단 장학금 지원 신청서 및 신청인 서약서"
+    ],
     "interview": false
   },
-  "duplicate_restriction": null,
+  "duplicate_restriction": true,
   "source": {
     "board": "장학공지",
     "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896254",
@@ -37,17 +58,24 @@
   "duplicate_of": null,
   "also_posted_bidx": [],
   "evidence": {
-    "amount": null,
-    "deadline": null,
-    "duplicate_restriction": null,
-    "departments": null,
-    "residence": null
+    "amount": "[첨부: 2026년 하반기 봄내장학생 선발 공고(게시용-QR).hwp] ❍ 장학금: 고등학생 50만원, 대학생 최대 100만원",
+    "deadline": "[첨부: 2026년 하반기 봄내장학생 선발 공고(게시용-QR).hwp] ❍ 신청기간: 2026. 9. 28.(월) ~ 10. 7.(수) [10일간]",
+    "duplicate_restriction": "[첨부: 2026년 하반기 봄내장학생 선발 공고(게시용-QR).hwp] ❍ 유의사항: 타장학금과중복수혜불가",
+    "departments": "[첨부: 2026년 하반기 봄내장학생 선발 공고(게시용-QR).hwp] 신청인 서약서 본인은 (재)춘천인재육성장학재단의 장학금 신청인으로서 장학금지원을 받는 동안 등록금 범위를 초과하여 장학금을 중복으로 지원받지 않을 것임을 서약합니다. 또한 본인이 한 학기 등록금을 초과하여 수령하는 장학금지원금에 대해 즉시 상환 또는 반환할 것을 서약합니다. <이중지원…",
+    "residence": "[첨부: 2026년 하반기 봄내장학생 선발 공고(게시용-QR).hwp] ❍ 공통기준: 공고일 현재 주민등록 주소지가 1년 이상 춘천시에 등록된 시민 또는 그 자녀로서 중‧고등학교 및 대학(교)에 재학 중인 학생 * 주소이전 장학생, 세인트존스대학교 장학생 예외"
   },
   "filtered_conditions": [],
-  "needs_check": [
+  "from_attachment": [
     "amount",
     "deadline",
+    "departments",
     "documents",
+    "duplicate_restriction",
+    "grades",
+    "other_conditions",
+    "residence"
+  ],
+  "needs_check": [
     "poster_only"
   ],
   "content_hash": "sha256:07ca107dbd7f00189b3e4bb7a54de1c437ef5a782e50fce81f55b9ba59f10ef4",

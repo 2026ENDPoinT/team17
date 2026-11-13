@@ -65,6 +65,7 @@
       "line": "5. 신청방법 : 등기우편 및 방문접수 (서울특별시 은평구 은평로195 은평구청 3층 시민교육과)"
     }
   ],
+  "from_attachment": [],
   "needs_check": [
     "amount",
     "documents"

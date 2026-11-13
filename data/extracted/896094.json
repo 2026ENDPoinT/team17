@@ -19,11 +19,9 @@
     "departments": null,
     "gpa_min": null,
     "score_min": null,
-    "income_max": null,
+    "income_max": 0,
     "residence": null,
-    "unclear": [
-      "income_max"
-    ],
+    "unclear": [],
     "other_conditions": [
       "우선순위: 1순위: 국가유공자 본인이 본교에 재학중인 학생",
       "우선순위: 2순위: 국가유공자의 배우자가 본교에 재학중인 학생",
@@ -50,6 +48,9 @@
     "residence": null
   },
   "filtered_conditions": [],
+  "from_attachment": [
+    "income_max"
+  ],
   "needs_check": [
     "documents"
   ],

@@ -15,18 +15,33 @@
   "deadline_text": null,
   "closed": false,
   "eligibility": {
-    "grades": null,
+    "grades": [
+      3,
+      4
+    ],
     "departments": null,
     "gpa_min": null,
     "score_min": null,
     "income_max": null,
     "residence": null,
     "unclear": [],
-    "other_conditions": []
+    "other_conditions": [
+      "□ 대한민국 국적자로 선발 학기 기준으로 사업 참여대학에 재학 중인 자",
+      "□ 직전 학기 12학점 이상을 이수하고, 직전 학기 성적이 100점 만점의 70점",
+      "ㅇ 신·편입생 및 재입학생은 성적 심사 제외",
+      "ㅇ 졸업 학기 학생은 직전 학기 최소이수학점 적용 제외",
+      "가산점: 100점∼97점 50",
+      "가산점: 취업 준비계획2) 20",
+      "가산점 부여",
+      "우대: ㅇ <표4> 저소득층 우대 기준에 따름",
+      "우대: <표4> 저소득층 우대 기준"
+    ]
   },
   "burden": {
-    "documents": [],
-    "interview": false
+    "documents": [
+      "증빙자료 발급일은 1학기는 신청연도 1월1일 이후,2학기는 신청연도7월 "
+    ],
+    "interview": true
   },
   "duplicate_restriction": null,
   "source": {
@@ -44,10 +59,14 @@
     "residence": null
   },
   "filtered_conditions": [],
+  "from_attachment": [
+    "documents",
+    "grades",
+    "other_conditions"
+  ],
   "needs_check": [
     "amount",
     "deadline",
-    "documents",
     "body_short"
   ],
   "content_hash": "sha256:6dee97a93f191cbb00c3cebe0181b1b20d3eb7012a370ccb9aa6a5a913e0d0f7",

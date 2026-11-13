@@ -25,7 +25,9 @@
     "other_conditions": []
   },
   "burden": {
-    "documents": [],
+    "documents": [
+      "지역 정착 의지 및 산업 기여도 증빙서류"
+    ],
     "interview": null
   },
   "duplicate_restriction": null,
@@ -44,9 +46,11 @@
     "residence": null
   },
   "filtered_conditions": [],
+  "from_attachment": [
+    "documents"
+  ],
   "needs_check": [
     "amount",
-    "documents",
     "poster_only"
   ],
   "content_hash": "sha256:008ad57c509527b549a2b491b2ef5f6a85e8627ee34a7be3f1f4b453930993a2",

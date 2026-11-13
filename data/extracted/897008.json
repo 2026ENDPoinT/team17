@@ -11,21 +11,36 @@
     "value": null,
     "text": null
   },
-  "deadline": null,
-  "deadline_text": null,
+  "deadline": "2026-10-30",
+  "deadline_text": "신청기간 | 구분접수 선발시기 선발횟수 기간 9월 1일 ∼ 10월 30일 11월 中 당해 연도 학생당 2회…",
   "closed": true,
   "eligibility": {
     "grades": null,
     "departments": null,
-    "gpa_min": null,
+    "gpa_min": 2.0,
     "score_min": null,
     "income_max": null,
-    "residence": null,
+    "residence": "반드시",
     "unclear": [],
-    "other_conditions": []
+    "other_conditions": [
+      "선발대상 | ㅇ (대상) 선원법 제3조 적용선박에 승선 및 하선한 선원 및그 가족* 중 고등학생 혹은 대학생 * 선원가족의 범위: 본인, 배우자, 부모, 자녀 선원이 손자ㆍ손녀를…",
+      "가산점: 소득기준 | 구분 2025년도 선원월평균임금 이하 (「한국선원통계연보」기준) ※ 단, 선원가족 중 2인 이상 고등학교 또는 대학생에 재학 중인 경우 기준금액에 10% 가…",
+      "가산점: 구분 | 2025년도 선원월평균임금 이하 (「한국선원통계연보」기준)",
+      "가산점: 신청기간 | 구분접수 선발시기 선발횟수 기간 9월 1일 ∼ 10월 30일 11월 中 당해 연도 학생당 2회 가능",
+      "가산점: 구분 | 접수",
+      "가산점: 선발시기 | 선발횟수",
+      "가산점: 기간 | 9월 1일 ∼ 10월 30일",
+      "가산점: 당해 연도 학생당 2회 가능",
+      "우선순위: 선발순위 | ㅇ 제1순위 : 순직선원 유가족 ㅇ 제2순위 : 장해선원 가족 ㅇ 제3순위 : 기초수급자 선원가족 ㅇ 제4순위 : 차상위계층 선원가족 ㅇ 제5순위 : 다자…",
+      "우선순위: 접수방법 | ㅇ 방문 및 우편 접수 (전화: [연락처], 팩스: [연락처]) - 부산광역시 중구 충장대로9번길66 3층 (한국선원복지고용센터 복지지원팀)"
+    ]
   },
   "burden": {
-    "documents": [],
+    "documents": [
+      "실직 후 6개월이 경과한 선원은 생략가능 ㅇ 승무경력증명서(연근해어선 부",
+      "차상위계층증명서",
+      "한부모가정증명서 ※ 재학 및 성적증명서는 반드시 원본제출(PDF로 발급된"
+    ],
     "interview": false
   },
   "duplicate_restriction": null,
@@ -38,16 +53,21 @@
   "also_posted_bidx": [],
   "evidence": {
     "amount": null,
-    "deadline": null,
+    "deadline": "[첨부: 2026년 2학기 선원가족장학사업 선발 모집 요강(변경).hwp] 신청기간 | 구분접수 선발시기 선발횟수 기간 9월 1일 ∼ 10월 30일 11월 中 당해 연도 학생당 2회 가능",
     "duplicate_restriction": null,
     "departments": null,
-    "residence": null
+    "residence": "[첨부: 2026년 2학기 선원가족장학사업 선발 모집 요강(변경).hwp] 제출서류 | ㅇ 소정양식(우리센터 홈페이지 공지사항에서 다운로드 가능) 각 1부 ① 장학생선발신청서(학생용) ② 장학생선발신청서(사업장확인용) ③ 개인정보 수집ㆍ이용 및 제공 동의서 ④ 서약서 ㅇ 월평균급여증명서류 : 1부 - 2025년도 근로소득원천징수영수증 회사 직인 필 ※ 순직ㆍ…"
   },
   "filtered_conditions": [],
-  "needs_check": [
-    "amount",
+  "from_attachment": [
     "deadline",
     "documents",
+    "gpa_min",
+    "other_conditions",
+    "residence"
+  ],
+  "needs_check": [
+    "amount",
     "poster_only"
   ],
   "content_hash": "sha256:d350d4211d82fce82042f01df2a879224be192d6884dabcca4e376e915c9381a",

@@ -31,7 +31,7 @@
     "documents": [],
     "interview": false
   },
-  "duplicate_restriction": null,
+  "duplicate_restriction": true,
   "source": {
     "board": "공지사항",
     "url": "https://dse.seoultech.ac.kr/information/bulletin?do=view&bnum=57750&bidx=896867",
@@ -45,11 +45,14 @@
   "evidence": {
     "amount": "마. 지원내역: 수업료 100% 면제",
     "deadline": "가. 신청기간: 2026. 10. 23.(금)~11. 6.(금)",
-    "duplicate_restriction": null,
+    "duplicate_restriction": "[첨부: (붙임1) 2026학년도 2학기 2차 어의장학생 선발 안내문.hwp] - 교내 타 장학금 이중수혜 불가",
     "departments": null,
     "residence": null
   },
   "filtered_conditions": [],
+  "from_attachment": [
+    "duplicate_restriction"
+  ],
   "needs_check": [
     "documents"
   ],

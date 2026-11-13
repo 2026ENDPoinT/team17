@@ -15,9 +15,11 @@
   "deadline_text": "(홍보) 대산농촌재단 2027년도 장학생 선발 안내(~11/11(수)까지)",
   "closed": false,
   "eligibility": {
-    "grades": null,
+    "grades": [
+      2
+    ],
     "departments": null,
-    "gpa_min": null,
+    "gpa_min": 3.5,
     "score_min": null,
     "income_max": null,
     "residence": null,
@@ -25,8 +27,10 @@
     "other_conditions": []
   },
   "burden": {
-    "documents": [],
-    "interview": false
+    "documents": [
+      "대산농업리더장학생 지원서 … [소정양식]"
+    ],
+    "interview": true
   },
   "duplicate_restriction": null,
   "source": {
@@ -44,9 +48,13 @@
     "residence": null
   },
   "filtered_conditions": [],
+  "from_attachment": [
+    "documents",
+    "gpa_min",
+    "grades"
+  ],
   "needs_check": [
     "amount",
-    "documents",
     "poster_only"
   ],
   "content_hash": "sha256:b44d87634d7b152e08261145750569d9713da564f5eb667f4d7fc478983c7c31",

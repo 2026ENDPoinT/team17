@@ -49,6 +49,7 @@
     "residence": "나. 주민등록등본(주민등록번호 전체표시 필수) 1부"
   },
   "filtered_conditions": [],
+  "from_attachment": [],
   "needs_check": [
     "documents"
   ],

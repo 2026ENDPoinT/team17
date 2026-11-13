@@ -23,9 +23,7 @@
     "score_min": null,
     "income_max": null,
     "residence": null,
-    "unclear": [
-      "residence"
-    ],
+    "unclear": [],
     "other_conditions": [
       "본교(대학원, 박사과정 포함)에 동시 재적하고 있는 2명 이상의 부부/ 부모-자녀/형제/자매/남매 중 1학년 학부생 1명",
       "주민등록번호는 앞 7자리까지만 기재(200101-3******) 마. 선발기준: 직전학기 취득학점 12학점 이상, 직전학기 평점평균 3.0 이상"
@@ -55,6 +53,7 @@
     "residence": null
   },
   "filtered_conditions": [],
+  "from_attachment": [],
   "needs_check": [],
   "content_hash": "sha256:9e77ee362dec253da2da78c2b71963e53463407dcb58b32cd86f6837c69ac751",
   "reviewed": false

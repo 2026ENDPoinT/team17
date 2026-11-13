@@ -7,26 +7,37 @@
   "category": "교외",
   "summary": "본문 없이 포스터 이미지로 안내된 공지입니다. 원문을 확인하세요.",
   "amount": {
-    "type": "unknown",
-    "value": null,
-    "text": null
+    "type": "tuition_ratio",
+    "value": 100,
+    "text": "등록금 전액"
   },
-  "deadline": null,
-  "deadline_text": null,
+  "deadline": "2026-10-08",
+  "deadline_text": "접수 마감일(’26.10.8.) 기준 부‧모 또는 본인이 1년 이상 서초구에 거주중인 자",
   "closed": true,
   "eligibility": {
-    "grades": null,
+    "grades": [
+      2,
+      3,
+      4
+    ],
     "departments": null,
     "gpa_min": null,
     "score_min": null,
-    "income_max": null,
-    "residence": null,
+    "income_max": 10,
+    "residence": "서초구",
     "unclear": [],
-    "other_conditions": []
+    "other_conditions": [
+      "접수 마감일(’26.10.8.) 기준 부‧모 또는 본인이 1년 이상 서초구에 거주중인 자",
+      "2026년 2학기 등록금 전액",
+      "학업성적(80%) 및 소득수준(20%) 합산, 고득점자 순 선발",
+      "동점자 발생시 소득수준  ➠ 학업성적  ➠ 수강학점 순으로 선발"
+    ]
   },
   "burden": {
-    "documents": [],
-    "interview": null
+    "documents": [
+      "붙임 신청서와 제출서류 일체 방문 또는 등기우편 접수‧송부"
+    ],
+    "interview": false
   },
   "duplicate_restriction": null,
   "source": {
@@ -37,17 +48,30 @@
   "duplicate_of": null,
   "also_posted_bidx": [],
   "evidence": {
-    "amount": null,
-    "deadline": null,
+    "amount": "[첨부: (공고문)2026년_하반기_문주장학재단_주관_AI_ICT_장학생_선발_공고문.pdf] 지급액: 2026년 2학기 등록금 전액",
+    "deadline": "[첨부: (공고문)2026년_하반기_문주장학재단_주관_AI_ICT_장학생_선발_공고문.pdf] 접수 마감일(’26.10.8.) 기준 부‧모 또는 본인이 1년 이상 서초구에 거주중인 자",
     "duplicate_restriction": null,
     "departments": null,
-    "residence": null
+    "residence": "[첨부: (공고문)2026년_하반기_문주장학재단_주관_AI_ICT_장학생_선발_공고문.pdf] 접수 마감일(’26.10.8.) 기준 부‧모 또는 본인이 1년 이상 서초구에 거주중인 자"
   },
-  "filtered_conditions": [],
-  "needs_check": [
+  "filtered_conditions": [
+    {
+      "field": "residence",
+      "text": "주민등록",
+      "reason": "앞 줄의 '접수'에 이어지는 설명",
+      "line": "※ 주민등록상 해외이주 신고자, 영주권자 제외"
+    }
+  ],
+  "from_attachment": [
     "amount",
     "deadline",
     "documents",
+    "grades",
+    "income_max",
+    "other_conditions",
+    "residence"
+  ],
+  "needs_check": [
     "poster_only"
   ],
   "content_hash": "sha256:3bde078519b5c0e4d8d0ef9f999e2a9abbe047dc342288d02de3cf9a79801f3c",

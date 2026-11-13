@@ -7,12 +7,12 @@
   "category": "교외",
   "summary": "관심있는 학생은 첨부파일을 참고하시어, 기한 내에 신청하시기 바랍니다.",
   "amount": {
-    "type": "unknown",
-    "value": null,
-    "text": null
+    "type": "lump_sum",
+    "value": 1500000,
+    "text": "150만원"
   },
-  "deadline": null,
-  "deadline_text": null,
+  "deadline": "2026-10-30",
+  "deadline_text": "2026년 9월 28일(월) ~ 2026년 10월 30일(금)",
   "closed": true,
   "eligibility": {
     "grades": null,
@@ -21,13 +21,22 @@
     "score_min": null,
     "income_max": null,
     "residence": "논산시",
-    "unclear": [
-      "residence"
-    ],
-    "other_conditions": []
+    "unclear": [],
+    "other_conditions": [
+      "논산시에 1년 이상 주소를 두고 실제 거주하는 주민 또는 그 자녀로서 논산시 관내 고등학교의 재학생이거나, 국내 정규대학교(2년제 포함)의 신입생",
+      "| | | | |",
+      "▪ 원격대학(사이버대학, 방송통신대학), 대학원대학교, 대학원, 외국대학▪ 평생교육법에 의한 학점은행제 교육원 및 전문학교 ※ 다만 전공대학에 해당하는 대학 신입생의 경우 신청 …",
+      "1인 150만원 생활비",
+      "지원 대상자 본인 또는 부, 모",
+      "방문 접수 또는 우편 접수(등기우편만 가능)",
+      "논산시에 1년 이상 주소를 둔 지원 대상자 본인이 신청하는 경우 : 주민등록표 초본",
+      "지원 대상자 본인과 부 또는 모가 주소가 다른 경우 : 초본, 가족관계증명서"
+    ]
   },
   "burden": {
-    "documents": [],
+    "documents": [
+      "장학금 신청서 및 개인정보 수집 및 활용 동의서"
+    ],
     "interview": false
   },
   "duplicate_restriction": null,
@@ -39,17 +48,40 @@
   "duplicate_of": null,
   "also_posted_bidx": [],
   "evidence": {
-    "amount": null,
-    "deadline": null,
+    "amount": "[첨부: 2026년도 하반기 재단법인 논산시장학회 장학생 선발 공고문(발췌본).hwpx] ❍ 지원내용 : 1인 150만원 생활비",
+    "deadline": "[첨부: 2026년도 하반기 재단법인 논산시장학회 장학생 선발 공고문(발췌본).hwpx] ❍ 공고 및 접수기간 : 2026년 9월 28일(월) ~ 2026년 10월 30일(금)",
     "duplicate_restriction": null,
     "departments": null,
-    "residence": "(홍보) 2026년 하반기 (재)논산시장학회 학업장려 장학생 선발 안내(마감)"
+    "residence": "[첨부: 2026년도 하반기 재단법인 논산시장학회 장학생 선발 공고문(발췌본).hwpx] ❍ 신청자격 : 논산시에 1년 이상 주소를 두고 실제 거주하는 주민 또는 그 자녀로서 논산시 관내 고등학교의 재학생이거나, 국내 정규대학교(2년제 포함)의 신입생"
   },
-  "filtered_conditions": [],
-  "needs_check": [
+  "filtered_conditions": [
+    {
+      "field": "residence",
+      "text": "충남",
+      "reason": "앞뒤에 '우편'",
+      "line": "(우편번호 32987, 수신처 충남 논산시 시민로210번길 9, 논산시청 인구청년교육과 논산시장학회 담당자)"
+    },
+    {
+      "field": "residence",
+      "text": "논산시",
+      "reason": "앞뒤에 '우편'",
+      "line": "(우편번호 32987, 수신처 충남 논산시 시민로210번길 9, 논산시청 인구청년교육과 논산시장학회 담당자)"
+    },
+    {
+      "field": "residence",
+      "text": "논산시",
+      "reason": "앞뒤에 '담당'",
+      "line": "(우편번호 32987, 수신처 충남 논산시 시민로210번길 9, 논산시청 인구청년교육과 논산시장학회 담당자)"
+    }
+  ],
+  "from_attachment": [
     "amount",
     "deadline",
     "documents",
+    "other_conditions",
+    "residence"
+  ],
+  "needs_check": [
     "poster_only"
   ],
   "content_hash": "sha256:19c01d626ac9dbf19c42f28a4642db529b9798c6e058c0fa6caed74981edd2bb",

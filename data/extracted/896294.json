@@ -16,13 +16,18 @@
   "closed": false,
   "eligibility": {
     "grades": null,
-    "departments": null,
+    "departments": [
+      "안전공학과"
+    ],
     "gpa_min": null,
     "score_min": null,
     "income_max": null,
     "residence": null,
     "unclear": [],
-    "other_conditions": []
+    "other_conditions": [
+      "안전공학과 학부 재학생",
+      "다산관 310호"
+    ]
   },
   "burden": {
     "documents": [],
@@ -40,16 +45,13 @@
     "amount": null,
     "deadline": "[학부] 2026년 안전공학과 학부생 학술발표대회 개최 (~11. 2.(월)까지 초록 제출)(추가 장학금 안내)",
     "duplicate_restriction": null,
-    "departments": null,
+    "departments": "[첨부: 2026년 안전공학과 학술발표대회 우수 장학금 계획(안).pdf] ◯ 참여대상 : 안전공학과 학부 재학생",
     "residence": null
   },
-  "filtered_conditions": [
-    {
-      "field": "departments",
-      "text": "공과대학",
-      "reason": "뒤에 '에서' (공지를 낸 학과)",
-      "line": "※ 공과대학 학장상 [1등-1명(팀) 2등-2명(팀)]에게 지급 예정이며, 학장상 수여 학생에게는 공과대학에서 장학금 지급 예정임."
-    }
+  "filtered_conditions": [],
+  "from_attachment": [
+    "departments",
+    "other_conditions"
   ],
   "needs_check": [
     "amount",

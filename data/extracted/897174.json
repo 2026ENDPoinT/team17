@@ -56,6 +56,7 @@
     "residence": null
   },
   "filtered_conditions": [],
+  "from_attachment": [],
   "needs_check": [],
   "content_hash": "sha256:086b5db54db8708fe36a1e4513a3c4a36d4befb22f33290c5c6ea39297e11a5a",
   "reviewed": false

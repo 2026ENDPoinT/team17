@@ -46,6 +46,7 @@
     "residence": "(홍보) 희망사다리 장학생 대상 대전 일자리 박람회 안내(마감)"
   },
   "filtered_conditions": [],
+  "from_attachment": [],
   "needs_check": [
     "amount",
     "deadline",

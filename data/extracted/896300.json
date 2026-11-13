@@ -38,7 +38,7 @@
   },
   "burden": {
     "documents": [],
-    "interview": false
+    "interview": true
   },
   "duplicate_restriction": true,
   "source": {
@@ -56,6 +56,7 @@
     "residence": null
   },
   "filtered_conditions": [],
+  "from_attachment": [],
   "needs_check": [
     "documents"
   ],

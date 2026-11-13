@@ -16,13 +16,28 @@
   "closed": true,
   "eligibility": {
     "grades": null,
-    "departments": null,
+    "departments": [
+      "안경광학과"
+    ],
     "gpa_min": null,
     "score_min": null,
     "income_max": null,
     "residence": null,
     "unclear": [],
-    "other_conditions": []
+    "other_conditions": [
+      "m 공고 시점 안경광학과 재학중 학부생으로 제출 요건에 맞추어 기한 내 신청한 학생",
+      "□ 세부 내용(3종 장학금)",
+      "재학생 9팀(3인 이하 팀구성)",
+      "재학생 16명",
+      "재학생이면서 2026학년도 2학기 현재 안경광학과 학생회 집행부",
+      "(재)서울과학기술대학교발전기금",
+      "장학생 선발 및 관리",
+      "◦ 제공하는 개인정보의 항목: 성명, 소속대학(원), 학번, 학과, 제출 영상 자료, 연락처(이",
+      "메일, 휴대폰)",
+      "본 동의서를 제출한 시점부터 목적 달성 시까지 보유․이용되며, 장학금",
+      "사후 관리 관련 필요 업무를 위하여 필요한 범위 내에서만 보유․이용됩니다.",
+      "◦ 제공하는 개인정보의 항목: 성명, 소속대학(원), 학번, 학과, 학년․학기, 성적, 자기성장보"
+    ]
   },
   "burden": {
     "documents": [],
@@ -40,10 +55,14 @@
     "amount": "2) 동문회장 및 학과 장학금: 총 400만원",
     "deadline": null,
     "duplicate_restriction": "*생활비성 장학금은 등록금 범위 초과 수혜 가능/다음 3개의 장학금은 중복 지원 가능하며 2개까지 중복 수상 가능.",
-    "departments": null,
+    "departments": "[첨부: 2026년 안경광학과 30주년 발전기금 장학생 선발 계획(학생 공지용).pdf] - 대상: 재학생이면서 2026학년도 2학기 현재 안경광학과 학생회 집행부",
     "residence": null
   },
   "filtered_conditions": [],
+  "from_attachment": [
+    "departments",
+    "other_conditions"
+  ],
   "needs_check": [
     "deadline",
     "documents"
