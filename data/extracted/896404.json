@@ -20,9 +20,16 @@
     "gpa_min": 3.0,
     "score_min": null,
     "income_max": 8,
-    "residence": null,
-    "unclear": [
-      "residence"
+    "residence": "은평구",
+    "unclear": [],
+    "other_conditions": [
+      "공고일 현재 은평구에 2년 이상 계속 거주하고 있는 초 · 중 · 고 · 대학생",
+      "학점은행제, 사이버 · 원격대학, 방송통신대학 제외",
+      "2026년 2학기 재학 중인 대학생",
+      "특기(초 · 중 · 고등학생)",
+      "체육, 문화에술, 기술 분야에서 광역자치단체, 국제기능올림픽대회, 한국위원회 등이 주관하는",
+      "전국 규모 이상의 대회에서 3위권 이내 입상성적이 있는 자(개인 분야)",
+      "중위소득 180% 이하"
     ]
   },
   "burden": {
@@ -39,8 +46,24 @@
   "evidence": {
     "amount": null,
     "deadline": "3. 신청기간 : 2026. 10. 12.(월) ~ 10. 28.(수) 18:00 까지 (주말,공휴일, 점심시간 제외 12:00~13:00)",
-    "duplicate_restriction": null
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": "< 2026년 하반기 은평구민장학생 선발 공고 >"
   },
+  "filtered_conditions": [
+    {
+      "field": "residence",
+      "text": "서울특별시",
+      "reason": "앞뒤에 '신청방법'",
+      "line": "5. 신청방법 : 등기우편 및 방문접수 (서울특별시 은평구 은평로195 은평구청 3층 시민교육과)"
+    },
+    {
+      "field": "residence",
+      "text": "은평구",
+      "reason": "앞뒤에 '접수'",
+      "line": "5. 신청방법 : 등기우편 및 방문접수 (서울특별시 은평구 은평로195 은평구청 3층 시민교육과)"
+    }
+  ],
   "needs_check": [
     "amount",
     "documents"

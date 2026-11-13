@@ -10,17 +10,28 @@ from datetime import date, timedelta
 from config import (
     AMOUNT_LINE_WORDS,
     CLOSED_WORDS,
+    CONDITION_BLOCK_MAX,
+    CONDITION_HEAD_WORDS,
+    CONDITION_LIST_MAX,
+    CONDITION_MAX,
+    CONDITION_NOT_WORDS,
+    CONDITION_SKIP_WORDS,
+    CONTINUATION_MARKS,
     DEADLINE_LINE_WORDS,
     DEADLINE_SKIP_WORDS,
+    DEPARTMENT_LINE_WORDS,
     DOCUMENT_HEAD_WORDS,
     DOCUMENT_SKIP_WORDS,
     DOCUMENT_WORDS,
     ELIGIBILITY_LINE_WORDS,
     EVIDENCE_MAX,
+    EXCLUDE_AFTER_WORDS,
     EXTERNAL_WORDS,
     INCOME_WORDS,
     INFO_WORDS,
     MULTI_AMOUNT_WORDS,
+    NO_LIMIT_WORDS,
+    NOT_CONDITION_WORDS,
     RECRUIT_WORDS,
     RESIDENCE_WORDS,
     RESULT_WORDS,
@@ -31,6 +42,7 @@ from config import (
     WORK_BNUMS,
     WORK_WORDS,
 )
+from dictionary import COLLEGES, DEPARTMENTS, FIELDS, NOT_REGION, SIDO
 
 
 def _lines(text: str) -> list[str]:
@@ -245,11 +257,231 @@ def extract_eligibility(body: str) -> dict:
         if result["income_max"] is None and _has_any(line, ["구간", "분위"]):
             if m := _INCOME.search(line):
                 result["income_max"] = int(m.group(2))
-    if _has_any(body, RESIDENCE_WORDS):
-        result["unclear"].append("residence")
     if result["income_max"] is None and _has_any(body, INCOME_WORDS):
         result["unclear"].append("income_max")
     return result
+
+
+# ── 학과·거주지 ──
+# 흐름: 사전·패턴으로 이름을 찾는다 → 이름 앞뒤 몇 글자를 보고 조건이 아닌 문맥(우대, 문의, 제외 …)이면 거른다.
+
+_BEFORE_WINDOW = 25  # 이름 앞 몇 글자까지 거르는 단어를 볼지
+_AFTER_WINDOW = 12  # 이름 뒤 몇 글자까지 볼지
+_REGION_TAIL = r"(?=[^가-힣]|에|의|내|민|지역|거주|출신|장학|$)"  # 지역 이름 바로 뒤에 올 수 있는 말
+_SIGUNGU = re.compile(r"(?<![가-힣])([가-힣]{1,4}(?:시|군|구))" + _REGION_TAIL)
+_SIDO = re.compile(r"(?<![가-힣])(" + "|".join(sorted(SIDO, key=len, reverse=True)) + r")" + _REGION_TAIL)
+# 제목에서 지역 이름 바로 뒤에 이 말이 오면 거주 조건이 확실하다: "은평구민", "거창군 지역출신"
+_TITLE_RESIDENT = re.compile(r"^\s*(민|지역\s*출신|출신)")
+
+
+def _skip_reason(lines: list[str], i: int, start: int, end: int) -> str | None:
+    """lines[i]의 start~end에 있는 학과·지역 이름이 조건이 아니면 그 이유를 돌려준다."""
+    line = lines[i]
+    before = line[max(0, start - _BEFORE_WINDOW) : start]
+    after = line[end : end + _AFTER_WINDOW]
+    for word in NOT_CONDITION_WORDS:
+        if word in before or word in after:
+            return f"앞뒤에 '{word}'"
+    for word in NO_LIMIT_WORDS:
+        if word in after:
+            return f"뒤에 '{word}' (제한 없음)"
+    for word in EXCLUDE_AFTER_WORDS:
+        if word in after:
+            return f"뒤에 '{word}' (제외 조건)"
+    if line.startswith(CONTINUATION_MARKS) and i > 0:
+        for word in NOT_CONDITION_WORDS:
+            if word in lines[i - 1]:
+                return f"앞 줄의 '{word}'에 이어지는 설명"
+    return None
+
+
+def _find_names(line: str, names: list[str]) -> list[tuple[str, int, int]]:
+    """사전의 이름을 긴 것부터 찾는다. '벤처경영학과' 안의 '경영학과'처럼 겹치는 짧은 이름은 버린다."""
+    taken: list[tuple[int, int]] = []
+    found = []
+    for name in sorted(names, key=len, reverse=True):
+        for m in re.finditer(re.escape(name), line):
+            if any(m.start() < e and s < m.end() for s, e in taken):
+                continue
+            taken.append((m.start(), m.end()))
+            found.append((name, m.start(), m.end()))
+    return sorted(found, key=lambda x: x[1])
+
+
+def _find_regions(line: str) -> list[tuple[str, int, int]]:
+    found = [(m.group(1), m.start(1), m.end(1)) for m in _SIDO.finditer(line)]
+    for m in _SIGUNGU.finditer(line):
+        name = m.group(1)
+        if name in NOT_REGION or any(s <= m.start(1) < e for _, s, e in found):
+            continue
+        found.append((name, m.start(1), m.end(1)))
+    return sorted(found, key=lambda x: x[1])
+
+
+def extract_departments(body: str) -> tuple[list[str] | None, bool, str | None, list[dict]]:
+    """반환: (학과 목록 또는 None, 확인 필요 여부, 근거 문장, 걸러낸 것 목록)."""
+    lines = _lines(body)
+    departments: list[str] = []
+    evidence = None
+    unclear = False
+    filtered: list[dict] = []
+    for i, line in enumerate(lines):
+        if not _has_any(line, DEPARTMENT_LINE_WORDS) and not line.startswith(CONTINUATION_MARKS):
+            continue
+        for name, start, end in _find_names(line, DEPARTMENTS + COLLEGES + FIELDS):
+            if reason := _skip_reason(lines, i, start, end):
+                filtered.append({"field": "departments", "text": name, "reason": reason, "line": _short(line, 80)})
+                unclear = unclear or "제외" in reason
+                continue
+            if not _has_any(line, DEPARTMENT_LINE_WORDS):
+                continue  # 이어 쓴 줄인데 앞 줄도 조건 줄이 아니면 쓰지 않는다
+            if name not in departments:
+                departments.append(name)
+            evidence = evidence or _short(line)
+            if name in COLLEGES or name in FIELDS:
+                unclear = True  # 단과대·계열은 어느 학과까지인지 공지마다 다르다
+    return (departments or None), unclear, evidence, filtered
+
+
+def extract_residence(title: str, body: str) -> tuple[str | None, bool, str | None, list[dict]]:
+    """반환: (거주지 또는 None, 확인 필요 여부, 근거 문장, 걸러낸 것 목록).
+
+    1) 본문에서 '거주·주민등록·출신·구민' 같은 말이 있는 줄의 지역 이름 (가장 확실)
+    2) 없으면 제목의 지역 이름. '은평구민', '거창군 지역출신'이면 확실, '통영시 …장학금'처럼 이름만 있으면 확인 필요
+    """
+    lines = _lines(body)
+    regions: list[str] = []
+    evidence = None
+    filtered: list[dict] = []
+    mentioned = False
+    for i, line in enumerate(lines):
+        if not _has_any(line, RESIDENCE_WORDS):
+            continue
+        line_regions = _find_regions(line)
+        if not line_regions:
+            # 지역 이름 없이 '거주'만 나온 줄 (예: "학교인근 거주자 우대")
+            word = next(w for w in RESIDENCE_WORDS if w in line)
+            at = line.find(word)
+            if reason := _skip_reason(lines, i, at, at + len(word)):
+                filtered.append({"field": "residence", "text": word, "reason": reason, "line": _short(line, 80)})
+            else:
+                mentioned = True
+            continue
+        for name, start, end in line_regions:
+            if reason := _skip_reason(lines, i, start, end):
+                filtered.append({"field": "residence", "text": name, "reason": reason, "line": _short(line, 80)})
+                continue
+            if name not in regions:
+                regions.append(name)
+            evidence = evidence or _short(line)
+    if regions:
+        return ", ".join(regions), False, evidence, filtered
+
+    name = extract_name(title)
+    title_regions = _find_regions(name)
+    if title_regions:
+        region = title_regions[0][0]
+        sure = bool(_TITLE_RESIDENT.match(name[title_regions[0][2] :]))
+        return region, not sure, _short(title), filtered
+    return None, mentioned, None, filtered
+
+
+# ── 그 외 조건 (문장형) ──
+# 학년·성적·소득·학과·거주지처럼 값으로 바꿀 수 없는 조건("징계사실이 없는 자", "북한이탈청소년")은
+# 해석하지 않고 원문 문장을 그대로 목록에 담는다. 화면에서는 필터에 쓰지 않고 읽기용으로 보여 준다.
+
+_COND_LEVEL_DIGIT = re.compile(r"^\s*\d+\s*[.)]\s*")  # "4. 지원자격"
+_COND_LEVEL_LETTER = re.compile(r"^\s*[가-하]\s*[.):]\s*")  # "나. 자격조건:"
+_COND_MARK = re.compile(r"^\s*(\d+\s*\)|[-•○▶►·※*]|[①-⑳])\s*")  # "○ …", "- …", "1) …"
+_TRIVIAL_PART = re.compile(r"^(본교\s*)?(학부\s*)?(재학생|재학 중인 (대)?학생|대학생)(으로서)?$")
+_STRUCTURED = [_GRADE_RANGE, _GRADE_LIST, _GPA, _SCORE, _INCOME]
+_TIME_OR_DATE = re.compile(r"\d{1,2}:\d{2}|^\s*\d{1,2}\s*[./]\s*\d{1,2}\s*\(")  # "09:00", "11.10(화)" 일정 줄
+
+
+def _level(line: str) -> int:
+    """번호 단계: 1. → 1, 가. → 2, ○·-·※ → 3, 없음 → 4."""
+    if _COND_LEVEL_DIGIT.match(line) and not re.match(r"^\s*\d+\s*\)", line):
+        return 1
+    if _COND_LEVEL_LETTER.match(line):
+        return 2
+    if _COND_MARK.match(line):
+        return 3
+    return 4
+
+
+def _clean_condition(line: str) -> str:
+    text = _COND_LEVEL_DIGIT.sub("", line)
+    text = _COND_LEVEL_LETTER.sub("", text)
+    text = _COND_MARK.sub("", text)
+    head, sep, rest = text.partition(":")
+    if sep and len(head) <= 12 and rest.strip():  # "대상 : …", "성적기준 : …"의 앞 이름표를 뗀다
+        text = rest
+    return text.strip(" ,")
+
+
+def _only_structured(text: str) -> bool:
+    """쉼표로 나눈 조각이 모두 학년·평점·점수·소득처럼 이미 값으로 뽑는 조건이면 True."""
+    parts = [p.strip() for p in re.split(r"[,，]", text) if p.strip()]
+    return all(_TRIVIAL_PART.match(p) or any(r.search(p) for r in _STRUCTURED) for p in parts)
+
+
+def extract_other_conditions(body: str) -> list[str]:
+    """'지원자격', '선발대상' 같은 제목 아래 문단에서 값으로 못 바꾸는 조건 문장을 뽑는다."""
+    lines = _lines(body)
+    results: list[str] = []
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        is_head = _has_any(line, CONDITION_HEAD_WORDS) and not _has_any(line, CONDITION_SKIP_WORDS)
+        # 긴 안내 문장 속 "선발기준에 적합한 학생은…"은 문단 제목이 아니다
+        if not is_head or (":" not in line and len(line) > 30):
+            i += 1
+            continue
+        head_level = _level(line)
+        block = [line]
+        j = i + 1
+        while j < len(lines) and len(block) < CONDITION_BLOCK_MAX:
+            nxt = lines[j]
+            lv = _level(nxt)
+            # 제목과 같거나 더 높은 단계의 번호가 나오면 다음 항목이다. (○·- 단계 제목이면 다음 ○·-에서 끝)
+            if lv <= head_level and not (head_level == 4 and lv == 4):
+                break
+            if _has_any(nxt, CONDITION_HEAD_WORDS) and lv <= 2:
+                break
+            block.append(nxt)
+            j += 1
+        # 쉼표로 끝난 줄은 다음 줄과 한 문장이다 ("…북한이탈청소년으로," + "2027년 … 대학생")
+        merged: list[str] = []
+        for raw in block:
+            if merged and merged[-1].endswith(",") and _level(raw) == 4:
+                merged[-1] = merged[-1] + " " + raw
+            else:
+                merged.append(raw)
+        skipped_prev = False
+        for raw in merged:
+            # 우대·가산·순위 줄, 그리고 그 줄에 번호 없이 이어 쓴 줄은 자격이 아니다 (앞뒤 문맥 규칙은 보류 중)
+            if _has_any(raw, CONDITION_SKIP_WORDS) or (skipped_prev and _level(raw) == 4):
+                skipped_prev = True
+                continue
+            skipped_prev = False
+            # 문단 제목만 있는 줄 ("4. (재단)지원자격", "신청대상 및 제출서류")
+            if _has_any(raw, CONDITION_HEAD_WORDS) and ":" not in raw:
+                continue
+            # 신청 방법·서류·일정 안내 줄
+            if _has_any(raw, CONDITION_NOT_WORDS) or _TIME_OR_DATE.search(raw):
+                continue
+            if raw.startswith(("►", "▶")) and len(raw) < 15:  # "► 일반(대학생)" 같은 구분 이름표
+                continue
+            text = _clean_condition(raw)
+            if ":" in raw and "제외" in raw.split(":")[0] and not text.startswith("제외"):
+                text = "제외: " + text  # "제외 대상 : …"
+            if len(text) < 6 or "아래" in text or _only_structured(text):
+                continue
+            text = _short(text, CONDITION_MAX)
+            if text not in results:
+                results.append(text)
+        i = j
+    return results[:CONDITION_LIST_MAX]
 
 
 # ── 준비 부담 ──

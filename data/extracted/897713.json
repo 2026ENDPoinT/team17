@@ -21,7 +21,8 @@
     "score_min": null,
     "income_max": null,
     "residence": null,
-    "unclear": []
+    "unclear": [],
+    "other_conditions": []
   },
   "burden": {
     "documents": [],
@@ -37,8 +38,11 @@
   "evidence": {
     "amount": null,
     "deadline": "(홍보) 유하푸른재단 2027년도 제10기 장학생 선발 안내(~11/20(금)까지)",
-    "duplicate_restriction": null
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
   },
+  "filtered_conditions": [],
   "needs_check": [
     "amount",
     "documents",

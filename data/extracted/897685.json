@@ -21,7 +21,8 @@
     "score_min": null,
     "income_max": null,
     "residence": null,
-    "unclear": []
+    "unclear": [],
+    "other_conditions": []
   },
   "burden": {
     "documents": [],
@@ -37,8 +38,11 @@
   "evidence": {
     "amount": null,
     "deadline": "(홍보) 2026년 KRA아동돌봄 지원사업(겨울방학) 참여 대학생 모집 안내(~11/18(수)까지)",
-    "duplicate_restriction": null
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
   },
+  "filtered_conditions": [],
   "needs_check": [
     "amount",
     "documents",

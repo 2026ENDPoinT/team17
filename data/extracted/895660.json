@@ -21,7 +21,8 @@
     "score_min": null,
     "income_max": null,
     "residence": null,
-    "unclear": []
+    "unclear": [],
+    "other_conditions": []
   },
   "burden": {
     "documents": [],
@@ -37,8 +38,11 @@
   "evidence": {
     "amount": null,
     "deadline": null,
-    "duplicate_restriction": null
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
   },
+  "filtered_conditions": [],
   "needs_check": [
     "amount",
     "deadline",

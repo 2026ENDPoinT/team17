@@ -23,7 +23,12 @@
     "score_min": 85,
     "income_max": null,
     "residence": null,
-    "unclear": []
+    "unclear": [],
+    "other_conditions": [
+      "2027년도 1학기 기준, 3학년 1학기에 등록예정인 자",
+      "매 정규학기 당 최소 12학점 이상 이수한 자(계절학기 미인정)",
+      "학칙에 의한 징계사실(학사징계 포함)이 없는 자"
+    ]
   },
   "burden": {
     "documents": [
@@ -47,8 +52,11 @@
   "evidence": {
     "amount": "다. 지원금액: 등록금 전액(수업료) 또는 학기당 350만원의 학업보조비 ※동시지원불가, 택1 하여 지원",
     "deadline": "마: 신청기간: 2026. 11. 9. (월) 까지",
-    "duplicate_restriction": null
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
   },
+  "filtered_conditions": [],
   "needs_check": [],
   "content_hash": "sha256:25f46016553aa3bb4ce029daf0a111af2078386ad34f3bc3b764ba4364e786c2",
   "reviewed": false

@@ -21,7 +21,10 @@
     "score_min": 70,
     "income_max": null,
     "residence": null,
-    "unclear": []
+    "unclear": [],
+    "other_conditions": [
+      "해당 근로시간에 근무가 가능한 자"
+    ]
   },
   "burden": {
     "documents": [
@@ -40,8 +43,11 @@
   "evidence": {
     "amount": "2. 근로조건: 시급 12,790원 (교외근로 시급 적용)",
     "deadline": "5. 모집기간: ~2026. 11. 13.(금)까지",
-    "duplicate_restriction": null
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
   },
+  "filtered_conditions": [],
   "needs_check": [],
   "content_hash": "sha256:7b936574c536d1deddf5b3d64bd64c8fd8eb3f4f675a6f69a8c0c18aa1192dcb",
   "reviewed": false

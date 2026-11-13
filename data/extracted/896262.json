@@ -20,8 +20,11 @@
     "gpa_min": null,
     "score_min": null,
     "income_max": null,
-    "residence": null,
-    "unclear": []
+    "residence": "논산시",
+    "unclear": [
+      "residence"
+    ],
+    "other_conditions": []
   },
   "burden": {
     "documents": [],
@@ -37,8 +40,11 @@
   "evidence": {
     "amount": null,
     "deadline": null,
-    "duplicate_restriction": null
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": "(홍보) 2026년 하반기 (재)논산시장학회 학업장려 장학생 선발 안내(마감)"
   },
+  "filtered_conditions": [],
   "needs_check": [
     "amount",
     "deadline",

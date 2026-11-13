@@ -18,12 +18,23 @@
     "grades": [
       3
     ],
-    "departments": null,
+    "departments": [
+      "공학계열"
+    ],
     "gpa_min": null,
     "score_min": 85,
     "income_max": 5,
     "residence": null,
-    "unclear": []
+    "unclear": [
+      "departments"
+    ],
+    "other_conditions": [
+      "자동차/전자/전기/기계 등 공학계열 전공자",
+      "2026년 1학기 이수학점 12학점 이상, 백분율 성적 85점 이상",
+      "등록금 범위 외 타 장학금 수혜를 받지 아니한 자(외부장학금, 생활보조금 성격) ※ 한국장학재단 국가근로 및 교내근로 장학금 수혜자의 경우 지원가능",
+      "장학생을 대상으로 하는 재단행사에 참석가능한 자",
+      "장학자격 상실(휴학)한 학생의 경우 신청 불가"
+    ]
   },
   "burden": {
     "documents": [],
@@ -39,8 +50,11 @@
   "evidence": {
     "amount": "2. 지원금액: 1인당 500만원(250만원×2개 학기) ※ 생활비성 장학금",
     "deadline": "6. (학생)신청기간: ~2026. 10. 12.(월) ※ 통합정보시스템 장학금 신청",
-    "duplicate_restriction": null
+    "duplicate_restriction": null,
+    "departments": "○ 자동차/전자/전기/기계 등 공학계열 전공자",
+    "residence": null
   },
+  "filtered_conditions": [],
   "needs_check": [
     "documents"
   ],

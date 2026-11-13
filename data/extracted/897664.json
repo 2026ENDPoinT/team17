@@ -21,9 +21,8 @@
     "score_min": 70,
     "income_max": 9,
     "residence": null,
-    "unclear": [
-      "residence"
-    ]
+    "unclear": [],
+    "other_conditions": []
   },
   "burden": {
     "documents": [],
@@ -39,8 +38,18 @@
   "evidence": {
     "amount": null,
     "deadline": "※ 지원기간: ~ (기관)선발 완료시 까지",
-    "duplicate_restriction": null
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
   },
+  "filtered_conditions": [
+    {
+      "field": "residence",
+      "text": "거주",
+      "reason": "앞뒤에 '우대'",
+      "line": "- 희망사항: 학교인근 거주자 우대, 컴퓨터활용능력자격증 소지자 우대 (필수사항은 아님)"
+    }
+  ],
   "needs_check": [
     "amount",
     "documents"

@@ -21,7 +21,12 @@
     "score_min": 70,
     "income_max": null,
     "residence": null,
-    "unclear": []
+    "unclear": [],
+    "other_conditions": [
+      "해당 근로시간에 근무가 가능한 자(해당수업 청강이 가능한 학생)",
+      "모델링 프로그램 Rhino를 활용할 수 있으며, 수업내용을 이해 할 수 있어 장애학생 학습지원이 가능한 자",
+      "여학생 모집"
+    ]
   },
   "burden": {
     "documents": [
@@ -39,8 +44,11 @@
   "evidence": {
     "amount": "2. 근로조건: 시급 12,790원 (교외근로 시급 적용)",
     "deadline": "7. 모집기간: ~2026. 10. 16.(금) 16:00까지",
-    "duplicate_restriction": null
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
   },
+  "filtered_conditions": [],
   "needs_check": [],
   "content_hash": "sha256:3d9852e5f7e7845b8110a0488b0c47317fe2f86f98ce18633ac6359a067d27fa",
   "reviewed": false

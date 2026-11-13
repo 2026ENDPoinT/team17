@@ -13,10 +13,13 @@ from rules import (
     classify_kind,
     extract_amount,
     extract_deadline,
+    extract_departments,
     extract_documents,
     extract_duplicate_restriction,
     extract_eligibility,
     extract_name,
+    extract_other_conditions,
+    extract_residence,
     has_interview,
     is_closed,
     make_summary,
@@ -34,6 +37,15 @@ def extract_one(raw: dict) -> dict:
     deadline, deadline_text, deadline_evidence = extract_deadline(title, body, posted)
     duplicate, duplicate_evidence = extract_duplicate_restriction(body)
     eligibility = extract_eligibility(body)
+    departments, dept_unclear, dept_evidence, dept_filtered = extract_departments(body)
+    residence, res_unclear, res_evidence, res_filtered = extract_residence(title, body)
+    eligibility["departments"] = departments
+    eligibility["residence"] = residence
+    eligibility["other_conditions"] = extract_other_conditions(body)  # 값으로 못 바꾸는 조건 문장 (읽기용)
+    if dept_unclear:
+        eligibility["unclear"].append("departments")
+    if res_unclear:
+        eligibility["unclear"].append("residence")
     documents = extract_documents(body)
 
     # 사람이 꼭 확인해야 하는 항목. 화면에서 "확인 필요"로 보여 줄 수 있다.
@@ -68,7 +80,11 @@ def extract_one(raw: dict) -> dict:
             "amount": amount_evidence,
             "deadline": deadline_evidence,
             "duplicate_restriction": duplicate_evidence,
+            "departments": dept_evidence,
+            "residence": res_evidence,
         },
+        # 학과·지역 이름이 나왔지만 조건이 아니라고 보고 거른 것 (우대, 문의, 제외 …). 검수할 때 확인용
+        "filtered_conditions": dept_filtered + res_filtered,
         "needs_check": needs_check,
         "content_hash": raw.get("content_hash"),  # 원본이 바뀌었는지 비교용
         "reviewed": False,

@@ -20,8 +20,9 @@
     "gpa_min": null,
     "score_min": null,
     "income_max": null,
-    "residence": null,
-    "unclear": []
+    "residence": "거창군",
+    "unclear": [],
+    "other_conditions": []
   },
   "burden": {
     "documents": [],
@@ -37,8 +38,11 @@
   "evidence": {
     "amount": null,
     "deadline": "(홍보) 2026년 2학기 거창군 지역출신 대학생 등록금 지원사업 안내(~11/16(월)까지)",
-    "duplicate_restriction": null
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": "(홍보) 2026년 2학기 거창군 지역출신 대학생 등록금 지원사업 안내(~11/16(월)까지)"
   },
+  "filtered_conditions": [],
   "needs_check": [
     "amount",
     "documents",

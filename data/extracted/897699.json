@@ -21,7 +21,10 @@
     "score_min": 70,
     "income_max": 9,
     "residence": null,
-    "unclear": []
+    "unclear": [],
+    "other_conditions": [
+      "한국장학재단 2026-2학기 국가근로장학사업 신청자"
+    ]
   },
   "burden": {
     "documents": [
@@ -42,8 +45,24 @@
   "evidence": {
     "amount": "5. 근무시간: 1일 최대 8시간 / 월~금(9시~18시) / 점심 휴게시간 근무제외 / (방학중) 주당 최대 40시간 근무 가능 / 시간당 10,320원",
     "deadline": "3. 모집기간: 2026. 11. 12.(목) 09:00 ~ 18:00 까지",
-    "duplicate_restriction": "- 교내근로(ST근로, ST인턴, ST튜터) 장학과의 중복 수혜 불가"
+    "duplicate_restriction": "- 교내근로(ST근로, ST인턴, ST튜터) 장학과의 중복 수혜 불가",
+    "departments": null,
+    "residence": null
   },
+  "filtered_conditions": [
+    {
+      "field": "departments",
+      "text": "화공생명공학과",
+      "reason": "앞뒤에 '관련학과'",
+      "line": "※ 관련학과: X선분석실-화공생명공학과, 신소재공학과"
+    },
+    {
+      "field": "departments",
+      "text": "신소재공학과",
+      "reason": "앞뒤에 '관련학과'",
+      "line": "※ 관련학과: X선분석실-화공생명공학과, 신소재공학과"
+    }
+  ],
   "needs_check": [],
   "content_hash": "sha256:c1de404d64901326cd1c8a1b0c4b5c6f167a23a15e1e9634386a02f8ffc6c4c5",
   "reviewed": false

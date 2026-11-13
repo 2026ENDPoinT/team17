@@ -28,6 +28,9 @@
         "score_min": null,
         "income_max": 8,
         "residence": null,
+        "other_conditions": [
+          "학칙에 의한 징계 사실이 없는 자"
+        ],
         "unclear": []
       },
       "burden": {
@@ -51,7 +54,9 @@
       "evidence": {
         "amount": "지원금액: 1인당 250만원 (일시 지급)",
         "deadline": "신청기간: 2026. 11. 13.(금) ~ 11. 20.(금) 17:00까지",
-        "duplicate_restriction": null
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": null
       },
       "needs_check": [],
       "reviewed": true
@@ -79,6 +84,7 @@
         "score_min": null,
         "income_max": null,
         "residence": null,
+        "other_conditions": [],
         "unclear": []
       },
       "burden": {
@@ -99,7 +105,9 @@
       "evidence": {
         "amount": "선발 시 등록금의 50%를 감면함",
         "deadline": "제출기한: ~11/27 18시까지 학과사무실",
-        "duplicate_restriction": null
+        "duplicate_restriction": null,
+        "departments": "지원대상: 전기정보공학과 재학생",
+        "residence": null
       },
       "needs_check": [],
       "reviewed": true
@@ -125,6 +133,9 @@
         "score_min": 70,
         "income_max": null,
         "residence": null,
+        "other_conditions": [
+          "해당 근로시간에 근무가 가능한 자"
+        ],
         "unclear": []
       },
       "burden": {
@@ -143,7 +154,9 @@
       "evidence": {
         "amount": "근로 시급: 10,320원",
         "deadline": "모집기간: 2026. 11. 4. ~ 11. 11.",
-        "duplicate_restriction": null
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": null
       },
       "needs_check": [],
       "reviewed": false
@@ -169,6 +182,7 @@
         "score_min": null,
         "income_max": null,
         "residence": "OO시",
+        "other_conditions": [],
         "unclear": [
           "residence",
           "income_max"
@@ -193,7 +207,9 @@
       "evidence": {
         "amount": "장학금액: 예산 범위 내에서 지급",
         "deadline": null,
-        "duplicate_restriction": null
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": "(샘플) OO시 지역인재 장학생 선발 공고 안내"
       },
       "needs_check": [
         "amount",

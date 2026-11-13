@@ -20,8 +20,11 @@
     "gpa_min": null,
     "score_min": null,
     "income_max": null,
-    "residence": null,
-    "unclear": []
+    "residence": "통영시",
+    "unclear": [
+      "residence"
+    ],
+    "other_conditions": []
   },
   "burden": {
     "documents": [],
@@ -37,8 +40,11 @@
   "evidence": {
     "amount": null,
     "deadline": "(홍보) 통영시 저소득 대학생 장학금 지원대상자 선발 안내(~11/23(월)까지)",
-    "duplicate_restriction": null
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": "(홍보) 통영시 저소득 대학생 장학금 지원대상자 선발 안내(~11/23(월)까지)"
   },
+  "filtered_conditions": [],
   "needs_check": [
     "amount",
     "documents",

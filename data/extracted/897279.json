@@ -21,7 +21,10 @@
     "score_min": null,
     "income_max": null,
     "residence": null,
-    "unclear": []
+    "unclear": [],
+    "other_conditions": [
+      "2026년도 2학기 국가근로장학금 1차, 2차, 3차 신청기간 내 신청한 재학생"
+    ]
   },
   "burden": {
     "documents": [],
@@ -37,8 +40,11 @@
   "evidence": {
     "amount": null,
     "deadline": "2026학년도 국가근로장학금 동계방학 집중근로 희망근로지 신청기간 안내(~11/12 18시까지)",
-    "duplicate_restriction": null
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
   },
+  "filtered_conditions": [],
   "needs_check": [
     "amount",
     "documents"
