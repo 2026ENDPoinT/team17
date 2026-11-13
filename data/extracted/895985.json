@@ -21,9 +21,11 @@
     ],
     "gpa_min": 3.0,
     "score_min": null,
-    "income_max": 10,
+    "income_max": null,
     "residence": null,
-    "unclear": [],
+    "unclear": [
+      "income_max"
+    ],
     "other_conditions": [
       "직전학기 취득학점이 15학점 이상인자.",
       "2026학년도 2학기 등록금 실납부액이 장학금액(100만원) 이상인 자.",

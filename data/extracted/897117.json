@@ -21,7 +21,7 @@
     "departments": null,
     "gpa_min": null,
     "score_min": 60,
-    "income_max": 5,
+    "income_max": 8,
     "residence": "강화군",
     "unclear": [],
     "other_conditions": [

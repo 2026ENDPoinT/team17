@@ -51,7 +51,8 @@
   },
   "filtered_conditions": [],
   "from_attachment": [
-    "duplicate_restriction"
+    "duplicate_restriction",
+    "income_max"
   ],
   "needs_check": [
     "documents"

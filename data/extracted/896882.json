@@ -22,7 +22,11 @@
     "income_max": 5,
     "residence": null,
     "unclear": [],
-    "other_conditions": []
+    "other_conditions": [
+      "국민기초생활수급자 학생 | 1. 국민기초생활수급자 증명서(본인 명의)",
+      "아동복지시설 기수용자 및입학전형시 소년소녀가정 학생 | 1. 시설발급 재원 증명서 1부(복지시설 기수용자) 2. 제적등본 1부(소년소녀가정) 3. 가족관계증명서 1부(소년소녀가정)",
+      "장애의 정도가 심한 장애인(본인 혹은 부모) 학생 | 1. 장애인증명서 1부(본인, 부모 공통) 2. 가족관계증명서 1부(부모가 장애인인 경우)"
+    ]
   },
   "burden": {
     "documents": [],
@@ -48,7 +52,8 @@
     "amount",
     "duplicate_restriction",
     "gpa_min",
-    "income_max"
+    "income_max",
+    "other_conditions"
   ],
   "needs_check": [
     "documents",

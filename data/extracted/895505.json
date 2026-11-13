@@ -24,7 +24,9 @@
     "income_max": null,
     "residence": null,
     "unclear": [],
-    "other_conditions": []
+    "other_conditions": [
+      "학과 수업의 일환으로 진행한 현장 방문은 제외, 중복 여부 확인 예정"
+    ]
   },
   "burden": {
     "documents": [
@@ -50,14 +52,7 @@
     "departments": "2. 지원대상: 2026학년도 (2026년 5월~2027년 1월) 현장 방문 또는 박람회 참관 건설시스템공학과 학부 재학생 중 증빙서류 제출자 (분야: 토목 관련)",
     "residence": null
   },
-  "filtered_conditions": [
-    {
-      "field": "departments",
-      "text": "건설시스템공학과",
-      "reason": "뒤에 '에서' (공지를 낸 학과)",
-      "line": "건설시스템공학과에서는 학부 재학생들의 현장 지식을 파악하여 전공에 대한 이해도 향상을 위해"
-    }
-  ],
+  "filtered_conditions": [],
   "from_attachment": [],
   "needs_check": [],
   "content_hash": "sha256:f564e6caa87f455842407998b5f601c9d6312549d858085864f40ca9c02d7f2c",

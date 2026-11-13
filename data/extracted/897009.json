@@ -35,7 +35,9 @@
     ]
   },
   "burden": {
-    "documents": [],
+    "documents": [
+      "[서식1] 지역출신 대학생 등록금 지원신청서"
+    ],
     "interview": false
   },
   "duplicate_restriction": null,
@@ -51,30 +53,17 @@
     "deadline": "(홍보) 2026년 2학기 거창군 지역출신 대학생 등록금 지원사업 안내(~11/16(월)까지)",
     "duplicate_restriction": null,
     "departments": null,
-    "residence": "[첨부: 공고문_2026년 2학기 거창군 지역출신 대학생 등록금 지원사업.pdf] 거창군 지역출신 대학생 등록금 지원사업 공고"
+    "residence": "[첨부: 공고문_2026년 2학기 거창군 지역출신 대학생 등록금 지원사업.pdf] 가. 지원요건을 모두 충족하는 거창군 출신 대학생"
   },
-  "filtered_conditions": [
-    {
-      "field": "residence",
-      "text": "관내",
-      "reason": "앞 줄의 '제출처'에 이어지는 설명",
-      "line": "- 관내 주소를 둔 대학생 : 본인 주소지 기준 읍면 행정복지센터"
-    },
-    {
-      "field": "residence",
-      "text": "주민등록",
-      "reason": "앞뒤에 '담당'",
-      "line": "동이용을 통하여 담당공무원이 지원대상 대학생의 주민등록, 가족관계등록에 관한 사항 등을 확인하는"
-    }
-  ],
+  "filtered_conditions": [],
   "from_attachment": [
     "amount",
+    "documents",
     "grades",
     "other_conditions",
     "residence"
   ],
   "needs_check": [
-    "documents",
     "poster_only"
   ],
   "content_hash": "sha256:29e0474a38642320bc37b18af94f17e5d2a8708eedd564a38054e3d7e754ae10",

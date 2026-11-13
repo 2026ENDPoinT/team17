@@ -22,7 +22,10 @@
     "income_max": null,
     "residence": null,
     "unclear": [],
-    "other_conditions": []
+    "other_conditions": [
+      "1-3학기 재학생",
+      "Coursework 수료자"
+    ]
   },
   "burden": {
     "documents": [],

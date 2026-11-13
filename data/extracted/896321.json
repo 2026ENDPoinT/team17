@@ -24,7 +24,12 @@
     "income_max": null,
     "residence": null,
     "unclear": [],
-    "other_conditions": []
+    "other_conditions": [
+      "졸업 후 농업계에 종사하며 농업리더(영농, 농업연구, 유통 등 농업관련 분야 진출)로",
+      "성장하겠다는 투철한 의지와 실천 계획을 세운 학생",
+      "우대: 영농기반이 있는 영농희망자, 농학계열 재학생 우대",
+      "우대: 선발인원 5명"
+    ]
   },
   "burden": {
     "documents": [
@@ -51,7 +56,8 @@
   "from_attachment": [
     "documents",
     "gpa_min",
-    "grades"
+    "grades",
+    "other_conditions"
   ],
   "needs_check": [
     "amount",
