@@ -1,0 +1,52 @@
+// 장학금 정보를 메인 블록에 표시할 문구로 가공한다.
+// 입력: 장학금의 금액·마감·지원 조건. 출력: 표시용 문자열과 조건 배열.
+// 금액을 일시금·등록금 비율·시급에 맞는 문구로 바꾸며, 알 수 없으면 미확인으로 표시한다.
+export function formatAmount(amount) {
+  if (!Number.isFinite(amount?.value)) return '금액 미확인';
+
+  const value = amount.value.toLocaleString('ko-KR');
+  switch (amount.type) {
+    case 'lump_sum': return `${value}원`;
+    case 'tuition_ratio': return `등록금 ${value}%`;
+    case 'hourly': return `시급 ${value}원`;
+    default: return '금액 미확인';
+  }
+}
+
+// 마감 날짜와 기준 날짜로 D-day 문구를 만든다. 기준 날짜를 생략하면 한국의 오늘 날짜를 쓴다.
+export function formatDeadline(deadline, today) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(deadline)) return '마감 미확인';
+  const end = Date.parse(`${deadline}T00:00:00Z`);
+  if (!Number.isFinite(end) || new Date(end).toISOString().slice(0, 10) !== deadline) {
+    return '마감 미확인';
+  }
+
+  const currentDate = today ?? new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Seoul', year: 'numeric', month: '2-digit', day: '2-digit',
+  }).format(new Date());
+  const days = Math.round((end - Date.parse(`${currentDate}T00:00:00Z`)) / 86400000);
+  const label = days > 0 ? `D-${days}` : days === 0 ? 'D-day' : `D+${-days}`;
+  return `${deadline} (${label})`;
+}
+
+// 확인된 조건을 학년 → 학과 → 성적 → 소득 → 거주지 순서로 최대 3개 골라 반환한다.
+export function getMainConditions(eligibility = {}) {
+  const conditions = [];
+  const unclear = eligibility?.unclear ?? [];
+  // 해당 조건에 값이 있고, 불확실한 조건으로 분류되지 않았는지 확인한다.
+  const known = (key) => eligibility?.[key] != null && !unclear.includes(key);
+
+  if (known('grades') && eligibility.grades.length > 0) {
+    conditions.push(`${eligibility.grades.join('·')}학년`);
+  }
+  if (known('departments') && eligibility.departments.length > 0) {
+    conditions.push(eligibility.departments.join('·'));
+  }
+  if (known('gpa_min')) conditions.push(`성적 ${eligibility.gpa_min} 이상`);
+  if (known('income_max')) conditions.push(`소득 ${eligibility.income_max}분위 이하`);
+  if (known('residence') && eligibility.residence.trim()) {
+    conditions.push(`거주지 ${eligibility.residence}`);
+  }
+
+  return conditions.length > 0 ? conditions.slice(0, 3) : ['지원 조건 미확인'];
+}
