@@ -1,0 +1,64 @@
+{
+  "id": "896882",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '선발'",
+  "name": "2026학년도 2학기 2차 어의장학생",
+  "title": "2026학년도 2학기 2차 어의장학생 선발 안내(~11/6(금))",
+  "category": "교내",
+  "summary": "본문 없이 포스터 이미지로 안내된 공지입니다. 원문을 확인하세요.",
+  "amount": {
+    "type": "tuition_ratio",
+    "value": 100,
+    "text": "수업료 100%"
+  },
+  "deadline": "2026-11-06",
+  "deadline_text": "2026학년도 2학기 2차 어의장학생 선발 안내(~11/6(금))",
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": 2.75,
+    "score_min": null,
+    "income_max": 5,
+    "residence": null,
+    "unclear": [],
+    "other_conditions": [
+      "국민기초생활수급자 학생 | 1. 국민기초생활수급자 증명서(본인 명의)",
+      "아동복지시설 기수용자 및입학전형시 소년소녀가정 학생 | 1. 시설발급 재원 증명서 1부(복지시설 기수용자) 2. 제적등본 1부(소년소녀가정) 3. 가족관계증명서 1부(소년소녀가정)",
+      "장애의 정도가 심한 장애인(본인 혹은 부모) 학생 | 1. 장애인증명서 1부(본인, 부모 공통) 2. 가족관계증명서 1부(부모가 장애인인 경우)"
+    ]
+  },
+  "burden": {
+    "documents": [],
+    "interview": false
+  },
+  "duplicate_restriction": true,
+  "source": {
+    "board": "학부공지",
+    "url": "https://computer.seoultech.ac.kr/info/notice?do=view&bnum=58476&bidx=896882",
+    "posted_at": "2026-10-22"
+  },
+  "duplicate_of": "896867",
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": "[첨부: (붙임1) 2026학년도 2학기 2차 어의장학생 선발 안내문.hwp] ▶ 지원금액: 수업료 100% 면제",
+    "deadline": "2026학년도 2학기 2차 어의장학생 선발 안내(~11/6(금))",
+    "duplicate_restriction": "[첨부: (붙임1) 2026학년도 2학기 2차 어의장학생 선발 안내문.hwp] - 교내 타 장학금 이중수혜 불가",
+    "departments": null,
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "from_attachment": [
+    "amount",
+    "duplicate_restriction",
+    "gpa_min",
+    "income_max",
+    "other_conditions"
+  ],
+  "needs_check": [
+    "documents",
+    "poster_only"
+  ],
+  "content_hash": "sha256:4233d17dd88bb03ceaf836e060a98869ab6a298c26bffe9d23088d88df52bc09",
+  "reviewed": false
+}

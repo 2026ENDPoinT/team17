@@ -11,24 +11,30 @@
     "value": null,
     "text": null
   },
-  "deadline": null,
-  "deadline_text": null,
+  "deadline": "2026-11-09",
+  "deadline_text": "2026. 10. 26.(월) ~ 11. 9.(월) 18:00",
   "closed": true,
   "eligibility": {
-    "grades": null,
+    "grades": [
+      1
+    ],
     "departments": null,
     "gpa_min": null,
-    "score_min": null,
-    "income_max": null,
+    "score_min": 60,
+    "income_max": 8,
     "residence": "강화군",
-    "unclear": [
-      "residence"
-    ],
-    "other_conditions": []
+    "unclear": [],
+    "other_conditions": [
+      "구분 | 기준 | 비고"
+    ]
   },
   "burden": {
-    "documents": [],
-    "interview": null
+    "documents": [
+      "신청서 서명 누락",
+      "국가장학금 신청증명서 대신 결과 화면(캡쳐) 제출",
+      "다른 학기 성적증명서 또는 지원구간 통지서 제출"
+    ],
+    "interview": false
   },
   "duplicate_restriction": null,
   "source": {
@@ -36,19 +42,27 @@
     "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=897117",
     "posted_at": "2026-10-27"
   },
+  "duplicate_of": null,
   "also_posted_bidx": [],
   "evidence": {
     "amount": null,
-    "deadline": null,
+    "deadline": "[첨부: 공고문(2026년 하반기 강화군 대학생 등록금 지원사업).hwpx] 1) 접수기간 : 2026. 10. 26.(월) ~ 11. 9.(월) 18:00",
     "duplicate_restriction": null,
     "departments": null,
-    "residence": "(홍보) 2026년도 하반기 강화군 대학생 등록금 지원사업 안내(마감)"
+    "residence": "[첨부: 공고문(2026년 하반기 강화군 대학생 등록금 지원사업).hwpx] 군민의 고등교육비 부담을 경감 및 지역인재를 육성하고자「강화군 대학생 등록금 지원 조례」에 따라 2026년도 하반기 강화군 대학생 등록금 지원 사업을 다음과 같이 공고합니다."
   },
   "filtered_conditions": [],
-  "needs_check": [
-    "amount",
+  "from_attachment": [
     "deadline",
     "documents",
+    "grades",
+    "income_max",
+    "other_conditions",
+    "residence",
+    "score_min"
+  ],
+  "needs_check": [
+    "amount",
     "poster_only"
   ],
   "content_hash": "sha256:648fcd9108d5dcd4bcbed71e157acfef63967bb89e94fc0537a93f6f50d7f2be",

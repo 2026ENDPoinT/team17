@@ -7,12 +7,12 @@
   "category": "교외",
   "summary": "관심있는 학생은 첨부파일을 참고하시어, 기한 내에 신청하시기 바랍니다.",
   "amount": {
-    "type": "unknown",
-    "value": null,
-    "text": null
+    "type": "lump_sum",
+    "value": 1500000,
+    "text": "150만원"
   },
-  "deadline": null,
-  "deadline_text": null,
+  "deadline": "2026-10-30",
+  "deadline_text": "2026년 9월 28일(월) ~ 2026년 10월 30일(금)",
   "closed": true,
   "eligibility": {
     "grades": null,
@@ -21,13 +21,24 @@
     "score_min": null,
     "income_max": null,
     "residence": "논산시",
-    "unclear": [
-      "residence"
-    ],
-    "other_conditions": []
+    "unclear": [],
+    "other_conditions": [
+      "논산시에 1년 이상 주소를 두고 실제 거주하는 주민 또는 그 자녀로서 논산시 관내 고등학교의 재학생이거나, 국내 정규대학교(2년제 포함)의 신입생",
+      "신입생 장학금은 상반기 미신청자에 한해 신청 가능",
+      "2026년도 국내 정규대학교(2년제 전문대 포함) 신입생",
+      "2003년 1월 1일 이후 출생자 중 공고일 기준 고등학교 졸업 학력 취득 후",
+      "5년이 경과되지 않은 자",
+      "학생 본인, 부, 모중 어느 한 명이라도 공고일(2026년 9월 28일) 기준",
+      "논산시에 계속하여 1년 이상(2025년 9월 29일 이전 ~ 신청일 현재) 주민등록을 둔자",
+      "「고등교육법」 제2조중 국내의 대학, 산업대학, 교육대학 및 전문대학의 신입생에 한함",
+      "원격대학(사이버대학, 방송통신대학), 대학원대학교, 대학원, 외국대학▪ 평생교육법에 의한 학점은행제 교육원 및 전문학교 ※ 다만 전공대학에 해당하는 대학 신입생의 경우 신청 가능…",
+      "| | | | |"
+    ]
   },
   "burden": {
-    "documents": [],
+    "documents": [
+      "장학금 신청서 및 개인정보 수집 및 활용 동의서"
+    ],
     "interview": false
   },
   "duplicate_restriction": null,
@@ -36,19 +47,24 @@
     "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896262",
     "posted_at": "2026-10-06"
   },
+  "duplicate_of": null,
   "also_posted_bidx": [],
   "evidence": {
-    "amount": null,
-    "deadline": null,
+    "amount": "[첨부: 2026년도 하반기 재단법인 논산시장학회 장학생 선발 공고문(발췌본).hwpx] ❍ 지원내용 : 1인 150만원 생활비",
+    "deadline": "[첨부: 2026년도 하반기 재단법인 논산시장학회 장학생 선발 공고문(발췌본).hwpx] ❍ 공고 및 접수기간 : 2026년 9월 28일(월) ~ 2026년 10월 30일(금)",
     "duplicate_restriction": null,
     "departments": null,
-    "residence": "(홍보) 2026년 하반기 (재)논산시장학회 학업장려 장학생 선발 안내(마감)"
+    "residence": "[첨부: 2026년도 하반기 재단법인 논산시장학회 장학생 선발 공고문(발췌본).hwpx] ❍ 신청자격 : 논산시에 1년 이상 주소를 두고 실제 거주하는 주민 또는 그 자녀로서 논산시 관내 고등학교의 재학생이거나, 국내 정규대학교(2년제 포함)의 신입생"
   },
   "filtered_conditions": [],
-  "needs_check": [
+  "from_attachment": [
     "amount",
     "deadline",
     "documents",
+    "other_conditions",
+    "residence"
+  ],
+  "needs_check": [
     "poster_only"
   ],
   "content_hash": "sha256:19c01d626ac9dbf19c42f28a4642db529b9798c6e058c0fa6caed74981edd2bb",

@@ -15,18 +15,27 @@
   "deadline_text": "(홍보) 대산농촌재단 2027년도 장학생 선발 안내(~11/11(수)까지)",
   "closed": false,
   "eligibility": {
-    "grades": null,
+    "grades": [
+      2
+    ],
     "departments": null,
-    "gpa_min": null,
+    "gpa_min": 3.5,
     "score_min": null,
     "income_max": null,
     "residence": null,
     "unclear": [],
-    "other_conditions": []
+    "other_conditions": [
+      "졸업 후 농업계에 종사하며 농업리더(영농, 농업연구, 유통 등 농업관련 분야 진출)로",
+      "성장하겠다는 투철한 의지와 실천 계획을 세운 학생",
+      "우대: 영농기반이 있는 영농희망자, 농학계열 재학생 우대",
+      "우대: 선발인원 5명"
+    ]
   },
   "burden": {
-    "documents": [],
-    "interview": false
+    "documents": [
+      "대산농업리더장학생 지원서 … [소정양식]"
+    ],
+    "interview": true
   },
   "duplicate_restriction": null,
   "source": {
@@ -34,6 +43,7 @@
     "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896321",
     "posted_at": "2026-10-07"
   },
+  "duplicate_of": null,
   "also_posted_bidx": [],
   "evidence": {
     "amount": null,
@@ -43,9 +53,14 @@
     "residence": null
   },
   "filtered_conditions": [],
+  "from_attachment": [
+    "documents",
+    "gpa_min",
+    "grades",
+    "other_conditions"
+  ],
   "needs_check": [
     "amount",
-    "documents",
     "poster_only"
   ],
   "content_hash": "sha256:b44d87634d7b152e08261145750569d9713da564f5eb667f4d7fc478983c7c31",

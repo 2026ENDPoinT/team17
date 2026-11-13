@@ -1,0 +1,60 @@
+{
+  "id": "896148",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '모집'",
+  "name": "☆ 2026년 안경광학과 30주년 기념 발전기금 장학생(학부생 대상)",
+  "title": "☆ 2026년 안경광학과 30주년 기념 발전기금 장학생(학부생 대상) 모집 공고 (접수마감)",
+  "category": "교내",
+  "summary": "2026년 2학기 안경광학과 30주년 기념 발전기금 장학생(3종) 모집 안내",
+  "amount": {
+    "type": "lump_sum",
+    "value": 4000000,
+    "text": "400만원"
+  },
+  "deadline": null,
+  "deadline_text": null,
+  "closed": true,
+  "eligibility": {
+    "grades": null,
+    "departments": [
+      "안경광학과"
+    ],
+    "gpa_min": null,
+    "score_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": [],
+    "other_conditions": [
+      "공고 시점 안경광학과 재학중 학부생으로 제출 요건에 맞추어 기한 내 신청한 학생"
+    ]
+  },
+  "burden": {
+    "documents": [],
+    "interview": false
+  },
+  "duplicate_restriction": false,
+  "source": {
+    "board": "공지사항",
+    "url": "https://optometry.seoultech.ac.kr/bachelor_of_information/notice?do=view&bnum=4776&bidx=896148",
+    "posted_at": "2026-10-02"
+  },
+  "duplicate_of": null,
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": "2) 동문회장 및 학과 장학금: 총 400만원",
+    "deadline": null,
+    "duplicate_restriction": "*생활비성 장학금은 등록금 범위 초과 수혜 가능/다음 3개의 장학금은 중복 지원 가능하며 2개까지 중복 수상 가능.",
+    "departments": "[첨부: 2026년 안경광학과 30주년 발전기금 장학생 선발 계획(학생 공지용).pdf] - 대상: 재학생이면서 2026학년도 2학기 현재 안경광학과 학생회 집행부",
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "from_attachment": [
+    "departments"
+  ],
+  "needs_check": [
+    "deadline",
+    "documents"
+  ],
+  "content_hash": "sha256:0e4d9ef3bfe1e1e9c56b4a20b3e14ce054f6e5ed64da90069749db3cce780172",
+  "reviewed": false
+}

@@ -1,0 +1,58 @@
+{
+  "id": "897283",
+  "notice_kind": "확인필요",
+  "notice_kind_reason": "모집·결과 단어가 없음",
+  "name": "2026학년도 국제대학 한국어학능력인증 장학금 지급 계획",
+  "title": "2026학년도 국제대학 한국어학능력인증 장학금 지급 계획 안내",
+  "category": "교내",
+  "summary": "2026학년도 국제대학 글로벌한국어문화학과 한국어학능력인증 장학금 안내입니다.",
+  "amount": {
+    "type": "unknown",
+    "value": null,
+    "text": null
+  },
+  "deadline": "2026-12-24",
+  "deadline_text": "2026. 10. 13.(화) ~ 12. 24.(목)",
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": [
+      "글로벌한국어문화학과"
+    ],
+    "gpa_min": null,
+    "score_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": [],
+    "other_conditions": [
+      "2026년중 한국어능력시험(TOPIK - PBT) 응시하여 성적을 취득한 글로벌한국어문화학과 재학생"
+    ]
+  },
+  "burden": {
+    "documents": [],
+    "interview": false
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "공지사항",
+    "url": "https://gsklc.seoultech.ac.kr/information/bulletin?do=view&bnum=58293&bidx=897283",
+    "posted_at": "2026-10-30"
+  },
+  "duplicate_of": null,
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": null,
+    "deadline": "2. 신청기간: 2026. 10. 13.(화) ~ 12. 24.(목)",
+    "duplicate_restriction": null,
+    "departments": "1. 신청대상: 2026년중 한국어능력시험(TOPIK - PBT) 응시하여 성적을 취득한 글로벌한국어문화학과 재학생",
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "from_attachment": [],
+  "needs_check": [
+    "amount",
+    "documents"
+  ],
+  "content_hash": "sha256:7cbb024da0f08598aa412be8d2485879d65f8ef73b593331bc7fe02c698d4d9a",
+  "reviewed": false
+}

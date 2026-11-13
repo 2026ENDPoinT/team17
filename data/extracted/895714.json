@@ -1,0 +1,56 @@
+{
+  "id": "895714",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '신청'",
+  "name": "2026년 2학기 중소기업 취업연계 장학사업(희망사다리1유형)",
+  "title": "2026년 2학기 중소기업 취업연계 장학사업(희망사다리1유형) 신청 안내",
+  "category": "교내",
+  "summary": "본문 없이 포스터 이미지로 안내된 공지입니다. 원문을 확인하세요.",
+  "amount": {
+    "type": "unknown",
+    "value": null,
+    "text": null
+  },
+  "deadline": null,
+  "deadline_text": null,
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": null,
+    "score_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": [],
+    "other_conditions": []
+  },
+  "burden": {
+    "documents": [],
+    "interview": null
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "대학공지",
+    "url": "https://www.seoultech.ac.kr/service/info/notice/?do=commonview&bnum=4691&bidx=895714",
+    "posted_at": "2026-09-18"
+  },
+  "duplicate_of": null,
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": null,
+    "deadline": null,
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "from_attachment": [],
+  "needs_check": [
+    "amount",
+    "deadline",
+    "documents",
+    "poster_only"
+  ],
+  "content_hash": "sha256:2b816d620b34844229b36ae18b9fa09ebb2d184703384ccd5aeebc164f07ada7",
+  "reviewed": false
+}

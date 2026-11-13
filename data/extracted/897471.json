@@ -23,7 +23,10 @@
     "residence": null,
     "unclear": [],
     "other_conditions": [
-      "본교 재학생 및 휴학생 (학부생/대학원생)"
+      "필수교육 미이수 시 근로 참여가 제한될 수 있습니다.",
+      "본교 재학생 및 휴학생 (학부생/대학원생)",
+      "우대: ChatGPT, Claude, 생성형 AI 서비스 활용 경험자",
+      "우대: 프롬프트 작성 및 데이터/문서 처리 능력 보유자"
     ]
   },
   "burden": {
@@ -36,6 +39,7 @@
     "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=57138&bidx=897471",
     "posted_at": "2026-11-04"
   },
+  "duplicate_of": null,
   "also_posted_bidx": [],
   "evidence": {
     "amount": null,
@@ -45,6 +49,7 @@
     "residence": null
   },
   "filtered_conditions": [],
+  "from_attachment": [],
   "needs_check": [
     "amount",
     "documents"

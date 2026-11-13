@@ -7,9 +7,9 @@
   "category": "교외",
   "summary": "본문 없이 포스터 이미지로 안내된 공지입니다. 원문을 확인하세요.",
   "amount": {
-    "type": "unknown",
-    "value": null,
-    "text": null
+    "type": "lump_sum",
+    "value": 1000000,
+    "text": "100만원"
   },
   "deadline": "2026-11-23",
   "deadline_text": "(홍보) 통영시 저소득 대학생 장학금 지원대상자 선발 안내(~11/23(월)까지)",
@@ -21,14 +21,24 @@
     "score_min": null,
     "income_max": null,
     "residence": "통영시",
-    "unclear": [
-      "residence"
-    ],
-    "other_conditions": []
+    "unclear": [],
+    "other_conditions": [
+      "「국민기초생활 보장법」에 따른 기초생활수급자 및 차상위 계층 대학생으로",
+      "학업성적 평균 C학점 이상(2026년 1학기 성적 기준)을 취득하고",
+      "관내 고등학교 졸업자로, 공고일 현재 주민등록상 6년 이상 통영시에 주소를 두고, 통영시 관내 학교를 6년 이상 다닌 자",
+      "통영시 저소득 대학생 장학금 4회 이상 수혜자 - 2026년도 통영시 성적우수 장학금, 지역대학생 장학금, 인재육성장학금 수혜자 - 등록금이 아닌 생활비 성격의 장학금 수혜자 -…",
+      "학업성적이 평균 C학점 이상(2026년 1학기 성적 기준)인자"
+    ]
   },
   "burden": {
-    "documents": [],
-    "interview": null
+    "documents": [
+      "장학금 지급신청서 (개인정보수집‧이용동의서 포함) | 지정서식",
+      "기초생활수급자 또는 차상위계층 증명서 |",
+      "재학증명서 |",
+      "성적증명서 | 2026년 1학기 성적(평균 C학점 이상)",
+      "통장사본 |"
+    ],
+    "interview": false
   },
   "duplicate_restriction": null,
   "source": {
@@ -36,18 +46,23 @@
     "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=897345",
     "posted_at": "2026-11-02"
   },
+  "duplicate_of": null,
   "also_posted_bidx": [],
   "evidence": {
-    "amount": null,
+    "amount": "[첨부: 2026년 통영시 저소득 대학생 장학금 지원대상자 선발 공고.hwpx] 2. 지원금액: 1인당 상한액 100만원",
     "deadline": "(홍보) 통영시 저소득 대학생 장학금 지원대상자 선발 안내(~11/23(월)까지)",
     "duplicate_restriction": null,
     "departments": null,
-    "residence": "(홍보) 통영시 저소득 대학생 장학금 지원대상자 선발 안내(~11/23(월)까지)"
+    "residence": "[첨부: 2026년 통영시 저소득 대학생 장학금 지원대상자 선발 공고.hwpx] 다. 관내 고등학교 졸업자로, 공고일 현재 주민등록상 6년 이상 통영시에 주소를 두고, 통영시 관내 학교를 6년 이상 다닌 자"
   },
   "filtered_conditions": [],
-  "needs_check": [
+  "from_attachment": [
     "amount",
     "documents",
+    "other_conditions",
+    "residence"
+  ],
+  "needs_check": [
     "poster_only"
   ],
   "content_hash": "sha256:dcbf938d58b23de1938648a9bee3c3d483f9a32bc4a042669aabe6d25c5e5859",

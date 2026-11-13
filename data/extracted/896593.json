@@ -1,0 +1,54 @@
+{
+  "id": "896593",
+  "notice_kind": "결과",
+  "notice_kind_reason": "제목에 '선발 결과'",
+  "name": "2026년 산업공학과 동문회 선순환 장학금 장학생 선발 결과 알림",
+  "title": "(장학)2026년 산업공학과 동문회 선순환 장학금 장학생 선발 결과 알림",
+  "category": "교내",
+  "summary": "2026년 산업공학과 기부자지정 장학생(산업공학과 동문회 선순환 인재 장학생)선발 결과를 아래와 같이 알려드립니다.",
+  "amount": {
+    "type": "unknown",
+    "value": null,
+    "text": null
+  },
+  "deadline": "2026-11-14",
+  "deadline_text": "2026. 11. 14.(토) 17:30- (17:30분까지 행사장소 입실)",
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": null,
+    "score_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": [],
+    "other_conditions": []
+  },
+  "burden": {
+    "documents": [],
+    "interview": false
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "공지사항",
+    "url": "https://iise.seoultech.ac.kr/notice/faculty_announcements_?do=view&bnum=1302&bidx=896593",
+    "posted_at": "2026-10-15"
+  },
+  "duplicate_of": null,
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": null,
+    "deadline": "- 장학증서 및 장학금 수여식 일시: 2026. 11. 14.(토) 17:30- (17:30분까지 행사장소 입실)",
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "from_attachment": [],
+  "needs_check": [
+    "amount",
+    "documents"
+  ],
+  "content_hash": "sha256:1dc44a07aea277f49a12020ca5d5b55ceb972638f14cfc4aabd894050c78a5ea",
+  "reviewed": false
+}

@@ -15,7 +15,9 @@
   "deadline_text": "(통정시 신청, 2026. 10. 23.~11. 6.) 2026. 2학기 2차 어의 및 가족장학금 신청 안내",
   "closed": false,
   "eligibility": {
-    "grades": null,
+    "grades": [
+      1
+    ],
     "departments": null,
     "gpa_min": 2.75,
     "score_min": null,
@@ -23,7 +25,6 @@
     "residence": null,
     "unclear": [],
     "other_conditions": [
-      "국민기초생활수급자 학생",
       "직전학기의 취득학점 12학점 이상, 평점평균 2.75이상 ※ 계절학기 및 방학 중 현장실습취득학점 제외",
       "본교(대학원, 박사과정 포함)에 동시 재학하고 있는 2명 이상의 부부/부모-자녀/형제/자매/남매 중1학년 학부생 1명",
       "직전학기의 취득학점 12학점 이상, 직전학기 평점평균 B(3.0) 이상",
@@ -43,7 +44,10 @@
     "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896900",
     "posted_at": "2026-10-22"
   },
-  "also_posted_bidx": [],
+  "duplicate_of": null,
+  "also_posted_bidx": [
+    "896935"
+  ],
   "evidence": {
     "amount": "라. 지원내역: 수업료 100% 면제(단, 학자금 지원구간 차상위~5구간 학생 중 국가장학 Ⅰ유형 미수혜 학생은 50%만 면제)",
     "deadline": "(통정시 신청, 2026. 10. 23.~11. 6.) 2026. 2학기 2차 어의 및 가족장학금 신청 안내",
@@ -52,6 +56,9 @@
     "residence": null
   },
   "filtered_conditions": [],
+  "from_attachment": [
+    "grades"
+  ],
   "needs_check": [],
   "content_hash": "sha256:6d752cb9fd41ee0f2e4f0193ab39abee0d901160c199f9a9096b8b17c0551044",
   "reviewed": false

@@ -1,0 +1,58 @@
+{
+  "id": "896494",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '신청'",
+  "name": "2026학년도 2학기 지능형반도체공학과 LBSemicon 장학생",
+  "title": "2026학년도 2학기 지능형반도체공학과 LBSemicon 장학생 신청 안내",
+  "category": "교내",
+  "summary": "<2026학년도 2학기 지능형반도체공학과 LBSemicon 장학생 신청 안내>",
+  "amount": {
+    "type": "unknown",
+    "value": null,
+    "text": null
+  },
+  "deadline": "2026-10-29",
+  "deadline_text": "2026. 10. 15. ~ 2026. 10. 29.(목) 18:00 까지 (※ 기한 엄수, 기한 후 제출…",
+  "closed": false,
+  "eligibility": {
+    "grades": [
+      3
+    ],
+    "departments": [
+      "지능형반도체공학과"
+    ],
+    "gpa_min": null,
+    "score_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": [],
+    "other_conditions": []
+  },
+  "burden": {
+    "documents": [],
+    "interview": false
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "공지사항",
+    "url": "https://dse.seoultech.ac.kr/information/bulletin?do=view&bnum=57750&bidx=896494",
+    "posted_at": "2026-10-14"
+  },
+  "duplicate_of": null,
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": null,
+    "deadline": "3. 신청기간: 2026. 10. 15. ~ 2026. 10. 29.(목) 18:00 까지 (※ 기한 엄수, 기한 후 제출 불가)",
+    "duplicate_restriction": null,
+    "departments": "1. 지원대상: 2026학년도 2학기 지능형반도체공학과 3학년 전원",
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "from_attachment": [],
+  "needs_check": [
+    "amount",
+    "documents"
+  ],
+  "content_hash": "sha256:95d3b5ec81bd5773170212fe81a2abbebe83cbc5e2c5d45561d2333b93af9f53",
+  "reviewed": false
+}

@@ -1,0 +1,199 @@
+{
+  "_note": "샘플 데이터다. 장학금 이름·금액·링크는 지어낸 값이다. 이벤트 묶기(events/, 크롤링 담당)가 만들고 화면 담당이 개발용으로 읽는다. 항목 하나 = 장학금 하나(이벤트)이고, 그 장학금의 공지들(모집 → 수정 → 완료)이 notices에 들어 있다. 항목의 나머지 필드는 data/scholarships.sample.json의 항목과 같다. 필드를 바꾸면 이 파일도 같이 고치고 팀에 알린다.",
+  "version": 1,
+  "generated_at": "2026-11-13T23:00:00+09:00",
+  "items": [
+    {
+      "id": "event-900001",
+      "status": "수정",
+      "grouped_by": "auto",
+      "notices": [
+        {
+          "bidx": "900001",
+          "label": "모집",
+          "title": "[장학] 2026학년도 (샘플) 미래인재 장학생 선발 안내 (~11/20)",
+          "board": "장학공지",
+          "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=900001",
+          "posted_at": "2026-11-10",
+          "also_posted_bidx": ["900105"]
+        },
+        {
+          "bidx": "900120",
+          "label": "수정",
+          "title": "(신청기간 연장) 2026학년도 (샘플) 미래인재 장학생 선발 안내 (~11/27)",
+          "board": "장학공지",
+          "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=900120",
+          "posted_at": "2026-11-19",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "(샘플) 미래인재 교외장학금",
+      "title": "(신청기간 연장) 2026학년도 (샘플) 미래인재 장학생 선발 안내 (~11/27)",
+      "category": "교외",
+      "summary": "재학생 대상 일시금 장학금. 직전 학기 성적 3.0 이상, 소득 8분위 이하.",
+      "amount": {
+        "type": "lump_sum",
+        "value": 2500000,
+        "text": "1인당 250만원"
+      },
+      "deadline": "2026-11-27",
+      "deadline_text": "~11/27 17:00까지 (연장)",
+      "closed": false,
+      "eligibility": {
+        "grades": [2, 3, 4],
+        "departments": null,
+        "gpa_min": 3.0,
+        "score_min": null,
+        "income_max": 8,
+        "residence": null,
+        "other_conditions": ["학칙에 의한 징계 사실이 없는 자"],
+        "unclear": []
+      },
+      "burden": {
+        "documents": ["장학금 신청서", "성적증명서", "소득분위 확인서"],
+        "interview": false
+      },
+      "duplicate_restriction": true,
+      "source": {
+        "board": "장학공지",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=900120",
+        "posted_at": "2026-11-19"
+      },
+      "also_posted_bidx": ["900105"],
+      "evidence": {
+        "amount": "지원금액: 1인당 250만원 (일시 지급)",
+        "deadline": "신청기간: ~11/27 17:00까지 (연장)",
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": false
+    },
+    {
+      "id": "event-900002",
+      "status": "완료",
+      "grouped_by": "reviewed",
+      "notices": [
+        {
+          "bidx": "900002",
+          "label": "모집",
+          "title": "2026-2학기 (샘플) 성적우수 장학생 모집 (~11/7)",
+          "board": "전기정보공학과 공지",
+          "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=900002",
+          "posted_at": "2026-10-30",
+          "also_posted_bidx": []
+        },
+        {
+          "bidx": "900130",
+          "label": "완료",
+          "title": "(샘플) 성적우수 장학생 선발 결과 안내",
+          "board": "전기정보공학과 공지",
+          "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=900130",
+          "posted_at": "2026-11-12",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "(샘플) 성적우수 교내장학금",
+      "title": "2026-2학기 (샘플) 성적우수 장학생 모집 (~11/7)",
+      "category": "교내",
+      "summary": "등록금 50% 감면. 학과장 추천과 면접이 있다.",
+      "amount": {
+        "type": "tuition_ratio",
+        "value": 50,
+        "text": "등록금 50% 감면"
+      },
+      "deadline": "2026-11-07",
+      "deadline_text": "~11/7 18시까지",
+      "closed": true,
+      "eligibility": {
+        "grades": null,
+        "departments": ["전기정보공학과"],
+        "gpa_min": 3.5,
+        "score_min": null,
+        "income_max": null,
+        "residence": null,
+        "other_conditions": ["우선순위: 1순위: 직전학기 평점평균이 높은 학생"],
+        "unclear": []
+      },
+      "burden": {
+        "documents": ["장학금 신청서", "자기소개서", "학과장 추천서"],
+        "interview": true
+      },
+      "duplicate_restriction": true,
+      "source": {
+        "board": "전기정보공학과 공지",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=900002",
+        "posted_at": "2026-10-30"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": "선발 시 등록금의 50%를 감면함",
+        "deadline": "제출기한: ~11/7 18시까지 학과사무실",
+        "duplicate_restriction": null,
+        "departments": "지원대상: 전기정보공학과 재학생",
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": true
+    },
+    {
+      "id": "event-900003",
+      "status": "모집",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "900003",
+          "label": "모집",
+          "title": "[근로장학] (샘플) 중앙도서관 근로장학생 모집",
+          "board": "장학공지 (근로장학)",
+          "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=57138&bidx=900003",
+          "posted_at": "2026-11-04",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "(샘플) 도서관 근로장학생",
+      "title": "[근로장학] (샘플) 중앙도서관 근로장학생 모집",
+      "category": "근로",
+      "summary": "도서관 자료 정리 근로. 주 10시간 이내.",
+      "amount": {
+        "type": "hourly",
+        "value": 10320,
+        "text": "시급 10,320원"
+      },
+      "deadline": "2026-11-21",
+      "deadline_text": "2026. 11. 4. ~ 11. 21.",
+      "closed": false,
+      "eligibility": {
+        "grades": null,
+        "departments": null,
+        "gpa_min": null,
+        "score_min": 70,
+        "income_max": null,
+        "residence": null,
+        "other_conditions": ["해당 근로시간에 근무가 가능한 자", "우대: 학교인근 거주자 우대"],
+        "unclear": []
+      },
+      "burden": {
+        "documents": ["근로장학 신청서"],
+        "interview": true
+      },
+      "duplicate_restriction": false,
+      "source": {
+        "board": "장학공지 (근로장학)",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=57138&bidx=900003",
+        "posted_at": "2026-11-04"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": "근로 시급: 10,320원",
+        "deadline": "모집기간: 2026. 11. 4. ~ 11. 21.",
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": false
+    }
+  ]
+}

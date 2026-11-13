@@ -84,7 +84,9 @@
         "score_min": null,
         "income_max": null,
         "residence": null,
-        "other_conditions": [],
+        "other_conditions": [
+          "우선순위: 1순위: 직전학기 평점평균이 높은 학생"
+        ],
         "unclear": []
       },
       "burden": {
@@ -134,7 +136,8 @@
         "income_max": null,
         "residence": null,
         "other_conditions": [
-          "해당 근로시간에 근무가 가능한 자"
+          "해당 근로시간에 근무가 가능한 자",
+          "우대: 학교인근 거주자 우대"
         ],
         "unclear": []
       },

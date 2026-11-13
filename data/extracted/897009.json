@@ -7,25 +7,37 @@
   "category": "교외",
   "summary": "관심있는 학생은 아래 내용과 첨부파일을 확인하시어 기한내에 신청하시기 바랍니다.",
   "amount": {
-    "type": "unknown",
-    "value": null,
-    "text": null
+    "type": "lump_sum",
+    "value": 1000000,
+    "text": "100만원"
   },
   "deadline": "2026-11-16",
   "deadline_text": "(홍보) 2026년 2학기 거창군 지역출신 대학생 등록금 지원사업 안내(~11/16(월)까지)",
   "closed": false,
   "eligibility": {
-    "grades": null,
+    "grades": [
+      6
+    ],
     "departments": null,
     "gpa_min": null,
     "score_min": null,
     "income_max": null,
     "residence": "거창군",
     "unclear": [],
-    "other_conditions": []
+    "other_conditions": [
+      "지원요건을 모두 충족하는 거창군 출신 대학생",
+      "구분내용비고",
+      "연령 ▸만 30세 미만(1996년 10월 15일 이후 출생자)",
+      "국가장학금 ▸2026년 2학기 한국장학재단 국가장학금 신청자",
+      "학년 ▸최종 학년, 최종 학년 직전 학년 대학생",
+      "2026년 2학기 대학교 등록금",
+      "있을 수 있음"
+    ]
   },
   "burden": {
-    "documents": [],
+    "documents": [
+      "[서식1] 지역출신 대학생 등록금 지원신청서"
+    ],
     "interview": false
   },
   "duplicate_restriction": null,
@@ -34,18 +46,24 @@
     "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=897009",
     "posted_at": "2026-10-23"
   },
+  "duplicate_of": null,
   "also_posted_bidx": [],
   "evidence": {
-    "amount": null,
+    "amount": "[첨부: 공고문_2026년 2학기 거창군 지역출신 대학생 등록금 지원사업.pdf] 나. 금액 : 학기당 본인부담 등록금* 최대 100만원 한도",
     "deadline": "(홍보) 2026년 2학기 거창군 지역출신 대학생 등록금 지원사업 안내(~11/16(월)까지)",
     "duplicate_restriction": null,
     "departments": null,
-    "residence": "(홍보) 2026년 2학기 거창군 지역출신 대학생 등록금 지원사업 안내(~11/16(월)까지)"
+    "residence": "[첨부: 공고문_2026년 2학기 거창군 지역출신 대학생 등록금 지원사업.pdf] 가. 지원요건을 모두 충족하는 거창군 출신 대학생"
   },
   "filtered_conditions": [],
-  "needs_check": [
+  "from_attachment": [
     "amount",
     "documents",
+    "grades",
+    "other_conditions",
+    "residence"
+  ],
+  "needs_check": [
     "poster_only"
   ],
   "content_hash": "sha256:29e0474a38642320bc37b18af94f17e5d2a8708eedd564a38054e3d7e754ae10",

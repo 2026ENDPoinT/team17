@@ -1,0 +1,56 @@
+{
+  "id": "895890",
+  "notice_kind": "결과",
+  "notice_kind_reason": "제목에 '선발 결과'",
+  "name": "2026년 순득장학재단 장학생 선발 결과 알림",
+  "title": "(장학)2026년 순득장학재단 장학생 선발 결과 알림",
+  "category": "교외",
+  "summary": "순득장학재단 2026년 제23기 장학생 선발 결과 알림",
+  "amount": {
+    "type": "unknown",
+    "value": null,
+    "text": null
+  },
+  "deadline": null,
+  "deadline_text": null,
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": null,
+    "score_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": [],
+    "other_conditions": []
+  },
+  "burden": {
+    "documents": [],
+    "interview": false
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "공지사항",
+    "url": "https://iise.seoultech.ac.kr/notice/faculty_announcements_?do=view&bnum=1302&bidx=895890",
+    "posted_at": "2026-09-23"
+  },
+  "duplicate_of": null,
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": null,
+    "deadline": null,
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "from_attachment": [],
+  "needs_check": [
+    "amount",
+    "deadline",
+    "documents",
+    "body_short"
+  ],
+  "content_hash": "sha256:6c2b4141a8f8e4dbb35435fbe3d57a01b66411f3ff5d6d47c833fe8437de7266",
+  "reviewed": false
+}

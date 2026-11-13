@@ -1,0 +1,68 @@
+{
+  "id": "897737",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '신청'",
+  "name": "컴퓨터공학과 취업준비 멘토링2 EPiC 신청-선착순 29명",
+  "title": "컴퓨터공학과 취업준비 멘토링2 EPiC 신청-선착순 29명(안내-장학금지급)",
+  "category": "교내",
+  "summary": "정보통신대학 컴퓨터공학과에서는 학생들에게 실질적인 취업 준비 지원과 학과 취업률 제고를 위하여 졸업생⦁재학생 연계 취업을 위한 AI 활용능력 …",
+  "amount": {
+    "type": "unknown",
+    "value": null,
+    "text": null
+  },
+  "deadline": null,
+  "deadline_text": null,
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": null,
+    "score_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": [],
+    "other_conditions": []
+  },
+  "burden": {
+    "documents": [],
+    "interview": true
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "학부공지",
+    "url": "https://computer.seoultech.ac.kr/info/notice?do=view&bnum=58476&bidx=897737",
+    "posted_at": "2026-11-12"
+  },
+  "duplicate_of": null,
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": null,
+    "deadline": null,
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
+  },
+  "filtered_conditions": [
+    {
+      "field": "departments",
+      "text": "정보통신대학",
+      "reason": "뒤에 '에서' (공지를 낸 학과)",
+      "line": "정보통신대학 컴퓨터공학과에서는 학생들에게 실질적인 취업 준비 지원과 학과 취업률 제고를 위하여 졸업생⦁재학생 연계 취업을 위한 AI 활용능력 …"
+    },
+    {
+      "field": "departments",
+      "text": "컴퓨터공학과",
+      "reason": "뒤에 '에서' (공지를 낸 학과)",
+      "line": "정보통신대학 컴퓨터공학과에서는 학생들에게 실질적인 취업 준비 지원과 학과 취업률 제고를 위하여 졸업생⦁재학생 연계 취업을 위한 AI 활용능력 …"
+    }
+  ],
+  "from_attachment": [],
+  "needs_check": [
+    "amount",
+    "deadline",
+    "documents"
+  ],
+  "content_hash": "sha256:67cc684c02d1752d29f94f23ff93365a29c385e4f9ab44cd8d871536cf729ea5",
+  "reviewed": false
+}

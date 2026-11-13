@@ -46,7 +46,7 @@ AI 코딩 도구(Claude Code, Cursor, Copilot, Codex 등)가 이 저장소에서
 | 서버 프레임워크 | 없음 (정적 웹 + JSON) |
 | 프론트엔드 | **Vite + 순수 JavaScript** (2026-11-13 결정). 나중에 React 등으로 옮길 수 있게 아래 "프론트엔드 구조 규칙"을 지킨다 |
 | 서비스 형태 | **웹** (2026-11-13 결정. 학생 자격 정보를 브라우저 안에만 둘 수 있음) |
-| 데이터 저장 | **DB 없이 JSON 파일** (2026-11-13 결정). 크롤러는 `data/raw/`, 사람 검수는 `data/reviewed/`만 고치고, 빌드할 때 합쳐 `scholarships.json`을 만든다. 장학금 1건 = 파일 1개로 두어 Git 충돌을 피한다. SQLite 같은 바이너리 DB 파일은 커밋하지 않는다. DB는 사용자별 데이터(알림, 즐겨찾기)나 웹 검수 화면이 필요해질 때 다시 검토한다 |
+| 데이터 저장 | **DB 없이 JSON 파일** (2026-11-13 결정). 크롤러는 `data/raw/`, 사람 검수는 `data/reviewed/`만 고치고, 빌드할 때 합쳐 `events.json`(이벤트 단위)을 만든다. 장학금 1건 = 파일 1개로 두어 Git 충돌을 피한다. SQLite 같은 바이너리 DB 파일은 커밋하지 않는다. DB는 사용자별 데이터(알림, 즐겨찾기)나 웹 검수 화면이 필요해질 때 다시 검토한다 |
 | Python 버전 | **3.11 이상, 3.11 문법만** (2026-11-13 결정. 팀원 PC 중 가장 낮은 버전이 3.11). `.python-version`으로 3.11 고정 |
 | Node.js 버전 | **24** (팀원 모두 24) |
 | Python 패키지 관리자 | **uv** (2026-11-13 결정). `pyproject.toml` + `uv.lock` |
@@ -78,17 +78,21 @@ uv.lock            Python 라이브러리 정확한 버전 (직접 고치지 않
 .github/workflows/ 자동 검사
 ```
 
-서비스 코드는 역할별로 폴더를 나눈다 (2026-11-13 결정, 3명).
+서비스 코드는 역할별로 폴더를 나눈다 (2026-11-13 결정, 3명). 단계는 **수집 → 라벨링 → 이벤트 묶기 → 화면**이다.
 
 ```
-crawler/        크롤링 담당   → data/raw/{bidx}.json
-classifier/     분류 담당     → data/extracted/{bidx}.json, 빌드 → web/public/scholarships.json
-web/            화면 담당     ← web/public/scholarships.json
-data/reviewed/  사람 검수 (모두)
+crawler/        크롤링 담당     → data/raw/{bidx}.json         공지 1건 = 파일 1개. 내용이 같은 복사본만 duplicate_of로 표시
+classifier/     분류 담당       → data/extracted/{bidx}.json   공지마다 추출 + 라벨(모집 / 수정 / 완료)
+events/         이벤트 묶기     → web/public/events.json       같은 장학금의 공지들을 이벤트 1개로 묶음 (최종 빌드). 크롤링 담당이 맡음
+web/            화면 담당       ← web/public/events.json       공지가 아니라 이벤트 단위. 형식은 data/events.sample.json
+data/reviewed/  사람 검수 (모두)  {bidx}.json: 공지별 값 / events.json: 묶음 고치기
 ```
+
+- 화면용 최종 파일은 **이벤트 묶기(`events/build.py`)가 만든다** (2026-11-13 결정). 분류의 `classifier/build.py`가 만드는 `scholarships.json`(공지 단위)은 분류 확인용으로 남는다.
+- `data/raw_test/`는 분류 규칙 시험용 6개월치 공지다. 데모 화면용 빌드에는 넣지 않는다.
 
 - **다른 역할의 폴더는 고치지 않는다.** 고쳐야 하면 그 담당에게 알린다. AI도 요청받은 역할의 폴더 밖은 건드리지 않는다.
-- 역할 사이에는 JSON 파일로만 주고받는다. 형식의 기준은 샘플 파일(`data/raw/_sample.json`, `data/scholarships.sample.json`)이다. 필드를 바꾸면 샘플도 같이 고친다.
+- 역할 사이에는 JSON 파일로만 주고받는다. 형식의 기준은 샘플 파일(`data/raw/_sample.json`, `data/scholarships.sample.json`, `data/events.sample.json`)이다. 필드를 바꾸면 샘플도 같이 고친다.
 - 자세한 내용은 `docs/scholarship-mvp.md` 3절 "데이터 흐름과 역할"에 있다.
 
 ## 명령어
@@ -100,6 +104,7 @@ data/reviewed/  사람 검수 (모두)
 | Python 라이브러리 추가 | `uv add <이름>` (팀에 먼저 알린다) |
 | Python 검사 | `uv run ruff check .` (자동 정리: `--fix`) |
 | 공지량 재측정 | `tools/research/README.md` 참고 |
+| 화면용 이벤트 JSON 만들기 | `uv run python events/build.py` (분류의 `extract.py`를 먼저 돌린다) |
 | 화면 설치 / 실행 / 테스트 | 미정 (화면 담당이 Vite 설정 후 추가) |
 
 ### Python 규칙 (강제)

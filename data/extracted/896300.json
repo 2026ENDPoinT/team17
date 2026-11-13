@@ -38,7 +38,7 @@
   },
   "burden": {
     "documents": [],
-    "interview": false
+    "interview": true
   },
   "duplicate_restriction": true,
   "source": {
@@ -46,6 +46,7 @@
     "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896300",
     "posted_at": "2026-10-07"
   },
+  "duplicate_of": null,
   "also_posted_bidx": [],
   "evidence": {
     "amount": "- 장학금 : 학기당 300만 원(연 600만 원), 학업보조비·생활비, 최대 6학기 지원",
@@ -55,6 +56,7 @@
     "residence": null
   },
   "filtered_conditions": [],
+  "from_attachment": [],
   "needs_check": [
     "documents"
   ],

@@ -1,0 +1,54 @@
+{
+  "id": "895587",
+  "notice_kind": "확인필요",
+  "notice_kind_reason": "모집·결과 단어가 없음",
+  "name": "2026학년도 2학기 학부 재·복학생 2차 등록금 납부 일정",
+  "title": "2026학년도 2학기 학부 재·복학생 2차 등록금 납부 일정 안내(9. 16.~9. 17.)",
+  "category": "교내",
+  "summary": "다. 학비면제 장학의 경우 등록 후 휴학(등록학점만)시에만 장학 인정 ※미등록 휴학 시 장학 소멸",
+  "amount": {
+    "type": "unknown",
+    "value": null,
+    "text": null
+  },
+  "deadline": "2026-09-17",
+  "deadline_text": "2026학년도 2학기 학부 재·복학생 2차 등록금 납부 일정 안내(9. 16.~9. 17.)",
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": null,
+    "score_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": [],
+    "other_conditions": []
+  },
+  "burden": {
+    "documents": [],
+    "interview": false
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "학부공지",
+    "url": "https://civil.seoultech.ac.kr/haksainfor/notice?do=view&bnum=58639&bidx=895587",
+    "posted_at": "2026-09-16"
+  },
+  "duplicate_of": null,
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": null,
+    "deadline": "2026학년도 2학기 학부 재·복학생 2차 등록금 납부 일정 안내(9. 16.~9. 17.)",
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "from_attachment": [],
+  "needs_check": [
+    "amount",
+    "documents"
+  ],
+  "content_hash": "sha256:d24feb6b03f6ebd910e22137f6c5d2076a91fc9bb1aacdd929f3400c061f7bee",
+  "reviewed": false
+}

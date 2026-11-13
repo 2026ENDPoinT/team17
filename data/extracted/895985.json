@@ -1,0 +1,61 @@
+{
+  "id": "895985",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '선발'",
+  "name": "2026학년도 발전기금 특정장학금",
+  "title": "2026학년도 발전기금 특정장학금 선발 안내(~10.8.)",
+  "category": "교내",
+  "summary": "3. 장학금액: 100만원",
+  "amount": {
+    "type": "lump_sum",
+    "value": 1000000,
+    "text": "100만원"
+  },
+  "deadline": "2026-10-08",
+  "deadline_text": "2026학년도 발전기금 특정장학금 선발 안내(~10.8.)",
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": [
+      "전기정보공학과"
+    ],
+    "gpa_min": 3.0,
+    "score_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": [
+      "income_max"
+    ],
+    "other_conditions": [
+      "직전학기 취득학점이 15학점 이상인자.",
+      "2026학년도 2학기 등록금 실납부액이 장학금액(100만원) 이상인 자.",
+      "전기정보공학과 재학생 (휴학생, 신입생 지원불가)"
+    ]
+  },
+  "burden": {
+    "documents": [
+      "신청서 및 구비서류 스캔후 1개 파일(PDF)로 이메일 제출 ([연락처]"
+    ],
+    "interview": false
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "학부공지",
+    "url": "https://eie.seoultech.ac.kr/majornotice/notice?do=view&bnum=973&bidx=895985",
+    "posted_at": "2026-09-29"
+  },
+  "duplicate_of": null,
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": "3. 장학금액: 100만원",
+    "deadline": "2026학년도 발전기금 특정장학금 선발 안내(~10.8.)",
+    "duplicate_restriction": null,
+    "departments": "라. 전기정보공학과 재학생 (휴학생, 신입생 지원불가)",
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "from_attachment": [],
+  "needs_check": [],
+  "content_hash": "sha256:8134074290d32f5aad88c162b9839a0420e05e48eb7c52ef8fc693b3c6277fc9",
+  "reviewed": false
+}

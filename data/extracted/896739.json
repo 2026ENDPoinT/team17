@@ -34,6 +34,7 @@
     "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896739",
     "posted_at": "2026-10-20"
   },
+  "duplicate_of": null,
   "also_posted_bidx": [],
   "evidence": {
     "amount": null,
@@ -43,6 +44,7 @@
     "residence": null
   },
   "filtered_conditions": [],
+  "from_attachment": [],
   "needs_check": [
     "amount",
     "deadline",

@@ -1,0 +1,63 @@
+{
+  "id": "896935",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '신청'",
+  "name": "2026. 2학기 2차 어의 및 가족장학금",
+  "title": "(통정시 신청, 2026. 10. 23.~11. 6.) 2026. 2학기 2차 어의 및 가족장학금 신청 안내",
+  "category": "교내",
+  "summary": "국가장학금1유형 신청자는 신청할 필요없음",
+  "amount": {
+    "type": "tuition_ratio",
+    "value": 100,
+    "text": "수업료 100%"
+  },
+  "deadline": "2026-11-06",
+  "deadline_text": "(통정시 신청, 2026. 10. 23.~11. 6.) 2026. 2학기 2차 어의 및 가족장학금 신청 안내",
+  "closed": false,
+  "eligibility": {
+    "grades": [
+      1
+    ],
+    "departments": null,
+    "gpa_min": 2.75,
+    "score_min": null,
+    "income_max": 5,
+    "residence": null,
+    "unclear": [],
+    "other_conditions": [
+      "직전학기의 취득학점 12학점 이상, 평점평균 2.75이상 ※ 계절학기 및 방학 중 현장실습취득학점 제외",
+      "본교(대학원, 박사과정 포함)에 동시 재학하고 있는 2명 이상의 부부/부모-자녀/형제/자매/남매 중1학년 학부생 1명",
+      "직전학기의 취득학점 12학점 이상, 직전학기 평점평균 B(3.0) 이상",
+      "계절학기 및 방학 중 현장실습취득학점 제외"
+    ]
+  },
+  "burden": {
+    "documents": [
+      "재학증명서(신청인 및 재학 중인 가족)",
+      "가족관계증명서 등(신청인 및 재학 중인 가족의 관계 증명 가능 서류)"
+    ],
+    "interview": false
+  },
+  "duplicate_restriction": true,
+  "source": {
+    "board": "학부공지",
+    "url": "https://eie.seoultech.ac.kr/majornotice/notice?do=view&bnum=973&bidx=896935",
+    "posted_at": "2026-10-22"
+  },
+  "duplicate_of": "896900",
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": "라. 지원내역: 수업료 100% 면제(단, 학자금 지원구간 차상위~5구간 학생 중 국가장학 Ⅰ유형 미수혜 학생은 50%만 면제)",
+    "deadline": "(통정시 신청, 2026. 10. 23.~11. 6.) 2026. 2학기 2차 어의 및 가족장학금 신청 안내",
+    "duplicate_restriction": "- 교내 타 장학금 중복수혜 금지이며, 중복 선정 시 본인에게 유리한 장학금으로 선택가능",
+    "departments": null,
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "from_attachment": [
+    "grades"
+  ],
+  "needs_check": [],
+  "content_hash": "sha256:6d752cb9fd41ee0f2e4f0193ab39abee0d901160c199f9a9096b8b17c0551044",
+  "reviewed": false
+}

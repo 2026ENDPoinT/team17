@@ -1,0 +1,57 @@
+{
+  "id": "896103",
+  "notice_kind": "확인필요",
+  "notice_kind_reason": "모집·결과 단어가 없음",
+  "name": "2026학년도 2학기 학부 등록금 분할납부 2차 납부",
+  "title": "2026학년도 2학기 학부 등록금 분할납부 2차 납부 안내",
+  "category": "교내",
+  "summary": "<2026학년도 2학기 학부 등록금 분할납부 2차 납부 안내>",
+  "amount": {
+    "type": "unknown",
+    "value": null,
+    "text": null
+  },
+  "deadline": null,
+  "deadline_text": null,
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": null,
+    "score_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": [],
+    "other_conditions": [
+      "분할납부 대상자로 선정되어 1회차 분할납부 등록금을 납부 완료한 학생(1차 미납부자는 제적대상)"
+    ]
+  },
+  "burden": {
+    "documents": [],
+    "interview": false
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "공지사항",
+    "url": "https://biz.seoultech.ac.kr/railway/bizrailwaynotice?do=view&bnum=56506&bidx=896103",
+    "posted_at": "2026-10-01"
+  },
+  "duplicate_of": null,
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": null,
+    "deadline": null,
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "from_attachment": [],
+  "needs_check": [
+    "amount",
+    "deadline",
+    "documents"
+  ],
+  "content_hash": "sha256:61100184b368136f7ea575b8ddd02c1c87195c38404fc1637cd4a3227a59a35a",
+  "reviewed": false
+}

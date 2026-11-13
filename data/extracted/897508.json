@@ -1,0 +1,60 @@
+{
+  "id": "897508",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '신청'",
+  "name": "2026 산업보건분야 미래인재 양성사업 장학생 신청",
+  "title": "[학부] (마감)2026 산업보건분야 미래인재 양성사업 장학생 신청 (2026. 11. 9.(월)까지)",
+  "category": "교내",
+  "summary": "대한산업보건협회 ｢2026 산업보건분야 미래인재 양성사업｣ 장학생 추천 안내",
+  "amount": {
+    "type": "lump_sum",
+    "value": 1000000,
+    "text": "1,000,000원"
+  },
+  "deadline": "2026-11-09",
+  "deadline_text": "[학부] (마감)2026 산업보건분야 미래인재 양성사업 장학생 신청 (2026. 11. 9.(월)까지)",
+  "closed": true,
+  "eligibility": {
+    "grades": [
+      4
+    ],
+    "departments": [
+      "안전공학과"
+    ],
+    "gpa_min": 3.5,
+    "score_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": [],
+    "other_conditions": []
+  },
+  "burden": {
+    "documents": [
+      "학과 장학생 추천서",
+      "개인정보 제공 및 처리 동의서",
+      "재학증명서",
+      "직전학기 성적증명서"
+    ],
+    "interview": false
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "공지사항",
+    "url": "https://safety.seoultech.ac.kr/b_information/notic?do=view&bnum=763&bidx=897508",
+    "posted_at": "2026-11-05"
+  },
+  "duplicate_of": null,
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": "다. 장학금액: 1,000,000원(생활비성)",
+    "deadline": "[학부] (마감)2026 산업보건분야 미래인재 양성사업 장학생 신청 (2026. 11. 9.(월)까지)",
+    "duplicate_restriction": null,
+    "departments": "1) 안전공학과 재학생(※ 단, 4학년은 제외)",
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "from_attachment": [],
+  "needs_check": [],
+  "content_hash": "sha256:778c82407a3e5b1d5ad69851836bed0a7d696202e93c4d72d3cabcc555d4c400",
+  "reviewed": false
+}

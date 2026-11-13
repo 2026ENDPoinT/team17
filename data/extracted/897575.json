@@ -1,0 +1,63 @@
+{
+  "id": "897575",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '선발'",
+  "name": "전기공사공제조합장학회 제22기 장학생",
+  "title": "전기공사공제조합장학회 제22기 장학생 선발 공고 (~11.13 18시)",
+  "category": "교외",
+  "summary": "전기공사공제조합 장학회 장학생을 붙임과 같이 모집하오니 선발기준에 적합한 학생들은 안내문을 참조하여 서류를 지원하시기 바랍니다.",
+  "amount": {
+    "type": "lump_sum",
+    "value": 2500000,
+    "text": "250만원"
+  },
+  "deadline": "2026-11-13",
+  "deadline_text": "전기공사공제조합장학회 제22기 장학생 선발 공고 (~11.13 18시)",
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": null,
+    "score_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": [],
+    "other_conditions": [
+      "구분 일반전형 조합원전형",
+      "우대: 자격기준 신청일 현재 전기관련학과에 재학 중인 자 신청일 현재 전기공사공제조합에 가입되어 있는 조합원 대표와 임직원 및그 자녀",
+      "우대: 성적기준 1. 신청일 기준 이전 최근 이수학기의 평균평점이 3.0(4.5만점 기준) 이상인 자 2. 신청일 기준 이전 최근 이수학기의 이수학점이 12학점 이상인 자",
+      "ᄋ 대학입학 예정자",
+      "ᄋ 2027년도 1, 2학기에 타 기관에서 장학금 수혜가 예정되어 있는 자",
+      "(단, 교내 및 국가장학금 수령시 등록금 실비 내 지원)",
+      "ᄋ 2027년도 휴학(군휴학 등) 예정자 및 초과학기 이수예정자"
+    ]
+  },
+  "burden": {
+    "documents": [],
+    "interview": false
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "학부공지",
+    "url": "https://eie.seoultech.ac.kr/majornotice/notice?do=view&bnum=973&bidx=897575",
+    "posted_at": "2026-11-09"
+  },
+  "duplicate_of": null,
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": "지원금액: 등록금 연간 최대 5백만 원 지원 (학기당 250만원 한도)",
+    "deadline": "전기공사공제조합장학회 제22기 장학생 선발 공고 (~11.13 18시)",
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "from_attachment": [
+    "other_conditions"
+  ],
+  "needs_check": [
+    "documents"
+  ],
+  "content_hash": "sha256:affbe13244e42fcc6788d1b55c350797766e2d297d247c48ab986d23168f759d",
+  "reviewed": false
+}

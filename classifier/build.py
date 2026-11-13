@@ -6,6 +6,8 @@
 
 reviewed 파일에는 고칠 필드만 적는다. 예: {"deadline": "2026-11-20", "amount": {"value": 3000000}}
 특별한 키: "exclude": true 이면 목록에서 뺀다.
+재게시 글(duplicate_of가 있는 글)은 빼고, 대표 글의 also_posted_bidx에 번호만 남긴다.
+검수에서 {"duplicate_of": null}로 묶음을 풀거나, {"duplicate_of": "대표 bidx"}로 묶을 수 있다.
 """
 
 import argparse
@@ -16,7 +18,9 @@ from pathlib import Path
 from config import BUILD_OUT, EXTRACTED_DIR, REVIEWED_DIR
 
 KST = timezone(timedelta(hours=9))
-INTERNAL_KEYS = ["notice_kind", "notice_kind_reason", "content_hash", "exclude", "filtered_conditions"]  # 화면에 넘기지 않는 필드
+# 화면에 넘기지 않는 필드
+INTERNAL_KEYS = ["notice_kind", "notice_kind_reason", "content_hash", "exclude", "filtered_conditions", "duplicate_of",
+                 "from_attachment"]
 
 
 def merge(base: dict, patch: dict) -> dict:
@@ -33,14 +37,26 @@ def merge(base: dict, patch: dict) -> dict:
 
 
 def load_items() -> list[dict]:
-    items = []
+    merged: dict[str, dict] = {}
     for path in sorted(EXTRACTED_DIR.glob("*.json")):
         item = json.loads(path.read_text(encoding="utf-8"))
         reviewed_path = REVIEWED_DIR / path.name
         if reviewed_path.exists():
             item = merge(item, json.loads(reviewed_path.read_text(encoding="utf-8")))
             item["reviewed"] = True
-        if item.get("exclude") or item.get("notice_kind") != "모집":
+        merged[item["id"]] = item
+
+    # 검수로 duplicate_of가 바뀌었을 수 있으니 also_posted_bidx를 최종 값으로 다시 모은다
+    for item in merged.values():
+        item["also_posted_bidx"] = []
+    for item in merged.values():
+        rep = merged.get(str(item.get("duplicate_of") or ""))
+        if rep is not None:
+            rep["also_posted_bidx"].append(item["id"])
+
+    items = []
+    for item in merged.values():
+        if item.get("exclude") or item.get("notice_kind") != "모집" or item.get("duplicate_of"):
             continue
         for key in INTERNAL_KEYS:
             item.pop(key, None)

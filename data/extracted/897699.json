@@ -23,7 +23,9 @@
     "residence": null,
     "unclear": [],
     "other_conditions": [
-      "한국장학재단 2026-2학기 국가근로장학사업 신청자"
+      "한국장학재단 2026-2학기 국가근로장학사업 신청자",
+      "우대: 관련학과, 직전학기 미선발자, 2학년 이하, 실험실활동 유경험자",
+      "우대: X선분석실-화공생명공학과, 신소재공학과"
     ]
   },
   "burden": {
@@ -41,6 +43,7 @@
     "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=57138&bidx=897699",
     "posted_at": "2026-11-11"
   },
+  "duplicate_of": null,
   "also_posted_bidx": [],
   "evidence": {
     "amount": "5. 근무시간: 1일 최대 8시간 / 월~금(9시~18시) / 점심 휴게시간 근무제외 / (방학중) 주당 최대 40시간 근무 가능 / 시간당 10,320원",
@@ -49,20 +52,8 @@
     "departments": null,
     "residence": null
   },
-  "filtered_conditions": [
-    {
-      "field": "departments",
-      "text": "화공생명공학과",
-      "reason": "앞뒤에 '관련학과'",
-      "line": "※ 관련학과: X선분석실-화공생명공학과, 신소재공학과"
-    },
-    {
-      "field": "departments",
-      "text": "신소재공학과",
-      "reason": "앞뒤에 '관련학과'",
-      "line": "※ 관련학과: X선분석실-화공생명공학과, 신소재공학과"
-    }
-  ],
+  "filtered_conditions": [],
+  "from_attachment": [],
   "needs_check": [],
   "content_hash": "sha256:c1de404d64901326cd1c8a1b0c4b5c6f167a23a15e1e9634386a02f8ffc6c4c5",
   "reviewed": false

@@ -1,0 +1,67 @@
+{
+  "id": "896459",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '선발'",
+  "name": "2026년 건축공학전공 장학생(전문 건설인, 지건 홍상일)",
+  "title": "2026년 건축공학전공 장학생(전문 건설인, 지건 홍상일) 선발 안내",
+  "category": "교내",
+  "summary": "2026년 건축공학전공 장학생 선발 안내",
+  "amount": {
+    "type": "lump_sum",
+    "value": 1000000,
+    "text": "100만원"
+  },
+  "deadline": "2026-10-30",
+  "deadline_text": "2026. 10. 16.(금) 09:00~10. 30.(금) 18:00",
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": [
+      "건축공학전공"
+    ],
+    "gpa_min": 2.5,
+    "score_min": null,
+    "income_max": 0,
+    "residence": null,
+    "unclear": [],
+    "other_conditions": [
+      "2026학년도 2학기 건축공학전공 재학생"
+    ]
+  },
+  "burden": {
+    "documents": [
+      "건축학부 건축공학전공 발전기금 장학생 신청서[붙임 1]",
+      "개인정보 수집 및 이용에 대한 동의서[붙임 2]",
+      "성적증명서 및 재학증명서",
+      "한국장학재단 사이트내 학자금 지원구간 통지서",
+      "통장사본",
+      "지원 사유 증빙자료(선택 제출, 평가 반영)"
+    ],
+    "interview": false
+  },
+  "duplicate_restriction": false,
+  "source": {
+    "board": "장학금",
+    "url": "https://architecture.seoultech.ac.kr/bachelor_of_information/scholarship?do=view&bnum=575&bidx=896459",
+    "posted_at": "2026-10-13"
+  },
+  "duplicate_of": null,
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": "다. 장학금: 1인당 100만원 이내(단, 지원 현황에 따라 조정 가능)",
+    "deadline": "☞ 신청 기간: 2026. 10. 16.(금) 09:00~10. 30.(금) 18:00",
+    "duplicate_restriction": "[첨부: 2026 지건홍상일 장학생 선발 계획.hwp] 생활비(학업보조비)장학금은 등록금 범위를 초과하여 타 장학금과 중복수혜 가능 ※ 근거: 서울과학기술대학교 장학금 관리 지침 제3조및제4조",
+    "departments": "나. 선발 대상: 2026학년도 2학기 건축공학전공 재학생",
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "from_attachment": [
+    "documents",
+    "duplicate_restriction",
+    "gpa_min",
+    "income_max"
+  ],
+  "needs_check": [],
+  "content_hash": "sha256:dd62304898e17329b4555e8e6878dcc089bcd501ba79d76ac8a4dc3628deb287",
+  "reviewed": false
+}

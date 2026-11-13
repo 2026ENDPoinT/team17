@@ -1,0 +1,64 @@
+{
+  "id": "896883",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '선발'",
+  "name": "2026학년도 2학기 2차 SeoulTech 가족장학생",
+  "title": "2026학년도 2학기 2차 SeoulTech 가족장학생 선발 안내(~11/6(금))",
+  "category": "교내",
+  "summary": "본문 없이 포스터 이미지로 안내된 공지입니다. 원문을 확인하세요.",
+  "amount": {
+    "type": "tuition_ratio",
+    "value": 50,
+    "text": "수업료 50%"
+  },
+  "deadline": "2026-11-06",
+  "deadline_text": "2026학년도 2학기 2차 SeoulTech 가족장학생 선발 안내(~11/6(금))",
+  "closed": false,
+  "eligibility": {
+    "grades": [
+      1
+    ],
+    "departments": null,
+    "gpa_min": 3.0,
+    "score_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": [],
+    "other_conditions": [
+      "학적상 1학년 학부생(단, 가족장학금을 2회 이상 수혜하지 않은 학생)",
+      "직전학기의 취득학점 12학점 이상, 평점평균 3.0 이상"
+    ]
+  },
+  "burden": {
+    "documents": [],
+    "interview": false
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "학부공지",
+    "url": "https://computer.seoultech.ac.kr/info/notice?do=view&bnum=58476&bidx=896883",
+    "posted_at": "2026-10-22"
+  },
+  "duplicate_of": "896869",
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": "[첨부: (붙임1) 2026학년도 2학기 2차 Seoultech 가족장학금 선발 안내문.hwp] □ 지원내역: 수업료 50% 감면",
+    "deadline": "2026학년도 2학기 2차 SeoulTech 가족장학생 선발 안내(~11/6(금))",
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "from_attachment": [
+    "amount",
+    "gpa_min",
+    "grades",
+    "other_conditions"
+  ],
+  "needs_check": [
+    "documents",
+    "poster_only"
+  ],
+  "content_hash": "sha256:fb3def253f88aeddbc0b37639f99086a0c34bcc9495d09ec6cac67598dad916e",
+  "reviewed": false
+}

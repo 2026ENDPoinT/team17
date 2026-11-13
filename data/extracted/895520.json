@@ -1,0 +1,57 @@
+{
+  "id": "895520",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '모집'",
+  "name": "26년 하반기 연구장학생 모집",
+  "title": "[현대모비스] 26년 하반기 연구장학생 모집 (~9/29(화) 10:00)",
+  "category": "교내",
+  "summary": "현대모비스에서 26년 하반기 연구장학생을 선발하고 있습니다.",
+  "amount": {
+    "type": "unknown",
+    "value": null,
+    "text": null
+  },
+  "deadline": "2026-09-29",
+  "deadline_text": "[현대모비스] 26년 하반기 연구장학생 모집 (~9/29(화) 10:00)",
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": null,
+    "score_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": [],
+    "other_conditions": [
+      "1-3학기 재학생",
+      "Coursework 수료자"
+    ]
+  },
+  "burden": {
+    "documents": [],
+    "interview": false
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "취업정보",
+    "url": "https://eng.seoultech.ac.kr/information_plaza/jobs?do=view&bnum=1502&bidx=895520",
+    "posted_at": "2026-09-15"
+  },
+  "duplicate_of": "895517",
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": null,
+    "deadline": "[현대모비스] 26년 하반기 연구장학생 모집 (~9/29(화) 10:00)",
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "from_attachment": [],
+  "needs_check": [
+    "amount",
+    "documents"
+  ],
+  "content_hash": "sha256:0431bd7f6d6fafd0f2bdb10bc3c2baad021f913d1a3ba4b7953a3f957ebcf650",
+  "reviewed": false
+}

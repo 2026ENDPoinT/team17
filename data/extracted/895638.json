@@ -1,0 +1,56 @@
+{
+  "id": "895638",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '신청'",
+  "name": "\"토픽 성적\" 관련 장학금 및 졸업시험(교양)",
+  "title": "\"토픽 성적\" 관련 장학금 및 졸업시험(교양) 신청 안내",
+  "category": "교내",
+  "summary": "본문 없이 포스터 이미지로 안내된 공지입니다. 원문을 확인하세요.",
+  "amount": {
+    "type": "unknown",
+    "value": null,
+    "text": null
+  },
+  "deadline": null,
+  "deadline_text": null,
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": null,
+    "score_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": [],
+    "other_conditions": []
+  },
+  "burden": {
+    "documents": [],
+    "interview": null
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "공지사항",
+    "url": "https://biz.seoultech.ac.kr/railway/bizrailwaynotice?do=view&bnum=56506&bidx=895638",
+    "posted_at": "2026-09-17"
+  },
+  "duplicate_of": null,
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": null,
+    "deadline": null,
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "from_attachment": [],
+  "needs_check": [
+    "amount",
+    "deadline",
+    "documents",
+    "poster_only"
+  ],
+  "content_hash": "sha256:3167f86965bd4e8be60966be4255ef100b3ff93e2df187d4070672d4ab5d02b6",
+  "reviewed": false
+}

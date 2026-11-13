@@ -16,7 +16,8 @@
   "closed": true,
   "eligibility": {
     "grades": [
-      3
+      3,
+      4
     ],
     "departments": [
       "공학계열"
@@ -33,7 +34,10 @@
       "2026년 1학기 이수학점 12학점 이상, 백분율 성적 85점 이상",
       "등록금 범위 외 타 장학금 수혜를 받지 아니한 자(외부장학금, 생활보조금 성격) ※ 한국장학재단 국가근로 및 교내근로 장학금 수혜자의 경우 지원가능",
       "장학생을 대상으로 하는 재단행사에 참석가능한 자",
-      "장학자격 상실(휴학)한 학생의 경우 신청 불가"
+      "장학자격 상실(휴학)한 학생의 경우 신청 불가",
+      "우선순위: 1순위: 학자금 지원구간이 낮은 학생",
+      "우선순위: 2순위: 2026년 1학기 성적 평균이 높은 학생",
+      "우선순위: 3순위: 2026년 1학기 취득학점이 높은 학생"
     ]
   },
   "burden": {
@@ -46,6 +50,7 @@
     "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=895588",
     "posted_at": "2026-09-16"
   },
+  "duplicate_of": null,
   "also_posted_bidx": [],
   "evidence": {
     "amount": "2. 지원금액: 1인당 500만원(250만원×2개 학기) ※ 생활비성 장학금",
@@ -55,6 +60,7 @@
     "residence": null
   },
   "filtered_conditions": [],
+  "from_attachment": [],
   "needs_check": [
     "documents"
   ],

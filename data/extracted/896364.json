@@ -40,6 +40,7 @@
     "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=57138&bidx=896364",
     "posted_at": "2026-10-08"
   },
+  "duplicate_of": null,
   "also_posted_bidx": [],
   "evidence": {
     "amount": "2. 근로조건: 시급 12,790원 (교외근로 시급 적용)",
@@ -49,6 +50,7 @@
     "residence": null
   },
   "filtered_conditions": [],
+  "from_attachment": [],
   "needs_check": [],
   "content_hash": "sha256:3d9852e5f7e7845b8110a0488b0c47317fe2f86f98ce18633ac6359a067d27fa",
   "reviewed": false
