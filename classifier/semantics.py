@@ -8,18 +8,20 @@ lexer.py가 토큰을, phrases.py가 구(문법 트리의 마디)를 만들면, 
 
 기간 (마감일)   줄 → 항목+     항목 → 이름표 기간     기간 → 시작날짜? ~ 끝날짜
   항목.label    ↓  앞 기간이 끝난 곳부터 이 기간 시작까지의 글자 ("대출실행기간: ")
-  항목.applies  ↓  label에 한글이 있으면 "다른 기간 말(실행·발표·지급 …)이 없다", 한글이 없으면 앞 항목의 값을 이어받는다
+  항목.applies  ↓  label에 (요일 "(수)"를 빼고) 한글이 있으면 "다른 기간 말(실행·발표·지급 …)이 없다",
+                   한글이 없으면 앞 항목의 값을 이어받는다
   날짜.year     ↓  적힌 연도(오타면 게시 연도) → 왼쪽 날짜의 연도 → 게시 연도 (게시일보다 60일 넘게 앞이면 다음 해)
+  날짜.prev     ↓  바로 왼쪽 날짜. 연도 없는 날짜가 그보다 180일 넘게 앞이면 해를 넘긴 것이다 ("2026. 12. 20. ~ 1. 5.")
   날짜.fixed    ↓  이 날짜, 또는 연도를 물려준 왼쪽 날짜의 연도 오타를 고쳤는지
   일만 쓴 끝    ↓  "8. 13. ~ 14."의 14는 시작 날짜의 달·연도를 받는다 (시작보다 작으면 다음 달)
   기간.date     ↑  끝 날짜 (끝이 없으면 그 날짜 하나)
   줄.deadline   ↑  applies인 항목 중 마지막 기간 (하나도 없으면 마지막 기간)
 
 금액   항목 → 앞말 금액 뒷말
-  금액.pre      ↓  앞 금액이 끝난 곳(가까우면)부터 금액 시작까지, 최대 CONTEXT_BEFORE자
+  금액.pre      ↓  금액 앞 CONTEXT_BEFORE자. 앞 금액이 그 안에서 끝나면 앞 금액이 끝난 곳부터 ("예산 500만원, 1인 100만원")
   금액.income   ↓  왼쪽에 소득 말("소득", "차상위" …)이 나왔는지. 나왔으면 뒤 금액은 소득 기준일 수 있다
   금액.counted  ↓  표 행("|")이고 왼쪽에 "10명"처럼 인원이 있는지 ("인당"이 없을 때). 있으면 인원 전체 예산이다
-  항목.post     ↑  금액 뒤 CONTEXT_AFTER자
+  항목.post     ↑  금액 뒤 CONTEXT_AFTER자. "(", ",", "|"에서 끊는다 ("100만원(평점 3.0 이상)"의 "이상"은 금액 조건이 아니다)
   항목.role     ↑  위 속성으로 정한 쓰임: "지급"이면 1인당 장학금, 아니면 쓰지 않는 이유
 """
 
@@ -41,6 +43,9 @@ from lexer import Token, tokenize
 from phrases import Amount, Period, amounts, periods
 
 ROLLOVER_DAYS = 60  # 연도 없는 날짜가 게시일보다 이만큼 넘게 앞이면 다음 해다 (12월 글의 "~1/10")
+BACKWARD_DAYS = 180  # 연도 없는 날짜가 왼쪽 날짜보다 이만큼 넘게 앞이면 다음 해다 ("2026. 12. 20. ~ 1. 5.")
+_WEEKDAY = re.compile(r"\(\s*[월화수목금토일](?:요일)?\s*\)")  # 이름표에 남은 요일 "(수)"는 이름표 글자가 아니다
+_POST_END = re.compile(r"[(（,，|]")  # 뒷말은 괄호·쉼표·표 칸에서 끊는다
 MIN_HOURLY = 5_000  # 시급 최저값 (rules.py의 시급 대체 찾기도 쓴다)
 _MIN_VALUE = {"lump_sum": 10_000, "hourly": MIN_HOURLY, "tuition_ratio": 1}  # "1원", "3원"처럼 금액일 수 없는 값
 # 1인당 장학금으로 보기에 너무 큰 금액은 총 예산이다 ("우수장학금 | 대학생 | 115명 | 180백만원", raw_test 894772)
@@ -76,6 +81,7 @@ class _DateContext:
     year: int | None = None  # 왼쪽 날짜에 적힌 연도 (오타면 고친 연도)
     fixed: bool = False  # 그 연도가 오타를 고친 것인지
     applies: bool = True  # 앞 항목의 applies
+    prev: date | None = None  # 바로 왼쪽 날짜
     prev_end: int = 0  # 앞 기간이 끝난 위치
 
 
@@ -108,7 +114,17 @@ def _date_of(token: Token, ctx: _DateContext, posted: date) -> tuple[date | None
         ctx.year, ctx.fixed = fixed.year, True  # 오른쪽의 연도 없는 날짜도 고친 연도를 받는다
     if ctx.year is None and value < posted - timedelta(days=ROLLOVER_DAYS):
         value = value.replace(year=value.year + 1)
+    elif not y and ctx.prev and (ctx.prev - value).days > BACKWARD_DAYS:
+        value = _next_year(value) or value
+    ctx.prev = value
     return value, ctx.fixed
+
+
+def _next_year(value: date) -> date | None:
+    try:
+        return value.replace(year=value.year + 1)
+    except ValueError:  # 2월 29일
+        return None
 
 
 def _day_end(begin: date, end: Token) -> date | None:
@@ -127,12 +143,13 @@ def dated_periods(line: str, posted: date, tokens: list[Token] | None = None) ->
     result: list[DatedPeriod] = []
     for p in periods(tokens):
         label = line[ctx.prev_end : p.first]
-        applies = not _has_any(label, PERIOD_OTHER_WORDS) if _has_hangul(label) else ctx.applies
+        applies = not _has_any(label, PERIOD_OTHER_WORDS) if _has_hangul(_WEEKDAY.sub("", label)) else ctx.applies
         begin, begin_fixed = _date_of(p.start, ctx, posted) if p.start is not None else (None, False)
         if p.end is None:  # "~ 선발완료 시까지"
             value, fixed = None, begin_fixed
         elif p.day_only:
             value, fixed = (_day_end(begin, p.end) if begin else None), begin_fixed
+            ctx.prev = value or ctx.prev
         else:
             value, fixed = _date_of(p.end, ctx, posted)
         result.append(DatedPeriod(p, label, applies, value, fixed or begin_fixed))
@@ -183,9 +200,11 @@ def roled_amounts(line: str, tokens: list[Token] | None = None) -> list[RoledAmo
     income_at = min((line.find(w) for w in INCOME_WORDS if w in line), default=len(line))
     is_table = any(t.kind == "CELL" for t in tokens) and "인당" not in line
     result: list[RoledAmount] = []
+    prev_last = 0  # 앞 금액이 끝난 위치
     for a in amounts(tokens):
-        pre = line[max(0, a.first - CONTEXT_BEFORE) : a.first]
-        post = line[a.last : a.last + CONTEXT_AFTER]
+        pre = line[max(prev_last, a.first - CONTEXT_BEFORE) : a.first]
+        post = _POST_END.split(line[a.last : a.last + CONTEXT_AFTER], maxsplit=1)[0]
+        prev_last = a.last
         counted = is_table and re.search(r"\d+\s*명", line[: a.first]) is not None
         role = _role(a, pre, post, income=a.first >= income_at, counted=counted)
         result.append(RoledAmount(a, pre, post, role))
