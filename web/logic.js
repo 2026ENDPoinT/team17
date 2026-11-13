@@ -88,11 +88,12 @@ export function compareDeadline(a, b, today = getToday()) {
   return dateA - dateB;
 }
 
-// 카드의 모집 상태와 최신 수정 공지 게시일을 계산한다. 마감일 미확인은 모집 중으로 단정하지 않는다.
+// 카드의 모집 상태·7일 이내 마감 여부·최신 수정 공지 게시일을 계산한다.
 export function getRecruitmentStatus(item, today = getToday()) {
   const deadline = parseDeadline(item.deadline);
+  const currentDate = parseDeadline(today);
   const closed = item.closed === true || item.status === '완료' ||
-    (deadline !== null && deadline < parseDeadline(today));
+    (deadline !== null && deadline < currentDate);
   const uncertain = [...(item.eligibility?.unclear ?? []), ...(item.needs_check ?? [])];
   const open = !closed && deadline !== null && !uncertain.includes('deadline');
   let modified = false;
@@ -107,6 +108,8 @@ export function getRecruitmentStatus(item, today = getToday()) {
   }
   return {
     label: closed ? '마감' : open ? '모집 중' : '마감일 미확인',
+    urgent: open && currentDate !== null && deadline >= currentDate &&
+      deadline - currentDate <= 7 * 86400000,
     modified: open && (modified || item.status === '수정'),
     modifiedDate,
   };

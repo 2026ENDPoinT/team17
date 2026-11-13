@@ -35,7 +35,7 @@ export function renderScholarshipList(container, items, onOpenDetail, favoriteId
   container.replaceChildren(fragment);
 }
 
-// 카드 내용은 상세 이동 버튼에, 오른쪽 아래 별은 별도의 즐겨찾기 버튼에 연결한다.
+// 메인·즐겨찾기 공통 카드를 만들고, 세 번째 줄 오른쪽에 마감 임박을 표시한다.
 export function createScholarshipBlock(item, onOpenDetail, today, favoriteIds = [], onToggleFavorite) {
   const block = document.createElement('article');
   block.className = 'scholarship-block';
@@ -89,7 +89,17 @@ export function createScholarshipBlock(item, onOpenDetail, today, favoriteIds = 
     conditions.append(line);
   }
 
-  openButton.append(heading, info, conditions);
+  const conditionsRow = document.createElement('span');
+  conditionsRow.className = 'scholarship-conditions-row';
+  conditionsRow.append(conditions);
+  if (status.urgent) {
+    const urgent = document.createElement('span');
+    urgent.className = 'scholarship-deadline-urgent';
+    urgent.textContent = '마감 임박';
+    conditionsRow.append(urgent);
+  }
+
+  openButton.append(heading, info, conditionsRow);
   // 클릭한 장학금을 main.js의 상세 이동 함수에 전달한다.
   openButton.addEventListener('click', () => onOpenDetail(item));
 

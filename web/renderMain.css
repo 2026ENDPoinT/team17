@@ -376,9 +376,27 @@
   width: 100%;
 }
 
+/* 세 번째 정보 줄의 조건과 마감 임박 문구를 좌우로 나눈다. */
+.scholarship-conditions-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  line-height: 1.6;
+}
+
+.scholarship-deadline-urgent {
+  flex-shrink: 0;
+  color: var(--color-danger);
+  font-weight: bold;
+  white-space: nowrap;
+}
+
 .scholarship-conditions {
   display: flex;
   flex-direction: column;
+  min-width: 0;
   line-height: 1.6;
 }
 
