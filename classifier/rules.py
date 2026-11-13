@@ -8,14 +8,19 @@ import re
 from datetime import date, timedelta
 
 from config import (
+    AMOUNT_BEFORE_SKIP,
     AMOUNT_LINE_WORDS,
     CLOSED_WORDS,
+    COND_AFTER_SKIP,
+    COND_BEFORE_SKIP,
     CONDITION_BLOCK_MAX,
     CONDITION_HEAD_WORDS,
     CONDITION_LIST_MAX,
     CONDITION_MAX,
     CONDITION_NOT_WORDS,
     CONDITION_SKIP_WORDS,
+    CONTEXT_AFTER,
+    CONTEXT_BEFORE,
     CONTINUATION_MARKS,
     DEADLINE_LINE_WORDS,
     DEADLINE_SKIP_WORDS,
@@ -29,6 +34,9 @@ from config import (
     EXTERNAL_WORDS,
     INCOME_WORDS,
     INFO_WORDS,
+    INTERVIEW_AFTER,
+    INTERVIEW_NEG_WORDS,
+    LINE_HEAD_SKIP,
     MULTI_AMOUNT_WORDS,
     NO_LIMIT_WORDS,
     NOT_CONDITION_WORDS,
@@ -55,6 +63,28 @@ def _has_any(text: str, words: list[str]) -> bool:
 
 def _short(text: str, limit: int = EVIDENCE_MAX) -> str:
     return text if len(text) <= limit else text[: limit - 1] + "…"
+
+
+def _context_skip(line: str, start: int, end: int, before_words: list[str], after_words: list[str]) -> str | None:
+    """line[start:end]에서 찾은 값의 앞뒤 몇 글자를 보고, 쓰면 안 되는 값이면 이유를 돌려준다.
+
+    학년·성적·소득·금액이 같이 쓴다. 학과·거주지는 같은 생각을 _skip_reason에서 더 넓은 창으로 한다.
+    """
+    before = line[max(0, start - CONTEXT_BEFORE) : start]
+    after = line[end : end + CONTEXT_AFTER]
+    for word in before_words:
+        if word in before:
+            return f"앞에 '{word}'"
+    for word in after_words:
+        if word in after:
+            return f"뒤에 '{word}'"
+    return None
+
+
+def _head_skip(line: str) -> bool:
+    """'우대사항: …', '1순위: …'처럼 콜론 앞 이름표가 자격이 아닌 줄인지."""
+    head, sep, _ = line.partition(":")
+    return bool(sep) and _has_any(head, LINE_HEAD_SKIP)
 
 
 def _after_colon(line: str) -> str:
@@ -137,15 +167,23 @@ def _amount_from_line(line: str) -> dict | None:
     예: "수업료 100% 면제(단, 차상위~5구간 … 50%만 면제)" → 100%를 쓴다.
     """
     income_at = min((line.find(w) for w in INCOME_WORDS if w in line), default=len(line))
-    if (m := _TUITION_FULL.search(line)) and m.start() < income_at:
+
+    def first(pattern: re.Pattern) -> re.Match | None:
+        # 소득 단어 뒤의 금액, "총 예산 …", "작년 지급액 …" 같은 금액은 건너뛰고 다음 금액을 본다
+        for m in pattern.finditer(line):
+            if m.start() < income_at and not _context_skip(line, m.start(), m.end(), AMOUNT_BEFORE_SKIP, []):
+                return m
+        return None
+
+    if m := first(_TUITION_FULL):
         return {"type": "tuition_ratio", "value": 100, "text": m.group(0)}
-    if (m := _TUITION_RATIO.search(line)) and m.start() < income_at:
+    if m := first(_TUITION_RATIO):
         return {"type": "tuition_ratio", "value": int(m.group(2)), "text": m.group(0)}
-    if (m := _HOURLY.search(line)) and m.start() < income_at:
+    if m := first(_HOURLY):
         return {"type": "hourly", "value": _num(m.group(1)), "text": m.group(0)}
-    if (m := _MANWON.search(line)) and m.start() < income_at:
+    if m := first(_MANWON):
         return {"type": "lump_sum", "value": _num(m.group(1)) * 10000, "text": m.group(0)}
-    if (m := _WON.search(line)) and m.start() < income_at:
+    if m := first(_WON):
         return {"type": "lump_sum", "value": _num(m.group(1)), "text": m.group(0)}
     return None
 
@@ -236,27 +274,40 @@ def extract_eligibility(body: str) -> dict:
         "residence": None,
         "unclear": [],
     }
-    # "우대사항: 2학년 이하"처럼 우대·가산점 줄은 자격 조건이 아니므로 뺀다
-    lines = [line for line in _lines(body)
-             if _has_any(line, ELIGIBILITY_LINE_WORDS) and not _has_any(line, ["우대", "가산"])]
+    # "우대사항: …", "1순위: …"처럼 이름표부터 자격이 아닌 줄은 통째로 뺀다
+    lines = [line for line in _lines(body) if _has_any(line, ELIGIBILITY_LINE_WORDS) and not _head_skip(line)]
+
+    def ok_matches(pattern: re.Pattern, line: str) -> list[re.Match]:
+        # 같은 줄에 진짜 조건과 우대·순위가 섞여 있으면 ("3학년 재학생 (2학년 우대)") 우대 쪽 값만 버린다
+        return [m for m in pattern.finditer(line)
+                if not _context_skip(line, m.start(), m.end(), COND_BEFORE_SKIP, COND_AFTER_SKIP)]
+
     for line in lines:
         if result["grades"] is None:
-            if m := _GRADE_RANGE.search(line):
-                lo, hi = int(m.group(1)), int(m.group(2))
+            if ranges := ok_matches(_GRADE_RANGE, line):
+                lo, hi = int(ranges[0].group(1)), int(ranges[0].group(2))
                 if 1 <= lo <= hi <= 6:
                     result["grades"] = list(range(lo, hi + 1))
-            elif m := _GRADE_LIST.search(line):
+            elif singles := ok_matches(_GRADE_LIST, line):
+                m = singles[0]
                 grades = sorted({int(g) for g in re.findall(r"\d", m.group(1))})
+                tail = line[m.end() : m.end() + 4]
+                if len(grades) == 1 and "이상" in tail:  # "3학년 이상" → 3~4학년
+                    grades = list(range(grades[0], 5))
+                elif len(grades) == 1 and "이하" in tail:  # "2학년 이하" → 1~2학년
+                    grades = list(range(1, grades[0] + 1))
                 if all(1 <= g <= 6 for g in grades):
                     result["grades"] = grades
         if _has_any(line, ["성적", "평점", "학점"]):
-            if result["gpa_min"] is None and (m := _GPA.search(line)):
-                result["gpa_min"] = float(m.group(1))
-            if result["score_min"] is None and (m := _SCORE.search(line)) and 40 <= int(m.group(1)) <= 100:
-                result["score_min"] = int(m.group(1))
+            if result["gpa_min"] is None and (found := ok_matches(_GPA, line)):
+                result["gpa_min"] = float(found[0].group(1))
+            if result["score_min"] is None:
+                scores = [m for m in ok_matches(_SCORE, line) if 40 <= int(m.group(1)) <= 100]
+                if scores:
+                    result["score_min"] = int(scores[0].group(1))
         if result["income_max"] is None and _has_any(line, ["구간", "분위"]):
-            if m := _INCOME.search(line):
-                result["income_max"] = int(m.group(2))
+            if found := ok_matches(_INCOME, line):
+                result["income_max"] = int(found[0].group(2))
     if result["income_max"] is None and _has_any(body, INCOME_WORDS):
         result["unclear"].append("income_max")
     return result
@@ -295,6 +346,25 @@ def _skip_reason(lines: list[str], i: int, start: int, end: int) -> str | None:
     return None
 
 
+def _organizer(line: str, end: int) -> bool:
+    """'컴퓨터공학과에서는 …', '정보통신대학 컴퓨터공학과에서 …'처럼 학과가 공지를 낸 주체인지.
+
+    이름 바로 뒤(다른 학과·단과대 이름만 건너뛰고)에 '에서'가 오면 주체다.
+    '산업공학과 동문회에서는'처럼 사이에 다른 말이 있으면 주체로 보지 않는다.
+    """
+    rest = line[end:].lstrip()
+    names = sorted(DEPARTMENTS + COLLEGES, key=len, reverse=True)
+    moved = True
+    while moved:
+        moved = False
+        for name in names:
+            if rest.startswith(name):
+                rest = rest[len(name) :].lstrip()
+                moved = True
+                break
+    return rest.startswith("에서")
+
+
 def _find_names(line: str, names: list[str]) -> list[tuple[str, int, int]]:
     """사전의 이름을 긴 것부터 찾는다. '벤처경영학과' 안의 '경영학과'처럼 겹치는 짧은 이름은 버린다."""
     taken: list[tuple[int, int]] = []
@@ -329,7 +399,10 @@ def extract_departments(body: str) -> tuple[list[str] | None, bool, str | None, 
         if not _has_any(line, DEPARTMENT_LINE_WORDS) and not line.startswith(CONTINUATION_MARKS):
             continue
         for name, start, end in _find_names(line, DEPARTMENTS + COLLEGES + FIELDS):
-            if reason := _skip_reason(lines, i, start, end):
+            reason = _skip_reason(lines, i, start, end)
+            if reason is None and _organizer(line, end):
+                reason = "뒤에 '에서' (공지를 낸 학과)"
+            if reason:
                 filtered.append({"field": "departments", "text": name, "reason": reason, "line": _short(line, 80)})
                 unclear = unclear or "제외" in reason
                 continue
@@ -530,9 +603,14 @@ def extract_documents(body: str) -> list[str]:
 
 
 def has_interview(body: str) -> bool | None:
+    """'면접'이 나오고 바로 뒤에 '없음, 생략, 실시하지 않음'이 없으면 면접 있음."""
     if not body.strip():
         return None
-    return "면접" in body
+    for m in re.finditer("면접", body):
+        after = body[m.end() : m.end() + INTERVIEW_AFTER].split("\n")[0]
+        if not _has_any(after, INTERVIEW_NEG_WORDS):
+            return True
+    return False
 
 
 _DUP_NO = re.compile(r"중복\s*(수혜|지원|선발)\s*(불가|제한|금지)|타\s*(기관|장학)[^\n]{0,30}수혜[^\n]{0,15}(제외|불가)"

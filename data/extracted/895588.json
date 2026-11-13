@@ -16,7 +16,8 @@
   "closed": true,
   "eligibility": {
     "grades": [
-      3
+      3,
+      4
     ],
     "departments": [
       "공학계열"
