@@ -18,6 +18,7 @@
     "grades": null,
     "departments": null,
     "gpa_min": null,
+    "score_min": 70,
     "income_max": null,
     "residence": null,
     "unclear": []

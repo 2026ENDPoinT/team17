@@ -40,7 +40,7 @@ def extract_one(raw: dict) -> dict:
     needs_check = []
     if amount["type"] == "unknown":
         needs_check.append("amount")
-    if deadline is None:
+    if deadline is None and deadline_text is None:  # 상시 모집은 deadline_text만 있다
         needs_check.append("deadline")
     if not documents:
         needs_check.append("documents")

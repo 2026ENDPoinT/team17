@@ -5,7 +5,7 @@
   "name": "2026년 하반기 은평구민장학생",
   "title": "(홍보) 2026년 하반기 은평구민장학생 선발 안내(마감)",
   "category": "교외",
-  "summary": "관심있는 학생은 아래 내용과 첨부파일을 참고하시어 기간내에 신청하시기 바랍니다.",
+  "summary": "< 2026년 하반기 은평구민장학생 선발 공고 >",
   "amount": {
     "type": "unknown",
     "value": null,
@@ -18,6 +18,7 @@
     "grades": null,
     "departments": null,
     "gpa_min": 3.0,
+    "score_min": null,
     "income_max": 8,
     "residence": null,
     "unclear": [

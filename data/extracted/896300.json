@@ -22,6 +22,7 @@
     ],
     "departments": null,
     "gpa_min": 3.7,
+    "score_min": null,
     "income_max": null,
     "residence": null,
     "unclear": [

@@ -12,12 +12,13 @@
     "text": "시간당 12,790원"
   },
   "deadline": null,
-  "deadline_text": null,
+  "deadline_text": "상시 모집 (~ (기관)선발 완료시 까지)",
   "closed": false,
   "eligibility": {
     "grades": null,
     "departments": null,
     "gpa_min": null,
+    "score_min": 70,
     "income_max": 9,
     "residence": null,
     "unclear": []
@@ -35,11 +36,10 @@
   "also_posted_bidx": [],
   "evidence": {
     "amount": "4. 지급금액 : 시간당 12,790원",
-    "deadline": null,
+    "deadline": "※ 지원기간: ~ (기관)선발 완료시 까지",
     "duplicate_restriction": null
   },
   "needs_check": [
-    "deadline",
     "documents"
   ],
   "content_hash": "sha256:d30e2b2d786e279cb4870ebee0ed06e8de9b08f529f5f7061c668b271c9e3511",

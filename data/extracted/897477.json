@@ -5,11 +5,11 @@
   "name": "2027년 한국지도자육성장학재단 장학금",
   "title": "2027년 한국지도자육성장학재단 장학금 신청안내(마감)",
   "category": "교외",
-  "summary": "선발 완료 ► 통합정보시스템 신청상태 선발: '승인' / 미선발: '반려' 로 확인가능",
+  "summary": "가. 장학명: 2027년 한국지도자육성장학재단 장학금",
   "amount": {
     "type": "tuition_ratio",
     "value": 100,
-    "text": "등록금 전액"
+    "text": "등록금 전액(수업료) 또는 학기당 350만원의 학업보조비 ※동시지원불가, 택1 하여 지원"
   },
   "deadline": "2026-11-09",
   "deadline_text": "신청기간: 2026. 11. 9. (월) 까지",
@@ -20,6 +20,7 @@
     ],
     "departments": null,
     "gpa_min": null,
+    "score_min": 85,
     "income_max": null,
     "residence": null,
     "unclear": []

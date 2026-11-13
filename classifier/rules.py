@@ -20,11 +20,14 @@ from config import (
     EXTERNAL_WORDS,
     INCOME_WORDS,
     INFO_WORDS,
+    MULTI_AMOUNT_WORDS,
     RECRUIT_WORDS,
     RESIDENCE_WORDS,
     RESULT_WORDS,
+    ROLLING_WORDS,
     SCHOLARSHIP_WORDS,
     SUMMARY_MAX,
+    SUMMARY_SKIP_STARTS,
     WORK_BNUMS,
     WORK_WORDS,
 )
@@ -40,6 +43,12 @@ def _has_any(text: str, words: list[str]) -> bool:
 
 def _short(text: str, limit: int = EVIDENCE_MAX) -> str:
     return text if len(text) <= limit else text[: limit - 1] + "…"
+
+
+def _after_colon(line: str) -> str:
+    """'다. 지원금액: 300만원' → '300만원'. 콜론이 없으면 줄 그대로."""
+    parts = re.split(r"[:：]", line, maxsplit=1)
+    return parts[1].strip() if len(parts) == 2 and parts[1].strip() else line
 
 
 # ── 공지 종류 ──
@@ -110,16 +119,21 @@ def _num(text: str) -> int:
 
 
 def _amount_from_line(line: str) -> dict | None:
-    """한 줄에서 금액을 찾는다. 등록금 비율 → 시급 → 만원 → 원 순서로 본다."""
-    if m := _TUITION_FULL.search(line):
+    """한 줄에서 금액을 찾는다. 등록금 비율 → 시급 → 만원 → 원 순서로 본다.
+
+    소득 단어("차상위", "소득")보다 뒤에 나오는 금액은 소득 기준일 수 있어서 쓰지 않는다.
+    예: "수업료 100% 면제(단, 차상위~5구간 … 50%만 면제)" → 100%를 쓴다.
+    """
+    income_at = min((line.find(w) for w in INCOME_WORDS if w in line), default=len(line))
+    if (m := _TUITION_FULL.search(line)) and m.start() < income_at:
         return {"type": "tuition_ratio", "value": 100, "text": m.group(0)}
-    if m := _TUITION_RATIO.search(line):
+    if (m := _TUITION_RATIO.search(line)) and m.start() < income_at:
         return {"type": "tuition_ratio", "value": int(m.group(2)), "text": m.group(0)}
-    if m := _HOURLY.search(line):
+    if (m := _HOURLY.search(line)) and m.start() < income_at:
         return {"type": "hourly", "value": _num(m.group(1)), "text": m.group(0)}
-    if m := _MANWON.search(line):
+    if (m := _MANWON.search(line)) and m.start() < income_at:
         return {"type": "lump_sum", "value": _num(m.group(1)) * 10000, "text": m.group(0)}
-    if m := _WON.search(line):
+    if (m := _WON.search(line)) and m.start() < income_at:
         return {"type": "lump_sum", "value": _num(m.group(1)), "text": m.group(0)}
     return None
 
@@ -129,8 +143,11 @@ def extract_amount(body: str) -> tuple[dict, str | None]:
     lines = _lines(body)
     # 1) 금액 단어가 있는 줄을 먼저 본다 (소득 기준 같은 다른 숫자를 피하려고)
     for line in lines:
-        if _has_any(line, AMOUNT_LINE_WORDS) and not _has_any(line, INCOME_WORDS):
+        if _has_any(line, AMOUNT_LINE_WORDS):
             if found := _amount_from_line(line):
+                # "등록금 전액 또는 학기당 350만원 (택1)"처럼 고르는 금액이면 값은 첫 금액, 표시는 줄 전체로 한다
+                if _has_any(line, MULTI_AMOUNT_WORDS):
+                    found["text"] = _short(_after_colon(line), 60)
                 return found, _short(line)
     # 2) 근로 공지는 시급이 금액 단어 없이 나오기도 한다
     for line in lines:
@@ -177,17 +194,22 @@ def extract_deadline(title: str, body: str, posted: date) -> tuple[str | None, s
             continue
         dates = _dates_in(line, posted)
         if dates:
-            text = line.split(":", 1)[-1].strip() if ":" in line else line
-            return dates[-1].isoformat(), _short(text, 60), _short(line)
+            return dates[-1].isoformat(), _short(_after_colon(line), 60), _short(line)
+    # 날짜 없이 "선발 완료시까지"인 상시 모집: 마감일은 없지만 원문 표기는 남긴다
+    for line in _lines(body):
+        if _has_any(line, ROLLING_WORDS) and _has_any(line, DEADLINE_LINE_WORDS + ["지원기간", "지원 기간"]):
+            return None, "상시 모집 (" + _short(_after_colon(line), 40) + ")", _short(line)
     return None, None, None
 
 
 # ── 대상 조건 ──
 
-# (?<!\d): "2026학년도"의 6을 6학년으로 읽지 않게 한다
-_GRADE_RANGE = re.compile(r"(?<!\d)(\d)\s*[~\-]\s*(\d)\s*학년")
-_GRADE_LIST = re.compile(r"(?<![\d.])((?:\d\s*,\s*)*\d)\s*학년(?!도)")
+# 앞에 숫자·한글이 붙으면 학년이 아니다: "2026학년도"의 6, "중1학년"의 1
+_GRADE_RANGE = re.compile(r"(?<![\d가-힣])(\d)\s*[~\-]\s*(\d)\s*학년")
+_GRADE_LIST = re.compile(r"(?<![\d.가-힣])((?:\d\s*,\s*)*\d)\s*학년(?!도)")
 _GPA = re.compile(r"(\d\.\d{1,2})\s*(?:/\s*4\.[35])?\s*(?:점\s*)?이상")
+# 100점 만점 성적: "백분율 성적 85점 이상", "C0(70점/100점 만점) 이상"
+_SCORE = re.compile(r"(?<!\d)(\d{2})\s*점[^\n]{0,15}?이상")
 _INCOME = re.compile(r"(?:(\d{1,2})\s*[~\-]\s*)?(\d{1,2})\s*(?:구간|분위)")
 
 
@@ -196,7 +218,8 @@ def extract_eligibility(body: str) -> dict:
     result: dict = {
         "grades": None,
         "departments": None,
-        "gpa_min": None,
+        "gpa_min": None,  # 4.5 만점 평점
+        "score_min": None,  # 100점 만점 성적 (백분율)
         "income_max": None,
         "residence": None,
         "unclear": [],
@@ -214,9 +237,11 @@ def extract_eligibility(body: str) -> dict:
                 grades = sorted({int(g) for g in re.findall(r"\d", m.group(1))})
                 if all(1 <= g <= 6 for g in grades):
                     result["grades"] = grades
-        if result["gpa_min"] is None and _has_any(line, ["성적", "평점", "학점"]):
-            if m := _GPA.search(line):
+        if _has_any(line, ["성적", "평점", "학점"]):
+            if result["gpa_min"] is None and (m := _GPA.search(line)):
                 result["gpa_min"] = float(m.group(1))
+            if result["score_min"] is None and (m := _SCORE.search(line)) and 40 <= int(m.group(1)) <= 100:
+                result["score_min"] = int(m.group(1))
         if result["income_max"] is None and _has_any(line, ["구간", "분위"]):
             if m := _INCOME.search(line):
                 result["income_max"] = int(m.group(2))
@@ -297,9 +322,12 @@ def extract_duplicate_restriction(body: str) -> tuple[bool | None, str | None]:
 
 def make_summary(body: str, has_images: bool, attachment_count: int) -> str:
     """본문 첫 문장을 짧게 자른다. 본문이 없으면 어디를 봐야 하는지 적는다."""
-    lines = [line for line in _lines(body) if len(line) >= 10 and not line.startswith("-")]
+    # 목록 기호로 시작하는 줄, 구분선, "선발 완료" 같은 상태 알림 줄은 요약으로 쓰지 않는다
+    lines = [line for line in _lines(body)
+             if len(line) >= 10 and not line.startswith(SUMMARY_SKIP_STARTS) and "---" not in line]
     if lines:
-        return _short(lines[0], SUMMARY_MAX)
+        preferred = [line for line in lines if _has_any(line, ["선발", "모집", "지원", "장학"])]
+        return _short((preferred or lines)[0], SUMMARY_MAX)
     if has_images:
         return "본문 없이 포스터 이미지로 안내된 공지입니다. 원문을 확인하세요."
     if attachment_count:

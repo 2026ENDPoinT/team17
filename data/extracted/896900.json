@@ -7,19 +7,18 @@
   "category": "교내",
   "summary": "국가장학금1유형 신청자는 신청할 필요없음",
   "amount": {
-    "type": "unknown",
-    "value": null,
-    "text": null
+    "type": "tuition_ratio",
+    "value": 100,
+    "text": "수업료 100%"
   },
   "deadline": "2026-11-06",
   "deadline_text": "(통정시 신청, 2026. 10. 23.~11. 6.) 2026. 2학기 2차 어의 및 가족장학금 신청 안내",
   "closed": false,
   "eligibility": {
-    "grades": [
-      1
-    ],
+    "grades": null,
     "departments": null,
     "gpa_min": 2.75,
+    "score_min": null,
     "income_max": 5,
     "residence": null,
     "unclear": []
@@ -39,13 +38,11 @@
   },
   "also_posted_bidx": [],
   "evidence": {
-    "amount": null,
+    "amount": "라. 지원내역: 수업료 100% 면제(단, 학자금 지원구간 차상위~5구간 학생 중 국가장학 Ⅰ유형 미수혜 학생은 50%만 면제)",
     "deadline": "(통정시 신청, 2026. 10. 23.~11. 6.) 2026. 2학기 2차 어의 및 가족장학금 신청 안내",
     "duplicate_restriction": "- 교내 타 장학금 중복수혜 금지이며, 중복 선정 시 본인에게 유리한 장학금으로 선택가능"
   },
-  "needs_check": [
-    "amount"
-  ],
+  "needs_check": [],
   "content_hash": "sha256:6d752cb9fd41ee0f2e4f0193ab39abee0d901160c199f9a9096b8b17c0551044",
   "reviewed": false
 }

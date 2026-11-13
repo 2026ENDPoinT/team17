@@ -25,6 +25,7 @@
         ],
         "departments": null,
         "gpa_min": 3.0,
+        "score_min": null,
         "income_max": 8,
         "residence": null,
         "unclear": []
@@ -75,6 +76,7 @@
           "전기정보공학과"
         ],
         "gpa_min": 3.5,
+        "score_min": null,
         "income_max": null,
         "residence": null,
         "unclear": []
@@ -120,6 +122,7 @@
         "grades": null,
         "departments": null,
         "gpa_min": null,
+        "score_min": 70,
         "income_max": null,
         "residence": null,
         "unclear": []
@@ -163,6 +166,7 @@
         "grades": null,
         "departments": null,
         "gpa_min": null,
+        "score_min": null,
         "income_max": null,
         "residence": "OO시",
         "unclear": [

@@ -5,7 +5,7 @@
   "name": "2026년 에스엘이충곤재단 장학생",
   "title": "(신청기간 연장) 2026년 에스엘이충곤재단 장학생 선발 안내(선발완료)",
   "category": "교외",
-  "summary": "선발 완료 ☞ 통정시 '선발:승인' 또는 '미선발:반려'로 확인가능",
+  "summary": "2026년 에스엘이충곤재단 장학생을 아래와 같이 선발합니다.",
   "amount": {
     "type": "lump_sum",
     "value": 5000000,
@@ -20,6 +20,7 @@
     ],
     "departments": null,
     "gpa_min": null,
+    "score_min": 85,
     "income_max": 5,
     "residence": null,
     "unclear": []
