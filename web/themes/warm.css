@@ -1,0 +1,12 @@
+/* 전체 페이지에서 공유할 색상 변수다. 입력: 공통 팔레트. 출력: 화면별 CSS에서 사용하는 색상. */
+:root {
+  --color-primary: #8b5e3c;
+  --color-secondary: #ede2d4;
+  --color-background: #e8e4de;
+  --color-panel: #f7f5ef;
+  --color-sand: #ded0be;
+  --color-text: #352820;
+  --color-surface: #f1eadf;
+  --color-muted: #7b6a5b;
+  --color-primary-hover: #714a2e;
+}
