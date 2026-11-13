@@ -29,17 +29,41 @@ BODY_SAME = 0.95
 MIN_BODY_CHARS = 30
 MAX_DAYS_APART = 60
 
-_BRACKETS = re.compile(r"\([^()]*\)|\[[^\[\]]*\]|【[^】]*】|<[^<>]*>")
+_BRACKETS = re.compile(r"\(([^()]*)\)|\[([^\[\]]*)\]|【([^】]*)】|<([^<>]*)>")
 _NUM = re.compile(r"\d+")
+
+# 괄호 안 내용 중 지우는 것 (2026-11-13, 제목 309개의 괄호 내용을 모아 정함). 나머지는 남긴다.
+# 1) 날짜·기한: 숫자와 함께 ~ / . : 까지 시 예정 월 이 있는 것, 요일 한 글자
+_DATE_LIKE = re.compile(r"\d.*(~|/|\.|:|까지|시|예정|월)|^(~|까지)|^[월화수목금토일]$")
+# 2) 상태·안내 꼬리표
+_STATUS_WORDS = re.compile(r"마감|홍보|완료|수정|필독|필수|중요|연장|안내|공지|교체|추가|신규|타과생")
+# 3) 글을 올린 학교 부서·대상 (장학금을 구분하는 정보가 아니다). 재단·장학회 이름은 남긴다
+_SCHOOL_UNIT = re.compile(r"(처|원|센터|과|팀|단|대학|본부|관|실|소|부|전공|조합|미술관)$|^(학부|대학원|일반대학원|장학|재학생|학부생|학부 재학생)")
+_KEEP = re.compile(r"재단|장학회|협회|사랑의열매|희망사다리|유형|\d+차|^\d[\d,]*만?원$")
+
+
+def _bracket_kept(inner: str) -> str:
+    """괄호 안 내용을 남길지 정한다. 남기면 괄호 기호만 빼고 내용을 돌려준다."""
+    s = inner.strip()
+    if not s:
+        return ""
+    if _KEEP.search(s) and not _DATE_LIKE.search(s.replace(" ", "")):
+        return " " + s + " "  # 재단 이름, 차수, 유형은 장학금을 구분하는 정보다
+    if _DATE_LIKE.search(s) or _STATUS_WORDS.search(s) or _SCHOOL_UNIT.search(s):
+        return ""
+    return " " + s + " "  # 모르는 내용은 남긴다 (지워서 생기는 오판이 더 위험하다)
 
 
 def normalize_title(title: str) -> str:
-    """괄호 안 내용([학부], (홍보), (~11/6(금)) 등)과 공백·기호를 지운다. 후보를 고를 때만 쓴다."""
+    """제목에서 상태 꼬리표·날짜·학교 부서 괄호만 지우고, 재단 이름·차수 같은 정보는 남긴 뒤 공백·기호를 지운다.
+    예) "[해성문화재단] 2026년도 2학기 장학생 선발 안내 (마감)" → "해성문화재단2026년도2학기장학생선발안내"
+        "★2026학년도 2학기 등록금 납부(2차) 일정 안내★" → "2026학년도2학기등록금납부2차일정안내"
+    재게시 후보를 고를 때만 쓴다. 최종 판단은 본문·첨부로 한다."""
     t = title.lower()
     prev = None
-    while prev != t:  # 괄호 안에 괄호가 있을 수 있어 안쪽부터 반복해서 지운다
+    while prev != t:  # 괄호 안에 괄호가 있을 수 있어 안쪽부터 처리한다
         prev = t
-        t = _BRACKETS.sub("", t)
+        t = _BRACKETS.sub(lambda m: _bracket_kept(next(g for g in m.groups() if g is not None)), t)
     return re.sub(r"[^0-9a-z가-힣]", "", t)
 
 
