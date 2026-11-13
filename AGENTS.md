@@ -78,7 +78,18 @@ uv.lock            Python 라이브러리 정확한 버전 (직접 고치지 않
 .github/workflows/ 자동 검사
 ```
 
-서비스 코드의 폴더 구조는 스택과 함께 정한다. (예: `crawler/`, `classifier/`, `api/`, `web/`)
+서비스 코드는 역할별로 폴더를 나눈다 (2026-11-13 결정, 3명).
+
+```
+crawler/        크롤링 담당   → data/raw/{bidx}.json
+classifier/     분류 담당     → data/extracted/{bidx}.json, 빌드 → web/public/scholarships.json
+web/            화면 담당     ← web/public/scholarships.json
+data/reviewed/  사람 검수 (모두)
+```
+
+- **다른 역할의 폴더는 고치지 않는다.** 고쳐야 하면 그 담당에게 알린다. AI도 요청받은 역할의 폴더 밖은 건드리지 않는다.
+- 역할 사이에는 JSON 파일로만 주고받는다. 형식의 기준은 샘플 파일(`data/raw/_sample.json`, `data/scholarships.sample.json`)이다. 필드를 바꾸면 샘플도 같이 고친다.
+- 자세한 내용은 `docs/scholarship-mvp.md` 3절 "데이터 흐름과 역할"에 있다.
 
 ## 명령어
 
