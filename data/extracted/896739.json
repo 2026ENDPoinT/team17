@@ -48,9 +48,7 @@
   "filtered_conditions": [],
   "from_attachment": [],
   "needs_check": [
-    "amount",
-    "deadline",
-    "documents"
+    "deadline"
   ],
   "content_hash": "sha256:a5394ccd5a2accb64b558a85f5c598058356b78e97db14d4195ccd238d45563b",
   "reviewed": false

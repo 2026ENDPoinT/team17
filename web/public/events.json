@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-11-14T03:43:00+09:00",
+  "generated_at": "2026-11-14T04:39:34+09:00",
   "items": [
     {
       "id": "event-895440",
@@ -55,7 +55,10 @@
         ]
       },
       "burden": {
-        "documents": [],
+        "documents": [
+          "생활비지원장학금 신청서",
+          "개인정보동의서(학생)"
+        ],
         "interview": false
       },
       "duplicate_restriction": null,
@@ -73,8 +76,7 @@
         "residence": null
       },
       "needs_check": [
-        "amount",
-        "documents"
+        "amount"
       ],
       "reviewed": false
     },
@@ -142,10 +144,7 @@
         "departments": null,
         "residence": null
       },
-      "needs_check": [
-        "amount",
-        "documents"
-      ],
+      "needs_check": [],
       "reviewed": false
     },
     {
@@ -211,7 +210,10 @@
         ]
       },
       "burden": {
-        "documents": [],
+        "documents": [
+          "자기소개서",
+          "개인정보 수집‧이용 및 제공 동의서"
+        ],
         "interview": false
       },
       "duplicate_restriction": null,
@@ -228,9 +230,7 @@
         "departments": "○ 자동차/전자/전기/기계 등 공학계열 전공자",
         "residence": null
       },
-      "needs_check": [
-        "documents"
-      ],
+      "needs_check": [],
       "reviewed": false
     },
     {
@@ -257,8 +257,8 @@
         "value": 2000000,
         "text": "2,000,000원"
       },
-      "deadline": null,
-      "deadline_text": null,
+      "deadline": "2026-09-22",
+      "deadline_text": "2026. 9. 22.(화) 13:00",
       "closed": false,
       "eligibility": {
         "grades": null,
@@ -273,7 +273,10 @@
         "other_conditions": []
       },
       "burden": {
-        "documents": [],
+        "documents": [
+          "대림수암장학문화재단 장학금 신청서(자기소개서)",
+          "개인정보 수집 이용 동의서 장학재단"
+        ],
         "interview": false
       },
       "duplicate_restriction": null,
@@ -285,15 +288,12 @@
       "also_posted_bidx": [],
       "evidence": {
         "amount": "2. 장학금: 금2,000,000원(금이백만원)",
-        "deadline": null,
+        "deadline": "6. 제출 기간: 2026. 9. 22.(화) 13:00",
         "duplicate_restriction": null,
         "departments": null,
         "residence": null
       },
-      "needs_check": [
-        "deadline",
-        "documents"
-      ],
+      "needs_check": [],
       "reviewed": false
     },
     {
@@ -882,8 +882,8 @@
         "value": 4000000,
         "text": "400만원"
       },
-      "deadline": null,
-      "deadline_text": null,
+      "deadline": "2026-10-18",
+      "deadline_text": "(지원서 접수) 2026. 10. 5.(월) 09:00 ~ 10. 18.(일) 18:00",
       "closed": true,
       "eligibility": {
         "grades": null,
@@ -900,7 +900,11 @@
         ]
       },
       "burden": {
-        "documents": [],
+        "documents": [
+          "안경광학과 발전기금 장학생 지원서(영상공모전)",
+          "안경광학과 발전기금 장학생 지원서(자기성장보고서)",
+          "안경광학과 발전기금 장학생 지원서(학생회 봉사 장학금)"
+        ],
         "interview": false
       },
       "duplicate_restriction": false,
@@ -912,15 +916,12 @@
       "also_posted_bidx": [],
       "evidence": {
         "amount": "2) 동문회장 및 학과 장학금: 총 400만원",
-        "deadline": null,
+        "deadline": "(지원서 접수) 2026. 10. 5.(월) 09:00 ~ 10. 18.(일) 18:00",
         "duplicate_restriction": "*생활비성 장학금은 등록금 범위 초과 수혜 가능/다음 3개의 장학금은 중복 지원 가능하며 2개까지 중복 수상 가능.",
         "departments": "[첨부: 2026년 안경광학과 30주년 발전기금 장학생 선발 계획(학생 공지용).pdf] - 대상: 재학생이면서 2026학년도 2학기 현재 안경광학과 학생회 집행부",
         "residence": null
       },
-      "needs_check": [
-        "deadline",
-        "documents"
-      ],
+      "needs_check": [],
       "reviewed": false
     },
     {
@@ -1525,7 +1526,10 @@
         "other_conditions": []
       },
       "burden": {
-        "documents": [],
+        "documents": [
+          "LBSemicon 장학생 지원 신청서",
+          "개인정보이용 동의서"
+        ],
         "interview": false
       },
       "duplicate_restriction": null,
@@ -1543,8 +1547,7 @@
         "residence": null
       },
       "needs_check": [
-        "amount",
-        "documents"
+        "amount"
       ],
       "reviewed": false
     },
@@ -1591,7 +1594,10 @@
         ]
       },
       "burden": {
-        "documents": [],
+        "documents": [
+          "추천서",
+          "개인정보 수집이용동의서"
+        ],
         "interview": false
       },
       "duplicate_restriction": null,
@@ -1608,9 +1614,7 @@
         "departments": "6. 신청 대상자: 2027학년도 1학기 기준 졸업 직전 학년인 건축공학전공 재학생",
         "residence": null
       },
-      "needs_check": [
-        "documents"
-      ],
+      "needs_check": [],
       "reviewed": false
     },
     {
@@ -1808,10 +1812,7 @@
         "departments": null,
         "residence": null
       },
-      "needs_check": [
-        "amount",
-        "documents"
-      ],
+      "needs_check": [],
       "reviewed": false
     },
     {
@@ -2428,10 +2429,7 @@
         "departments": null,
         "residence": null
       },
-      "needs_check": [
-        "amount",
-        "documents"
-      ],
+      "needs_check": [],
       "reviewed": false
     },
     {
@@ -2549,7 +2547,9 @@
         ]
       },
       "burden": {
-        "documents": [],
+        "documents": [
+          "정보전산원 근로 지원서"
+        ],
         "interview": false
       },
       "duplicate_restriction": null,
@@ -2566,10 +2566,7 @@
         "departments": null,
         "residence": null
       },
-      "needs_check": [
-        "amount",
-        "documents"
-      ],
+      "needs_check": [],
       "reviewed": false
     },
     {
@@ -2756,7 +2753,9 @@
         ]
       },
       "burden": {
-        "documents": [],
+        "documents": [
+          "국가근로장학생 지원서(학생)"
+        ],
         "interview": false
       },
       "duplicate_restriction": null,
@@ -2773,9 +2772,7 @@
         "departments": null,
         "residence": null
       },
-      "needs_check": [
-        "documents"
-      ],
+      "needs_check": [],
       "reviewed": false
     },
     {
@@ -2933,9 +2930,9 @@
       "category": "근로",
       "summary": "한국전시산업융합연구원에서는 2026-2학기 국가근로장학생을 아래와 같이 모집합니다.",
       "amount": {
-        "type": "unknown",
-        "value": null,
-        "text": null
+        "type": "hourly",
+        "value": 12430,
+        "text": "시 급 : 12,430원"
       },
       "deadline": null,
       "deadline_text": "상시 모집 (~ (기관)선발 완료시 까지)",
@@ -2959,7 +2956,9 @@
         ]
       },
       "burden": {
-        "documents": [],
+        "documents": [
+          "국가근로장학생 지원서(학생)"
+        ],
         "interview": false
       },
       "duplicate_restriction": null,
@@ -2970,16 +2969,13 @@
       },
       "also_posted_bidx": [],
       "evidence": {
-        "amount": null,
+        "amount": "- 시 급 : 12,430원",
         "deadline": "※ 지원기간: ~ (기관)선발 완료시 까지",
         "duplicate_restriction": null,
         "departments": null,
         "residence": null
       },
-      "needs_check": [
-        "amount",
-        "documents"
-      ],
+      "needs_check": [],
       "reviewed": false
     },
     {
@@ -3087,7 +3083,9 @@
         "other_conditions": []
       },
       "burden": {
-        "documents": [],
+        "documents": [
+          "유하푸른재단 제 10기 장학생 지원서"
+        ],
         "interview": false
       },
       "duplicate_restriction": null,
@@ -3106,7 +3104,6 @@
       },
       "needs_check": [
         "amount",
-        "documents",
         "poster_only"
       ],
       "reviewed": false
@@ -3167,9 +3164,7 @@
         "residence": null
       },
       "needs_check": [
-        "amount",
-        "deadline",
-        "documents"
+        "deadline"
       ],
       "reviewed": false
     }

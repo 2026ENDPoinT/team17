@@ -32,7 +32,10 @@
     ]
   },
   "burden": {
-    "documents": [],
+    "documents": [
+      "추천서",
+      "개인정보 수집이용동의서"
+    ],
     "interview": false
   },
   "duplicate_restriction": null,
@@ -51,10 +54,10 @@
     "residence": null
   },
   "filtered_conditions": [],
-  "from_attachment": [],
-  "needs_check": [
+  "from_attachment": [
     "documents"
   ],
+  "needs_check": [],
   "content_hash": "sha256:d281b003302b66cf204a48cd10f873f907dc5a46ecaf90ca77b90d642f05c0a5",
   "reviewed": false
 }

@@ -33,7 +33,10 @@
     ]
   },
   "burden": {
-    "documents": [],
+    "documents": [
+      "생활비지원장학금 신청서",
+      "개인정보동의서(학생)"
+    ],
     "interview": false
   },
   "duplicate_restriction": null,
@@ -52,10 +55,11 @@
     "residence": null
   },
   "filtered_conditions": [],
-  "from_attachment": [],
-  "needs_check": [
-    "amount",
+  "from_attachment": [
     "documents"
+  ],
+  "needs_check": [
+    "amount"
   ],
   "content_hash": "sha256:f1b4a0fe6f862f4dadb0d98027b4a53709f931a4c52292b0b68531becea48e98",
   "reviewed": false

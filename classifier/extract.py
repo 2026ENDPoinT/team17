@@ -18,6 +18,7 @@ from rules import (
     classify_category,
     classify_kind,
     classify_label,
+    documents_from_names,
     extract_amount,
     extract_deadline,
     extract_departments,
@@ -26,6 +27,9 @@ from rules import (
     extract_eligibility,
     extract_name,
     extract_residence,
+    has_amount_phrase,
+    has_date,
+    has_document_words,
     has_interview,
     is_closed,
     is_form_attachment,
@@ -72,7 +76,7 @@ def pass_deadline(doc: Document, title: str, posted: date):
 
     다른 필드와 달리 문단을 빼지 않는다. 실제 공지는 마감을 "4. 지원방법: … 6.19.(금) 18시까지 이메일 제출"처럼
     신청방법 문단에 같이 쓰는 경우가 많았다 (raw_test에서 문단을 빼서 놓친 마감 12건, 2026-11-14).
-    발표일·면접일 줄은 DEADLINE_SKIP_WORDS가 줄 단위로 거른다.
+    발표일·면접일·근무기간은 기간마다 앞뒤 이름표로 거른다 (semantics.py의 applies).
     """
     found = extract_deadline(title, doc.text(["period"]), posted)
     if found[0] is not None or found[1] is not None:
@@ -196,20 +200,33 @@ def extract_one(raw: dict) -> dict:
         if documents:
             mark("documents", source)
             break
+    # 그래도 없으면 양식 첨부의 파일 이름으로 채운다 ("신청서 양식.hwp", "개인정보동의서.hwp"). 읽지 못한 첨부의 이름도 쓴다
+    if not documents:
+        documents = documents_from_names([a["name"] for a in raw.get("attachments", []) if is_form_attachment(a["name"])])
+        mark("documents", "파일 이름" if documents else None)
 
     # 면접: 어디든 "면접 있음"이 있으면 있음 (일정 문단의 "면접심사: 11.28"도 면접이 있다는 뜻이다)
     interviews = [has_interview(doc.full()) for _, doc in sources]
     interview = True if True in interviews else (False if False in interviews else None)
 
     # 사람이 꼭 확인해야 하는 항목. 화면에서 "확인 필요"로 보여 줄 수 있다.
+    # 값이 비었어도 원문에 그 정보가 아예 없으면 (금액 구·날짜·서류 말이 하나도 없으면) 사람이 봐도 채울 값이 없어서 올리지 않는다.
+    # 화면은 빈 값을 "원문 확인"으로 보여 준다. 포스터 이미지나 읽지 못한 첨부가 있으면 거기 있을 수 있어서 이 규칙을 쓰지 않는다.
+    all_text = "\n".join([body] + [t for _, t in notices])
+    unread = raw.get("has_images") or any(
+        a.get("text_status") != "ok" and not is_form_attachment(a["name"]) and not is_ignored_attachment(a["name"])
+        for a in raw.get("attachments", []))
+    complete = not unread and (len(body.strip()) >= 100 or bool(notices))
     needs_check = []
-    if amount["type"] == "unknown":
+    if amount["type"] == "unknown" and not (complete and not has_amount_phrase(all_text)):
         needs_check.append("amount")
     if deadline is None and deadline_text is None:  # 상시 모집은 deadline_text만 있다
-        needs_check.append("deadline")
+        if not (complete and not has_date(all_text)):
+            needs_check.append("deadline")
     elif deadline_text and (YEAR_FIX_NOTE in deadline_text or OPEN_END_NOTE in deadline_text):  # 연도를 고쳤거나 끝 날짜가 없으면 사람이 확인
         needs_check.append("deadline")
-    if not documents:
+    form_text = "\n".join(t for _, t in forms)
+    if not documents and not (complete and not has_document_words(all_text + "\n" + form_text)):
         needs_check.append("documents")
     if len(body.strip()) < 100:
         needs_check.append("poster_only" if raw.get("has_images") else "body_short")

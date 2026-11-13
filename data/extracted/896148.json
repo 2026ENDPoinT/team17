@@ -13,8 +13,8 @@
     "value": 4000000,
     "text": "400만원"
   },
-  "deadline": null,
-  "deadline_text": null,
+  "deadline": "2026-10-18",
+  "deadline_text": "(지원서 접수) 2026. 10. 5.(월) 09:00 ~ 10. 18.(일) 18:00",
   "closed": true,
   "eligibility": {
     "grades": null,
@@ -31,7 +31,11 @@
     ]
   },
   "burden": {
-    "documents": [],
+    "documents": [
+      "안경광학과 발전기금 장학생 지원서(영상공모전)",
+      "안경광학과 발전기금 장학생 지원서(자기성장보고서)",
+      "안경광학과 발전기금 장학생 지원서(학생회 봉사 장학금)"
+    ],
     "interview": false
   },
   "duplicate_restriction": false,
@@ -44,19 +48,17 @@
   "also_posted_bidx": [],
   "evidence": {
     "amount": "2) 동문회장 및 학과 장학금: 총 400만원",
-    "deadline": null,
+    "deadline": "(지원서 접수) 2026. 10. 5.(월) 09:00 ~ 10. 18.(일) 18:00",
     "duplicate_restriction": "*생활비성 장학금은 등록금 범위 초과 수혜 가능/다음 3개의 장학금은 중복 지원 가능하며 2개까지 중복 수상 가능.",
     "departments": "[첨부: 2026년 안경광학과 30주년 발전기금 장학생 선발 계획(학생 공지용).pdf] - 대상: 재학생이면서 2026학년도 2학기 현재 안경광학과 학생회 집행부",
     "residence": null
   },
   "filtered_conditions": [],
   "from_attachment": [
-    "departments"
-  ],
-  "needs_check": [
-    "deadline",
+    "departments",
     "documents"
   ],
+  "needs_check": [],
   "content_hash": "sha256:0e4d9ef3bfe1e1e9c56b4a20b3e14ce054f6e5ed64da90069749db3cce780172",
   "reviewed": false
 }

@@ -47,9 +47,7 @@
   },
   "filtered_conditions": [],
   "from_attachment": [],
-  "needs_check": [
-    "documents"
-  ],
+  "needs_check": [],
   "content_hash": "sha256:752300fece7a8891ac33a33ba8cdead7351075a8898c1498e355333188c790ed",
   "reviewed": false
 }

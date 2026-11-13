@@ -33,7 +33,9 @@
     ]
   },
   "burden": {
-    "documents": [],
+    "documents": [
+      "국가근로장학생 지원서(학생)"
+    ],
     "interview": false
   },
   "duplicate_restriction": null,
@@ -52,10 +54,10 @@
     "residence": null
   },
   "filtered_conditions": [],
-  "from_attachment": [],
-  "needs_check": [
+  "from_attachment": [
     "documents"
   ],
+  "needs_check": [],
   "content_hash": "sha256:d30e2b2d786e279cb4870ebee0ed06e8de9b08f529f5f7061c668b271c9e3511",
   "reviewed": false
 }

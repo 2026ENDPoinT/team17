@@ -5,14 +5,17 @@
   "2.5 이상" / "3.0/4.5"                            → NUMBER (평점 같은 소수. 날짜로 읽지 않는다)
   "15:00" / "18시" / "3:00 p.m."                    → TIME
   "250만원" / "5백만 원" / "2천만원" / "10,320원" / "1,000천원" → MONEY (정수 원)
-  "시급" / "시간당" / "시간 당" / "학기당" / "연간"   → PER ("시간" / "학기" / "연" / "월")
+  "시급" / "시 급" / "시간당" / "학기당" / "연간"    → PER ("시간" / "학기" / "연" / "월")
+  "신청" / "접수" / "제출" / "마감" …               → APPLY (신청 쪽 이름표)
+  "발표" / "면접" / "지급" / "근무기간" …           → OTHER (신청이 아닌 일정의 이름표)
+  "이후" / "이전" / "기준"                          → REF ("10. 1. 이후 발급"처럼 기준 날짜를 가리키는 말)
 이 파일은 뜻을 판단하지 않는다. "이 날짜가 마감일인가"는 phrases.py(구문)와 rules.py(의미)가 정한다.
 """
 
 import re
 from dataclasses import dataclass
 
-from config import ROLLING_WORDS
+from config import APPLY_LABEL_TAILS, APPLY_LABEL_WORDS, PERIOD_OTHER_WORDS, REF_WORDS, ROLLING_WORDS
 
 
 @dataclass
@@ -22,6 +25,10 @@ class Token:
     value: object  # 정규화한 값 (DATE: (연|None, 월, 일), MONEY: 원, PER: "시간"/"학기"/"연"/"월" …)
     start: int  # 줄 안에서의 위치
     end: int
+
+
+def _words(words: list[str]) -> str:
+    return "|".join(re.escape(w) for w in sorted(words, key=len, reverse=True))
 
 
 _NOT_GRADE = r"(?!\s*(?:학년|학기|학점))"
@@ -48,7 +55,8 @@ _RULES: list[tuple[str, re.Pattern]] = [
     # "천원"은 표의 단위로 자주 쓴다: "최대 1,000천원" = 100만원 (892400)
     ("MONEY", re.compile(r"(?<![\d.])(\d{1,3}(?:,\d{3})+|\d+)(?:\.(\d+))?\s*(억|천\s*만|백\s*만|십\s*만|만|천)?\s*원")),
     ("PERCENT", re.compile(r"(?<!\d)(\d{1,3})\s*%")),
-    ("PER", re.compile(r"시급|시간\s*당|학기\s*당|학기별|연간|(?<![가-힣])월\s*(?=\d)|매월")),
+    # "시 급", "학기 별"처럼 띄어 쓴 것도 같은 단위다 (897664 "- 시 급 : 12,430원")
+    ("PER", re.compile(r"(?<![가-힣\d])시\s*급(?!여)|시간\s*당|학기\s*당|학기\s*별|연간|(?<![가-힣])월\s*(?=\d)|매월")),
     ("TUITION", re.compile(r"등록금|수업료")),
     ("FULL", re.compile(r"전액")),
     ("MAX", re.compile(r"최대|상한액?|한도")),
@@ -56,6 +64,12 @@ _RULES: list[tuple[str, re.Pattern]] = [
     ("UNTIL", re.compile(r"까지")),
     ("COLON", re.compile(r"(?<!\d)[:：]|[:：](?!\d)")),  # 이름표 콜론. 시각 "15:00"의 콜론은 TIME이 먼저 가져간다
     ("CELL", re.compile(r"\|")),
+    # 기간 앞뒤의 이름표. 긴 말부터 잡는다 ("근로기간"이 "근로"보다 먼저). 의미(신청 기간인가)는 semantics.py가 정한다
+    ("OTHER", re.compile(_words(PERIOD_OTHER_WORDS))),
+    # 이름표로 쓴 말만 잡는다: 뒤에 "기간·기한·일시 …"가 붙거나 한글이 이어지지 않아야 한다.
+    # "제출한 자격증", "신청연도", "신청서", "접수처"는 이름표가 아니다 (890977, 896418)
+    ("APPLY", re.compile("(?:" + _words(APPLY_LABEL_WORDS) + r")(?:\s*(?:" + _words(APPLY_LABEL_TAILS) + r"))?(?![가-힣])")),
+    ("REF", re.compile(_words(REF_WORDS))),
 ]
 _ROLLING = re.compile("|".join(re.escape(w) for w in sorted(ROLLING_WORDS, key=len, reverse=True)))
 _UNIT = {"억": 100_000_000, "천만": 10_000_000, "백만": 1_000_000, "십만": 100_000, "만": 10_000, "천": 1_000}
@@ -89,6 +103,8 @@ def _value(kind: str, m: re.Match) -> object:
     if kind == "PER":
         word = re.sub(r"\s", "", m.group(0))
         return _PER.get(word, word.replace("당", ""))
+    if kind in ("APPLY", "OTHER", "REF"):
+        return m.group(0)
     return m.group(0)
 
 
