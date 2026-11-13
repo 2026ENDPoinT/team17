@@ -1,13 +1,27 @@
 // 메인 화면의 전체 배치와 영역별 틀을 만든다.
 // 입력: 화면을 넣을 DOM 요소. 출력: 이후 갱신에 사용할 영역별 DOM 요소.
-import { formatAmount, formatDeadline, getMainConditions } from './logic.js';
+import { formatAmount, formatDeadline, getMainConditions, getToday } from './logic.js';
+
+// 데이터를 기다리거나 불러오기에 실패했을 때 왼쪽 영역에 상태 안내를 표시한다.
+export function renderListStatus(container, status) {
+  const message = document.createElement('div');
+  message.className = 'main-list-status';
+  message.setAttribute('role', 'status');
+  if (status === 'loading') {
+    const spinner = document.createElement('span');
+    spinner.className = 'main-loading-spinner';
+    spinner.setAttribute('aria-hidden', 'true');
+    message.append(spinner, '로딩중');
+  } else {
+    message.textContent = '정보를 불러오는데 실패했습니다.';
+  }
+  container.replaceChildren(message);
+}
 
 // 목록이 바뀌면 왼쪽 영역만 다시 그린다. 상세 이동 동작은 호출자가 전달한다.
 export function renderScholarshipList(container, items, onOpenDetail) {
   const fragment = document.createDocumentFragment();
-  const today = new Intl.DateTimeFormat('en-CA', {
-    timeZone: 'Asia/Seoul', year: 'numeric', month: '2-digit', day: '2-digit',
-  }).format(new Date());
+  const today = getToday();
 
   for (const item of items) {
     fragment.append(createScholarshipBlock(item, onOpenDetail, today));
@@ -35,7 +49,7 @@ export function createScholarshipBlock(item, onOpenDetail, today) {
   const amount = document.createElement('span');
   amount.textContent = formatAmount(item.amount);
   const deadline = document.createElement('span');
-  deadline.textContent = formatDeadline(item.deadline, today);
+  deadline.textContent = `${formatDeadline(item.deadline, today)}${item.closed === true ? ' · 마감됨' : ''}`;
   deadline.title = item.deadline_text || '마감 상세 정보 미확인';
   info.append(amount, deadline);
 

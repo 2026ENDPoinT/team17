@@ -108,3 +108,24 @@
 .scholarship-conditions {
   line-height: 1.6;
 }
+
+.main-list-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 100%;
+}
+
+.main-loading-spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid #ddd;
+  border-top-color: #2563eb;
+  border-radius: 50%;
+  animation: main-loading 1s linear infinite;
+}
+
+@keyframes main-loading {
+  to { transform: rotate(360deg); }
+}
