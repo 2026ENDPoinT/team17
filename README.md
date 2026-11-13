@@ -43,4 +43,7 @@ Python 쪽(수집·추출)은 **uv**로 관리한다. 각자 PC에 깔린 Python
 |---|---|
 | `docs/` | 조사·기획 문서 |
 | `tools/research/` | 사전 조사용 실측 스크립트 |
-| `data/raw/`, `data/reviewed/` | 수집 원본 / 사람이 검수한 장학금 데이터 (예정) |
+| `crawler/` | 크롤링 담당: 공지 수집 → `data/raw/` |
+| `classifier/` | 분류 담당: 분류·추출 → `data/extracted/`, 빌드 → `web/public/scholarships.json` |
+| `web/` | 화면 담당: 정렬·필터·비교 화면 |
+| `data/reviewed/` | 사람이 검수해 덮어쓴 값 |
