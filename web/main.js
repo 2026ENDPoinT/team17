@@ -26,12 +26,12 @@ function updateMain() {
   renderScholarshipList(areas.list, items, handleOpenDetail);
 }
 
-// 선택한 장학금 ID와 목록 스크롤 위치를 저장한 뒤, 같은 자리에 상세 화면의 틀을 표시한다.
+// 선택한 장학금 ID와 목록 스크롤 위치를 저장한 뒤, 해당 데이터를 상세 화면에 전달한다.
 function handleOpenDetail(item) {
   state.selectedId = item.id;
   state.listScrollTop = areas.list.scrollTop;
   state.view = 'detail';
-  renderDetail(app);
+  renderDetail(app, item);
 }
 
 // 처음 한 번 데이터를 읽어 보관하고, 성공 여부에 맞춰 화면을 갱신한다.

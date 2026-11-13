@@ -11,7 +11,7 @@
   gap: 32px;
   height: 100dvh;
   overflow-y: auto;
-  padding: 24px;
+  padding: 24px max(24px, calc((100vw - 1200px) / 2));
   background: #fff;
   color: #202124;
 }
@@ -37,6 +37,7 @@
 .detail-main-info {
   flex-shrink: 0;
   min-height: 240px;
+  text-align: center;
 }
 
 .detail-navigation {
@@ -68,4 +69,70 @@
 
 .detail-note-content {
   min-height: 80px;
+  line-height: 1.7;
+}
+
+.detail-review {
+  margin: 0 0 -12px;
+  text-align: left;
+}
+
+.detail-main-info h1 {
+  margin: 0 0 24px;
+  font-size: 26px;
+}
+
+.detail-main-info h2 {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.detail-main-info p {
+  margin: 8px 0 16px;
+  line-height: 1.7;
+}
+
+.detail-main-field {
+  margin-bottom: 24px;
+}
+
+.detail-original summary,
+.detail-official-link {
+  display: inline-block;
+  padding: 8px 16px;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  color: inherit;
+  cursor: pointer;
+}
+
+.detail-original summary:focus-visible,
+.detail-official-link:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+.detail-original[open] summary {
+  background: #eef3ff;
+}
+
+.detail-original p {
+  padding: 12px;
+  background: #f6f6f6;
+  white-space: pre-wrap;
+}
+
+.detail-guidance {
+  font-size: 14px;
+}
+
+.detail-condition {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  white-space: pre-wrap;
+}
+
+.detail-note-content p {
+  white-space: pre-wrap;
 }
