@@ -3,7 +3,7 @@
 import { formatAmount, formatDeadline, getMainConditions } from './logic.js';
 import { renderNoticesPopup } from './renderNoticesPopup.js';
 
-// 전달받은 즐겨찾기 상태로 검수 옆의 별을 표시하고 저장·해제 요청을 연결한다. 항목이 없으면 목록 이동을 안내한다.
+// 상세와 별 클릭을 연결하고 Manager의 변경 결과를 반영할 함수를 반환한다. 항목이 없으면 목록 이동을 안내한다.
 export function renderDetail(container, item, handlers = {}) {
   const layout = document.createElement('main');
   layout.className = 'detail-layout';
@@ -42,7 +42,7 @@ export function renderDetail(container, item, handlers = {}) {
   star.setAttribute('d', 'M12 3 14.78 8.63 21 9.54 16.5 13.92 17.56 20.12 12 17.19 6.44 20.12 7.5 13.92 3 9.54 9.22 8.63Z');
   icon.append(star);
   favoriteButton.append(icon);
-  // 선택한 장학금을 main.js의 공통 저장·해제 처리 함수에 전달한다.
+  // 선택한 장학금을 FavoriteManager의 저장·해제 처리 함수에 전달한다.
   favoriteButton.addEventListener('click', () => handlers.onToggleFavorite?.(item));
   header.append(review, favoriteButton);
   const mainInfo = createDetailMainArea(item);
@@ -52,7 +52,20 @@ export function renderDetail(container, item, handlers = {}) {
   left.append(mainInfo, navigation.section);
   layout.append(header, left, details.section);
   container.replaceChildren(layout);
-  return { layout, review, favoriteButton, mainInfo, navigation, details };
+  // Manager의 변경 결과로 별과 이전·다음만 갱신한다. 상세 DOM과 스크롤은 유지한다.
+  const updateFavorite = (changedItem, result) => {
+    const selected = result.selected;
+    favoriteButton.setAttribute('aria-pressed', String(selected));
+    favoriteButton.setAttribute('aria-label', `${changedItem.name || '장학금'} 즐겨찾기 ${selected ? '해제' : '저장'}`);
+    favoriteButton.title = selected ? '즐겨찾기 해제' : '즐겨찾기 저장';
+    if (result.navigation) {
+      handlers.previousItem = result.navigation.previousItem;
+      handlers.nextItem = result.navigation.nextItem;
+      navigation.previousButton.disabled = !handlers.previousItem;
+      navigation.nextButton.disabled = !handlers.nextItem;
+    }
+  };
+  return { layout, review, favoriteButton, mainInfo, navigation, details, updateFavorite };
 }
 
 // 핵심 정보·원문·줄별 조건을 내부 스크롤에 넣고 공식 공지 팝업을 연결한다.
