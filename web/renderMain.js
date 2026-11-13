@@ -1,7 +1,28 @@
-// 메인 화면의 전체 배치와 영역별 틀을 만든다.
-// 입력: 화면을 넣을 DOM 요소. 출력: 이후 갱신에 사용할 영역별 DOM 요소.
-import { formatAmount, formatDeadline, getMainConditions, getToday, getRecruitmentStatus, getMatchingFavoriteIds } from './logic.js';
+// 메인 화면의 틀을 만들고 전달받은 데이터로 목록·설정·상태 표시를 갱신한다.
+// 입력: DOM 영역·표시 데이터·이벤트 콜백. 출력: 메인 화면과 부분 갱신에 사용할 영역.
+import { formatAmount, formatDeadline, getMainConditions, getToday, getRecruitmentStatus } from './logic.js';
 import { AMOUNT_TYPES } from './filterOptions.js';
+
+// main.js가 준비한 표시 데이터로 메인 영역을 갱신한다. 앱 상태 변경과 설정 저장은 하지 않는다.
+export function updateMainView(areas, data, handlers) {
+  const count = areas.title.querySelector('.main-list-count');
+  const disabled = data.loading || !!data.error;
+  count.hidden = disabled;
+  count.textContent = disabled ? '' : `총 ${data.items.length}건`;
+  areas.sort.select.value = data.sortBy;
+  areas.sort.select.disabled = disabled;
+  areas.sort.amountTypes.hidden = data.sortBy !== 'amount';
+  areas.sort.amountSelect.value = data.amountType;
+  areas.sort.amountSelect.disabled = disabled;
+  areas.filterSelectButton.disabled = disabled;
+  areas.resetButton.disabled = disabled;
+  if (data.loading) return renderListStatus(areas.list, 'loading');
+  if (data.error) return renderListStatus(areas.list, 'error');
+  renderScholarshipList(areas.list, data.items, handlers.onOpenDetail,
+    handlers.isFavorite, handlers.onToggleFavorite);
+  renderSelectedFilters(areas.filters, data.filters, handlers.onRemoveFilter);
+  areas.list.scrollTop = data.scrollTop;
+}
 
 // 데이터를 기다리거나 불러오기에 실패했을 때 왼쪽 영역에 상태 안내를 표시한다.
 export function renderListStatus(container, status) {
@@ -19,13 +40,13 @@ export function renderListStatus(container, status) {
   container.replaceChildren(message);
 }
 
-// 목록이 바뀌면 왼쪽 영역만 다시 그린다. 상세 이동 동작은 호출자가 전달한다.
-export function renderScholarshipList(container, items, onOpenDetail, favoriteIds = [], onToggleFavorite) {
+// 목록이 바뀌면 왼쪽 영역만 다시 그린다. 즐겨찾기 여부는 전달받은 조회 함수로 확인한다.
+export function renderScholarshipList(container, items, onOpenDetail, isFavorite, onToggleFavorite) {
   const fragment = document.createDocumentFragment();
   const today = getToday();
 
   for (const item of items) {
-    fragment.append(createScholarshipBlock(item, onOpenDetail, today, favoriteIds, onToggleFavorite));
+    fragment.append(createScholarshipBlock(item, onOpenDetail, today, isFavorite?.(item) ?? false, onToggleFavorite));
   }
   if (items.length === 0) {
     const message = document.createElement('p');
@@ -35,8 +56,8 @@ export function renderScholarshipList(container, items, onOpenDetail, favoriteId
   container.replaceChildren(fragment);
 }
 
-// 메인·즐겨찾기 공통 카드를 만들고, 세 번째 줄 오른쪽에 마감 임박을 표시한다.
-export function createScholarshipBlock(item, onOpenDetail, today, favoriteIds = [], onToggleFavorite) {
+// 메인·즐겨찾기 공통 카드를 만든다. 별은 호출자가 계산한 선택 여부로 표시한다.
+export function createScholarshipBlock(item, onOpenDetail, today, selected = false, onToggleFavorite) {
   const block = document.createElement('article');
   block.className = 'scholarship-block';
   const openButton = document.createElement('button');
@@ -107,7 +128,6 @@ export function createScholarshipBlock(item, onOpenDetail, today, favoriteIds = 
   favorite.type = 'button';
   favorite.className = 'scholarship-favorite';
   favorite.dataset.favoriteId = String(item.id);
-  const selected = getMatchingFavoriteIds(item, favoriteIds).length > 0;
   favorite.setAttribute('aria-pressed', String(selected));
   favorite.setAttribute('aria-label', `${item.name || '장학금'} 즐겨찾기 ${selected ? '해제' : '저장'}`);
   favorite.title = selected ? '즐겨찾기 해제' : '즐겨찾기 저장';
@@ -125,7 +145,7 @@ export function createScholarshipBlock(item, onOpenDetail, today, favoriteIds = 
   return block;
 }
 
-// 상단 제목 바와 아래쪽 목록·설정 박스를 만들고 부분 갱신용 영역을 반환한다.
+// 메인 틀과 즐겨찾기 변경 후 목록 갱신·포커스 복원 기능을 만들어 반환한다.
 export function renderMain(container, handlers = {}) {
   const layout = document.createElement('div');
   layout.className = 'main-layout';
@@ -153,7 +173,15 @@ export function renderMain(container, handlers = {}) {
   layout.append(title, listPanel, sidebar);
   container.replaceChildren(layout);
 
-  return { layout, list, title, sort, filters: filters.content, filterSelectButton: filters.selectButton, resetButton };
+  // Manager의 성공 알림을 받으면 현재 스크롤로 목록 갱신을 요청하고 누른 별의 포커스를 복원한다.
+  const updateFavorite = (item) => {
+    handlers.onFavoriteChange?.(list.scrollTop);
+    // 새 목록에서 같은 장학금의 별을 찾는다.
+    const button = Array.from(list.querySelectorAll('.scholarship-favorite'))
+      .find((candidate) => candidate.dataset.favoriteId === String(item.id));
+    (button ?? list).focus({ preventScroll: true });
+  };
+  return { layout, list, title, sort, filters: filters.content, filterSelectButton: filters.selectButton, resetButton, updateFavorite };
 }
 
 // 적용된 필터를 학과별로도 각각 표시하고, 제거 버튼을 누르면 해당 조건만 호출자에게 전달한다.
@@ -192,7 +220,7 @@ function createListArea() {
   return list;
 }
 
-// 서비스 제목·목록 건수 영역과 즐겨찾기 버튼을 만든다. 건수는 main.js에서 갱신한다.
+// 서비스 제목·목록 건수 영역과 즐겨찾기 버튼을 만든다. 건수는 updateMainView에서 갱신한다.
 function createTitleArea(onOpenFavorites) {
   const header = document.createElement('header');
   header.className = 'main-title';
