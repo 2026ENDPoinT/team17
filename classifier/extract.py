@@ -67,10 +67,16 @@ def pass_amount(doc: Document):
 
 
 def pass_deadline(doc: Document, title: str, posted: date):
+    """기간 문단을 먼저 보고, 없으면 전체를 본다.
+
+    다른 필드와 달리 문단을 빼지 않는다. 실제 공지는 마감을 "4. 지원방법: … 6.19.(금) 18시까지 이메일 제출"처럼
+    신청방법 문단에 같이 쓰는 경우가 많았다 (raw_test에서 문단을 빼서 놓친 마감 12건, 2026-11-14).
+    발표일·면접일 줄은 DEADLINE_SKIP_WORDS가 줄 단위로 거른다.
+    """
     found = extract_deadline(title, doc.text(["period"]), posted)
     if found[0] is not None or found[1] is not None:
         return found
-    return extract_deadline(title, doc.text_except(NOT_VALUE_KINDS + ["amount"]), posted)
+    return extract_deadline(title, doc.full(), posted)
 
 
 def pass_eligibility(doc: Document) -> dict:

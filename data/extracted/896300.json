@@ -11,7 +11,7 @@
   "amount": {
     "type": "lump_sum",
     "value": 3000000,
-    "text": "300만 원"
+    "text": "학기당 300만 원"
   },
   "deadline": "2026-10-26",
   "deadline_text": "2026년 10월 6일(화) ~ 10월 26일(월) 23시 59분",

@@ -1,0 +1,115 @@
+"""어휘 분석: 공지 한 줄 → 토큰 목록. 입력: 문자열 한 줄 / 출력: list[Token].
+
+컴파일러의 어휘 분석기처럼, 표현이 제각각인 날짜·시각·금액을 여기서 한 번만 정규화한다.
+  "2026. 8. 28." / "2026년 8월 28일" / "8/28"       → DATE (2026|None, 8, 28)
+  "15:00" / "18시" / "3:00 p.m."                    → TIME
+  "250만원" / "5백만 원" / "2천만원" / "10,320원"    → MONEY (정수 원)
+  "시급" / "시간당" / "시간 당" / "학기당" / "연간"   → PER ("시간" / "학기" / "연" / "월")
+이 파일은 뜻을 판단하지 않는다. "이 날짜가 마감일인가"는 phrases.py(구문)와 rules.py(의미)가 정한다.
+"""
+
+import re
+from dataclasses import dataclass
+
+from config import ROLLING_WORDS
+
+
+@dataclass
+class Token:
+    kind: str  # DATE, TIME, TILDE, UNTIL, ROLLING, MONEY, PERCENT, PER, TUITION, FULL, MAX, COLON, CELL
+    text: str  # 원문 그대로
+    value: object  # 정규화한 값 (DATE: (연|None, 월, 일), MONEY: 원, PER: "시간"/"학기"/"연"/"월" …)
+    start: int  # 줄 안에서의 위치
+    end: int
+
+
+# 순서가 중요하다: 앞의 규칙이 먼저 자리를 차지한다 (TIME이 DATE보다 먼저라서 "15:00"이 날짜가 되지 않는다)
+_RULES: list[tuple[str, re.Pattern]] = [
+    ("TIME", re.compile(r"(?<!\d)(\d{1,2})\s*:\s*(\d{2})(?:\s*[ap]\.?\s*m\.?)?|(?<!\d)(\d{1,2})\s*시(?:\s*(\d{1,2})\s*분)?(?![가-힣])")),
+    ("DATE", re.compile(r"(?<!\d)(?:(\d{4}|\d{2})\s*[.년\-]\s*)?(\d{1,2})\s*[.월/\-]\s*(\d{1,2})(?!\d)\s*(?:일|\.)?")),
+    ("MONEY", re.compile(r"(?<![\d.])(\d{1,3}(?:,\d{3})+|\d+)(?:\.(\d+))?\s*(억|천\s*만|백\s*만|십\s*만|만)?\s*원")),
+    ("PERCENT", re.compile(r"(?<!\d)(\d{1,3})\s*%")),
+    ("PER", re.compile(r"시급|시간\s*당|학기\s*당|학기별|연간|(?<![가-힣])월\s*(?=\d)|매월")),
+    ("TUITION", re.compile(r"등록금|수업료")),
+    ("FULL", re.compile(r"전액")),
+    ("MAX", re.compile(r"최대|상한액?|한도")),
+    ("TILDE", re.compile(r"[~∼～]")),
+    ("UNTIL", re.compile(r"까지")),
+    ("COLON", re.compile(r"(?<!\d)[:：]|[:：](?!\d)")),  # 이름표 콜론. 시각 "15:00"의 콜론은 TIME이 먼저 가져간다
+    ("CELL", re.compile(r"\|")),
+]
+_ROLLING = re.compile("|".join(re.escape(w) for w in sorted(ROLLING_WORDS, key=len, reverse=True)))
+_UNIT = {"억": 100_000_000, "천만": 10_000_000, "백만": 1_000_000, "십만": 100_000, "만": 10_000}
+_PER = {"시급": "시간", "연간": "연", "매월": "월", "학기별": "학기"}
+
+
+def _value(kind: str, m: re.Match) -> object:
+    if kind == "DATE":
+        y, mo, d = m.group(1), int(m.group(2)), int(m.group(3))
+        year = (int(y) + 2000 if len(y) == 2 else int(y)) if y else None
+        return (year, mo, d)
+    if kind == "TIME":
+        hour = int(m.group(1) or m.group(3))
+        minute = int(m.group(2) or m.group(4) or 0)
+        if "p" in m.group(0).lower() and hour < 12:
+            hour += 12
+        return (hour, minute)
+    if kind == "MONEY":
+        number = int(m.group(1).replace(",", ""))
+        fraction = m.group(2)
+        unit = _UNIT[re.sub(r"\s", "", m.group(3))] if m.group(3) else 1
+        if fraction:  # "1.5만원"
+            return int((number + float("0." + fraction)) * unit)
+        return number * unit
+    if kind == "PERCENT":
+        return int(m.group(1))
+    if kind == "PER":
+        word = re.sub(r"\s", "", m.group(0))
+        return _PER.get(word, word.replace("당", ""))
+    return m.group(0)
+
+
+def _valid(kind: str, value: object) -> bool:
+    if kind == "DATE":
+        _, mo, d = value
+        return 1 <= mo <= 12 and 1 <= d <= 31
+    if kind == "TIME":
+        hour, minute = value
+        return hour <= 24 and minute < 60
+    return True
+
+
+def tokenize(line: str) -> list[Token]:
+    """한 줄을 토큰 목록으로 바꾼다. 알아보는 말만 토큰이 되고, 나머지 글자는 건너뛴다 (위치로 원문을 다시 볼 수 있다)."""
+    taken = [False] * len(line)
+    tokens: list[Token] = []
+
+    def add(kind: str, m: re.Match, value: object) -> None:
+        if any(taken[m.start() : m.end()]) or not _valid(kind, value):
+            return
+        for i in range(m.start(), m.end()):
+            taken[i] = True
+        tokens.append(Token(kind, m.group(0), value, m.start(), m.end()))
+
+    for m in _ROLLING.finditer(line):  # "선발완료 시"의 "시"가 TIME이 되지 않게 먼저 잡는다
+        add("ROLLING", m, m.group(0))
+    for kind, pattern in _RULES:
+        for m in pattern.finditer(line):
+            add(kind, m, _value(kind, m))
+    return sorted(tokens, key=lambda t: t.start)
+
+
+def show(line: str) -> str:
+    """토큰 열을 사람이 읽게 보여 준다 (디버깅·발표용). 예: [DATE 2026-08-28] [TILDE] [DATE ?-09-04]"""
+    parts = []
+    for t in tokenize(line):
+        if t.kind == "DATE":
+            y, mo, d = t.value
+            parts.append(f"[DATE {y or '?'}-{mo:02d}-{d:02d}]")
+        elif t.kind == "TIME":
+            parts.append(f"[TIME {t.value[0]:02d}:{t.value[1]:02d}]")
+        elif t.kind in ("MONEY", "PERCENT", "PER"):
+            parts.append(f"[{t.kind} {t.value}]")
+        else:
+            parts.append(f"[{t.kind}]")
+    return " ".join(parts)
