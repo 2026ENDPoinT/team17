@@ -7,7 +7,7 @@ parser.py가 공지를 문단으로 나눈다면, 이 파일은 한 줄 안의 �
   금액 구  :=  TUITION … (FULL | PERCENT)                              "수업료 100%", "등록금 전액"
             |  PER? MAX? MONEY                                          "학기당 250만원", "시간 당 10,320원"
 
-여기서도 뜻은 정하지 않는다. "이 기간의 끝이 마감일인가", "이 금액이 1인당 장학금인가"는 rules.py(의미 분석)가 정한다.
+여기서도 뜻은 정하지 않는다. 구에 속성(연도, 이름표, 쓰임)을 붙이는 것은 semantics.py, 마감일·금액을 고르는 것은 rules.py가 한다.
 """
 
 from dataclasses import dataclass
@@ -30,6 +30,8 @@ class Period:
     # "6. 8.(월) 10:00 ~"처럼 "~" 뒤에 끝이 없다. 이 날짜가 마감일인지 시작일인지 원문만으로는 모른다.
     # "5. 22.(금) 09:00~18:00"처럼 "~" 바로 뒤가 시각이면 같은 날의 시간 범위라 open이 아니다
     open: bool = False
+    # "8. 13.(목) ~ 14.(금)"의 14처럼 끝에 일만 적혀 있다. 끝 날짜의 연도는 semantics.py가 시작 날짜에서 물려준다
+    day_only: bool = False
 
 
 @dataclass
@@ -76,7 +78,7 @@ def periods(tokens: list[Token]) -> list[Period]:
                         year, month = (year + 1 if year else None, 1) if month == 12 else (year, month + 1)
                     end = Token("DATE", nxt.text, (year, month, nxt.value), nxt.start, nxt.end)
                     end_i = _skip_time(tokens, k + 1)
-                    found.append(Period(t, end, False, t.start, tokens[end_i - 1].end))
+                    found.append(Period(t, end, False, t.start, tokens[end_i - 1].end, day_only=True))
                     i = end_i
                     continue
                 # "09:00~18:00"이나 "00시 ~ 당일 자정"은 같은 날의 시간 범위다

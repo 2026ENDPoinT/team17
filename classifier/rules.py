@@ -5,14 +5,11 @@
 """
 
 import re
-from datetime import date, timedelta
+from datetime import date
 
 from config import (
-    AMOUNT_AFTER_SKIP,
-    AMOUNT_BEFORE_SKIP,
     AMOUNT_LINE_SKIP,
     AMOUNT_LINE_WORDS,
-    AMOUNT_MAX_PER_PERSON,
     CLOSED_WORDS,
     COND_AFTER_SKIP,
     COND_BEFORE_SKIP,
@@ -25,7 +22,6 @@ from config import (
     CONTINUATION_MARKS,
     DEADLINE_LINE_WORDS,
     DEADLINE_SKIP_WORDS,
-    DEADLINE_YEAR_GAP,
     DEPARTMENT_LINE_WORDS,
     DOCUMENT_HEAD_WORDS,
     DOCUMENT_SKIP_WORDS,
@@ -47,7 +43,6 @@ from config import (
     NO_LIMIT_WORDS,
     NOT_CONDITION_WORDS,
     NOTICE_ATTACHMENT_WORDS,
-    PERIOD_OTHER_WORDS,
     PREFERENCE_HEAD_WORDS,
     PREFERENCE_TAGS,
     RECRUIT_WORDS,
@@ -63,8 +58,9 @@ from config import (
     WORK_WORDS,
 )
 from dictionary import COLLEGES, DEPARTMENTS, FIELDS, NOT_REGION, SIDO, SIGUNGU
-from lexer import Token, tokenize
-from phrases import amounts, periods
+from lexer import tokenize
+from phrases import amounts
+from semantics import MIN_HOURLY, dated_periods, line_deadline, roled_amounts
 
 
 def _lines(text: str) -> list[str]:
@@ -211,29 +207,15 @@ def extract_name(title: str) -> str:
 # 여기서는 "이 금액 구가 1인당 장학금인가"를 정한다: 소득 기준·예산·계산 예시·기준 금액을 거르고, 대상별이면 대학생 것을 고른다.
 
 _KIND_ORDER = {"tuition_ratio": 0, "hourly": 1, "lump_sum": 2}  # 한 줄에 여러 종류면 등록금 비율 → 시급 → 금액 순으로 본다
-_MIN_VALUE = {"lump_sum": 10_000, "hourly": 5_000, "tuition_ratio": 1}  # "1원", "3원"처럼 금액일 수 없는 값은 버린다
-# 1인당 장학금으로 보기에 너무 큰 금액은 총 예산이다 ("우수장학금 | 대학생 | 115명 | 180백만원", raw_test 894772)
-_MAX_VALUE = {"lump_sum": AMOUNT_MAX_PER_PERSON, "hourly": 100_000, "tuition_ratio": 100}
 
 
 def _amount_from_line(line: str) -> dict | None:
-    """한 줄의 금액 구 중 장학금 금액을 고른다.
+    """한 줄의 금액 구 중 장학금 금액을 고른다. 금액마다 쓰임(role)은 semantics.py가 속성으로 정해 둔다.
 
-    소득 단어("차상위", "소득")보다 뒤에 나오는 금액은 소득 기준일 수 있어서 쓰지 않는다.
-    예: "수업료 100% 면제(단, 차상위~5구간 … 50%만 면제)" → 100%를 쓴다.
+    role이 "지급"인 것만 쓴다. 예: "수업료 100% 면제(단, 차상위~5구간 … 50%만 면제)"의 50%는
+    왼쪽에 소득 말이 있어 "소득 기준"이 되고, 100%를 쓴다.
     """
-    income_at = min((line.find(w) for w in INCOME_WORDS if w in line), default=len(line))
-    tokens = tokenize(line)
-
-    def table_total(a) -> bool:
-        # 표 행 "재능장학금 | 대학생 | 10명 | 10백만원"의 금액은 인원 전체의 예산이다 ("인당"이 있으면 1인당)
-        return (any(t.kind == "CELL" for t in tokens) and "인당" not in line
-                and re.search(r"\d+\s*명", line[: a.first]) is not None)
-
-    ok = [a for a in amounts(tokens)
-          if a.first < income_at and _MIN_VALUE[a.kind] <= a.value <= _MAX_VALUE[a.kind]
-          and not table_total(a)
-          and not _context_skip(line, a.first, a.last, AMOUNT_BEFORE_SKIP, AMOUNT_AFTER_SKIP)]
+    ok = [r.amount for r in roled_amounts(line) if r.role == "지급"]
     if not ok:
         return None
     kind = min((a.kind for a in ok), key=_KIND_ORDER.__getitem__)
@@ -258,7 +240,7 @@ def extract_amount(body: str) -> tuple[dict, str | None]:
                 return found, _short(line)
     # 2) 근로 공지는 시급이 금액 단어 없이 나오기도 한다 ("1일 최대 8시간 (… 시간 당 10,320원)")
     for line in lines:
-        hourly = [a for a in amounts(tokenize(line)) if a.kind == "hourly" and a.value >= _MIN_VALUE["hourly"]]
+        hourly = [a for a in amounts(tokenize(line)) if a.kind == "hourly" and a.value >= MIN_HOURLY]
         if hourly:
             a = hourly[0]
             return {"type": "hourly", "value": a.value, "text": line[a.first : a.last].strip()}, _short(line)
@@ -273,91 +255,20 @@ YEAR_FIX_NOTE = "원문 연도를 게시 연도로 고침"  # deadline_text에 �
 OPEN_END_NOTE = "끝 날짜가 적혀 있지 않음"  # "6. 8.(월) 10:00 ~": 시작일일 수 있다
 
 
-def _year_typo_fixed(value: date, posted: date) -> date | None:
-    """원문에 적힌 연도가 오타로 보이면 게시 연도로 고친 날짜를, 아니면 None을 돌려준다.
-
-    예: 2026년 9월 게시글의 "신청기간 : 2025. 9. 30. ~ 10. 5." (896003), 2026년 8월 게시글의 "2027. 8. 24." (894168).
-    적힌 연도로는 게시일과 180일 넘게 떨어져 있고, 게시 연도로 바꾸면 게시일 30일 전 ~ 120일 뒤에 들어오면 오타로 본다.
-    """
-    if abs((value - posted).days) <= DEADLINE_YEAR_GAP:
-        return None
-    try:
-        fixed = value.replace(year=posted.year)
-    except ValueError:  # 2월 29일
-        return None
-    return fixed if -30 <= (fixed - posted).days <= 120 else None
-
-
-def _resolve_dates(tokens: list[Token], posted: date) -> tuple[dict[int, date], bool]:
-    """줄의 DATE 토큰마다 실제 날짜를 정한다. 반환: ({토큰 위치: 날짜}, 연도 오타를 고쳤는지).
-
-    연도가 없으면 앞 날짜의 연도, 그것도 없으면 게시일 기준으로 정한다 (12월 글의 "~1/10"은 다음 해).
-    """
-    resolved: dict[int, date] = {}
-    year: int | None = None
-    fixed_any = False
-    for t in tokens:
-        if t.kind != "DATE":
-            continue
-        y, mo, d = t.value
-        if y:
-            year = y
-        use_year = year or posted.year
-        try:
-            value = date(use_year, mo, d)
-        except ValueError:
-            continue
-        if y and (fixed := _year_typo_fixed(value, posted)):
-            value, year, fixed_any = fixed, fixed.year, True  # 뒤에 오는 연도 없는 날짜도 고친 연도를 쓴다
-        if year is None and value < posted - timedelta(days=60):
-            value = value.replace(year=use_year + 1)
-        resolved[t.start] = value
-    return resolved, fixed_any
-
-
-def _pick_period(line: str, found: list) -> object:
-    """한 줄에 기간 구가 여러 개면 신청 마감에 해당하는 것을 고른다.
-
-    각 기간 앞의 이름표(앞 기간이 끝난 곳부터 이 기간 시작까지의 글자)를 본다. 이름표에 "실행·발표·지급 …"이 있는 기간은
-    신청 기간이 아니라서 뺀다. 남은 것 중 마지막을 쓴다.
-      "대출신청기간: 7. 1. ~ 11. 17., 대출실행기간: 7. 1. ~ 11. 18." → 11/17 (실행기간은 뺌)
-      "모집기간: 7. 3. ~ 7. 9. 7/13(월)까지 기한 연장!" → 7/13 (뒤 기간은 이름표가 없어 같은 이름표가 이어진다)
-    """
-    keep = []
-    prev_end = 0
-    for p in found:
-        label = line[prev_end : p.first]
-        if not _has_any(label, PERIOD_OTHER_WORDS):
-            keep.append(p)
-        prev_end = p.last
-    return (keep or found)[-1]
-
-
 def _deadline_in(line: str, posted: date) -> tuple[str, date | None, bool, bool] | None:
-    """한 줄의 기간 구로 마감을 정한다.
+    """한 줄의 기간 구로 마감을 정한다. 날짜·이름표·쓰임은 semantics.py가 속성으로 계산해 둔다.
 
     반환: ("date", 날짜, 연도 고침, 끝 날짜 없음) / ("rolling", None, False, False) / None.
     "8. 24. ~ 8. 31."은 끝(8/31), "~ 2026.6.22."는 그 날짜, "8. 24. ~ 선발완료 시까지"는 상시 모집이다.
+    "대출신청기간: 7. 1. ~ 11. 17., 대출실행기간: 7. 1. ~ 11. 18."은 실행기간의 applies가 False라 11/17이다.
     "6. 8.(월) 10:00 ~"처럼 "~" 뒤에 끝이 없으면 그 날짜를 쓰되 확인 필요로 표시한다 (시작일일 수 있다).
     """
-    tokens = tokenize(line)
-    found = periods(tokens)
-    if not found:
+    chosen = line_deadline(dated_periods(line, posted))
+    if chosen is None:
         return None
-    chosen = _pick_period(line, found)
-    if chosen.rolling:
+    if chosen.period.rolling:
         return None if _has_any(line, ROLLING_SKIP_WORDS) else ("rolling", None, False, False)
-    resolved, fixed = _resolve_dates(tokens, posted)
-    value = resolved.get(chosen.end.start)
-    if value is None and chosen.start is not None and chosen.start.start in resolved:
-        # 구문 분석이 만든 끝 날짜 ("8. 13.(목) ~ 14.(금)"의 14일): 연도는 시작 날짜에서 가져온다
-        begin = resolved[chosen.start.start]
-        _, month, day = chosen.end.value
-        try:
-            value = date(begin.year + (1 if month < begin.month else 0), month, day)
-        except ValueError:
-            value = None
-    return ("date", value, fixed, chosen.open) if value else None
+    return ("date", chosen.date, chosen.fixed, chosen.period.open) if chosen.date else None
 
 
 def extract_deadline(title: str, body: str, posted: date) -> tuple[str | None, str | None, str | None]:
