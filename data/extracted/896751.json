@@ -1,0 +1,51 @@
+{
+  "id": "896751",
+  "notice_kind": "안내",
+  "notice_kind_reason": "제목에 '서약서'",
+  "name": "장학생 서약서 10/27(화)까지 제출(필수) 및 지급 일정",
+  "title": "[주거안정장학금 선발 학생 필독] 장학생 서약서 10/27(화)까지 제출(필수) 및 지급 일정 안내",
+  "category": "교내",
+  "summary": "<2026학년도 2학기 한국장학재단 주거안정장학금 지원 대상 안내>",
+  "amount": {
+    "type": "lump_sum",
+    "value": 200000,
+    "text": "20만원"
+  },
+  "deadline": "2026-10-27",
+  "deadline_text": "[주거안정장학금 선발 학생 필독] 장학생 서약서 10/27(화)까지 제출(필수) 및 지급 일정 안내",
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": null,
+    "score_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": [],
+    "other_conditions": []
+  },
+  "burden": {
+    "documents": [],
+    "interview": false
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "장학공지",
+    "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896751",
+    "posted_at": "2026-10-20"
+  },
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": "- (9월분) 10월 이내 최초 20만원 정액 지원금 지급 ※ 서약서 기한 내 미제출 시 전체 장학금 지급지연될 수 도 있음",
+    "deadline": "[주거안정장학금 선발 학생 필독] 장학생 서약서 10/27(화)까지 제출(필수) 및 지급 일정 안내",
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "needs_check": [
+    "documents"
+  ],
+  "content_hash": "sha256:d7e8f382f47a90bc2ec4ccb279a8266af96f695055759885691eddbf94bd46ed",
+  "reviewed": false
+}

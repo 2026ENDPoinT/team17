@@ -16,16 +16,29 @@
       },
       "deadline": "2026-11-20",
       "deadline_text": "2026. 11. 13.(금) ~ 11. 20.(금) 17:00까지",
+      "closed": false,
       "eligibility": {
-        "grades": [2, 3, 4],
+        "grades": [
+          2,
+          3,
+          4
+        ],
         "departments": null,
         "gpa_min": 3.0,
+        "score_min": null,
         "income_max": 8,
         "residence": null,
+        "other_conditions": [
+          "학칙에 의한 징계 사실이 없는 자"
+        ],
         "unclear": []
       },
       "burden": {
-        "documents": ["장학금 신청서", "성적증명서", "소득분위 확인서"],
+        "documents": [
+          "장학금 신청서",
+          "성적증명서",
+          "소득분위 확인서"
+        ],
         "interview": false
       },
       "duplicate_restriction": true,
@@ -34,11 +47,18 @@
         "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=900001",
         "posted_at": "2026-11-10"
       },
-      "also_posted_bidx": ["900105", "900112"],
+      "also_posted_bidx": [
+        "900105",
+        "900112"
+      ],
       "evidence": {
         "amount": "지원금액: 1인당 250만원 (일시 지급)",
-        "deadline": "신청기간: 2026. 11. 13.(금) ~ 11. 20.(금) 17:00까지"
+        "deadline": "신청기간: 2026. 11. 13.(금) ~ 11. 20.(금) 17:00까지",
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": null
       },
+      "needs_check": [],
       "reviewed": true
     },
     {
@@ -54,16 +74,25 @@
       },
       "deadline": "2026-11-27",
       "deadline_text": "~11/27 18시까지",
+      "closed": false,
       "eligibility": {
         "grades": null,
-        "departments": ["전기정보공학과"],
+        "departments": [
+          "전기정보공학과"
+        ],
         "gpa_min": 3.5,
+        "score_min": null,
         "income_max": null,
         "residence": null,
+        "other_conditions": [],
         "unclear": []
       },
       "burden": {
-        "documents": ["장학금 신청서", "자기소개서", "학과장 추천서"],
+        "documents": [
+          "장학금 신청서",
+          "자기소개서",
+          "학과장 추천서"
+        ],
         "interview": true
       },
       "duplicate_restriction": true,
@@ -75,8 +104,12 @@
       "also_posted_bidx": [],
       "evidence": {
         "amount": "선발 시 등록금의 50%를 감면함",
-        "deadline": "제출기한: ~11/27 18시까지 학과사무실"
+        "deadline": "제출기한: ~11/27 18시까지 학과사무실",
+        "duplicate_restriction": null,
+        "departments": "지원대상: 전기정보공학과 재학생",
+        "residence": null
       },
+      "needs_check": [],
       "reviewed": true
     },
     {
@@ -92,16 +125,23 @@
       },
       "deadline": "2026-11-11",
       "deadline_text": "2026. 11. 4. ~ 11. 11.",
+      "closed": true,
       "eligibility": {
         "grades": null,
         "departments": null,
         "gpa_min": null,
+        "score_min": 70,
         "income_max": null,
         "residence": null,
+        "other_conditions": [
+          "해당 근로시간에 근무가 가능한 자"
+        ],
         "unclear": []
       },
       "burden": {
-        "documents": ["근로장학 신청서"],
+        "documents": [
+          "근로장학 신청서"
+        ],
         "interview": true
       },
       "duplicate_restriction": false,
@@ -113,8 +153,12 @@
       "also_posted_bidx": [],
       "evidence": {
         "amount": "근로 시급: 10,320원",
-        "deadline": "모집기간: 2026. 11. 4. ~ 11. 11."
+        "deadline": "모집기간: 2026. 11. 4. ~ 11. 11.",
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": null
       },
+      "needs_check": [],
       "reviewed": false
     },
     {
@@ -130,16 +174,27 @@
       },
       "deadline": null,
       "deadline_text": "첨부 공고문 참조",
+      "closed": false,
       "eligibility": {
         "grades": null,
         "departments": null,
         "gpa_min": null,
+        "score_min": null,
         "income_max": null,
         "residence": "OO시",
-        "unclear": ["residence", "income_max"]
+        "other_conditions": [],
+        "unclear": [
+          "residence",
+          "income_max"
+        ]
       },
       "burden": {
-        "documents": ["신청서", "주민등록등본", "재학증명서", "성적증명서"],
+        "documents": [
+          "신청서",
+          "주민등록등본",
+          "재학증명서",
+          "성적증명서"
+        ],
         "interview": false
       },
       "duplicate_restriction": null,
@@ -151,8 +206,16 @@
       "also_posted_bidx": [],
       "evidence": {
         "amount": "장학금액: 예산 범위 내에서 지급",
-        "deadline": null
+        "deadline": null,
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": "(샘플) OO시 지역인재 장학생 선발 공고 안내"
       },
+      "needs_check": [
+        "amount",
+        "deadline",
+        "poster_only"
+      ],
       "reviewed": false
     }
   ]

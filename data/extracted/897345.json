@@ -1,0 +1,55 @@
+{
+  "id": "897345",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '선발'",
+  "name": "통영시 저소득 대학생 장학금 지원대상자",
+  "title": "(홍보) 통영시 저소득 대학생 장학금 지원대상자 선발 안내(~11/23(월)까지)",
+  "category": "교외",
+  "summary": "본문 없이 포스터 이미지로 안내된 공지입니다. 원문을 확인하세요.",
+  "amount": {
+    "type": "unknown",
+    "value": null,
+    "text": null
+  },
+  "deadline": "2026-11-23",
+  "deadline_text": "(홍보) 통영시 저소득 대학생 장학금 지원대상자 선발 안내(~11/23(월)까지)",
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": null,
+    "score_min": null,
+    "income_max": null,
+    "residence": "통영시",
+    "unclear": [
+      "residence"
+    ],
+    "other_conditions": []
+  },
+  "burden": {
+    "documents": [],
+    "interview": null
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "장학공지",
+    "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=897345",
+    "posted_at": "2026-11-02"
+  },
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": null,
+    "deadline": "(홍보) 통영시 저소득 대학생 장학금 지원대상자 선발 안내(~11/23(월)까지)",
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": "(홍보) 통영시 저소득 대학생 장학금 지원대상자 선발 안내(~11/23(월)까지)"
+  },
+  "filtered_conditions": [],
+  "needs_check": [
+    "amount",
+    "documents",
+    "poster_only"
+  ],
+  "content_hash": "sha256:dcbf938d58b23de1938648a9bee3c3d483f9a32bc4a042669aabe6d25c5e5859",
+  "reviewed": false
+}

@@ -1,0 +1,54 @@
+{
+  "id": "895660",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '선발'",
+  "name": "2026년 하반기 문주장학재단 AI · ICT 인재 장학생",
+  "title": "(홍보) 2026년 하반기 문주장학재단 AI · ICT 인재 장학생 선발 안내(마감)",
+  "category": "교외",
+  "summary": "본문 없이 포스터 이미지로 안내된 공지입니다. 원문을 확인하세요.",
+  "amount": {
+    "type": "unknown",
+    "value": null,
+    "text": null
+  },
+  "deadline": null,
+  "deadline_text": null,
+  "closed": true,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": null,
+    "score_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": [],
+    "other_conditions": []
+  },
+  "burden": {
+    "documents": [],
+    "interview": null
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "장학공지",
+    "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=895660",
+    "posted_at": "2026-09-17"
+  },
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": null,
+    "deadline": null,
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "needs_check": [
+    "amount",
+    "deadline",
+    "documents",
+    "poster_only"
+  ],
+  "content_hash": "sha256:3bde078519b5c0e4d8d0ef9f999e2a9abbe047dc342288d02de3cf9a79801f3c",
+  "reviewed": false
+}
