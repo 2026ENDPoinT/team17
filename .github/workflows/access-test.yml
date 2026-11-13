@@ -1,0 +1,30 @@
+# GitHub Actions 러너(해외 IP)에서 학교 사이트에 접근되는지 확인하는 시험용 워크플로.
+# - 자동으로 돌지 않는다. test/actions-access 브랜치에 푸시하거나 Actions 화면에서 직접 실행할 때만 돈다.
+# - 요청은 최대 18번이다 (tools/research/actions_access.py 설명 참고).
+name: 학교 사이트 접근 시험
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - test/actions-access
+
+jobs:
+  access:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: astral-sh/setup-uv@v10.3.3
+        with:
+          enable-cache: true
+
+      - name: 의존성 설치
+        run: uv sync --locked
+
+      - name: 러너 위치 확인 (IP가 어느 나라인지)
+        run: curl -s --max-time 10 https://ipinfo.io/country || true
+
+      - name: 학교 사이트 접근 시험
+        run: uv run python tools/research/actions_access.py
