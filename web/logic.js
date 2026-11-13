@@ -61,9 +61,10 @@ export function filterScholarships(items, filters, today = getToday()) {
       // 선택한 학년 중 하나라도 대상 학년에 포함되면 이 그룹의 조건을 통과한다.
       if (!filters.grades.some((grade) => eligibility.grades.includes(grade))) return false;
     }
-    if (filters.department && (uncertain.includes('departments') ||
+    if (filters.departments.length > 0 && (uncertain.includes('departments') ||
         !Array.isArray(eligibility.departments) ||
-        !eligibility.departments.includes(filters.department))) return false;
+        // 선택한 학과 중 하나라도 지원 학과에 포함되면 통과한다.
+        !filters.departments.some((department) => eligibility.departments.includes(department)))) return false;
     if (filters.openOnly) {
       const deadline = parseDeadline(item.deadline);
       if (item.closed === true || uncertain.includes('deadline') ||

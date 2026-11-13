@@ -180,9 +180,9 @@ function handleRemoveFilter(key, value) {
   handleApplyFilters(filters);
 }
 
-// 메인의 초기화 버튼에서 호출하며, 적용된 모든 조건을 즉시 해제한다.
+// 메인의 초기화 버튼에서 호출하며, 복수 학과를 포함한 모든 조건을 즉시 해제한다.
 function handleResetFilters() {
-  handleApplyFilters({ categories: [], grades: [], department: null, openOnly: false });
+  handleApplyFilters({ categories: [], grades: [], departments: [], openOnly: false });
 }
 
 // 메인의 제목 버튼에서 호출하며 즐겨찾기 주소로 이동한다. 실제 표시는 주소 변경 이벤트가 담당한다.

@@ -3,16 +3,18 @@
 import { FILTER_OPTIONS, AMOUNT_TYPES } from './filterOptions.js';
 const STORAGE_KEY = 'scholarship-hunter:main-settings';
 
-// 저장된 목록 설정을 읽는다. 저장 내용이 없거나 손상됐으면 기본값을 반환한다.
+// 목록 설정을 복원하고 기존 단일 학과는 배열로 옮긴다. 없거나 손상된 설정은 기본값을 쓴다.
 export function loadSettings() {
   const defaults = {
-    filters: { categories: [], grades: [], department: null, openOnly: false },
+    filters: { categories: [], grades: [], departments: [], openOnly: false },
     sortBy: 'deadline', amountType: 'lump_sum', listScrollTop: 0,
   };
   try {
     const saved = JSON.parse(sessionStorage.getItem(STORAGE_KEY));
     if (!saved || typeof saved !== 'object') return defaults;
     const filters = saved.filters ?? {};
+    const departments = Array.isArray(filters.departments)
+      ? filters.departments : [filters.department];
     return {
       filters: {
         // 저장된 값 중 유효한 유형만 복원한다.
@@ -21,7 +23,8 @@ export function loadSettings() {
         // 저장된 값 중 1~4학년만 복원한다.
         grades: Array.isArray(filters.grades)
           ? filters.grades.filter((value) => FILTER_OPTIONS.grades.includes(value)) : [],
-        department: FILTER_OPTIONS.departments.includes(filters.department) ? filters.department : null,
+        // 기존 단일 선택도 보존하며, 중복과 유효하지 않은 학과를 제거한다.
+        departments: [...new Set(departments.filter((value) => FILTER_OPTIONS.departments.includes(value)))],
         openOnly: filters.openOnly === true,
       },
       sortBy: saved.sortBy === 'amount' ? 'amount' : 'deadline',

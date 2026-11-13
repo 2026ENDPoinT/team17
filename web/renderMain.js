@@ -156,12 +156,12 @@ export function renderMain(container, handlers = {}) {
   return { layout, list, title, sort, filters: filters.content, filterSelectButton: filters.selectButton, resetButton };
 }
 
-// 메인에 적용된 필터만 표시하고, 각 제거 버튼을 누르면 해당 조건을 호출자에게 전달한다.
+// 적용된 필터를 학과별로도 각각 표시하고, 제거 버튼을 누르면 해당 조건만 호출자에게 전달한다.
 export function renderSelectedFilters(container, filters, onRemove) {
   const entries = [];
   for (const value of filters.categories) entries.push(['categories', value, value]);
   for (const value of filters.grades) entries.push(['grades', value, `${value}학년`]);
-  if (filters.department) entries.push(['department', filters.department, filters.department]);
+  for (const value of filters.departments) entries.push(['departments', value, value]);
   if (filters.openOnly) entries.push(['openOnly', true, '모집 중만 보기']);
   const fragment = document.createDocumentFragment();
   for (const [key, value, label] of entries) {
