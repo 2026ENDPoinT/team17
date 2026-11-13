@@ -31,7 +31,15 @@
     ]
   },
   "burden": {
-    "documents": [],
+    "documents": [
+      "장학생 지원서",
+      "자기소개서",
+      "개인정보 및 민감정보의 수집·이용·제공에 관한 동의서",
+      "국가유공자 증명서 또는 국가유공자(유족 또는 가족) 확인서",
+      "성적증명서(추후 제출)",
+      "소득분위증명서(추후 제출)",
+      "봉사활동 확인서(추후 해당자에 한해 제출)"
+    ],
     "interview": false
   },
   "duplicate_restriction": null,
@@ -51,11 +59,10 @@
   },
   "filtered_conditions": [],
   "from_attachment": [
+    "documents",
     "income_max"
   ],
-  "needs_check": [
-    "documents"
-  ],
+  "needs_check": [],
   "content_hash": "sha256:072a42258049d16b40234cca2f0e7f78f31af96e8f48f17504ef185c7e1d5c38",
   "reviewed": false
 }

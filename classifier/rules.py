@@ -28,6 +28,7 @@ from config import (
     ELIGIBILITY_LINE_WORDS,
     EVIDENCE_MAX,
     EXCLUDE_AFTER_WORDS,
+    EXCLUDE_HEAD_WORDS,
     EXTERNAL_WORDS,
     FORM_ATTACHMENT_WORDS,
     GRADE_SYSTEM_WINDOW,
@@ -315,6 +316,22 @@ _GPA = re.compile(r"(\d\.\d{1,2})\s*(?:/\s*4\.[35])?\s*(?:점\s*)?이상")
 # 100점 만점 성적: "백분율 성적 85점 이상", "C0(70점/100점 만점) 이상"
 _SCORE = re.compile(r"(?<!\d)(\d{2})\s*점[^\n]{0,15}?이상")
 _INCOME = re.compile(r"(?:(\d{1,2})\s*[~\-]\s*)?(\d{1,2})\s*(?:구간|분위)")
+_GRADE_SEMESTER = re.compile(r"\s*\d\s*학기")  # "2학년 2학기 이상"의 "2학기"
+# "2, 3, 4학년 진학 예정자", "2학년 1학기 진학 예정자": 다음 학기의 학년이라 지금 학년은 하나 아래다
+_GRADE_ADVANCE = re.compile(r"(?:\s*\d\s*학기)?\s*(?:으로|로)?\s*(?:진학|진입|진급)\s*예정")
+
+
+def _grades_after(line: str, end: int, grades: list[int]) -> list[int]:
+    """학년 뒤의 말로 학년 목록을 고친다: "N학년 (N학기) 이상/이하", "N학년 진학 예정"."""
+    if _GRADE_ADVANCE.match(line, end):
+        return [g - 1 for g in grades if g > 1]
+    sem = _GRADE_SEMESTER.match(line, end)
+    tail = line[sem.end() if sem else end :][:4]
+    if len(grades) == 1 and "이상" in tail:  # "3학년 이상", "2학년 2학기 이상" → 그 학년부터 4학년
+        return list(range(grades[0], 5))
+    if len(grades) == 1 and "이하" in tail:  # "2학년 이하" → 1~2학년
+        return list(range(1, grades[0] + 1))
+    return grades
 
 
 def extract_eligibility(body: str) -> dict:
@@ -351,16 +368,12 @@ def extract_eligibility(body: str) -> dict:
             if ranges:
                 lo, hi = int(ranges[0].group(1)), int(ranges[0].group(2))
                 if 1 <= lo <= hi <= MAX_GRADE:
-                    result["grades"] = list(range(lo, hi + 1))
+                    result["grades"] = _grades_after(line, ranges[0].end(), list(range(lo, hi + 1))) or None
             elif singles:
                 m = singles[0]
                 grades = sorted({int(g) for g in re.findall(r"\d", m.group(1))})
-                tail = line[m.end() : m.end() + 4]
-                if len(grades) == 1 and "이상" in tail:  # "3학년 이상" → 3~4학년
-                    grades = list(range(grades[0], 5))
-                elif len(grades) == 1 and "이하" in tail:  # "2학년 이하" → 1~2학년
-                    grades = list(range(1, grades[0] + 1))
-                if all(1 <= g <= MAX_GRADE for g in grades):
+                grades = _grades_after(line, m.end(), grades)
+                if grades and all(1 <= g <= MAX_GRADE for g in grades):
                     result["grades"] = grades
         if _has_any(line, ["성적", "평점", "학점"]):
             if result["gpa_min"] is None and (found := ok_matches(_GPA, line)):
@@ -588,6 +601,20 @@ def _only_structured(text: str) -> bool:
     return all(_TRIVIAL_PART.match(p) or any(r.search(p) for r in _STRUCTURED) for p in parts)
 
 
+_EXCLUDE_HEAD = re.compile("|".join(map(re.escape, EXCLUDE_HEAD_WORDS)))
+_TABLE_HEAD = re.compile(r"^[\s|]*(?:(?:구분|내용|비고|항목|세부\s*내용|요건)[\s|]*){2,}$")
+_ARROW_LABEL = re.compile(r"^([가-힣]{1,6})\s*▸\s*")
+_HEADCOUNT = re.compile(r"^\s*(?:선발|모집|지원)\s*인원\s*[:：]?\s*(?:약|총|\d)")
+# 줄이 이 말로 끝나면 다음 줄에 문장이 이어진다 ("…농업리더(…)로" + "성장하겠다는 …", "…대학생으로," + "…")
+_CONTINUE_END = re.compile(r"(?:[,，]|으로|로|하며|이며|며|하고|및|또는|와|과|의|를|을|에)$")
+
+
+def _continues(line: str) -> bool:
+    """줄바꿈으로 끊겨 다음 줄에 이어지는 줄인지: 연결 어미로 끝나거나 괄호가 닫히지 않았다."""
+    text = line.rstrip()
+    return bool(_CONTINUE_END.search(text)) or text.count("(") > text.count(")")
+
+
 def _preference_tag(line: str) -> str | None:
     """우대·가산점·우선순위 줄이면 그 이름표를 돌려준다. 자격 조건 줄이면 None."""
     for tag, words in PREFERENCE_TAGS.items():
@@ -605,21 +632,32 @@ def conditions_from_block(block: list[str], block_tag: str | None) -> list[str]:
     """
     results: list[str] = []
     heads = CONDITION_HEAD_WORDS + PREFERENCE_HEAD_WORDS
-    # 쉼표로 끝난 줄은 다음 줄과 한 문장이다 ("…북한이탈청소년으로," + "2027년 … 대학생")
+    # 줄바꿈으로 끊긴 문장은 다음 줄과 합친다: 쉼표·연결 어미("…농업리더로" + "성장하겠다는 …")로 끝나거나
+    # 괄호가 닫히지 않은 줄 다음에 번호 없는 줄이 오면 한 문장이다
     merged: list[str] = []
     for raw in block[:CONDITION_BLOCK_MAX]:
-        if merged and merged[-1].endswith(",") and _level(raw) == LEVEL_NONE:
-            merged[-1] = merged[-1] + " " + raw
+        if merged and _level(raw) == LEVEL_NONE and _continues(merged[-1]):
+            merged[-1] = merged[-1] + " " + raw.strip()
         else:
             merged.append(raw)
     prev_tag: str | None = None
+    default_tag = block_tag
     for raw in merged:
+        # "※ 제외대상 |"처럼 제외 제목만 있는 줄: 아래 줄은 자격이 아니라 제외 조건이다
+        if _has_any(raw, EXCLUDE_HEAD_WORDS) and not _EXCLUDE_HEAD.sub("", strip_marks(raw)).strip(" :|()"):
+            default_tag = "제외"
+            prev_tag = None
+            continue
         # 이 줄의 이름표: 줄에 우대·가산·순위 말이 있으면 그것, 번호 없이 앞 줄에 이어 쓴 줄이면 앞 줄 것,
         # 아니면 문단 제목의 이름표 ("우대사항" 문단 아래 줄은 모두 우대)
-        tag = _preference_tag(raw) or (prev_tag if _level(raw) == LEVEL_NONE else None) or block_tag
+        tag = _preference_tag(raw) or (prev_tag if _level(raw) == LEVEL_NONE else None) or default_tag
         prev_tag = tag
         # 문단 제목만 있는 줄 ("4. (재단)지원자격", "- 우대 사항:", "신청대상 및 제출서류")
         if _has_any(raw, heads) and not _clean_condition(raw).strip(":"):
+            continue
+        if _TABLE_HEAD.match(strip_marks(raw)):  # 표 머리 "구분내용비고", "구분 | 내용 | 비고"
+            continue
+        if _HEADCOUNT.match(strip_marks(raw)):  # "선발인원 5명" (조건이 아니다. "모집인원보다 많을 경우"는 둔다)
             continue
         if _has_any(raw, heads) and ":" not in raw and not tag:
             continue
@@ -628,18 +666,23 @@ def conditions_from_block(block: list[str], block_tag: str | None) -> list[str]:
             continue
         if raw.startswith(("►", "▶")) and len(raw) < 15:  # "► 일반(대학생)" 같은 구분 이름표
             continue
-        text = _clean_condition(raw)
+        text = _ARROW_LABEL.sub(r"\1: ", _clean_condition(raw))  # "연령 ▸만 30세 미만" → "연령: 만 30세 미만"
+        text = text.replace("▸", " / ").strip(" /")
         if ":" in raw and "제외" in raw.split(":")[0] and not text.startswith("제외"):
             text = "제외: " + text  # "제외 대상 : …"
-        if len(text) < 6 or (not tag and ("아래" in text or _only_structured(text))):
-            continue
+        if len(text) < 6 or not re.search(r"[가-힣]", text) or (not tag and ("아래" in text or _only_structured(text))):
+            continue  # 빈 표 행 "| | | |"도 뺀다
         if tag and _has_any(text, PREFERENCE_HEAD_WORDS) and text.endswith((")", ":")) and len(text) < 40:
             continue  # "교내 선발우선순위(지원자가 선발인원보다 많을 경우)" 같은 문단 제목
-        if tag and not text.startswith(tag):
-            text = f"{tag}: {text}"
-        text = _short(text, CONDITION_MAX)
-        if text not in results:
-            results.append(text)
+        # 표가 풀려 한 줄에 이어진 목록 "A 수혜자 - B 수혜자 - 대학원생, 휴학생"은 항목마다 나눈다
+        listed = text.count(" - ") >= 2 and "|" not in text  # 표 행 안의 "-"는 칸 설명이라 나누지 않는다
+        pieces = [p.strip() for p in re.split(r"\s+-\s+", text)] if listed else [text]
+        for piece in pieces:
+            if tag and not piece.startswith(tag):
+                piece = f"{tag}: {piece}"
+            piece = _short(piece, CONDITION_MAX)
+            if piece not in results:
+                results.append(piece)
     return results
 
 
@@ -680,24 +723,164 @@ def prepare_attachment_text(text: str) -> str:
 
 # ── 준비 부담 ──
 
-_ITEM_MARK = re.compile(r"^\s*(\d+\s*[).]|[-•○▶►·※*]|[①-⑳])\s*")
-_SECTION_HEAD = re.compile(r"^\s*([가-하]\s*[.):]|\d+\s*\.\s*\S+\s*[:：])")
-_COUNT = re.compile(r"\s*\d+\s*부\b.*$")
+# 서류 목록 항목 앞의 기호·번호: "◦ …", "☑ 1. …", "5.1. …", "가. …", "① …", "- …"
+_DOC_SYMBOL = r"[-•○◦∘▶►·*＊☑✔□■▪◆◇❍❑⦁ᄋㅇ]"
+_DOC_NUMBER = r"\d+(?:\s*\.\s*\d+)*\s*[.)]|[가-하]\s*[.)]|[①-⑳](?:\s*-\s*\d+)?"  # "⑧-1 주민등록초본"
+# 한 줄에 이어 쓴 항목: "○ 신청서 1부 ○ 수혜 확인서 1부", "① 자기소개서 1부② 동의서 1부", "ㅇ 소정양식 … ① 신청서"
+_DOC_MID_ITEM = re.compile(r"\s+(?=[○◦❍ㅇ]\s)|\s*(?=[①-⑳])|(?<=[가-힣)])(?=\d{1,2}\.\s*[가-힣])")  # "신청서2. 주민등록초본"
+_DOC_ITEM = re.compile(rf"^\s*(?:{_DOC_SYMBOL}+\s*)?(?:{_DOC_NUMBER})\s*|^\s*{_DOC_SYMBOL}+\s*")
+_DOC_NOTE = re.compile(r"^\s*(?:[※☞]|\*\*)")  # 목록 사이의 안내 줄. 서류가 아니지만 목록은 이어진다
+_DOC_MAX = 15  # 서류 목록 최대 개수
+_DOC_NAME_MAX = 40  # 서류 이름 최대 글자 수
+_DOC_LEAD_SKIP = 3  # 제목과 첫 항목 사이에 건너뛸 수 있는 표 머리 줄 수 ("제출서류비고", "공통", "서류")
 
 
-def _clean_doc(text: str) -> str:
-    text = _ITEM_MARK.sub("", text)
-    text = re.sub(r"^\(필수\)\s*", "", text)
-    text = _COUNT.sub("", text)
-    text = re.sub(r"\s*각$", "", text)
-    return text.strip(" .,:：")[:40]
+def _doc_level(line: str) -> int:
+    """서류 목록의 번호 단계: "8." → 1, "5.1."·"가." → 2, 다른 번호·기호 → 3, 없음 → LEVEL_NONE."""
+    if re.match(r"^\s*\d+\s*\.(?!\s*\d)", line):
+        return 1
+    if re.match(r"^\s*(\d+\s*\.\s*\d+|[가-하]\s*[.)])", line):
+        return 2
+    return 3 if _DOC_ITEM.match(line) else LEVEL_NONE
 
 
-def _looks_like_doc(text: str) -> bool:
-    """서류 이름처럼 보이는지. 설명 문장('~할 경우', '업무: ...')은 뺀다."""
-    if not text or ":" in text or "http" in text or _has_any(text, DOCUMENT_SKIP_WORDS):
-        return False
-    return _has_any(text, DOCUMENT_WORDS)
+def _mark_kind(line: str) -> str | None:
+    """번호·기호의 종류: "8." → "n.", "5.1." → "n.n", "가." → "가.", "1)" → "n)", "①" → "①", "❍"·"○"는 그 기호.
+
+    제목과 같은 종류의 번호가 다시 나오면 서류 목록이 끝난 것이다.
+    """
+    text = line.lstrip()
+    if re.match(r"\d+\s*\.\s*\d", text):
+        return "n.n"
+    if re.match(r"\d+\s*\.", text):
+        return "n."
+    if re.match(r"[가-하]\s*[.)]", text):
+        return "가."
+    if re.match(r"\d+\s*\)", text):
+        return "n)"
+    if re.match(r"[①-⑳]", text):
+        return "①"
+    return text[0] if re.match(_DOC_SYMBOL, text) else None
+
+
+def _split_top(text: str) -> list[str]:
+    """괄호 밖의 쉼표로만 나눈다: "장애인증명서(본인, 부모 공통), 가족관계증명서" → 2조각."""
+    parts, depth, cur = [], 0, ""
+    for ch in text:
+        if ch in "([「":
+            depth += 1
+        elif ch in ")]」":
+            depth -= 1
+        if ch in ",，、" and depth <= 0:
+            parts.append(cur)
+            cur = ""
+        else:
+            cur += ch
+    return parts + [cur]
+
+
+def _cut_after_doc(text: str) -> str:
+    """마지막 서류 말(과 바로 뒤 괄호)까지만 남긴다: "통장 사본 대학생 또는 가족 명의" → "통장 사본"."""
+    ends = [m.end() for w in DOCUMENT_WORDS for m in re.finditer(re.escape(w), text)]
+    end = max(ends)
+    if text[:end].count("(") > text[:end].count(")"):  # "지원신청서(개인정보동의서) 붙임 서식1"
+        close = text.find(")", end)
+        end = close + 1 if close >= 0 else len(text)
+    else:
+        end += len(re.match(r"(?:서류|자료|류)?", text[end:]).group())  # "증빙서류", "증빙자료", "소득증명서류"
+        if paren := re.match(r"\s*\([^)]*\)", text[end:]):  # "가족관계증명서(부모가 장애인인 경우) …"
+            end += paren.end()
+    return text[:end]
+
+
+def _docs_in(item: str) -> list[str]:
+    """목록 항목 한 줄 → 서류 이름들. 번호를 떼고, 표 비고 칸·콜론 뒤 설명을 버리고, 쉼표로 나눈다."""
+    text = _DOC_ITEM.sub("", item, count=1).split("|")[0]
+    # 뒤에 붙은 설명을 버린다: "추천서 : 학과장 작성 및 날인", "통장사본 ※ 본인 통장", "성적증명서 - 학교포털의 인터넷증명서"
+    text = re.split(r"\s*[:：]\s|\s*※", text)[0]
+    # " - "는 앞이 서류면 뒤가 설명이고, 앞이 대상이면 뒤가 서류다 ("재학(휴학)생 - 재학(휴학)증명서")
+    dashed = re.split(r"\s+[-–]\s+", text)
+    text = next((d for d in dashed if _has_any(d, DOCUMENT_WORDS)), dashed[0])
+    parts = []
+    for part in _split_top(text):
+        # "성적증명서 및 재학증명서" → 2개. 한쪽에 서류 말이 없으면 ("체크리스트 및 자기소개서") 나누지 않는다
+        halves = re.split(r"\s+및\s+", part)
+        parts += halves if all(_has_any(h, DOCUMENT_WORDS) for h in halves) else [part]
+    docs = []
+    for part in parts:
+        part = re.sub(r"\[[^\]]*\]|…|\(필수\)|(?<![가-힣\d])\d+\s*부(?![가-힣])", "", part).strip(" .,:：")
+        part = re.sub(r"\s+각$", "", part)  # "신청서 및 서약서 각 1부"
+        plain = re.sub(r"\([^)]*\)", "", part)  # 괄호 안 설명("(해당자인 경우)")은 설명 문장으로 보지 않는다
+        if not _has_any(part, DOCUMENT_WORDS) or "http" in part or _has_any(plain, DOCUMENT_SKIP_WORDS):
+            continue
+        doc = re.sub(r"\s+", " ", _cut_after_doc(part)).strip()
+        if len(doc) > _DOC_NAME_MAX:  # 긴 괄호 설명은 뗀다
+            doc = re.sub(r"\s*\([^)]*\)\s*$", "", doc)[:_DOC_NAME_MAX]
+        docs.append(doc)
+    return docs
+
+
+def _docs_after_head(lines: list[str], i: int) -> list[str]:
+    """제출서류 제목 줄 lines[i] 아래의 목록을 읽는다. 제목과 같거나 높은 번호 단계가 나오면 끝난다."""
+    head = lines[i]
+    if "|" in head:  # 표
+        cells = head.split("|")
+        col = next(k for k, c in enumerate(cells) if _has_any(c, DOCUMENT_HEAD_WORDS))
+        docs = []
+        # "제출서류 | ㅇ … ① 신청서 ② …" / "공통 제출서류 | 1. 신청서 …": 이름표 칸 오른쪽에 목록이 있는 행
+        right = [c for c in cells[col + 1 :] if _has_any(c, DOCUMENT_WORDS)]
+        for cell in right:
+            for item in _DOC_MID_ITEM.split(cell):
+                docs += _docs_in(item)
+        if right and cells[col].strip() in DOCUMENT_HEAD_WORDS:
+            return docs  # 이름표만 있는 칸이면 이 행이 목록 전부다
+        # 아래 행: "신청대상 | 제출서류" 머리면 그 칸, 없으면 서류 말이 있는 칸.
+        # 번호로 시작하는 행("2. 신청인 서약서")은 위 칸이 여러 줄로 풀린 것이라 첫 칸을 읽는다
+        for row in lines[i + 1 : i + _DOC_MAX]:
+            cells = row.split("|")
+            numbered = _doc_level(row) != LEVEL_NONE
+            # 표가 끝난 곳: 칸 없는 줄 ("※ 모든 서류는 …", "6. 장학금의 지급"). 서류 말이 있는 번호 행만 이어 읽는다
+            if "|" not in row and not (numbered and _has_any(row, DOCUMENT_WORDS)):
+                break
+            if not numbered and len(cells) <= col:
+                break
+            if numbered:
+                cell = cells[0]
+            else:
+                cell = next((c for c in [cells[col]] + cells if _has_any(c, DOCUMENT_WORDS)), "")
+            for piece in re.split(r"\s+(?=\d+\s*\.\s)", cell.strip()):
+                for item in _DOC_MID_ITEM.split(piece):
+                    docs += _docs_in(item)
+        return docs
+    head_level, head_kind = _doc_level(head), _mark_kind(head)
+    docs: list[str] = []
+    started, lead = False, 0
+    for k in range(i + 1, min(len(lines), i + _DOC_MAX + 1)):
+        line = lines[k]
+        # "7. 제출서류" 아래에 "구분 | 제출서류" 표가 오면 표로 읽는다
+        if not started and "|" in line and _has_any(line, DOCUMENT_HEAD_WORDS):
+            return _docs_after_head(lines, k)
+        # "(www.kosaf.go.kr)④ 학자금 지원 구간 통지서": 앞 칸이 풀려 붙은 줄은 번호부터 읽는다
+        if (mid := re.search(r"[①-⑳]", line)) and mid.start() > 0 and started:
+            line = line[mid.start() :]
+        if _DOC_NOTE.match(line):
+            continue
+        level = _doc_level(line)
+        if level == LEVEL_NONE:
+            if started or lead >= _DOC_LEAD_SKIP:
+                break
+            lead += 1
+            continue
+        # 제목과 같은 종류의 번호("8. 제출서류" 아래 "9. …", "라." 아래 "마.", "❍" 아래 "❍")가 나오면 끝난다.
+        # 더 높은 단계("다. 제출서류" 아래 "6. 장학금의 지급")도 끝이지만, 서류 말이 있으면 목록 번호다 ("1. 신청서")
+        if head_kind and _mark_kind(line) == head_kind:
+            break
+        if head_level in (1, 2) and level < head_level and not _has_any(line, DOCUMENT_WORDS):
+            break
+        started = True
+        for item in _DOC_MID_ITEM.split(line):
+            docs += _docs_in(item)
+    return docs
 
 
 _NAME_EXT = re.compile(r"\.[A-Za-z0-9]{2,5}$")
@@ -766,25 +949,26 @@ def has_document_words(text: str) -> bool:
 
 
 def extract_documents(body: str) -> list[str]:
-    """'제출서류' 다음에 오는 목록을 뽑는다. 같은 줄에 쉼표로 나열된 경우도 처리한다."""
+    """'제출서류' 제목 다음에 오는 목록을 뽑는다.
+
+    "제출서류: A, B" (같은 줄), 번호·기호 목록 ("8. 제출서류" 아래 "◦ …", "5.1. …", "☑ 1. …"),
+    표 ("신청대상 | 제출서류" 아래 행의 제출서류 칸)를 읽는다. 서류 이름 뒤의 비고("붙임 서식1", "| 지정서식")는 뗀다.
+    """
     lines = _lines(body)
     for i, line in enumerate(lines):
         if not _has_any(line, DOCUMENT_HEAD_WORDS):
             continue
-        docs: list[str] = []
         after = re.split(r"[:：]", line, maxsplit=1)
-        if len(after) == 2 and after[1].strip():
-            docs = [_clean_doc(p) for p in re.split(r"[,，、]", after[1])]
+        if len(after) == 2 and after[1].strip() and "|" not in line:
+            docs = [d for p in _split_top(after[1]) for d in _docs_in(p)]
         else:
-            for nxt in lines[i + 1 : i + 15]:
-                if _SECTION_HEAD.match(nxt) and not _ITEM_MARK.match(nxt):
-                    break
-                if not _ITEM_MARK.match(nxt):
-                    break
-                docs.append(_clean_doc(nxt))
-        docs = [d for d in docs if _looks_like_doc(d)]
-        if docs:
-            return docs
+            docs = _docs_after_head(lines, i)
+        unique: list[str] = []
+        for d in docs:
+            if d not in unique:
+                unique.append(d)
+        if unique:
+            return unique[:_DOC_MAX]
     return []
 
 

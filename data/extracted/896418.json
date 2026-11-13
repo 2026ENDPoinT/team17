@@ -43,9 +43,7 @@
     ]
   },
   "burden": {
-    "documents": [
-      "증빙자료 발급일은 1학기는 신청연도 1월1일 이후,2학기는 신청연도7월 "
-    ],
+    "documents": [],
     "interview": true
   },
   "duplicate_restriction": null,
@@ -65,13 +63,13 @@
   },
   "filtered_conditions": [],
   "from_attachment": [
-    "documents",
     "grades",
     "other_conditions"
   ],
   "needs_check": [
     "amount",
     "deadline",
+    "documents",
     "body_short"
   ],
   "content_hash": "sha256:6dee97a93f191cbb00c3cebe0181b1b20d3eb7012a370ccb9aa6a5a913e0d0f7",

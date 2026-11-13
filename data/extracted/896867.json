@@ -30,7 +30,14 @@
     ]
   },
   "burden": {
-    "documents": [],
+    "documents": [
+      "국민기초생활수급자 증명서(본인 명의)",
+      "시설발급 재원 증명서 (복지시설 기수용자)",
+      "제적등본 (소년소녀가정)",
+      "가족관계증명서 (소년소녀가정)",
+      "장애인증명서 (본인, 부모 공통)",
+      "가족관계증명서 (부모가 장애인인 경우)"
+    ],
     "interview": false
   },
   "duplicate_restriction": true,
@@ -53,12 +60,11 @@
   },
   "filtered_conditions": [],
   "from_attachment": [
+    "documents",
     "duplicate_restriction",
     "income_max"
   ],
-  "needs_check": [
-    "documents"
-  ],
+  "needs_check": [],
   "content_hash": "sha256:f641bcf8c8b41f176c56d0ff92b05a4758d71711f1f5a58863f5a98c37535c37",
   "reviewed": false
 }

@@ -110,7 +110,14 @@ def pass_residence(doc: Document):
 
 
 def pass_documents(doc: Document) -> list[str]:
-    return extract_documents(doc.text(["documents"])) or extract_documents(doc.full())
+    """서류 문단과 전체에서 각각 찾아 더 긴 목록을 쓴다.
+
+    표로 된 서류 목록은 "2. 신청인 서약서"처럼 번호로 시작하는 행이 문단 나누기에서 다른 문단으로 빠져,
+    서류 문단만 보면 첫 행만 남는다 (894772).
+    """
+    in_section = extract_documents(doc.text(["documents"]))
+    in_full = extract_documents(doc.full())
+    return in_full if len(in_full) > len(in_section) else in_section
 
 
 def extract_one(raw: dict) -> dict:
