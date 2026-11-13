@@ -75,7 +75,9 @@ def extract_one(raw: dict) -> dict:
         "burden": {"documents": documents, "interview": has_interview(body)},
         "duplicate_restriction": duplicate,
         "source": {"board": raw.get("board"), "url": raw["url"], "posted_at": raw["posted_date"]},
-        "also_posted_bidx": [],  # 학과 재게시 묶기는 아직 정하지 않음 (crawler/README.md "정하지 않은 것")
+        # 재게시 묶기는 크롤러가 한다 (crawler/README.md "재게시 묶기"). 다시 올린 글이면 대표 글 bidx, 아니면 None
+        "duplicate_of": str(raw["duplicate_of"]) if raw.get("duplicate_of") else None,
+        "also_posted_bidx": [],  # 대표 글에만 채운다 (main에서 duplicate_of를 모아서)
         "evidence": {
             "amount": amount_evidence,
             "deadline": deadline_evidence,
@@ -93,7 +95,7 @@ def extract_one(raw: dict) -> dict:
 
 def main() -> None:
     EXTRACTED_DIR.mkdir(parents=True, exist_ok=True)
-    counts: dict[str, int] = {}
+    items: dict[str, dict] = {}
     for path in sorted(RAW_DIR.glob("*.json")):
         if path.name.startswith("_"):  # _sample.json 등은 건너뛴다
             continue
@@ -101,12 +103,22 @@ def main() -> None:
         if raw.get("_sample"):
             continue
         item = extract_one(raw)
+        items[item["id"]] = item
+
+    # 다시 올린 글을 대표 글의 also_posted_bidx에 모은다. 다시 올린 글 파일도 남겨 두고, 빌드할 때 뺀다.
+    for item in items.values():
+        rep = items.get(item["duplicate_of"] or "")
+        if rep is not None:
+            rep["also_posted_bidx"].append(item["id"])
+
+    counts: dict[str, int] = {}
+    for item in items.values():
         out = EXTRACTED_DIR / f"{item['id']}.json"
         out.write_text(json.dumps(item, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
         counts[item["notice_kind"]] = counts.get(item["notice_kind"], 0) + 1
-    total = sum(counts.values())
+    duplicates = sum(1 for i in items.values() if i["duplicate_of"])
     summary = ", ".join(f"{k} {v}" for k, v in sorted(counts.items()))
-    print(f"{total}건 추출 → {EXTRACTED_DIR.relative_to(EXTRACTED_DIR.parents[1])} ({summary})")
+    print(f"{len(items)}건 추출 → {EXTRACTED_DIR.relative_to(EXTRACTED_DIR.parents[1])} ({summary}, 재게시 {duplicates})")
 
 
 if __name__ == "__main__":

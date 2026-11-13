@@ -1,0 +1,55 @@
+{
+  "id": "895996",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '모집'",
+  "name": "2026 하반기 현대엘리베이터 연구장학생 모집",
+  "title": "[현대엘리베이터] 2026 하반기 현대엘리베이터 연구장학생 모집(~9/30(수)까지)",
+  "category": "교내",
+  "summary": "[현대엘리베이터] 2026 하반기 현대엘리베이터 연구장학생 모집(~9/30(수)까지)",
+  "amount": {
+    "type": "unknown",
+    "value": null,
+    "text": null
+  },
+  "deadline": "2026-09-30",
+  "deadline_text": "[현대엘리베이터] 2026 하반기 현대엘리베이터 연구장학생 모집(~9/30(수)까지)",
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": null,
+    "score_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": [],
+    "other_conditions": [
+      "모집분야 관련 전공 석/박사 재학생"
+    ]
+  },
+  "burden": {
+    "documents": [],
+    "interview": true
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "취업정보",
+    "url": "https://car.seoultech.ac.kr/bach/info?do=view&bnum=58460&bidx=895996",
+    "posted_at": "2026-09-29"
+  },
+  "duplicate_of": null,
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": null,
+    "deadline": "[현대엘리베이터] 2026 하반기 현대엘리베이터 연구장학생 모집(~9/30(수)까지)",
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "needs_check": [
+    "amount",
+    "documents"
+  ],
+  "content_hash": "sha256:9e41341708063b20a51cbcac4221d5aadf4dd3a68f8ebbf6baa311bf9c51cd4b",
+  "reviewed": false
+}

@@ -1,0 +1,61 @@
+{
+  "id": "896869",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '선발'",
+  "name": "2026학년도 2학기 2차 SeoulTech 가족장학생",
+  "title": "2026학년도 2학기 2차 SeoulTech 가족장학생 선발 안내",
+  "category": "교내",
+  "summary": "2026학년도 2학기 2차 SeoulTech 가족장학생을 아래와 같이 선발하고자합니다.",
+  "amount": {
+    "type": "tuition_ratio",
+    "value": 50,
+    "text": "수업료 50%"
+  },
+  "deadline": "2026-11-06",
+  "deadline_text": "2026. 10. 23.(금)~11. 6.(금)",
+  "closed": false,
+  "eligibility": {
+    "grades": [
+      1
+    ],
+    "departments": null,
+    "gpa_min": 3.0,
+    "score_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": [
+      "residence"
+    ],
+    "other_conditions": [
+      "본교(대학원, 박사과정 포함)에 동시 재적하고 있는 2명 이상의 부부/ 부모-자녀/형제/자매/남매 중 1학년 학부생 1명",
+      "주민등록번호는 앞 7자리까지만 기재(200101-3******) 마. 선발기준: 직전학기 취득학점 12학점 이상, 직전학기 평점평균 3.0 이상"
+    ]
+  },
+  "burden": {
+    "documents": [
+      "재학 또는 휴학증명서(신청인 및 재적 중인 가족)"
+    ],
+    "interview": false
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "공지사항",
+    "url": "https://dse.seoultech.ac.kr/information/bulletin?do=view&bnum=57750&bidx=896869",
+    "posted_at": "2026-10-22"
+  },
+  "duplicate_of": null,
+  "also_posted_bidx": [
+    "896883"
+  ],
+  "evidence": {
+    "amount": "바. 지원내역: 수업료 50% 감면",
+    "deadline": "나. 신청기간: 2026. 10. 23.(금)~11. 6.(금)",
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "needs_check": [],
+  "content_hash": "sha256:9e77ee362dec253da2da78c2b71963e53463407dcb58b32cd86f6837c69ac751",
+  "reviewed": false
+}

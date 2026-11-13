@@ -1,0 +1,58 @@
+{
+  "id": "896867",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '선발'",
+  "name": "2026학년도 2학기 2차 어의장학생",
+  "title": "2026학년도 2학기 2차 어의장학생 선발 안내",
+  "category": "교내",
+  "summary": "2026학년도 2학기 2차 어의장학생을 아래와 같이 선발하고자 합니다.",
+  "amount": {
+    "type": "tuition_ratio",
+    "value": 100,
+    "text": "수업료 100%"
+  },
+  "deadline": "2026-11-06",
+  "deadline_text": "2026. 10. 23.(금)~11. 6.(금)",
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": 2.75,
+    "score_min": null,
+    "income_max": 5,
+    "residence": null,
+    "unclear": [],
+    "other_conditions": [
+      "직전학기의 취득학점 12학점 이상, 직전학기 평점평균 2.75이상 (신·편입학생은 성적기준 없음)",
+      "방학 중에 취득한 현장실습, 계절학기 및 디스커버리학기 성적은 제외"
+    ]
+  },
+  "burden": {
+    "documents": [],
+    "interview": false
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "공지사항",
+    "url": "https://dse.seoultech.ac.kr/information/bulletin?do=view&bnum=57750&bidx=896867",
+    "posted_at": "2026-10-22"
+  },
+  "duplicate_of": null,
+  "also_posted_bidx": [
+    "896882",
+    "896970"
+  ],
+  "evidence": {
+    "amount": "마. 지원내역: 수업료 100% 면제",
+    "deadline": "가. 신청기간: 2026. 10. 23.(금)~11. 6.(금)",
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "needs_check": [
+    "documents"
+  ],
+  "content_hash": "sha256:f641bcf8c8b41f176c56d0ff92b05a4758d71711f1f5a58863f5a98c37535c37",
+  "reviewed": false
+}

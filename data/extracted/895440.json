@@ -1,0 +1,63 @@
+{
+  "id": "895440",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '신청'",
+  "name": "2026학년도 생활비 지원 장학금",
+  "title": "[GTM전공] 2026학년도 생활비 지원 장학금 신청 안내",
+  "category": "교내",
+  "summary": "[GTM전공] 2026학년도 생활비 지원 장학금 신청 안내",
+  "amount": {
+    "type": "unknown",
+    "value": null,
+    "text": null
+  },
+  "deadline": "2026-09-24",
+  "deadline_text": "00까지",
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": [
+      "경영학과"
+    ],
+    "gpa_min": null,
+    "score_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": [
+      "income_max"
+    ],
+    "other_conditions": [
+      "2026학년도 경영학과 GTM전공 재학생 중 경제적 지원이 필요한 학생",
+      "■ 지원내용",
+      "식비, 교통비, 통신비 등 대학생활에 필요한 생활비성 장학금",
+      "■ 지원규모",
+      "총 지원예산 4,000,000원"
+    ]
+  },
+  "burden": {
+    "documents": [],
+    "interview": false
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "GTM소식",
+    "url": "https://gtm.seoultech.ac.kr/info_plaza/gtm_info?do=view&bnum=2332&bidx=895440",
+    "posted_at": "2026-09-14"
+  },
+  "duplicate_of": null,
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": null,
+    "deadline": "2026. 9. 24.(목) 15:00까지",
+    "duplicate_restriction": null,
+    "departments": "2026학년도 경영학과 GTM전공 재학생 중 경제적 지원이 필요한 학생",
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "needs_check": [
+    "amount",
+    "documents"
+  ],
+  "content_hash": "sha256:f1b4a0fe6f862f4dadb0d98027b4a53709f931a4c52292b0b68531becea48e98",
+  "reviewed": false
+}

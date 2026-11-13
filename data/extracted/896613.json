@@ -1,0 +1,56 @@
+{
+  "id": "896613",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '선발'",
+  "name": "건축안전 장학생",
+  "title": "[덕신EPC] 건축안전 장학생 선발 안내",
+  "category": "교내",
+  "summary": "[덕신EPC] 건축안전 장학생 선발 안내",
+  "amount": {
+    "type": "lump_sum",
+    "value": 2000000,
+    "text": "2,000,000원"
+  },
+  "deadline": "2026-10-30",
+  "deadline_text": "~2026. 10. 30.(금) 18:00",
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": [
+      "건축공학전공"
+    ],
+    "gpa_min": null,
+    "score_min": null,
+    "income_max": null,
+    "residence": "전체표시",
+    "unclear": [],
+    "other_conditions": [
+      "2027학년도 1학기 기준 졸업 직전 학년인 건축공학전공 재학생"
+    ]
+  },
+  "burden": {
+    "documents": [],
+    "interview": false
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "장학금",
+    "url": "https://architecture.seoultech.ac.kr/bachelor_of_information/scholarship?do=view&bnum=575&bidx=896613",
+    "posted_at": "2026-10-15"
+  },
+  "duplicate_of": null,
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": "2. 선발인원 및 금액: 2명/ 인당 2,000,000원(생활지원 장학금)",
+    "deadline": "3. 신청 기간: ~2026. 10. 30.(금) 18:00",
+    "duplicate_restriction": null,
+    "departments": "6. 신청 대상자: 2027학년도 1학기 기준 졸업 직전 학년인 건축공학전공 재학생",
+    "residence": "나. 주민등록등본(주민등록번호 전체표시 필수) 1부"
+  },
+  "filtered_conditions": [],
+  "needs_check": [
+    "documents"
+  ],
+  "content_hash": "sha256:d281b003302b66cf204a48cd10f873f907dc5a46ecaf90ca77b90d642f05c0a5",
+  "reviewed": false
+}

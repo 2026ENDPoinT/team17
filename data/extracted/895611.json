@@ -1,0 +1,66 @@
+{
+  "id": "895611",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '신청'",
+  "name": "서울과학기술대학교 산업공학과 동문회『선(善)순환 인재 장학금』신청 공고",
+  "title": "(장학)서울과학기술대학교 산업공학과 동문회『선(善)순환 인재 장학금』신청 공고",
+  "category": "교내",
+  "summary": "서울과학기술대학교 산업공학과 동문회『선(善)순환 인재 장학금』 신청 공고",
+  "amount": {
+    "type": "lump_sum",
+    "value": 500000,
+    "text": "500,000원"
+  },
+  "deadline": "2026-09-29",
+  "deadline_text": "2026년 9월 18일(금)~9월 29일(화) 18:00까지",
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": [
+      "산업공학과"
+    ],
+    "gpa_min": null,
+    "score_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": [
+      "income_max"
+    ],
+    "other_conditions": [
+      "서울과학기술대학교 산업공학과 재학생",
+      "다음 기준을 고려하여 선발하며, 최종 대상자는 산업공학과 교수회의 심의를 거쳐 확정합니다.",
+      "교수 또는 동문회의 추천을 받은 학생",
+      "그 밖에 장학금 지원이 필요하다고 인정되는 학생"
+    ]
+  },
+  "burden": {
+    "documents": [
+      "선순환 인재 장학금 신청서",
+      "선순환 인재 장학금 참여 확인서",
+      "재학증명서",
+      "성적증명서",
+      "통장사본",
+      "개인정보수집 이용 동의서"
+    ],
+    "interview": false
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "공지사항",
+    "url": "https://iise.seoultech.ac.kr/notice/faculty_announcements_?do=view&bnum=1302&bidx=895611",
+    "posted_at": "2026-09-17"
+  },
+  "duplicate_of": null,
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": "◦ 지원금액: 1인당 500,000원",
+    "deadline": "◦ 신청기간: 2026년 9월 18일(금)~9월 29일(화) 18:00까지",
+    "duplicate_restriction": null,
+    "departments": "서울과학기술대학교 산업공학과 동문회에서는 동문 재학생을 대상으로 학업 지원과 기부문화 확산을 위한 「선(善)순환 인재 장학금」을 다음과 같이 시행하오니, 관심 있는 학생들의 많은 신청 바랍니다.",
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "needs_check": [],
+  "content_hash": "sha256:551362f029fcfc417ee1c44be5dfb5b24fc4588af806c70651f50025587f2e45",
+  "reviewed": false
+}

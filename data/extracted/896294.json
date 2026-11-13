@@ -1,0 +1,53 @@
+{
+  "id": "896294",
+  "notice_kind": "확인필요",
+  "notice_kind_reason": "모집·결과 단어가 없음",
+  "name": "2026년 안전공학과 학부생 학술발표대회 개최",
+  "title": "[학부] 2026년 안전공학과 학부생 학술발표대회 개최 (~11. 2.(월)까지 초록 제출)(추가 장학금 안내)",
+  "category": "교내",
+  "summary": "장학금 금액은 추후 공과대학 학장상 수여자에게 개별 안내 예정임.",
+  "amount": {
+    "type": "unknown",
+    "value": null,
+    "text": null
+  },
+  "deadline": "2026-11-02",
+  "deadline_text": "[학부] 2026년 안전공학과 학부생 학술발표대회 개최 (~11. 2.(월)까지 초록 제출)(추가 장학금 안내)",
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": null,
+    "score_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": [],
+    "other_conditions": []
+  },
+  "burden": {
+    "documents": [],
+    "interview": false
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "공지사항",
+    "url": "https://safety.seoultech.ac.kr/b_information/notic?do=view&bnum=763&bidx=896294",
+    "posted_at": "2026-10-07"
+  },
+  "duplicate_of": null,
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": null,
+    "deadline": "[학부] 2026년 안전공학과 학부생 학술발표대회 개최 (~11. 2.(월)까지 초록 제출)(추가 장학금 안내)",
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "needs_check": [
+    "amount",
+    "documents"
+  ],
+  "content_hash": "sha256:79bacd5c3f827df69ea5b98a63034c838edc54393927c25e810b4e0bfa48bffd",
+  "reviewed": false
+}

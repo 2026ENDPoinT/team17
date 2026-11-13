@@ -1,0 +1,62 @@
+{
+  "id": "896084",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '선발'",
+  "name": "2026년 대림수암장학문화재단 장학생",
+  "title": "[학부] 2026년 대림수암장학문화재단 장학생 선발 안내(추가 선발: ~10. 5.(월)까지)",
+  "category": "교외",
+  "summary": "대림수암장학문화재단 장학생 선발 안내",
+  "amount": {
+    "type": "lump_sum",
+    "value": 2000000,
+    "text": "200만원"
+  },
+  "deadline": "2026-10-05",
+  "deadline_text": "[학부] 2026년 대림수암장학문화재단 장학생 선발 안내(추가 선발: ~10. 5.(월)까지)",
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": 3.0,
+    "score_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": [
+      "income_max"
+    ],
+    "other_conditions": []
+  },
+  "burden": {
+    "documents": [
+      "추천서(지도교수 추천을 받아 제출★) [별첨]",
+      "자기소개서(본인 서명 必) [별첨]",
+      "성적증명서(직전학기 내용 포함)",
+      "소득증명서류",
+      "가족관계증명서",
+      "부/모의 직전 연도 소득 증빙자료(근로소득원천징수영수증 또는 소득금액 증",
+      "부/모의 직전 연도 지방세 세목별과세증명서",
+      "개인정보수집동의서(본인 서명 必) [별첨]",
+      "은행계좌사본(본인 명의)"
+    ],
+    "interview": false
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "학부공지",
+    "url": "https://civil.seoultech.ac.kr/haksainfor/notice?do=view&bnum=58639&bidx=896084",
+    "posted_at": "2026-09-30"
+  },
+  "duplicate_of": null,
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": "3. 장학금액: 200만원(1인당)",
+    "deadline": "[학부] 2026년 대림수암장학문화재단 장학생 선발 안내(추가 선발: ~10. 5.(월)까지)",
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "needs_check": [],
+  "content_hash": "sha256:518246582a70fbef5df1598f0d33f947c165b2f7aed6ebe348c148e4c2a136fe",
+  "reviewed": false
+}

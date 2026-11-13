@@ -1,0 +1,55 @@
+{
+  "id": "895603",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '선발'",
+  "name": "2026년 장학생 선발",
+  "title": "[대림수암장학문화재단] 2026년 장학생 선발  (수정)",
+  "category": "교외",
+  "summary": "대림수암장학문화재단 2026년 장학생 선발 안내",
+  "amount": {
+    "type": "lump_sum",
+    "value": 2000000,
+    "text": "2,000,000원"
+  },
+  "deadline": null,
+  "deadline_text": null,
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": 3.0,
+    "score_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": [
+      "income_max"
+    ],
+    "other_conditions": []
+  },
+  "burden": {
+    "documents": [],
+    "interview": false
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "장학금",
+    "url": "https://architecture.seoultech.ac.kr/bachelor_of_information/scholarship?do=view&bnum=575&bidx=895603",
+    "posted_at": "2026-09-16"
+  },
+  "duplicate_of": null,
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": "2. 장학금: 금2,000,000원(금이백만원)",
+    "deadline": null,
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "needs_check": [
+    "deadline",
+    "documents"
+  ],
+  "content_hash": "sha256:1c0db26f71ffd89129ceebc0a9cf644fae2291fb86e43766a68ce0dc847f0ecc",
+  "reviewed": false
+}

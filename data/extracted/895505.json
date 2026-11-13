@@ -1,0 +1,60 @@
+{
+  "id": "895505",
+  "notice_kind": "안내",
+  "notice_kind_reason": "제목에 '박람회'",
+  "name": "2026학년도 BEAR 5.0 프로그램 \"현장 및 박람회 참관기 작성\" 장학금",
+  "title": "(마감) [학부] 2026학년도 BEAR 5.0 프로그램 \"현장 및 박람회 참관기 작성\" 장학금 신청 안내",
+  "category": "교내",
+  "summary": "현장 및 박람회 참관기 작성 장학금을 지원하오니, 희망하는 학생들은 아래의 내용을 참고하여 신청하시기 바랍니다.",
+  "amount": {
+    "type": "lump_sum",
+    "value": 50000,
+    "text": "5만원"
+  },
+  "deadline": "2027-01-08",
+  "deadline_text": "~ 2027년 1월 8일(금)까지 (예산범위 내 선착순 마감되었습니다.)",
+  "closed": true,
+  "eligibility": {
+    "grades": null,
+    "departments": [
+      "건설시스템공학과"
+    ],
+    "gpa_min": null,
+    "score_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": [],
+    "other_conditions": [
+      "2026학년도 (2026년 5월~2027년 1월) 현장 방문 또는 박람회 참관 건설시스템공학과 학부 재학생 중 증빙서류 제출자 (분야: 토목 관련)",
+      "학과 수업의 일환으로 진행한 현장 방문은 제외, 중복 여부 확인 예정"
+    ]
+  },
+  "burden": {
+    "documents": [
+      "현장 및 박람회 참관기 장학금 신청서",
+      "참가 활동 증빙자료(현장방문 사진, 담당자 명함, 참가확인서, 참가비 납",
+      "재학증명서",
+      "통장사본(본인 계좌)"
+    ],
+    "interview": false
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "학부공지",
+    "url": "https://civil.seoultech.ac.kr/haksainfor/notice?do=view&bnum=58639&bidx=895505",
+    "posted_at": "2026-09-14"
+  },
+  "duplicate_of": null,
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": "3. 지원금액: 학생 1인당 5만원",
+    "deadline": "4. 신청기간: ~ 2027년 1월 8일(금)까지 (예산범위 내 선착순 마감되었습니다.)",
+    "duplicate_restriction": null,
+    "departments": "건설시스템공학과에서는 학부 재학생들의 현장 지식을 파악하여 전공에 대한 이해도 향상을 위해",
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "needs_check": [],
+  "content_hash": "sha256:f564e6caa87f455842407998b5f601c9d6312549d858085864f40ca9c02d7f2c",
+  "reviewed": false
+}

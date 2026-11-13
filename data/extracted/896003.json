@@ -1,0 +1,53 @@
+{
+  "id": "896003",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '신청'",
+  "name": "2026학년도 2학기 발전기금 특정장학금",
+  "title": "2026학년도 2학기 발전기금 특정장학금 신청 안내(수정)",
+  "category": "교내",
+  "summary": "2026학년도 2학기 발전기금 특정장학금 신청 안내",
+  "amount": {
+    "type": "lump_sum",
+    "value": 500000,
+    "text": "50만 원"
+  },
+  "deadline": "2025-10-05",
+  "deadline_text": "2025. 9. 30.(수) ~ 10. 5.(월)까지 (기간 엄수)",
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": 3.0,
+    "score_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": [],
+    "other_conditions": []
+  },
+  "burden": {
+    "documents": [
+      "성적증명서",
+      "(붙임) 특정장학금 신청서"
+    ],
+    "interview": false
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "학부공지",
+    "url": "https://civil.seoultech.ac.kr/haksainfor/notice?do=view&bnum=58639&bidx=896003",
+    "posted_at": "2026-09-29"
+  },
+  "duplicate_of": null,
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": "4. 장학금액/ 선발 인원: 50만 원/ 10명 예정",
+    "deadline": "1. 신청기간 : 2025. 9. 30.(수) ~ 10. 5.(월)까지 (기간 엄수)",
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "needs_check": [],
+  "content_hash": "sha256:90385d9c9cfedaae773c0576debc004532ebd582b4e76294f79794fb59d5f58b",
+  "reviewed": false
+}

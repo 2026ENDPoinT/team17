@@ -1,0 +1,55 @@
+{
+  "id": "896970",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '선발'",
+  "name": "2026학년도 2학기 2차 어의장학생",
+  "title": "2026학년도 2학기 2차 어의장학생 선발 안내",
+  "category": "교내",
+  "summary": "2026학년도 2학기 2차 어의장학생 선발 안내",
+  "amount": {
+    "type": "unknown",
+    "value": null,
+    "text": null
+  },
+  "deadline": null,
+  "deadline_text": null,
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": null,
+    "score_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": [],
+    "other_conditions": []
+  },
+  "burden": {
+    "documents": [],
+    "interview": false
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "공지사항",
+    "url": "https://iise.seoultech.ac.kr/notice/faculty_announcements_?do=view&bnum=1302&bidx=896970",
+    "posted_at": "2026-10-23"
+  },
+  "duplicate_of": "896867",
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": null,
+    "deadline": null,
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "needs_check": [
+    "amount",
+    "deadline",
+    "documents",
+    "poster_only"
+  ],
+  "content_hash": "sha256:493aa88d48b1bf8c01eb5bb1d15495bd5910a1335b2b672ad4be48516d4051e6",
+  "reviewed": false
+}

@@ -1,0 +1,62 @@
+{
+  "id": "897174",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '신청'",
+  "name": "2026학년도 2학기 (11월~2월) 학과사무실 근로장학생",
+  "title": "2026학년도 2학기 (11월~2월) 학과사무실 근로장학생 신청 안내",
+  "category": "근로",
+  "summary": "전기정보공학과에서는 2026학년도 2학기 (11월~2월) 학과사무실 근로 장학생을 아래와 같이 모집합니다.",
+  "amount": {
+    "type": "hourly",
+    "value": 10320,
+    "text": "시간당 10,320원"
+  },
+  "deadline": "2026-10-31",
+  "deadline_text": "~2026. 10. 31.(일) 23:59",
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": [
+      "전기정보공학과"
+    ],
+    "gpa_min": null,
+    "score_min": null,
+    "income_max": 10,
+    "residence": null,
+    "unclear": [],
+    "other_conditions": [
+      "시간제 (월 48시간, 시간당 10,320원)",
+      "전기정보공학과 재학생(휴학생은 신청 불가)",
+      "근무태도가 성실하며 근무 시간 편성에 무리가 없는자",
+      "교내근로, 국가근로(교내부서) 경험자",
+      "직전학기(2026학년도 1학기) 성적이 높은자",
+      "소득분위(구간)가 낮은자",
+      "토익스피킹 lv 7, OPIC IH 이상"
+    ]
+  },
+  "burden": {
+    "documents": [
+      "근로시간표(근로 불가능한 시간을 표시해서 제출) - 첨부파일"
+    ],
+    "interview": true
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "학부공지",
+    "url": "https://eie.seoultech.ac.kr/majornotice/notice?do=view&bnum=973&bidx=897174",
+    "posted_at": "2026-10-28"
+  },
+  "duplicate_of": null,
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": "○ 시간제 (월 48시간, 시간당 10,320원)",
+    "deadline": "2. 신청기간: ~2026. 10. 31.(일) 23:59",
+    "duplicate_restriction": null,
+    "departments": "가) 전기정보공학과 재학생(휴학생은 신청 불가)",
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "needs_check": [],
+  "content_hash": "sha256:086b5db54db8708fe36a1e4513a3c4a36d4befb22f33290c5c6ea39297e11a5a",
+  "reviewed": false
+}
