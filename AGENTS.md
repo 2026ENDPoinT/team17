@@ -52,8 +52,9 @@ AI 코딩 도구(Claude Code, Cursor, Copilot, Codex 등)가 이 저장소에서
 | Python 패키지 관리자 | **uv** (2026-11-13 결정). `pyproject.toml` + `uv.lock` |
 | 린터 | **ruff**, `target-version = "py311"` (3.11에서 안 되는 문법을 에러로 잡음). 프론트엔드 린터는 해커톤 중 쓰지 않는다 (2026-11-13 결정, 설정 시간 절약) |
 | 검사 자동화 | GitHub Actions `python-check.yml`: 푸시마다 Python 3.11로 ruff + 컴파일 |
+| 수집 자동화 | GitHub Actions `collect.yml`: 수동 실행. 봇이 `main`에 데이터 커밋을 올리므로 푸시 전에 `git pull --rebase`를 한다 |
 | 알림 채널 | 미정 (카카오 알림톡은 사업자 등록이 필요해 제외 검토. 후보: 웹 푸시, 이메일, 디스코드/텔레그램 봇) |
-| 크롤러 실행 환경 | 미정 (후보: GitHub Actions cron. 해외 IP 접근 테스트 필요) |
+| 크롤러 실행 환경 | **GitHub Actions 수동 실행** (2026-11-14 결정). `collect.yml`을 Actions 화면에서 눌러 돌리면 수집 → 추출 → 이벤트 빌드 후 `main`에 커밋한다. 예약 실행(cron)은 쓰지 않는다. 해외 IP 접근은 2026-11-14 시험에서 확인 |
 
 ### 프론트엔드 구조 규칙 (프레임워크로 옮길 수 있게)
 
@@ -105,6 +106,7 @@ data/reviewed/  사람 검수 (모두)  {bidx}.json: 공지별 값 / events.json
 | Python 검사 | `uv run ruff check .` (자동 정리: `--fix`) |
 | 공지량 재측정 | `tools/research/README.md` 참고 |
 | 화면용 이벤트 JSON 만들기 | `uv run python events/build.py` (분류의 `extract.py`를 먼저 돌린다) |
+| 단계를 순서대로 한 번에 실행 | `uv run python tools/pipeline.py refresh` (새 공지: 수집 → 추출 → 이벤트 빌드) / `rebuild` (규칙·검수를 고쳤을 때: 추출 → 이벤트 빌드). 설명은 `tools/pipeline.py` 맨 위 |
 | 화면 설치 / 실행 / 테스트 | 미정 (화면 담당이 Vite 설정 후 추가) |
 
 ### Python 규칙 (강제)
