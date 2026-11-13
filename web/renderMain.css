@@ -137,6 +137,15 @@
   cursor: pointer;
 }
 
+/* 글자 수에 관계없이 즐겨찾기와 필터 선택 버튼의 가로·세로 크기를 맞춘다. */
+.main-favorites-button,
+.main-filter-header button {
+  flex-shrink: 0;
+  width: 104px;
+  height: 40px;
+  white-space: nowrap;
+}
+
 .main-sidebar h2 {
   margin: 0 0 12px;
   font-size: 18px;
