@@ -11,8 +11,8 @@ from extract import split_by_deadline
 from lexer import tokenize
 from rules import (
     classify_kind,
-    documents_from_names,
     classify_label,
+    documents_from_names,
     extract_amount,
     extract_deadline,
     extract_departments,
