@@ -128,7 +128,7 @@ export function renderMain(container, handlers = {}) {
   sidebar.className = 'main-sidebar';
   sidebar.setAttribute('aria-label', '장학금 검색 설정');
 
-  const title = createTitleArea();
+  const title = createTitleArea(handlers.onOpenFavorites);
   const sort = createSortArea(handlers);
   const filters = createFilterArea(handlers.onOpenFilters);
   const resetButton = document.createElement('button');
@@ -182,8 +182,8 @@ function createListArea() {
   return list;
 }
 
-// 메인 상단 바에 표시할 서비스 제목과 한 줄 설명을 만든다.
-function createTitleArea() {
+// 서비스 제목·설명과 오른쪽 즐겨찾기 버튼을 만들고 전달받은 클릭 핸들러를 연결한다.
+function createTitleArea(onOpenFavorites) {
   const header = document.createElement('header');
   header.className = 'main-title';
 
@@ -191,8 +191,14 @@ function createTitleArea() {
   heading.textContent = '장학금 헌터';
   const description = document.createElement('p');
   description.textContent = '교내 게시판의 장학금을 모아 금액·마감·지원 조건을 비교하세요.';
+  const favoritesButton = document.createElement('button');
+  favoritesButton.type = 'button';
+  favoritesButton.className = 'main-favorites-button';
+  favoritesButton.textContent = '즐겨찾기';
+  favoritesButton.disabled = !onOpenFavorites;
+  if (onOpenFavorites) favoritesButton.addEventListener('click', onOpenFavorites);
 
-  header.append(heading, description);
+  header.append(heading, description, favoritesButton);
   return header;
 }
 

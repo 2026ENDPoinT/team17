@@ -124,6 +124,19 @@
   line-height: 1.6;
 }
 
+/* 제목 바 오른쪽에 기존 버튼과 같은 밤색 즐겨찾기 버튼을 둔다. */
+.main-favorites-button {
+  flex-shrink: 0;
+  margin-left: auto;
+  padding: 10px 16px;
+  border: 1px solid var(--color-primary);
+  border-radius: 12px;
+  background: var(--color-primary);
+  color: var(--color-content);
+  font: inherit;
+  cursor: pointer;
+}
+
 .main-sidebar h2 {
   margin: 0 0 12px;
   font-size: 18px;
@@ -191,6 +204,7 @@
   color: var(--color-text);
 }
 
+.main-favorites-button:hover:not(:disabled),
 .main-filter-header button:hover:not(:disabled),
 .main-filter-reset:hover:not(:disabled),
 .main-selected-filter:hover {
@@ -198,12 +212,14 @@
   border-color: var(--color-primary-hover);
 }
 
+.main-favorites-button:disabled,
 .main-filter-header button:disabled,
 .main-filter-reset:disabled {
   opacity: 0.55;
   cursor: default;
 }
 
+.main-favorites-button:focus-visible,
 .main-sidebar button:focus-visible,
 .main-sort select:focus-visible {
   outline: 2px solid var(--color-primary);

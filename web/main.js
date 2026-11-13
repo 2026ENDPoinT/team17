@@ -21,6 +21,7 @@ const state = {
 };
 const compareFunctions = { deadline: compareDeadline, amount: compareAmount };
 const mainHandlers = {
+  onOpenFavorites: handleOpenFavorites,
   onOpenFilters: handleOpenFilterPopup,
   onResetFilters: handleResetFilters,
   onSortChange: handleSortChange,
@@ -136,6 +137,9 @@ function handleRemoveFilter(key, value) {
 function handleResetFilters() {
   handleApplyFilters({ categories: [], grades: [], department: null, openOnly: false });
 }
+
+// 제목 바의 즐겨찾기 버튼에서 호출한다. 페이지 이동은 다음 단계에서 구현한다.
+function handleOpenFavorites() {}
 
 // 상세 주소를 변경한다. 실제 화면 표시는 주소 변경 이벤트가 담당하며 방문 기록도 남는다.
 function handleOpenDetail(item) {
