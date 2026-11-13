@@ -19,15 +19,15 @@
       "name": "근로시간표.hwp",
       "ext": "hwp",
       "url": "https://eie.seoultech.ac.kr/storage/eie/bbs/973/2719D399924B4AFC85984B205145C2E0_.hwp",
-      "text": null,
-      "text_status": "not_extracted"
+      "text": "학과: 학번: 이름:\n\n| | | 월 | 화 | 수 | 목 | 금 |\n| --- | --- | --- | --- | --- | --- | --- |\n| 1교시 | 9~10 | | | | | |\n| 2교시 | 10~11 | | | | | |\n| 3교시 | 11~12 | | | | | |\n| 4교시 | 12~13 | | | | | |\n| 5교시 | 13~14 | | | | | |\n| 6교시 | 14~15 | | | | | |\n| 7교시 | 15~16 | | | | | |\n| 8교시 | 16~17 | | | | | |\n| 9교시 | 17~18 | | | | | |\n\n* 근로 못하는 시간 X 표시",
+      "text_status": "ok"
     },
     {
       "name": "학생 신청(희망자)_근로장학 사용안내서.pptx",
       "ext": "pptx",
       "url": "https://eie.seoultech.ac.kr/storage/eie/bbs/973/568B3EB2841346CD831D8C574F81850A_.pptx",
       "text": null,
-      "text_status": "not_extracted"
+      "text_status": "unsupported"
     }
   ],
   "content_hash": "sha256:086b5db54db8708fe36a1e4513a3c4a36d4befb22f33290c5c6ea39297e11a5a",

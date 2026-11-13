@@ -17,8 +17,8 @@
       "name": "2026_장학금_신청서.hwp",
       "ext": "hwp",
       "url": "https://www.seoultech.ac.kr/storage/www/bbs/0/2026_scholarship_form.hwp",
-      "text": null,
-      "text_status": "not_extracted"
+      "text": "장학금 신청서\n\n| 성명 |  | 학번 |  |\n| --- | --- | --- | --- |\n| 학과 |  | 학년 |  |\n\n제출 서류: 장학금 신청서 1부, 자기소개서 1부",
+      "text_status": "ok"
     }
   ],
   "content_hash": "sha256:89ce9d640627f10e6ed8d1b67b824d399ea5c73b8fda21a6d130da0c640acc1f",

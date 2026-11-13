@@ -8,7 +8,7 @@
 
 ## 실행
 
-저장소 루트에서 실행한다. 외부 라이브러리 없이 표준 라이브러리만 쓴다.
+저장소 루트에서 실행한다. 외부 라이브러리는 첨부 추출용 `pypdf`, `hwp-hwpx-parser` 두 개다 (2026-11-13 팀에 알리고 추가).
 
 ```bash
 uv run python crawler/crawl.py --mode offline   # 저장된 HTML만 사용 (개발·테스트용, 학교 서버 요청 없음)
@@ -16,7 +16,8 @@ uv run python crawler/crawl.py --mode record    # 학교 서버에서 받고, HT
 uv run python crawler/crawl.py --mode live      # 학교 서버에서 받기만
 ```
 
-- `crawler/fixtures/`는 Git에 올리지 않는다. 원본 HTML에 연락처가 그대로 있기 때문이다. 처음 한 번 `record`로 만든다.
+- `crawler/fixtures/`는 Git에 올리지 않는다. 원본 HTML과 첨부 원본(`fixtures/files/`)에 연락처가 그대로 있기 때문이다. 처음 한 번 `record`로 만든다.
+- 첨부 107개를 처음 받는 데 약 4분 걸린다. 한 번 뽑은 첨부는 다시 받지 않는다.
 - 게시판 16곳의 최근 60일, 71건을 처음 받는 데 약 2분 30초 걸린다 (2026-11-13). 같은 호스트에는 1초 간격으로 요청한다.
 - 이미 받은 글은 최근 14일 안의 글만 다시 읽는다. `content_hash`가 바뀌면 덮어쓰고 `수정됨`으로 출력한다.
 - 같은 `bidx`가 두 게시판에 나오면(미러 게시판) `BOARDS`에서 먼저 나온 게시판 것만 저장한다.
@@ -27,6 +28,7 @@ uv run python crawler/crawl.py --mode live      # 학교 서버에서 받기만
 | `fetch.py` | HTML 받기 (live / record / offline) |
 | `parse.py` | 목록·상세 HTML 파싱 (네트워크 없음) |
 | `privacy.py` | 연락처·학번·마스킹된 이름·결과 공지 이름 명단 지우기 |
+| `attachments.py` | 첨부 받아서 텍스트 뽑기 (pdf, hwp, hwpx, docx), 결과 공지 첨부 건너뛰기 |
 | `dedup.py` | 재게시 묶기 (`duplicate_of` 정하기, 네트워크 없음) |
 | `crawl.py` | 위를 연결해 `data/raw/{bidx}.json` 저장 |
 
@@ -53,8 +55,8 @@ uv run python crawler/crawl.py --mode live      # 학교 서버에서 받기만
 | `attachments[].name` | string | 화면에 보이는 첨부 이름 |
 | `attachments[].ext` | string | 소문자 확장자 (`pdf`, `hwp`, `hwpx` …) |
 | `attachments[].url` | string | 원문 첨부 주소 (다시 배포하지 않고 링크만 둔다) |
-| `attachments[].text` | string \| null | 첨부에서 뽑은 텍스트 (개인정보 제거 후). 뽑지 않았거나 실패하면 `null` |
-| `attachments[].text_status` | string | `ok` / `failed` / `not_extracted` / `unsupported` |
+| `attachments[].text` | string \| null | 첨부에서 뽑은 텍스트. 본문과 같은 개인정보 제거를 거친다. HWP 표는 `| 칸 | 칸 |` 모양으로 나온다. 최대 2만 자. `ok`가 아니면 `null` |
+| `attachments[].text_status` | string | `ok` 뽑음 / `empty` 글자 없음(스캔 PDF 등) / `failed` 실패 / `unsupported` 지원 안 하는 형식(jpg, xlsx, zip) / `skipped_result` 결과 공지라 안 뽑음 / `skipped_large` 20MB 초과 / `not_extracted` 아직 안 함 |
 | `content_hash` | string | `sha256:` + `sha256(title + "\n" + body_text)`. 다시 읽었을 때 값이 바뀌면 글이 수정된 것이다 |
 | `first_seen` | string | 처음 수집한 시각 (ISO 8601, `+09:00`) |
 | `last_checked` | string | 마지막으로 다시 읽은 시각 |
@@ -101,6 +103,12 @@ uv run python crawler/crawl.py --mode live      # 학교 서버에서 받기만
 - 2026-11-13 결과: 71건 중 재게시 6건 (현대모비스 연구장학생 2, 어의장학생 2, 가족장학생 1, 어의·가족장학금 1)
 - 틀린 묶음은 `data/reviewed/`에서 고친다. "같은 장학금의 다른 공지"(모집·연장·결과)를 묶는 일은 분류 쪽이다.
 
-## 정하지 않은 것
+## 첨부 텍스트 (`attachments.py`)
 
-- 첨부 텍스트 추출(HWP·PDF)은 데모 범위 밖이다. 시간이 남으면 `text_status`를 `ok`로 채운다.
+본부 장학공지는 본문이 거의 없는 글이 43%여서 첨부를 읽는다 (2026-11-13).
+
+- 형식별 방법: pdf는 `pypdf`, hwp·hwpx는 `hwp-hwpx-parser`, docx는 표준 라이브러리(zip 안의 XML)로 읽는다.
+- **결과 공지의 첨부는 받지 않는다.** 제목에 결과·지급완료·명단·합격자·선발자·선정자가 있으면 `skipped_result`로 표시한다. 명단 파일일 가능성이 높아서다.
+- 뽑은 텍스트는 본문과 같은 `privacy.scrub()`을 거쳐 `data/raw`에 저장한다. 파일 원본은 저장하지 않는다.
+- 2026-11-13 결과: 첨부 113개 중 `ok` 105, `empty` 2, `unsupported` 6. 2만 자에서 잘린 첨부가 2개다. `data/raw` 전체 크기는 약 0.8MB다.
+- 점검 결과: 첨부 텍스트에 이메일·전화번호·학번·주민번호 패턴은 남지 않았다. "성명"은 모두 빈 신청서 양식의 칸 이름이었다. 계좌번호 1건은 재단의 장학금 반납 계좌(기관 계좌)라 그대로 두었다.

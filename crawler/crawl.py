@@ -6,7 +6,7 @@
   uv run python crawler/crawl.py --mode live      # 학교 서버에서 받기만
 
 흐름: 목록 ?page=N 읽기 → 제목 키워드로 거르기 → 처음 보는 bidx거나 최근 글이면 상세 읽기 → 개인정보 지우기 → 저장
-      → data/raw 전체에서 재게시 묶기(duplicate_of 표시)
+      → 첨부 텍스트 뽑기(아직 안 뽑은 첨부만) → data/raw 전체에서 재게시 묶기(duplicate_of 표시)
 """
 
 import argparse
@@ -15,6 +15,7 @@ import hashlib
 import json
 import sys
 
+import attachments
 import dedup
 import fetch
 import privacy
@@ -74,6 +75,30 @@ def build_record(board: dict, row: dict, detail: dict, old: dict | None, now: st
         "first_seen": old["first_seen"] if old else now,
         "last_checked": now,
     }
+
+
+def fill_attachments(mode: str):
+    """data/raw 전체에서 text_status가 not_extracted인 첨부만 받아 텍스트를 채운다."""
+    counts: dict[str, int] = {}
+    for path in sorted(RAW_DIR.glob("*.json")):
+        if path.name.startswith("_"):
+            continue
+        rec = json.loads(path.read_text(encoding="utf-8"))
+        changed = False
+        for att in rec["attachments"]:
+            if att["text_status"] != "not_extracted":
+                continue
+            if attachments.is_result_notice(rec["title"]):
+                status, text = "skipped_result", None
+            else:
+                status, text = attachments.extract(att["url"], att["ext"], mode)
+            counts[status] = counts.get(status, 0) + 1
+            if status != "not_extracted":
+                att["text_status"], att["text"] = status, text
+                changed = True
+        if changed:
+            path.write_text(json.dumps(rec, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
+    print("첨부 추출:", counts or "새로 뽑을 첨부 없음")
 
 
 def mark_duplicates():
@@ -140,6 +165,7 @@ def run(mode: str) -> int:
             path.write_text(json.dumps(rec, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
 
     print("결과:", counts)
+    fill_attachments(mode)
     mark_duplicates()
     return 1 if counts["error"] else 0
 

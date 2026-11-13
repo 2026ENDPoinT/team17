@@ -19,7 +19,7 @@
       "ext": "xlsx",
       "url": "https://civil.seoultech.ac.kr/storage/civil/bbs/58639/15DC420296844EFA9BE3A7578871DD46_.xlsx",
       "text": null,
-      "text_status": "not_extracted"
+      "text_status": "unsupported"
     }
   ],
   "content_hash": "sha256:90385d9c9cfedaae773c0576debc004532ebd582b4e76294f79794fb59d5f58b",

@@ -19,18 +19,18 @@
       "name": "붙임1-1. 2026년 동계방학 집중근로 희망근로지 신청 매뉴얼(홈페이지).pdf",
       "ext": "pdf",
       "url": "https://www.seoultech.ac.kr/storage/www/bbs/57138/ED092CCA44D24473BF5A69B03411A689_.pdf",
-      "text": null,
-      "text_status": "not_extracted"
+      "text": "1\n2\n3",
+      "text_status": "ok"
     },
     {
       "name": "붙임1-2. 2026년 동계방학 집중근로 희망근로지 신청 매뉴얼(모바일).pdf",
       "ext": "pdf",
       "url": "https://www.seoultech.ac.kr/storage/www/bbs/57138/586D112957BE47FD878FE866C3777A42_.pdf",
-      "text": null,
-      "text_status": "not_extracted"
+      "text": "5\n\n7\n\n8\n\n9\n\n10\n\n11",
+      "text_status": "ok"
     }
   ],
   "content_hash": "sha256:db20a204ec65115353ba6737f1ca36887ab029bc6a2a084e7a32faae3fdcdfe3",
   "first_seen": "2026-11-13T20:57:59+09:00",
-  "last_checked": "2026-11-13T20:58:02+09:00"
+  "last_checked": "2026-11-13T21:30:04+09:00"
 }
