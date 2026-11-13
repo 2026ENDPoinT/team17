@@ -12,6 +12,7 @@ from config import (
     AMOUNT_BEFORE_SKIP,
     AMOUNT_LINE_SKIP,
     AMOUNT_LINE_WORDS,
+    AMOUNT_MAX_PER_PERSON,
     CLOSED_WORDS,
     COND_AFTER_SKIP,
     COND_BEFORE_SKIP,
@@ -24,6 +25,7 @@ from config import (
     CONTINUATION_MARKS,
     DEADLINE_LINE_WORDS,
     DEADLINE_SKIP_WORDS,
+    DEADLINE_YEAR_GAP,
     DEPARTMENT_LINE_WORDS,
     DOCUMENT_HEAD_WORDS,
     DOCUMENT_SKIP_WORDS,
@@ -33,16 +35,19 @@ from config import (
     EXCLUDE_AFTER_WORDS,
     EXTERNAL_WORDS,
     FORM_ATTACHMENT_WORDS,
+    GRADE_SYSTEM_WINDOW,
     IGNORED_ATTACHMENT_WORDS,
     INCOME_WORDS,
     INFO_WORDS,
     INTERVIEW_AFTER,
     INTERVIEW_NEG_WORDS,
     LINE_HEAD_SKIP,
+    MAX_GRADE,
     MULTI_AMOUNT_WORDS,
     NO_LIMIT_WORDS,
     NOT_CONDITION_WORDS,
     NOTICE_ATTACHMENT_WORDS,
+    PERIOD_OTHER_WORDS,
     PREFERENCE_HEAD_WORDS,
     PREFERENCE_TAGS,
     RECRUIT_WORDS,
@@ -53,10 +58,13 @@ from config import (
     SCHOLARSHIP_WORDS,
     SUMMARY_MAX,
     SUMMARY_SKIP_STARTS,
+    UPDATE_WORDS,
     WORK_BNUMS,
     WORK_WORDS,
 )
-from dictionary import COLLEGES, DEPARTMENTS, FIELDS, NOT_REGION, SIDO
+from dictionary import COLLEGES, DEPARTMENTS, FIELDS, NOT_REGION, SIDO, SIGUNGU
+from lexer import Token, tokenize
+from phrases import amounts, periods
 
 
 def _lines(text: str) -> list[str]:
@@ -93,9 +101,16 @@ def _head_skip(line: str) -> bool:
     return bool(sep) and _has_any(head, LINE_HEAD_SKIP)
 
 
+# 이름표 뒤의 콜론. 시각의 콜론("15:00")은 이름표가 아니라서 숫자 사이의 콜론은 건너뛴다
+_LABEL_COLON = re.compile(r"(?<!\d)[:：]|[:：](?!\d)")
+
+
 def _after_colon(line: str) -> str:
-    """'다. 지원금액: 300만원' → '300만원'. 콜론이 없으면 줄 그대로."""
-    parts = re.split(r"[:：]", line, maxsplit=1)
+    """'다. 지원금액: 300만원' → '300만원'. 콜론이 없으면 줄 그대로.
+
+    "2026. 9. 24.(목) 15:00까지"처럼 시각의 콜론만 있으면 자르지 않는다 (예전에는 "00까지"가 됐다).
+    """
+    parts = _LABEL_COLON.split(line, maxsplit=1)
     return parts[1].strip() if len(parts) == 2 and parts[1].strip() else line
 
 
@@ -123,6 +138,24 @@ def is_closed(title: str) -> bool:
     return _has_any(title, CLOSED_WORDS)
 
 
+def classify_label(title: str, notice_kind: str) -> tuple[str | None, str]:
+    """공지 하나의 라벨: 모집 / 수정 / 완료. 반환: (라벨, 이유). 장학금 공지가 아니면 (None, 이유).
+
+    이벤트 묶기 단계가 같은 장학금의 공지들(모집 → 수정 → 완료)을 묶고 "마지막 공지"로 상태를 정한다.
+    그래서 공지 하나에 여러 신호가 있으면 더 나중 상태를 고른다: 완료 > 수정 > 모집.
+    예: "(신청기간 연장) … 선발 안내(선발완료)"는 연장도 있지만 지금 상태는 완료다.
+    """
+    if notice_kind == "결과":  # 지급완료, 선발 결과, 합격자 …
+        return "완료", "결과 공지"
+    if notice_kind != "모집":  # 안내(서약서·지급 일정 …), 확인필요(장학금인지 모름)
+        return None, f"공지 종류가 '{notice_kind}'"
+    if word := next((w for w in CLOSED_WORDS if w in title), None):
+        return "완료", f"제목에 '{word}'"
+    if word := next((w for w in UPDATE_WORDS if w in title), None):
+        return "수정", f"제목에 '{word}'"
+    return "모집", "모집 공지"
+
+
 # ── 유형 ──
 
 
@@ -137,65 +170,79 @@ def classify_category(title: str, bnum: int) -> str:
 
 # ── 장학금 이름 ──
 
-_LEAD_TAG = re.compile(r"^\s*(\([^)]*\)|\[[^\]]*\])\s*")
-_TAIL_PAREN = re.compile(r"\s*\((?:[^()]|\([^()]*\))*\)\s*$")
-_TAIL_WORDS = re.compile(r"\s*(선발\s*안내|모집\s*안내|신청\s*안내|선발\s*공고|모집\s*공고|신청안내|안내)\s*$")
+_LEAD_TAG = re.compile(r"^\s*(\([^)]*\)|\[[^\]]*\]|[☆★※◆■□▶►·•]+)\s*")  # 앞의 (홍보), [부서], ☆
+_TAIL_PAREN = re.compile(r"\s*\((?:[^()]|\([^()]*\))*\)\s*$")  # 끝의 (마감), (~11/11(수)까지)
+_TAIL_DONE = re.compile(r"\s*[_\-]\s*(모집완료|선발완료|마감)\s*$")  # 끝의 "_모집완료"
+_TAIL_OPEN = re.compile(r"\s*\([^()]*$")  # 목록에서 잘린 제목의 닫히지 않은 괄호 "… 안내(8/24"
+# 꼬리 말을 지운 뒤에 드러난 괄호는 상태·날짜일 때만 지운다. "모집(교체선발)"은 지우고 "장학생(ST근로)"는 둔다
+_TAIL_STATUS_PAREN = re.compile(r"\s*\([^()]*(마감|완료|~|까지|\d+\s*/\s*\d+|교체|선발|모집|신규|추가)[^()]*\)\s*$")
+# 끝의 공지 말. 하나 지우면 또 남을 수 있어서 ("모집 공고 안내") 더 지울 게 없을 때까지 반복한다
+_TAIL_WORDS = re.compile(r"\s*((선발|모집|신청|접수)\s*(안내|공고)|신청\s*(기간|절차)|안내|공고|모집|선발|신청|접수)\s*$")
+_NAME_MIN = 4  # 이름이 이보다 짧아지면 더 지우지 않는다 ("장학생 모집"을 "장학생"보다 짧게 만들지 않게)
 
 
 def extract_name(title: str) -> str:
-    """제목 앞의 (홍보)·[부서] 표시와 끝의 (마감)·(~11/11까지), '선발 안내'를 떼어 장학금 이름을 만든다."""
+    """제목 앞의 (홍보)·[부서]·☆ 표시와 끝의 (마감)·(~11/11까지)·_모집완료·"모집 공고 안내"를 떼어 장학금 이름을 만든다.
+
+    예: "(홍보) 포스코청암재단 비전장학생 모집 공고 안내(마감)" → "포스코청암재단 비전장학생"
+    """
     name = title
     while _LEAD_TAG.match(name):
         name = _LEAD_TAG.sub("", name, count=1)
+    # 1) 원래 제목 끝의 괄호는 모두 지운다 ("(마감)", "(~11/11(수)까지)", "(학습도우미, 마감)")
+    name = _TAIL_OPEN.sub("", name)
     while _TAIL_PAREN.search(name):
         name = _TAIL_PAREN.sub("", name)
-    name = _TAIL_WORDS.sub("", name)
+    # 2) 꼬리 말을 하나씩 지운다. 지운 뒤 드러난 괄호는 상태·날짜일 때만 지운다
+    while True:
+        before = name
+        name = _TAIL_STATUS_PAREN.sub("", name)
+        name = _TAIL_DONE.sub("", name)
+        shorter = _TAIL_WORDS.sub("", name)
+        if len(shorter.strip()) >= _NAME_MIN:
+            name = shorter
+        if name == before:
+            break
     return name.strip() or title.strip()
 
 
-# ── 금액 ──
+# ── 금액 (의미 분석) ──
+# 어휘 분석(lexer.py)이 "5백만 원", "시간 당 10,320원", "수업료 100%"를 토큰으로, 구문 분석(phrases.py)이 금액 구로 만든다.
+# 여기서는 "이 금액 구가 1인당 장학금인가"를 정한다: 소득 기준·예산·계산 예시·기준 금액을 거르고, 대상별이면 대학생 것을 고른다.
 
-_TUITION_FULL = re.compile(r"(등록금|수업료)\s*(전액|100\s*%)")
-_TUITION_RATIO = re.compile(r"(등록금|수업료)[^0-9\n]{0,10}(\d{1,3})\s*%")
-_HOURLY = re.compile(r"(?:시급|시간당)[^0-9\n]{0,10}(\d{1,3}(?:,\d{3})+|\d{4,6})\s*원")
-_MANWON = re.compile(r"(\d{1,3}(?:,\d{3})*|\d+)\s*만\s*원")
-_WON = re.compile(r"(\d{1,3}(?:,\d{3})+)\s*원")
-
-
-def _num(text: str) -> int:
-    return int(text.replace(",", ""))
+_KIND_ORDER = {"tuition_ratio": 0, "hourly": 1, "lump_sum": 2}  # 한 줄에 여러 종류면 등록금 비율 → 시급 → 금액 순으로 본다
+_MIN_VALUE = {"lump_sum": 10_000, "hourly": 5_000, "tuition_ratio": 1}  # "1원", "3원"처럼 금액일 수 없는 값은 버린다
+# 1인당 장학금으로 보기에 너무 큰 금액은 총 예산이다 ("우수장학금 | 대학생 | 115명 | 180백만원", raw_test 894772)
+_MAX_VALUE = {"lump_sum": AMOUNT_MAX_PER_PERSON, "hourly": 100_000, "tuition_ratio": 100}
 
 
 def _amount_from_line(line: str) -> dict | None:
-    """한 줄에서 금액을 찾는다. 등록금 비율 → 시급 → 만원 → 원 순서로 본다.
+    """한 줄의 금액 구 중 장학금 금액을 고른다.
 
     소득 단어("차상위", "소득")보다 뒤에 나오는 금액은 소득 기준일 수 있어서 쓰지 않는다.
     예: "수업료 100% 면제(단, 차상위~5구간 … 50%만 면제)" → 100%를 쓴다.
     """
     income_at = min((line.find(w) for w in INCOME_WORDS if w in line), default=len(line))
+    tokens = tokenize(line)
 
-    def first(pattern: re.Pattern) -> re.Match | None:
-        # 소득 단어 뒤의 금액, "총 예산 …", "작년 지급액 …", "100만원 미만" 같은 금액은 건너뛴다
-        ok = [m for m in pattern.finditer(line)
-              if m.start() < income_at
-              and not _context_skip(line, m.start(), m.end(), AMOUNT_BEFORE_SKIP, AMOUNT_AFTER_SKIP)]
-        # "고등학생 50만원, 대학생 최대 100만원"처럼 대상별 금액이면 대학생 금액을 고른다
-        for m in ok:
-            if "대학" in line[max(0, m.start() - CONTEXT_BEFORE) : m.start()]:
-                return m
-        return ok[0] if ok else None
+    def table_total(a) -> bool:
+        # 표 행 "재능장학금 | 대학생 | 10명 | 10백만원"의 금액은 인원 전체의 예산이다 ("인당"이 있으면 1인당)
+        return (any(t.kind == "CELL" for t in tokens) and "인당" not in line
+                and re.search(r"\d+\s*명", line[: a.first]) is not None)
 
-    if m := first(_TUITION_FULL):
-        return {"type": "tuition_ratio", "value": 100, "text": m.group(0)}
-    if m := first(_TUITION_RATIO):
-        return {"type": "tuition_ratio", "value": int(m.group(2)), "text": m.group(0)}
-    if m := first(_HOURLY):
-        return {"type": "hourly", "value": _num(m.group(1)), "text": m.group(0)}
-    if m := first(_MANWON):
-        return {"type": "lump_sum", "value": _num(m.group(1)) * 10000, "text": m.group(0)}
-    if m := first(_WON):
-        return {"type": "lump_sum", "value": _num(m.group(1)), "text": m.group(0)}
-    return None
+    ok = [a for a in amounts(tokens)
+          if a.first < income_at and _MIN_VALUE[a.kind] <= a.value <= _MAX_VALUE[a.kind]
+          and not table_total(a)
+          and not _context_skip(line, a.first, a.last, AMOUNT_BEFORE_SKIP, AMOUNT_AFTER_SKIP)]
+    if not ok:
+        return None
+    kind = min((a.kind for a in ok), key=_KIND_ORDER.__getitem__)
+    same = [a for a in ok if a.kind == kind]
+    # "고등학생 50만원, 대학생 최대 100만원"이면 대학생 금액, "연간 최대 5백만 원 (학기당 250만원)"이면 학기당 금액
+    pick = (next((a for a in same if "대학" in line[max(0, a.first - CONTEXT_BEFORE) : a.first]), None)
+            or next((a for a in same if a.per == "학기"), None)
+            or same[0])
+    return {"type": pick.kind, "value": pick.value, "text": line[pick.first : pick.last].strip()}
 
 
 def extract_amount(body: str) -> tuple[dict, str | None]:
@@ -209,52 +256,134 @@ def extract_amount(body: str) -> tuple[dict, str | None]:
                 if _has_any(line, MULTI_AMOUNT_WORDS):
                     found["text"] = _short(_after_colon(line), 60)
                 return found, _short(line)
-    # 2) 근로 공지는 시급이 금액 단어 없이 나오기도 한다
+    # 2) 근로 공지는 시급이 금액 단어 없이 나오기도 한다 ("1일 최대 8시간 (… 시간 당 10,320원)")
     for line in lines:
-        if m := _HOURLY.search(line):
-            return {"type": "hourly", "value": _num(m.group(1)), "text": m.group(0)}, _short(line)
+        hourly = [a for a in amounts(tokenize(line)) if a.kind == "hourly" and a.value >= _MIN_VALUE["hourly"]]
+        if hourly:
+            a = hourly[0]
+            return {"type": "hourly", "value": a.value, "text": line[a.first : a.last].strip()}, _short(line)
     return {"type": "unknown", "value": None, "text": None}, None
 
 
-# ── 마감일 ──
+# ── 마감일 (의미 분석) ──
+# 어휘 분석(lexer.py)이 날짜·시각·"~"·"선발완료 시"를 토큰으로 만들고, 구문 분석(phrases.py)이 기간 구로 묶는다.
+# 여기서는 "어느 줄의 어느 기간이 신청 마감인가"와 "연도가 없는 날짜의 연도"만 정한다.
 
-# 2026. 11. 9. / 26. 11. 24. / 2026년 10월 26일 / 10월 26일 / 11/12 / 11. 6.
-_DATE = re.compile(r"(?<!\d)(?:(\d{4}|\d{2})\s*[.년\-]\s*)?(\d{1,2})\s*[.월/\-]\s*(\d{1,2})(?!\d)")
+YEAR_FIX_NOTE = "원문 연도를 게시 연도로 고침"  # deadline_text에 붙는 표시. extract.py가 보고 확인 필요로 표시한다
+OPEN_END_NOTE = "끝 날짜가 적혀 있지 않음"  # "6. 8.(월) 10:00 ~": 시작일일 수 있다
 
 
-def _dates_in(line: str, posted: date) -> list[date]:
-    """한 줄의 날짜를 모두 찾는다. 연도가 없으면 앞 날짜의 연도, 그것도 없으면 게시일 기준으로 정한다."""
-    found: list[date] = []
+def _year_typo_fixed(value: date, posted: date) -> date | None:
+    """원문에 적힌 연도가 오타로 보이면 게시 연도로 고친 날짜를, 아니면 None을 돌려준다.
+
+    예: 2026년 9월 게시글의 "신청기간 : 2025. 9. 30. ~ 10. 5." (896003), 2026년 8월 게시글의 "2027. 8. 24." (894168).
+    적힌 연도로는 게시일과 180일 넘게 떨어져 있고, 게시 연도로 바꾸면 게시일 30일 전 ~ 120일 뒤에 들어오면 오타로 본다.
+    """
+    if abs((value - posted).days) <= DEADLINE_YEAR_GAP:
+        return None
+    try:
+        fixed = value.replace(year=posted.year)
+    except ValueError:  # 2월 29일
+        return None
+    return fixed if -30 <= (fixed - posted).days <= 120 else None
+
+
+def _resolve_dates(tokens: list[Token], posted: date) -> tuple[dict[int, date], bool]:
+    """줄의 DATE 토큰마다 실제 날짜를 정한다. 반환: ({토큰 위치: 날짜}, 연도 오타를 고쳤는지).
+
+    연도가 없으면 앞 날짜의 연도, 그것도 없으면 게시일 기준으로 정한다 (12월 글의 "~1/10"은 다음 해).
+    """
+    resolved: dict[int, date] = {}
     year: int | None = None
-    for m in _DATE.finditer(line):
-        y, mo, d = m.group(1), int(m.group(2)), int(m.group(3))
-        if not (1 <= mo <= 12 and 1 <= d <= 31):
+    fixed_any = False
+    for t in tokens:
+        if t.kind != "DATE":
             continue
+        y, mo, d = t.value
         if y:
-            year = int(y) + 2000 if len(y) == 2 else int(y)
+            year = y
         use_year = year or posted.year
         try:
             value = date(use_year, mo, d)
         except ValueError:
             continue
+        if y and (fixed := _year_typo_fixed(value, posted)):
+            value, year, fixed_any = fixed, fixed.year, True  # 뒤에 오는 연도 없는 날짜도 고친 연도를 쓴다
         if year is None and value < posted - timedelta(days=60):
-            value = value.replace(year=use_year + 1)  # 12월에 올라온 "~1/10" 같은 경우
-        found.append(value)
-    return found
+            value = value.replace(year=use_year + 1)
+        resolved[t.start] = value
+    return resolved, fixed_any
+
+
+def _pick_period(line: str, found: list) -> object:
+    """한 줄에 기간 구가 여러 개면 신청 마감에 해당하는 것을 고른다.
+
+    각 기간 앞의 이름표(앞 기간이 끝난 곳부터 이 기간 시작까지의 글자)를 본다. 이름표에 "실행·발표·지급 …"이 있는 기간은
+    신청 기간이 아니라서 뺀다. 남은 것 중 마지막을 쓴다.
+      "대출신청기간: 7. 1. ~ 11. 17., 대출실행기간: 7. 1. ~ 11. 18." → 11/17 (실행기간은 뺌)
+      "모집기간: 7. 3. ~ 7. 9. 7/13(월)까지 기한 연장!" → 7/13 (뒤 기간은 이름표가 없어 같은 이름표가 이어진다)
+    """
+    keep = []
+    prev_end = 0
+    for p in found:
+        label = line[prev_end : p.first]
+        if not _has_any(label, PERIOD_OTHER_WORDS):
+            keep.append(p)
+        prev_end = p.last
+    return (keep or found)[-1]
+
+
+def _deadline_in(line: str, posted: date) -> tuple[str, date | None, bool, bool] | None:
+    """한 줄의 기간 구로 마감을 정한다.
+
+    반환: ("date", 날짜, 연도 고침, 끝 날짜 없음) / ("rolling", None, False, False) / None.
+    "8. 24. ~ 8. 31."은 끝(8/31), "~ 2026.6.22."는 그 날짜, "8. 24. ~ 선발완료 시까지"는 상시 모집이다.
+    "6. 8.(월) 10:00 ~"처럼 "~" 뒤에 끝이 없으면 그 날짜를 쓰되 확인 필요로 표시한다 (시작일일 수 있다).
+    """
+    tokens = tokenize(line)
+    found = periods(tokens)
+    if not found:
+        return None
+    chosen = _pick_period(line, found)
+    if chosen.rolling:
+        return None if _has_any(line, ROLLING_SKIP_WORDS) else ("rolling", None, False, False)
+    resolved, fixed = _resolve_dates(tokens, posted)
+    value = resolved.get(chosen.end.start)
+    if value is None and chosen.start is not None and chosen.start.start in resolved:
+        # 구문 분석이 만든 끝 날짜 ("8. 13.(목) ~ 14.(금)"의 14일): 연도는 시작 날짜에서 가져온다
+        begin = resolved[chosen.start.start]
+        _, month, day = chosen.end.value
+        try:
+            value = date(begin.year + (1 if month < begin.month else 0), month, day)
+        except ValueError:
+            value = None
+    return ("date", value, fixed, chosen.open) if value else None
 
 
 def extract_deadline(title: str, body: str, posted: date) -> tuple[str | None, str | None, str | None]:
-    """반환: (마감일 YYYY-MM-DD, 원문 표기, 근거 문장). 제목을 먼저 본다 (연장되면 제목이 바뀌므로)."""
+    """반환: (마감일 YYYY-MM-DD, 원문 표기, 근거 문장). 제목을 먼저 본다 (연장되면 제목이 바뀌므로).
+
+    원문 연도 오타를 고쳤으면 원문 표기 끝에 "(원문 연도를 게시 연도로 고침)"을,
+    "6. 8.(월) 10:00 ~"처럼 끝 날짜가 없으면 "(끝 날짜가 적혀 있지 않음)"을 붙인다. 둘 다 extract.py가 확인 필요로 표시한다.
+    상시 모집이면 마감일은 None, 원문 표기는 "상시 모집 (…)"이다.
+    """
+    def note(text: str, found: tuple) -> str:
+        notes = [n for n, on in [(YEAR_FIX_NOTE, found[2]), (OPEN_END_NOTE, found[3])] if on]
+        return f"{text} ({', '.join(notes)})" if notes else text
+
     if "~" in title or "까지" in title:
-        dates = _dates_in(title, posted)
-        if dates:
-            return dates[-1].isoformat(), title, _short(title)
+        found = _deadline_in(title, posted)
+        if found and found[0] == "date":
+            return found[1].isoformat(), note(title, found), _short(title)
     for line in _lines(body):
         if not _has_any(line, DEADLINE_LINE_WORDS) or _has_any(line, DEADLINE_SKIP_WORDS):
             continue
-        dates = _dates_in(line, posted)
-        if dates:
-            return dates[-1].isoformat(), _short(_after_colon(line), 60), _short(line)
+        found = _deadline_in(line, posted)
+        if found is None:
+            continue
+        if found[0] == "rolling":  # "모집기간: 2026. 8. 24. (월) ~ 선발완료 시 까지" (893917)
+            return None, "상시 모집 (" + _short(_after_colon(line), 40) + ")", _short(line)
+        return found[1].isoformat(), note(_short(_after_colon(line), 60), found), _short(line)
     # 날짜 없이 "선발 완료시까지"인 상시 모집: 마감일은 없지만 원문 표기는 남긴다
     for line in _lines(body):
         if (_has_any(line, ROLLING_WORDS) and _has_any(line, DEADLINE_LINE_WORDS + ["지원기간", "지원 기간"])
@@ -267,7 +396,8 @@ def extract_deadline(title: str, body: str, posted: date) -> tuple[str | None, s
 
 # 앞에 숫자·한글이 붙으면 학년이 아니다: "2026학년도"의 6, "중1학년"의 1
 _GRADE_RANGE = re.compile(r"(?<![\d가-힣])(\d)\s*[~\-]\s*(\d)\s*학년")
-_GRADE_LIST = re.compile(r"(?<![\d.가-힣])((?:\d\s*,\s*)*\d)\s*학년(?!도)")
+# "2, 3, 4학년", "5·6학년", "3/4학년"
+_GRADE_LIST = re.compile(r"(?<![\d.가-힣])((?:\d\s*[,·/]\s*)*\d)\s*학년(?!도)")
 _GPA = re.compile(r"(\d\.\d{1,2})\s*(?:/\s*4\.[35])?\s*(?:점\s*)?이상")
 # 100점 만점 성적: "백분율 성적 85점 이상", "C0(70점/100점 만점) 이상"
 _SCORE = re.compile(r"(?<!\d)(\d{2})\s*점[^\n]{0,15}?이상")
@@ -293,13 +423,23 @@ def extract_eligibility(body: str) -> dict:
         return [m for m in pattern.finditer(line)
                 if not _context_skip(line, m.start(), m.end(), COND_BEFORE_SKIP, COND_AFTER_SKIP)]
 
+    def school_grade(line: str, m: re.Match) -> bool:
+        # "6년제 5·6학년, 5년제 4·5학년"처럼 다른 학제의 학년이면 쓰지 않는다 (897009). "4년제 3·4학년"은 쓴다
+        before = line[max(0, m.start() - GRADE_SYSTEM_WINDOW) : m.start()]
+        if _has_any(before, ["고등학교", "고교", "중학교", "초등"]):  # "고등학교 1~2학년, 대학교 1~3학년" (894206)
+            return False
+        system = re.search(r"(\d)\s*년제", before)
+        return system is None or system.group(1) == "4"
+
     for line in lines:
         if result["grades"] is None:
-            if ranges := ok_matches(_GRADE_RANGE, line):
+            ranges = [m for m in ok_matches(_GRADE_RANGE, line) if school_grade(line, m)]
+            singles = [m for m in ok_matches(_GRADE_LIST, line) if school_grade(line, m)]
+            if ranges:
                 lo, hi = int(ranges[0].group(1)), int(ranges[0].group(2))
-                if 1 <= lo <= hi <= 6:
+                if 1 <= lo <= hi <= MAX_GRADE:
                     result["grades"] = list(range(lo, hi + 1))
-            elif singles := ok_matches(_GRADE_LIST, line):
+            elif singles:
                 m = singles[0]
                 grades = sorted({int(g) for g in re.findall(r"\d", m.group(1))})
                 tail = line[m.end() : m.end() + 4]
@@ -307,7 +447,7 @@ def extract_eligibility(body: str) -> dict:
                     grades = list(range(grades[0], 5))
                 elif len(grades) == 1 and "이하" in tail:  # "2학년 이하" → 1~2학년
                     grades = list(range(1, grades[0] + 1))
-                if all(1 <= g <= 6 for g in grades):
+                if all(1 <= g <= MAX_GRADE for g in grades):
                     result["grades"] = grades
         if _has_any(line, ["성적", "평점", "학점"]):
             if result["gpa_min"] is None and (found := ok_matches(_GPA, line)):
@@ -393,7 +533,8 @@ def _find_regions(line: str) -> list[tuple[str, int, int]]:
     found = [(m.group(1), m.start(1), m.end(1)) for m in _SIDO.finditer(line)]
     for m in _SIGUNGU.finditer(line):
         name = m.group(1)
-        if name in NOT_REGION or any(s <= m.start(1) < e for _, s, e in found):
+        # 실제 시·군·구 이름만 지역으로 본다 ("반드시", "명시", "가구"는 목록에 없다)
+        if name not in SIGUNGU or name in NOT_REGION or any(s <= m.start(1) < e for _, s, e in found):
             continue
         found.append((name, m.start(1), m.end(1)))
     return sorted(found, key=lambda x: x[1])

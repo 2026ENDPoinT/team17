@@ -32,38 +32,57 @@ MAX_DAYS_APART = 60
 _BRACKETS = re.compile(r"\(([^()]*)\)|\[([^\[\]]*)\]|【([^】]*)】|<([^<>]*)>")
 _NUM = re.compile(r"\d+")
 
-# 괄호 안 내용 중 지우는 것 (2026-11-13, 제목 309개의 괄호 내용을 모아 정함). 나머지는 남긴다.
-# 1) 날짜·기한: 숫자와 함께 ~ / . : 까지 시 예정 월 이 있는 것, 요일 한 글자
+# 괄호 안 내용을 세 층으로 나눈다 (2026-11-14, 6개월 데이터 제목의 괄호 내용을 모아 정함).
+# 원본 제목은 저장할 때 그대로 두고, 이 정리는 비교할 때 만드는 임시 사본에만 한다.
+#
+# [항상 지움]
+#   날짜·기한: 숫자와 함께 ~ / . : 까지 시 예정 월 이 있는 것, 요일 한 글자
 _DATE_LIKE = re.compile(r"\d.*(~|/|\.|:|까지|시|예정|월)|^(~|까지)|^[월화수목금토일]$")
-# 2) 상태·안내 꼬리표
+#   상태 꼬리표. "수정 3차"의 3차는 몇 번째 수정인지일 뿐 장학금 차수가 아니라서 여기서 지운다
 _STATUS_WORDS = re.compile(r"마감|홍보|완료|수정|필독|필수|중요|연장|안내|공지|교체|추가|신규|타과생")
-# 3) 글을 올린 학교 부서·대상 (장학금을 구분하는 정보가 아니다). 재단·장학회 이름은 남긴다
-_SCHOOL_UNIT = re.compile(r"(처|원|센터|과|팀|단|대학|본부|관|실|소|부|전공|조합|미술관)$|^(학부|대학원|일반대학원|장학|재학생|학부생|학부 재학생)")
-_KEEP = re.compile(r"재단|장학회|협회|사랑의열매|희망사다리|유형|\d+차|^\d[\d,]*만?원$")
+#   게시판 분류 표시: 한 글자 괄호 ("(재)", "(善)", "(주)"), 정확히 "장학"·"발전기금"
+_BOARD_LABEL = re.compile(r"^(.|장학|발전기금)$")
+#   대상 표시 (누구에게 보이는 글인지): 같은 장학금 공지에 붙었다 안 붙었다 한다
+#   ("[학부] … 대림수암장학문화재단 장학생"과 "[대림수암장학문화재단] … 장학생")
+_AUDIENCE = re.compile(r"^(학부|대학원|일반대학원|재학생|학부생|학부 재학생)$")
+# [목적에 따라 다름] 학교 부서 (공지를 낸 곳: [도서관], [생활협동조합], (GTM전공), [국제대학] …)
+#   재게시 판정: 학과가 다시 올리며 붙이거나 바꾸므로 지운다 (drop_units=True, 기본값)
+#   이벤트 묶기: "[도서관] 국가근로장학생 모집"과 "[생활협동조합] …"은 다른 모집이라 남긴다 (drop_units=False)
+_SCHOOL_UNIT = re.compile(r"(처|원|센터|과|팀|단|대학|본부|관|실|소|부|전공|조합|미술관)$")
+# [항상 남김] 재단·장학회·회사 이름 (상태 꼬리표와 함께 있어도 남긴다), 차수·유형·금액, 과목·분야, 모르는 내용
+_ORG_NAME = re.compile(r"재단|장학회|협회|사랑의열매")
+_IDENTIFIER = re.compile(r"희망사다리|유형|\d+차|^\d[\d,]*만?원$")
 
 
-def _bracket_kept(inner: str) -> str:
+def _bracket_kept(inner: str, drop_units: bool = True) -> str:
     """괄호 안 내용을 남길지 정한다. 남기면 괄호 기호만 빼고 내용을 돌려준다."""
     s = inner.strip()
-    if not s:
+    if not s or _BOARD_LABEL.match(s) or _AUDIENCE.match(s) or _DATE_LIKE.search(s.replace(" ", "")):
         return ""
-    if _KEEP.search(s) and not _DATE_LIKE.search(s.replace(" ", "")):
-        return " " + s + " "  # 재단 이름, 차수, 유형은 장학금을 구분하는 정보다
-    if _DATE_LIKE.search(s) or _STATUS_WORDS.search(s) or _SCHOOL_UNIT.search(s):
+    if _ORG_NAME.search(s):
+        return " " + s + " "
+    if _STATUS_WORDS.search(s):
+        return ""
+    if _IDENTIFIER.search(s):
+        return " " + s + " "
+    if drop_units and _SCHOOL_UNIT.search(s):
         return ""
     return " " + s + " "  # 모르는 내용은 남긴다 (지워서 생기는 오판이 더 위험하다)
 
 
-def normalize_title(title: str) -> str:
-    """제목에서 상태 꼬리표·날짜·학교 부서 괄호만 지우고, 재단 이름·차수 같은 정보는 남긴 뒤 공백·기호를 지운다.
+def normalize_title(title: str, drop_units: bool = True) -> str:
+    """비교용 제목 사본을 만든다. 괄호는 위 세 층 규칙으로 지우거나 남기고, 공백·기호를 지운다.
+    drop_units: 학교 부서·대상 괄호를 지울지. 재게시 판정은 True(기본), 이벤트 묶기는 False.
     예) "[해성문화재단] 2026년도 2학기 장학생 선발 안내 (마감)" → "해성문화재단2026년도2학기장학생선발안내"
         "★2026학년도 2학기 등록금 납부(2차) 일정 안내★" → "2026학년도2학기등록금납부2차일정안내"
-    재게시 후보를 고를 때만 쓴다. 최종 판단은 본문·첨부로 한다."""
+        "[대림수암장학문화재단] 2026년 장학생 선발 (수정)" → "대림수암장학문화재단2026년장학생선발"
+        "[국제대학] 유학생 학습지원 튜터 장학생(수학) 추가 모집" → "유학생학습지원튜터장학생수학추가모집"
+    재게시 판정에서는 후보를 고를 때만 쓴다. 최종 판단은 본문·첨부로 한다."""
     t = title.lower()
     prev = None
     while prev != t:  # 괄호 안에 괄호가 있을 수 있어 안쪽부터 처리한다
         prev = t
-        t = _BRACKETS.sub(lambda m: _bracket_kept(next(g for g in m.groups() if g is not None)), t)
+        t = _BRACKETS.sub(lambda m: _bracket_kept(next(g for g in m.groups() if g is not None), drop_units), t)
     return re.sub(r"[^0-9a-z가-힣]", "", t)
 
 
