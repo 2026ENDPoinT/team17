@@ -97,9 +97,16 @@ def _head_skip(line: str) -> bool:
     return bool(sep) and _has_any(head, LINE_HEAD_SKIP)
 
 
+# 이름표 뒤의 콜론. 시각의 콜론("15:00")은 이름표가 아니라서 숫자 사이의 콜론은 건너뛴다
+_LABEL_COLON = re.compile(r"(?<!\d)[:：]|[:：](?!\d)")
+
+
 def _after_colon(line: str) -> str:
-    """'다. 지원금액: 300만원' → '300만원'. 콜론이 없으면 줄 그대로."""
-    parts = re.split(r"[:：]", line, maxsplit=1)
+    """'다. 지원금액: 300만원' → '300만원'. 콜론이 없으면 줄 그대로.
+
+    "2026. 9. 24.(목) 15:00까지"처럼 시각의 콜론만 있으면 자르지 않는다 (예전에는 "00까지"가 됐다).
+    """
+    parts = _LABEL_COLON.split(line, maxsplit=1)
     return parts[1].strip() if len(parts) == 2 and parts[1].strip() else line
 
 
@@ -309,6 +316,22 @@ def _dates_in(line: str, posted: date) -> tuple[list[date], bool]:
     return found, fixed_any
 
 
+def _rolling_after_last_date(line: str) -> bool:
+    """기간이 "시작일 ~ 선발완료 시까지"로 끝나면 True (그 날짜는 시작일이고 끝은 정해지지 않았다).
+
+    마지막 날짜 뒤에 "~"가 있고 그 뒤에 상시 모집 말이 있어야 한다.
+    "8. 24. ~ 8. 31. (선발완료 시 조기 마감)"은 끝 날짜(8/31)가 있으니 상시 모집이 아니다.
+    """
+    if not _has_any(line, ROLLING_WORDS) or _has_any(line, ROLLING_SKIP_WORDS):
+        return False
+    last = None
+    for last in _DATE.finditer(line):
+        pass
+    rest = line[last.end() :] if last else line
+    tilde = re.search(r"[~∼～]", rest)
+    return tilde is not None and _has_any(rest[tilde.end() :], ROLLING_WORDS)
+
+
 def extract_deadline(title: str, body: str, posted: date) -> tuple[str | None, str | None, str | None]:
     """반환: (마감일 YYYY-MM-DD, 원문 표기, 근거 문장). 제목을 먼저 본다 (연장되면 제목이 바뀌므로).
 
@@ -325,6 +348,9 @@ def extract_deadline(title: str, body: str, posted: date) -> tuple[str | None, s
         if not _has_any(line, DEADLINE_LINE_WORDS) or _has_any(line, DEADLINE_SKIP_WORDS):
             continue
         dates, fixed = _dates_in(line, posted)
+        if dates and _rolling_after_last_date(line):
+            # "모집기간: 2026. 8. 24. (월) ~ 선발완료 시 까지": 날짜는 시작일이고 끝은 정해지지 않았다 (893917)
+            return None, "상시 모집 (" + _short(_after_colon(line), 40) + ")", _short(line)
         if dates:
             return dates[-1].isoformat(), note(_short(_after_colon(line), 60), fixed), _short(line)
     # 날짜 없이 "선발 완료시까지"인 상시 모집: 마감일은 없지만 원문 표기는 남긴다
