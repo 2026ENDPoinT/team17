@@ -1,0 +1,222 @@
+{
+  "_note": "샘플 데이터다. 장학금 이름·금액·링크는 지어낸 값이다. 분류 담당이 만들고 화면 담당이 개발용으로 읽는다. 필드를 바꾸면 이 파일도 같이 고치고 팀에 알린다.",
+  "version": 1,
+  "generated_at": "2026-11-13T20:00:00+09:00",
+  "items": [
+    {
+      "id": "900001",
+      "name": "(샘플) 미래인재 교외장학금",
+      "title": "[장학] 2026학년도 (샘플) 미래인재 장학생 선발 안내",
+      "category": "교외",
+      "summary": "재학생 대상 일시금 장학금. 직전 학기 성적 3.0 이상, 소득 8분위 이하.",
+      "amount": {
+        "type": "lump_sum",
+        "value": 2500000,
+        "text": "1인당 250만원"
+      },
+      "deadline": "2026-11-20",
+      "deadline_text": "2026. 11. 13.(금) ~ 11. 20.(금) 17:00까지",
+      "closed": false,
+      "eligibility": {
+        "grades": [
+          2,
+          3,
+          4
+        ],
+        "departments": null,
+        "gpa_min": 3.0,
+        "score_min": null,
+        "income_max": 8,
+        "residence": null,
+        "other_conditions": [
+          "학칙에 의한 징계 사실이 없는 자"
+        ],
+        "unclear": []
+      },
+      "burden": {
+        "documents": [
+          "장학금 신청서",
+          "성적증명서",
+          "소득분위 확인서"
+        ],
+        "interview": false
+      },
+      "duplicate_restriction": true,
+      "source": {
+        "board": "장학공지",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=900001",
+        "posted_at": "2026-11-10"
+      },
+      "also_posted_bidx": [
+        "900105",
+        "900112"
+      ],
+      "evidence": {
+        "amount": "지원금액: 1인당 250만원 (일시 지급)",
+        "deadline": "신청기간: 2026. 11. 13.(금) ~ 11. 20.(금) 17:00까지",
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": true
+    },
+    {
+      "id": "900002",
+      "name": "(샘플) 성적우수 교내장학금",
+      "title": "2026-2학기 (샘플) 성적우수 장학생 추가 모집",
+      "category": "교내",
+      "summary": "등록금 50% 감면. 학과장 추천과 면접이 있다.",
+      "amount": {
+        "type": "tuition_ratio",
+        "value": 50,
+        "text": "등록금 50% 감면"
+      },
+      "deadline": "2026-11-27",
+      "deadline_text": "~11/27 18시까지",
+      "closed": false,
+      "eligibility": {
+        "grades": null,
+        "departments": [
+          "전기정보공학과"
+        ],
+        "gpa_min": 3.5,
+        "score_min": null,
+        "income_max": null,
+        "residence": null,
+        "other_conditions": [],
+        "unclear": []
+      },
+      "burden": {
+        "documents": [
+          "장학금 신청서",
+          "자기소개서",
+          "학과장 추천서"
+        ],
+        "interview": true
+      },
+      "duplicate_restriction": true,
+      "source": {
+        "board": "전기정보공학과 공지",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=900002",
+        "posted_at": "2026-11-12"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": "선발 시 등록금의 50%를 감면함",
+        "deadline": "제출기한: ~11/27 18시까지 학과사무실",
+        "duplicate_restriction": null,
+        "departments": "지원대상: 전기정보공학과 재학생",
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": true
+    },
+    {
+      "id": "900003",
+      "name": "(샘플) 도서관 근로장학생",
+      "title": "[근로장학] (샘플) 중앙도서관 근로장학생 모집",
+      "category": "근로",
+      "summary": "도서관 자료 정리 근로. 주 10시간 이내.",
+      "amount": {
+        "type": "hourly",
+        "value": 10320,
+        "text": "시급 10,320원"
+      },
+      "deadline": "2026-11-11",
+      "deadline_text": "2026. 11. 4. ~ 11. 11.",
+      "closed": true,
+      "eligibility": {
+        "grades": null,
+        "departments": null,
+        "gpa_min": null,
+        "score_min": 70,
+        "income_max": null,
+        "residence": null,
+        "other_conditions": [
+          "해당 근로시간에 근무가 가능한 자"
+        ],
+        "unclear": []
+      },
+      "burden": {
+        "documents": [
+          "근로장학 신청서"
+        ],
+        "interview": true
+      },
+      "duplicate_restriction": false,
+      "source": {
+        "board": "장학공지 (근로장학)",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=57138&bidx=900003",
+        "posted_at": "2026-11-04"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": "근로 시급: 10,320원",
+        "deadline": "모집기간: 2026. 11. 4. ~ 11. 11.",
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": false
+    },
+    {
+      "id": "900004",
+      "name": "(샘플) 지역인재 장학금",
+      "title": "(샘플) OO시 지역인재 장학생 선발 공고 안내",
+      "category": "교외",
+      "summary": "지자체 장학금. 금액은 예산 범위 내로만 적혀 있다. 원문 확인 필요.",
+      "amount": {
+        "type": "unknown",
+        "value": null,
+        "text": "예산 범위 내"
+      },
+      "deadline": null,
+      "deadline_text": "첨부 공고문 참조",
+      "closed": false,
+      "eligibility": {
+        "grades": null,
+        "departments": null,
+        "gpa_min": null,
+        "score_min": null,
+        "income_max": null,
+        "residence": "OO시",
+        "other_conditions": [],
+        "unclear": [
+          "residence",
+          "income_max"
+        ]
+      },
+      "burden": {
+        "documents": [
+          "신청서",
+          "주민등록등본",
+          "재학증명서",
+          "성적증명서"
+        ],
+        "interview": false
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "장학공지",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=900004",
+        "posted_at": "2026-11-08"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": "장학금액: 예산 범위 내에서 지급",
+        "deadline": null,
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": "(샘플) OO시 지역인재 장학생 선발 공고 안내"
+      },
+      "needs_check": [
+        "amount",
+        "deadline",
+        "poster_only"
+      ],
+      "reviewed": false
+    }
+  ]
+}

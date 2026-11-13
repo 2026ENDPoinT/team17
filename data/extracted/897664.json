@@ -9,9 +9,9 @@
   "category": "근로",
   "summary": "한국전시산업융합연구원에서는 2026-2학기 국가근로장학생을 아래와 같이 모집합니다.",
   "amount": {
-    "type": "unknown",
-    "value": null,
-    "text": null
+    "type": "hourly",
+    "value": 12430,
+    "text": "시 급 : 12,430원"
   },
   "deadline": null,
   "deadline_text": "상시 모집 (~ (기관)선발 완료시 까지)",
@@ -35,7 +35,9 @@
     ]
   },
   "burden": {
-    "documents": [],
+    "documents": [
+      "국가근로장학생 지원서(학생)"
+    ],
     "interview": false
   },
   "duplicate_restriction": null,
@@ -47,18 +49,17 @@
   "duplicate_of": null,
   "also_posted_bidx": [],
   "evidence": {
-    "amount": null,
+    "amount": "- 시 급 : 12,430원",
     "deadline": "※ 지원기간: ~ (기관)선발 완료시 까지",
     "duplicate_restriction": null,
     "departments": null,
     "residence": null
   },
   "filtered_conditions": [],
-  "from_attachment": [],
-  "needs_check": [
-    "amount",
+  "from_attachment": [
     "documents"
   ],
+  "needs_check": [],
   "content_hash": "sha256:197c2d90b22bbdeac13724bee806e33881678ebf6603c4f567a7520ff389d024",
   "reviewed": false
 }

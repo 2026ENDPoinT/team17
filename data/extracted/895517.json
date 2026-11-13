@@ -53,10 +53,7 @@
   },
   "filtered_conditions": [],
   "from_attachment": [],
-  "needs_check": [
-    "amount",
-    "documents"
-  ],
+  "needs_check": [],
   "content_hash": "sha256:0431bd7f6d6fafd0f2bdb10bc3c2baad021f913d1a3ba4b7953a3f957ebcf650",
   "reviewed": false
 }

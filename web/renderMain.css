@@ -1,0 +1,440 @@
+/* 메인 화면의 여백·둥근 영역과 스크롤을 정의한다. 입력: 메인 화면 DOM. 출력: 정사각형에 가까운 목록과 오른쪽 설정 박스. */
+.main-layout,
+.main-layout * {
+  box-sizing: border-box;
+}
+
+.main-layout {
+  display: grid;
+  grid-template-columns: minmax(0, min(calc(100dvh - 152px), calc(100% - 384px))) 360px;
+  grid-template-rows: 64px minmax(0, 1fr);
+  justify-content: center;
+  gap: 24px;
+  height: 100dvh;
+  padding: 32px max(40px, 5vw, calc((100vw - 1440px) / 2));
+  overflow: hidden;
+  color: var(--color-text);
+  background: var(--color-background);
+}
+
+.main-list-panel,
+.main-title,
+.main-sort,
+.main-filters {
+  min-width: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 24px;
+  background: var(--color-panel);
+}
+
+.main-list-panel {
+  display: flex;
+  min-height: 0;
+  overflow: hidden;
+  padding: 12px;
+}
+
+/* 즐겨찾기는 메인의 제목 너비를 유지하고 오른쪽 설정 자리까지 목록으로 사용한다. */
+.favorites-layout > .main-list-panel { grid-column: 1 / -1; }
+.favorite-missing { padding: 24px; cursor: default; }
+.favorite-missing .main-favorites-button {
+  position: static;
+  display: inline-block;
+  width: auto;
+  height: 40px;
+  padding: 10px 16px;
+  background: var(--color-primary);
+  color: var(--color-content);
+}
+
+.main-list {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 12px;
+  scrollbar-gutter: stable;
+}
+
+/* 스크롤바를 테두리 안쪽에 두고, 트랙과 화살표 없이 둥근 막대만 표시한다. */
+.main-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.main-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.main-list::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: var(--color-secondary);
+}
+
+.main-list::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+.main-list::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* 전용 스크롤바 선택자를 지원하지 않는 브라우저에는 표준 얇은 막대를 적용한다. */
+@supports not selector(::-webkit-scrollbar) {
+  .main-list {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-primary) transparent;
+  }
+}
+
+.main-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-height: 0;
+  min-width: 0;
+  overflow-y: auto;
+}
+
+.main-sort,
+.main-filters {
+  padding: 24px;
+}
+
+.main-title {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 12px 24px;
+}
+
+.main-title,
+.main-sort,
+.main-filter-reset {
+  flex-shrink: 0;
+}
+
+.main-title h1 {
+  flex-shrink: 0;
+  margin: 0;
+  font-size: 24px;
+}
+
+.main-title p {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--color-text);
+  font-size: 14px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.main-title p,
+.main-sort p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* 메인·즐겨찾기의 목록 건수를 둥근 배지와 굵은 글씨로 강조한다. */
+.main-title .main-list-count {
+  flex-shrink: 0;
+  padding: 6px 14px;
+  border: 1px solid var(--color-primary);
+  border-radius: 12px;
+  background: var(--color-primary);
+  color: var(--color-content);
+  font-weight: bold;
+}
+
+/* 제목 바 오른쪽에 기존 버튼과 같은 밤색 즐겨찾기 버튼을 둔다. */
+.main-favorites-button {
+  flex-shrink: 0;
+  margin-left: auto;
+  padding: 10px 16px;
+  border: 1px solid var(--color-primary);
+  border-radius: 12px;
+  background: var(--color-primary);
+  color: var(--color-content);
+  font: inherit;
+  cursor: pointer;
+}
+
+/* 글자 수에 관계없이 즐겨찾기와 필터 선택 버튼의 가로·세로 크기를 맞춘다. */
+.main-favorites-button,
+.main-filter-header button {
+  flex-shrink: 0;
+  width: 104px;
+  height: 40px;
+  white-space: nowrap;
+}
+
+.main-sidebar h2 {
+  margin: 0 0 12px;
+  font-size: 18px;
+}
+
+.main-sort select {
+  width: 100%;
+  padding: 10px;
+  font: inherit;
+  border: 1px solid var(--color-primary);
+  border-radius: 12px;
+  color: var(--color-text);
+  background: var(--color-content);
+}
+
+.main-amount-types {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  margin: 16px 0 0;
+}
+
+.main-amount-types[hidden] { display: none; }
+
+.main-filters {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 220px;
+}
+
+.main-filter-content {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: start;
+  gap: 10px;
+  min-height: 0;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.main-filter-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.main-filter-header h2 { margin: 0; }
+.main-filter-header button { padding: 10px 16px; border: 1px solid var(--color-primary); border-radius: 12px; background: var(--color-primary); color: var(--color-content); font: inherit; cursor: pointer; }
+/* 적용된 필터는 일반 버튼과 구분되도록 밤색 바탕과 밝은 글씨로 표시한다. */
+.main-selected-filter { padding: 10px; border: 1px solid var(--color-primary); border-radius: 12px; background: var(--color-primary); color: var(--color-panel); font: inherit; font-weight: bold; box-shadow: inset 0 0 0 1px var(--color-primary); cursor: pointer; overflow-wrap: anywhere; }
+.main-filter-empty { grid-column: 1 / -1; margin: 0; line-height: 1.6; }
+
+.main-filter-reset {
+  margin-top: 20px;
+  padding: 12px;
+  font: inherit;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-primary);
+  color: var(--color-content);
+  cursor: pointer;
+}
+
+.main-sort select:hover:not(:disabled),
+.scholarship-block:hover {
+  background: var(--color-secondary);
+  border-color: var(--color-primary);
+  color: var(--color-text);
+}
+
+.main-favorites-button:hover:not(:disabled),
+.main-filter-header button:hover:not(:disabled),
+.main-filter-reset:hover:not(:disabled),
+.main-selected-filter:hover {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+
+.main-favorites-button:disabled,
+.main-filter-header button:disabled,
+.main-filter-reset:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.main-favorites-button:focus-visible,
+.main-sidebar button:focus-visible,
+.main-sort select:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+.scholarship-block {
+  position: relative;
+  width: 100%;
+  margin-bottom: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background: var(--color-content);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+
+.scholarship-open:focus-visible,
+.scholarship-favorite:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* 상세 이동과 별을 형제 버튼으로 두고, 조건 아래에 별을 위한 여유 공간을 확보한다. */
+.scholarship-open {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  min-height: 220px;
+  padding: 24px 24px 68px;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+
+.scholarship-favorite {
+  position: absolute;
+  right: 16px;
+  bottom: 12px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 8px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--color-primary);
+  cursor: pointer;
+}
+
+.scholarship-favorite svg {
+  width: 28px;
+  height: 28px;
+  fill: transparent;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linejoin: round;
+}
+
+.scholarship-favorite[aria-pressed='true'] svg { fill: currentColor; }
+.scholarship-favorite:hover { color: var(--color-primary-hover); }
+
+.scholarship-name {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* 첫 줄 오른쪽에 모집 상태를 두고, 수정된 모집의 게시일을 말풍선으로 보여 준다. */
+.scholarship-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+}
+
+.scholarship-name { min-width: 0; }
+.scholarship-status {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 8px;
+  padding-top: 3px;
+  font-size: 14px;
+  color: #4b5563;
+}
+.scholarship-status-modified { cursor: help; }
+.scholarship-modified { color: #2563eb; }
+.scholarship-status-tooltip {
+  display: none;
+  position: absolute;
+  z-index: 2;
+  top: 100%;
+  right: 0;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: #202124;
+  color: #fff;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 1.5;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px #0002;
+}
+.scholarship-status-tooltip::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  right: 16px;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #202124;
+  border-left: 5px solid transparent;
+}
+.scholarship-status:hover .scholarship-status-tooltip,
+.scholarship-open:focus-visible .scholarship-status-tooltip { display: block; }
+
+.scholarship-info {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+}
+
+/* 세 번째 정보 줄의 조건과 마감 임박 문구를 좌우로 나눈다. */
+.scholarship-conditions-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  line-height: 1.6;
+}
+
+.scholarship-deadline-urgent {
+  flex-shrink: 0;
+  color: var(--color-danger);
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.scholarship-conditions {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.6;
+}
+
+/* 줄이 바뀌어도 조건 내용이 하이픈 뒤의 시작 위치에 맞춰진다. */
+.scholarship-condition {
+  display: grid;
+  grid-template-columns: 0.75em minmax(0, 1fr);
+}
+.scholarship-condition::before { content: '-'; }
+
+.main-list-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 100%;
+}
+
+.main-loading-spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid var(--color-secondary);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: main-loading 1s linear infinite;
+}
+
+@keyframes main-loading {
+  to { transform: rotate(360deg); }
+}

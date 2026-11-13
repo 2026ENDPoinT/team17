@@ -1,0 +1,3185 @@
+{
+  "version": 1,
+  "generated_at": "2026-11-14T07:09:07+09:00",
+  "items": [
+    {
+      "id": "event-895440",
+      "status": "완료",
+      "grouped_by": "auto",
+      "notices": [
+        {
+          "bidx": "895440",
+          "label": "모집",
+          "title": "[GTM전공] 2026학년도 생활비 지원 장학금 신청 안내",
+          "board": "GTM소식",
+          "url": "https://gtm.seoultech.ac.kr/info_plaza/gtm_info?do=view&bnum=2332&bidx=895440",
+          "posted_at": "2026-09-14",
+          "also_posted_bidx": []
+        },
+        {
+          "bidx": "896391",
+          "label": "완료",
+          "title": "(GTM전공) 2026학년도 생활비 지원 장학금 선발 결과 안내",
+          "board": "GTM소식",
+          "url": "https://gtm.seoultech.ac.kr/info_plaza/gtm_info?do=view&bnum=2332&bidx=896391",
+          "posted_at": "2026-10-12",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "2026학년도 생활비 지원 장학금",
+      "title": "[GTM전공] 2026학년도 생활비 지원 장학금 신청 안내",
+      "category": "교내",
+      "summary": "[GTM전공] 2026학년도 생활비 지원 장학금 신청 안내",
+      "amount": {
+        "type": "unknown",
+        "value": null,
+        "text": null
+      },
+      "deadline": "2026-09-24",
+      "deadline_text": "2026. 9. 24.(목) 15:00까지",
+      "closed": true,
+      "eligibility": {
+        "grades": null,
+        "departments": [
+          "경영학과"
+        ],
+        "gpa_min": null,
+        "score_min": null,
+        "income_max": null,
+        "residence": null,
+        "unclear": [
+          "income_max"
+        ],
+        "other_conditions": [
+          "2026학년도 경영학과 GTM전공 재학생 중 경제적 지원이 필요한 학생"
+        ]
+      },
+      "burden": {
+        "documents": [
+          "생활비지원장학금 신청서",
+          "개인정보동의서(학생)"
+        ],
+        "interview": false
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "GTM소식",
+        "url": "https://gtm.seoultech.ac.kr/info_plaza/gtm_info?do=view&bnum=2332&bidx=895440",
+        "posted_at": "2026-09-14"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": null,
+        "deadline": "2026. 9. 24.(목) 15:00까지",
+        "duplicate_restriction": null,
+        "departments": "2026학년도 경영학과 GTM전공 재학생 중 경제적 지원이 필요한 학생",
+        "residence": null
+      },
+      "needs_check": [
+        "amount"
+      ],
+      "reviewed": false
+    },
+    {
+      "id": "event-895517",
+      "status": "모집",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "895517",
+          "label": "모집",
+          "title": "[현대모비스] 26년 하반기 연구장학생 모집 (~9/29(화) 10:00)",
+          "board": "취업정보",
+          "url": "https://car.seoultech.ac.kr/bach/info?do=view&bnum=58460&bidx=895517",
+          "posted_at": "2026-09-15",
+          "also_posted_bidx": [
+            "895520",
+            "895533"
+          ]
+        }
+      ],
+      "name": "26년 하반기 연구장학생",
+      "title": "[현대모비스] 26년 하반기 연구장학생 모집 (~9/29(화) 10:00)",
+      "category": "교내",
+      "summary": "현대모비스에서 26년 하반기 연구장학생을 선발하고 있습니다.",
+      "amount": {
+        "type": "unknown",
+        "value": null,
+        "text": null
+      },
+      "deadline": "2026-09-29",
+      "deadline_text": "[현대모비스] 26년 하반기 연구장학생 모집 (~9/29(화) 10:00)",
+      "closed": false,
+      "eligibility": {
+        "grades": null,
+        "departments": null,
+        "gpa_min": null,
+        "score_min": null,
+        "income_max": null,
+        "residence": null,
+        "unclear": [],
+        "other_conditions": [
+          "1-3학기 재학생",
+          "Coursework 수료자"
+        ]
+      },
+      "burden": {
+        "documents": [],
+        "interview": false
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "취업정보",
+        "url": "https://car.seoultech.ac.kr/bach/info?do=view&bnum=58460&bidx=895517",
+        "posted_at": "2026-09-15"
+      },
+      "also_posted_bidx": [
+        "895520",
+        "895533"
+      ],
+      "evidence": {
+        "amount": null,
+        "deadline": "[현대모비스] 26년 하반기 연구장학생 모집 (~9/29(화) 10:00)",
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": false
+    },
+    {
+      "id": "event-895588",
+      "status": "완료",
+      "grouped_by": "reviewed",
+      "notices": [
+        {
+          "bidx": "895588",
+          "label": "완료",
+          "title": "(신청기간 연장) 2026년 에스엘이충곤재단 장학생 선발 안내(선발완료)",
+          "board": "장학공지",
+          "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=895588",
+          "posted_at": "2026-09-16",
+          "also_posted_bidx": []
+        },
+        {
+          "bidx": "897654",
+          "label": "완료",
+          "title": "[안내] 에스엘이충곤재단 장학사업 심사 결과 및 지급 일정 지연 안내",
+          "board": "장학공지",
+          "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=897654",
+          "posted_at": "2026-11-10",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "2026년 에스엘이충곤재단 장학생",
+      "title": "(신청기간 연장) 2026년 에스엘이충곤재단 장학생 선발 안내(선발완료)",
+      "category": "교외",
+      "summary": "2026년 에스엘이충곤재단 장학생을 아래와 같이 선발합니다.",
+      "amount": {
+        "type": "lump_sum",
+        "value": 5000000,
+        "text": "500만원"
+      },
+      "deadline": "2026-10-12",
+      "deadline_text": "~2026. 10. 12.(월) ※ 통합정보시스템 장학금 신청",
+      "closed": true,
+      "eligibility": {
+        "grades": [
+          3,
+          4
+        ],
+        "departments": [
+          "기계시스템공학부",
+          "지능형로봇전공",
+          "미래자동차전공",
+          "기계공학과",
+          "안전공학과",
+          "신소재공학과",
+          "건설시스템공학과",
+          "건축학부",
+          "건축공학전공",
+          "건축학전공",
+          "건축기계설비공학과",
+          "기계시스템디자인공학과",
+          "기계·자동차공학과",
+          "전기정보공학과",
+          "전자공학과",
+          "컴퓨터공학과",
+          "스마트ICT융합공학과",
+          "인공지능응용학과",
+          "지능형반도체공학과",
+          "미래에너지융합학과",
+          "화공생명공학과",
+          "환경공학과",
+          "식품생명공학과",
+          "산업공학과",
+          "산업정보시스템전공",
+          "ITM전공",
+          "MSDE학과",
+          "융합기계공학과",
+          "건설환경융합공학과",
+          "정보통신융합공학과",
+          "글로벌IT컨버전스학과"
+        ],
+        "gpa_min": null,
+        "score_min": 85,
+        "income_max": 5,
+        "residence": null,
+        "unclear": [
+          "departments"
+        ],
+        "other_conditions": [
+          "자동차/전자/전기/기계 등 공학계열 전공자",
+          "2026년 1학기 이수학점 12학점 이상, 백분율 성적 85점 이상",
+          "등록금 범위 외 타 장학금 수혜를 받지 아니한 자(외부장학금, 생활보조금 성격) ※ 한국장학재단 국가근로 및 교내근로 장학금 수혜자의 경우 지원가능",
+          "장학생을 대상으로 하는 재단행사에 참석가능한 자",
+          "장학자격 상실(휴학)한 학생의 경우 신청 불가",
+          "우선순위: 1순위: 학자금 지원구간이 낮은 학생",
+          "우선순위: 2순위: 2026년 1학기 성적 평균이 높은 학생",
+          "우선순위: 3순위: 2026년 1학기 취득학점이 높은 학생"
+        ]
+      },
+      "burden": {
+        "documents": [
+          "자기소개서",
+          "개인정보 수집‧이용 및 제공 동의서"
+        ],
+        "interview": false
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "장학공지",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=895588",
+        "posted_at": "2026-09-16"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": "2. 지원금액: 1인당 500만원(250만원×2개 학기) ※ 생활비성 장학금",
+        "deadline": "6. (학생)신청기간: ~2026. 10. 12.(월) ※ 통합정보시스템 장학금 신청",
+        "duplicate_restriction": null,
+        "departments": "○ 자동차/전자/전기/기계 등 공학계열 전공자",
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": false
+    },
+    {
+      "id": "event-895603",
+      "status": "수정",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "895603",
+          "label": "수정",
+          "title": "[대림수암장학문화재단] 2026년 장학생 선발  (수정)",
+          "board": "장학금",
+          "url": "https://architecture.seoultech.ac.kr/bachelor_of_information/scholarship?do=view&bnum=575&bidx=895603",
+          "posted_at": "2026-09-16",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "2026년 장학생",
+      "title": "[대림수암장학문화재단] 2026년 장학생 선발  (수정)",
+      "category": "교외",
+      "summary": "대림수암장학문화재단 2026년 장학생 선발 안내",
+      "amount": {
+        "type": "lump_sum",
+        "value": 2000000,
+        "text": "2,000,000원"
+      },
+      "deadline": "2026-09-22",
+      "deadline_text": "2026. 9. 22.(화) 13:00",
+      "closed": false,
+      "eligibility": {
+        "grades": null,
+        "departments": null,
+        "gpa_min": 3.0,
+        "score_min": null,
+        "income_max": null,
+        "residence": null,
+        "unclear": [
+          "income_max"
+        ],
+        "other_conditions": []
+      },
+      "burden": {
+        "documents": [
+          "대림수암장학문화재단 장학금 신청서(자기소개서)",
+          "개인정보 수집 이용 동의서 장학재단"
+        ],
+        "interview": false
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "장학금",
+        "url": "https://architecture.seoultech.ac.kr/bachelor_of_information/scholarship?do=view&bnum=575&bidx=895603",
+        "posted_at": "2026-09-16"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": "2. 장학금: 금2,000,000원(금이백만원)",
+        "deadline": "6. 제출 기간: 2026. 9. 22.(화) 13:00",
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": false
+    },
+    {
+      "id": "event-895611",
+      "status": "완료",
+      "grouped_by": "reviewed",
+      "notices": [
+        {
+          "bidx": "895611",
+          "label": "모집",
+          "title": "(장학)서울과학기술대학교 산업공학과 동문회『선(善)순환 인재 장학금』신청 공고",
+          "board": "공지사항",
+          "url": "https://iise.seoultech.ac.kr/notice/faculty_announcements_?do=view&bnum=1302&bidx=895611",
+          "posted_at": "2026-09-17",
+          "also_posted_bidx": []
+        },
+        {
+          "bidx": "896593",
+          "label": "완료",
+          "title": "(장학)2026년 산업공학과 동문회 선순환 장학금 장학생 선발 결과 알림",
+          "board": "공지사항",
+          "url": "https://iise.seoultech.ac.kr/notice/faculty_announcements_?do=view&bnum=1302&bidx=896593",
+          "posted_at": "2026-10-15",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "서울과학기술대학교 산업공학과 동문회『선(善)순환 인재 장학금』",
+      "title": "(장학)서울과학기술대학교 산업공학과 동문회『선(善)순환 인재 장학금』신청 공고",
+      "category": "교내",
+      "summary": "서울과학기술대학교 산업공학과 동문회『선(善)순환 인재 장학금』 신청 공고",
+      "amount": {
+        "type": "lump_sum",
+        "value": 500000,
+        "text": "500,000원"
+      },
+      "deadline": "2026-09-29",
+      "deadline_text": "2026년 9월 18일(금)~9월 29일(화) 18:00까지",
+      "closed": true,
+      "eligibility": {
+        "grades": null,
+        "departments": [
+          "산업공학과"
+        ],
+        "gpa_min": null,
+        "score_min": null,
+        "income_max": null,
+        "residence": null,
+        "unclear": [
+          "income_max"
+        ],
+        "other_conditions": [
+          "서울과학기술대학교 산업공학과 재학생",
+          "우선순위: 경제적 사유로 학업 수행에 심각한 어려움을 겪고 있는 재학생",
+          "다음 기준을 고려하여 선발하며, 최종 대상자는 산업공학과 교수회의 심의를 거쳐 확정합니다.",
+          "우선순위: 1순위: 경제적 사유로 학업 수행에 심각한 어려움이 있는 재학생",
+          "우선순위: 2순위: 가족의 질병, 사고 등으로 가정 형편이 어려워진 학생",
+          "우선순위: 3순위: 학과 및 대학 발전에 기여한 학생",
+          "우선순위: 교수 또는 동문회의 추천을 받은 학생",
+          "우선순위: 그 밖에 장학금 지원이 필요하다고 인정되는 학생"
+        ]
+      },
+      "burden": {
+        "documents": [
+          "선순환 인재 장학금 신청서",
+          "선순환 인재 장학금 참여 확인서",
+          "재학증명서",
+          "성적증명서",
+          "통장사본",
+          "개인정보수집 이용 동의서"
+        ],
+        "interview": false
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "공지사항",
+        "url": "https://iise.seoultech.ac.kr/notice/faculty_announcements_?do=view&bnum=1302&bidx=895611",
+        "posted_at": "2026-09-17"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": "◦ 지원금액: 1인당 500,000원",
+        "deadline": "◦ 신청기간: 2026년 9월 18일(금)~9월 29일(화) 18:00까지",
+        "duplicate_restriction": null,
+        "departments": "◦ 신청 자격 : 서울과학기술대학교 산업공학과 재학생",
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": false
+    },
+    {
+      "id": "event-895638",
+      "status": "모집",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "895638",
+          "label": "모집",
+          "title": "\"토픽 성적\" 관련 장학금 및 졸업시험(교양) 신청 안내",
+          "board": "공지사항",
+          "url": "https://biz.seoultech.ac.kr/railway/bizrailwaynotice?do=view&bnum=56506&bidx=895638",
+          "posted_at": "2026-09-17",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "\"토픽 성적\" 관련 장학금 및 졸업시험(교양)",
+      "title": "\"토픽 성적\" 관련 장학금 및 졸업시험(교양) 신청 안내",
+      "category": "교내",
+      "summary": "본문 없이 포스터 이미지로 안내된 공지입니다. 원문을 확인하세요.",
+      "amount": {
+        "type": "tuition_ratio",
+        "value": 100,
+        "text": "수업료 100%(A등급) / 50%(B등급) / 30%(C등급)"
+      },
+      "deadline": null,
+      "deadline_text": "매 학기 신청: 매년 7월(1학기 성적 → 2학기 수업료), 매년 1월(2학기 성적 → 1학기 수업료)",
+      "closed": false,
+      "eligibility": {
+        "grades": null,
+        "departments": null,
+        "gpa_min": 3.5,
+        "score_min": null,
+        "income_max": null,
+        "residence": null,
+        "unclear": [],
+        "other_conditions": [
+          "A등급: 토픽 4급 이상, 직전학기 12학점 이상(F 없음), 평균학점 4.0 이상 → 수업료 100%",
+          "B등급: 평균학점 3.8 이상 → 수업료 50%",
+          "C등급: 평균학점 3.5 이상 → 수업료 30%"
+        ]
+      },
+      "burden": {
+        "documents": [
+          "토픽성적표"
+        ],
+        "interview": false
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "공지사항",
+        "url": "https://biz.seoultech.ac.kr/railway/bizrailwaynotice?do=view&bnum=56506&bidx=895638",
+        "posted_at": "2026-09-17"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": null,
+        "deadline": null,
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": true
+    },
+    {
+      "id": "event-895660",
+      "status": "완료",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "895660",
+          "label": "완료",
+          "title": "(홍보) 2026년 하반기 문주장학재단 AI · ICT 인재 장학생 선발 안내(마감)",
+          "board": "장학공지",
+          "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=895660",
+          "posted_at": "2026-09-17",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "2026년 하반기 문주장학재단 AI · ICT 인재 장학생",
+      "title": "(홍보) 2026년 하반기 문주장학재단 AI · ICT 인재 장학생 선발 안내(마감)",
+      "category": "교외",
+      "summary": "본문 없이 포스터 이미지로 안내된 공지입니다. 원문을 확인하세요.",
+      "amount": {
+        "type": "tuition_ratio",
+        "value": 100,
+        "text": "등록금 전액"
+      },
+      "deadline": "2026-10-08",
+      "deadline_text": "2026. 9. 24.(월) ~ 10. 8.(목)",
+      "closed": true,
+      "eligibility": {
+        "grades": [
+          2,
+          3,
+          4
+        ],
+        "departments": null,
+        "gpa_min": null,
+        "score_min": null,
+        "income_max": 10,
+        "residence": "서초구",
+        "unclear": [],
+        "other_conditions": [
+          "접수 마감일(’26.10.8.) 기준 부‧모 또는 본인이 1년 이상 서초구에 거주중인 자",
+          "학업성적(80%) 및 소득수준(20%) 합산, 고득점자 순 선발",
+          "동점자 발생시 소득수준  ➠ 학업성적  ➠ 수강학점 순으로 선발"
+        ]
+      },
+      "burden": {
+        "documents": [
+          "장학생 선발 신청서  【별지1】",
+          "개인정보 수집․이용․제공․조회 동의서  【별지2】",
+          "본인 주민등록 등본",
+          "2026년 2학기 재학증명서",
+          "직전학기(’26년 1학기) 성적증명서",
+          "직전학기 휴학생은 1)휴학 직전학기의 성적증명서 및 2)휴학사실 증빙서류",
+          "2026년 2학기 등록금 납부확인서",
+          "2026년 2학기 장학금 수혜(비수혜) 확인서",
+          "2026년 2학기 한국장학재단 학자금 지원구간 통지서",
+          "기초생활수급자 및 차상위계층 증명서 제출시 생략 가능",
+          "본인 통장사본 또는 계좌개설확인서(장학생 선발 신청서에 기재한 계좌)"
+        ],
+        "interview": false
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "장학공지",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=895660",
+        "posted_at": "2026-09-17"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": "[첨부: (공고문)2026년_하반기_문주장학재단_주관_AI_ICT_장학생_선발_공고문.pdf] 지급액: 2026년 2학기 등록금 전액",
+        "deadline": "[첨부: (공고문)2026년_하반기_문주장학재단_주관_AI_ICT_장학생_선발_공고문.pdf] 접수기간 : 2026. 9. 24.(월) ~ 10. 8.(목)",
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": "[첨부: (공고문)2026년_하반기_문주장학재단_주관_AI_ICT_장학생_선발_공고문.pdf] 접수 마감일(’26.10.8.) 기준 부‧모 또는 본인이 1년 이상 서초구에 거주중인 자"
+      },
+      "needs_check": [
+        "poster_only"
+      ],
+      "reviewed": false
+    },
+    {
+      "id": "event-895714",
+      "status": "모집",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "895714",
+          "label": "모집",
+          "title": "2026년 2학기 중소기업 취업연계 장학사업(희망사다리1유형) 신청 안내",
+          "board": "대학공지",
+          "url": "https://www.seoultech.ac.kr/service/info/notice/?do=commonview&bnum=4691&bidx=895714",
+          "posted_at": "2026-09-18",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "2026년 2학기 중소기업 취업연계 장학사업(희망사다리1유형)",
+      "title": "2026년 2학기 중소기업 취업연계 장학사업(희망사다리1유형) 신청 안내",
+      "category": "교외",
+      "summary": "본문 없이 포스터 이미지로 안내된 공지입니다. 원문을 확인하세요.",
+      "amount": {
+        "type": "tuition_ratio",
+        "value": 100,
+        "text": "학기당 등록금 전액 + 취·창업지원금 학기당 200만원"
+      },
+      "deadline": "2026-09-18",
+      "deadline_text": "2026.9.1(화) 9시 ~ 9.18.(금) 18시",
+      "closed": false,
+      "eligibility": {
+        "grades": [
+          3,
+          4
+        ],
+        "departments": null,
+        "gpa_min": null,
+        "score_min": 70,
+        "income_max": null,
+        "residence": null,
+        "unclear": [],
+        "other_conditions": [
+          "대한민국 국적자로 선발학기 사업 참여대학에 재학 중인 자",
+          "일반대 3학년 이상 재학생",
+          "대학의 최소 이수 학점 이상 이수, 직전 학기 성적 백분위 70점(C) 이상"
+        ]
+      },
+      "burden": {
+        "documents": [],
+        "interview": null
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "대학공지",
+        "url": "https://www.seoultech.ac.kr/service/info/notice/?do=commonview&bnum=4691&bidx=895714",
+        "posted_at": "2026-09-18"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": null,
+        "deadline": null,
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": true
+    },
+    {
+      "id": "event-895985",
+      "status": "수정",
+      "grouped_by": "auto",
+      "notices": [
+        {
+          "bidx": "895985",
+          "label": "모집",
+          "title": "2026학년도 발전기금 특정장학금 선발 안내(~10.8.)",
+          "board": "학부공지",
+          "url": "https://eie.seoultech.ac.kr/majornotice/notice?do=view&bnum=973&bidx=895985",
+          "posted_at": "2026-09-29",
+          "also_posted_bidx": []
+        },
+        {
+          "bidx": "896003",
+          "label": "수정",
+          "title": "2026학년도 2학기 발전기금 특정장학금 신청 안내(수정)",
+          "board": "학부공지",
+          "url": "https://civil.seoultech.ac.kr/haksainfor/notice?do=view&bnum=58639&bidx=896003",
+          "posted_at": "2026-09-29",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "2026학년도 2학기 발전기금 특정장학금",
+      "title": "2026학년도 2학기 발전기금 특정장학금 신청 안내(수정)",
+      "category": "교내",
+      "summary": "2026학년도 2학기 발전기금 특정장학금 신청 안내",
+      "amount": {
+        "type": "lump_sum",
+        "value": 500000,
+        "text": "50만 원"
+      },
+      "deadline": "2026-10-05",
+      "deadline_text": "2026.9.30.(수) ~ 10.5.(월)까지 (기간 엄수, 원문 연도 오타 고침)",
+      "closed": false,
+      "eligibility": {
+        "grades": null,
+        "departments": null,
+        "gpa_min": 3.0,
+        "score_min": null,
+        "income_max": null,
+        "residence": null,
+        "unclear": [],
+        "other_conditions": []
+      },
+      "burden": {
+        "documents": [
+          "성적증명서",
+          "(붙임) 특정장학금 신청서"
+        ],
+        "interview": false
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "학부공지",
+        "url": "https://civil.seoultech.ac.kr/haksainfor/notice?do=view&bnum=58639&bidx=896003",
+        "posted_at": "2026-09-29"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": "4. 장학금액/ 선발 인원: 50만 원/ 10명 예정",
+        "deadline": "1. 신청기간 : 2025. 9. 30.(수) ~ 10. 5.(월)까지 (기간 엄수)",
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": true
+    },
+    {
+      "id": "event-896084",
+      "status": "모집",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "896084",
+          "label": "모집",
+          "title": "[학부] 2026년 대림수암장학문화재단 장학생 선발 안내(추가 선발: ~10. 5.(월)까지)",
+          "board": "학부공지",
+          "url": "https://civil.seoultech.ac.kr/haksainfor/notice?do=view&bnum=58639&bidx=896084",
+          "posted_at": "2026-09-30",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "2026년 대림수암장학문화재단 장학생",
+      "title": "[학부] 2026년 대림수암장학문화재단 장학생 선발 안내(추가 선발: ~10. 5.(월)까지)",
+      "category": "교외",
+      "summary": "대림수암장학문화재단 장학생 선발 안내",
+      "amount": {
+        "type": "lump_sum",
+        "value": 2000000,
+        "text": "200만원"
+      },
+      "deadline": "2026-10-05",
+      "deadline_text": "[학부] 2026년 대림수암장학문화재단 장학생 선발 안내(추가 선발: ~10. 5.(월)까지)",
+      "closed": false,
+      "eligibility": {
+        "grades": null,
+        "departments": null,
+        "gpa_min": 3.0,
+        "score_min": null,
+        "income_max": null,
+        "residence": null,
+        "unclear": [
+          "income_max"
+        ],
+        "other_conditions": []
+      },
+      "burden": {
+        "documents": [
+          "추천서(지도교수 추천을 받아 제출★) [별첨]",
+          "자기소개서(본인 서명 必) [별첨]",
+          "성적증명서(직전학기 내용 포함)",
+          "소득증명서류",
+          "가족관계증명서",
+          "부/모의 직전 연도 소득 증빙자료(근로소득원천징수영수증 또는 소득금액 증",
+          "부/모의 직전 연도 지방세 세목별과세증명서",
+          "개인정보수집동의서(본인 서명 必) [별첨]",
+          "은행계좌사본(본인 명의)"
+        ],
+        "interview": false
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "학부공지",
+        "url": "https://civil.seoultech.ac.kr/haksainfor/notice?do=view&bnum=58639&bidx=896084",
+        "posted_at": "2026-09-30"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": "3. 장학금액: 200만원(1인당)",
+        "deadline": "[학부] 2026년 대림수암장학문화재단 장학생 선발 안내(추가 선발: ~10. 5.(월)까지)",
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": false
+    },
+    {
+      "id": "event-896094",
+      "status": "모집",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "896094",
+          "label": "모집",
+          "title": "[발전기금] 2026학년도 2학기 조형도동문 장학생 선발 공고(국가유공자 관련 장학, ~10/14(수)까지)",
+          "board": "장학공지",
+          "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896094",
+          "posted_at": "2026-09-30",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "2026학년도 2학기 조형도동문 장학생",
+      "title": "[발전기금] 2026학년도 2학기 조형도동문 장학생 선발 공고(국가유공자 관련 장학, ~10/14(수)까지)",
+      "category": "교내",
+      "summary": "조형도동문 장학금 장학생을 다음과 같이 모집하오니 선발기준에 적합한 학생들은 안내문을 참조하여 서류를 지원하시기 바랍니다.",
+      "amount": {
+        "type": "lump_sum",
+        "value": 1000000,
+        "text": "100만원"
+      },
+      "deadline": "2026-10-14",
+      "deadline_text": "[발전기금] 2026학년도 2학기 조형도동문 장학생 선발 공고(국가유공자 관련 장학, ~10/14(수)까지)",
+      "closed": false,
+      "eligibility": {
+        "grades": null,
+        "departments": null,
+        "gpa_min": null,
+        "score_min": null,
+        "income_max": null,
+        "residence": null,
+        "unclear": [],
+        "other_conditions": [
+          "1순위: 국가유공자 본인이 본교에 재학 중인 학생",
+          "2순위: 국가유공자의 배우자가 본교에 재학 중인 학생",
+          "3순위: 국가유공자의 자녀가 본교에 재학 중인 학생",
+          "심사: 소득분위가 낮을수록 가점 (소득분위 50점)"
+        ]
+      },
+      "burden": {
+        "documents": [
+          "장학생 지원서 및 자기소개서",
+          "개인정보 및 민감정보 수집·이용·제공 동의서",
+          "국가유공자 증명서 또는 국가유공자(유족 또는 가족) 확인서",
+          "(추후 제출) 성적증명서, 소득분위증명서",
+          "(추후 해당자) 봉사활동 확인서"
+        ],
+        "interview": false
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "장학공지",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896094",
+        "posted_at": "2026-09-30"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": "5. 장학금액 : 1인당 100만원(최대1학기만 지원)",
+        "deadline": "[발전기금] 2026학년도 2학기 조형도동문 장학생 선발 공고(국가유공자 관련 장학, ~10/14(수)까지)",
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": true
+    },
+    {
+      "id": "event-896148",
+      "status": "완료",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "896148",
+          "label": "완료",
+          "title": "☆ 2026년 안경광학과 30주년 기념 발전기금 장학생(학부생 대상) 모집 공고 (접수마감)",
+          "board": "공지사항",
+          "url": "https://optometry.seoultech.ac.kr/bachelor_of_information/notice?do=view&bnum=4776&bidx=896148",
+          "posted_at": "2026-10-02",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "2026년 안경광학과 30주년 기념 발전기금 장학생(학부생 대상)",
+      "title": "☆ 2026년 안경광학과 30주년 기념 발전기금 장학생(학부생 대상) 모집 공고 (접수마감)",
+      "category": "교내",
+      "summary": "2026년 2학기 안경광학과 30주년 기념 발전기금 장학생(3종) 모집 안내",
+      "amount": {
+        "type": "lump_sum",
+        "value": 4000000,
+        "text": "400만원"
+      },
+      "deadline": "2026-10-18",
+      "deadline_text": "(지원서 접수) 2026. 10. 5.(월) 09:00 ~ 10. 18.(일) 18:00",
+      "closed": true,
+      "eligibility": {
+        "grades": null,
+        "departments": [
+          "안경광학과"
+        ],
+        "gpa_min": null,
+        "score_min": null,
+        "income_max": null,
+        "residence": null,
+        "unclear": [],
+        "other_conditions": [
+          "공고 시점 안경광학과 재학중 학부생으로 제출 요건에 맞추어 기한 내 신청한 학생"
+        ]
+      },
+      "burden": {
+        "documents": [
+          "안경광학과 발전기금 장학생 지원서(영상공모전)",
+          "안경광학과 발전기금 장학생 지원서(자기성장보고서)",
+          "안경광학과 발전기금 장학생 지원서(학생회 봉사 장학금)"
+        ],
+        "interview": false
+      },
+      "duplicate_restriction": false,
+      "source": {
+        "board": "공지사항",
+        "url": "https://optometry.seoultech.ac.kr/bachelor_of_information/notice?do=view&bnum=4776&bidx=896148",
+        "posted_at": "2026-10-02"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": "2) 동문회장 및 학과 장학금: 총 400만원",
+        "deadline": "(지원서 접수) 2026. 10. 5.(월) 09:00 ~ 10. 18.(일) 18:00",
+        "duplicate_restriction": "*생활비성 장학금은 등록금 범위 초과 수혜 가능/다음 3개의 장학금은 중복 지원 가능하며 2개까지 중복 수상 가능.",
+        "departments": "[첨부: 2026년 안경광학과 30주년 발전기금 장학생 선발 계획(학생 공지용).pdf] - 대상: 재학생이면서 2026학년도 2학기 현재 안경광학과 학생회 집행부",
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": false
+    },
+    {
+      "id": "event-896254",
+      "status": "완료",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "896254",
+          "label": "완료",
+          "title": "(홍보) 재단법인 춘천인재육성장학재단 2026년 하반기 봄내장학생 선발 안내(마감)",
+          "board": "장학공지",
+          "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896254",
+          "posted_at": "2026-10-06",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "재단법인 춘천인재육성장학재단 2026년 하반기 봄내장학생",
+      "title": "(홍보) 재단법인 춘천인재육성장학재단 2026년 하반기 봄내장학생 선발 안내(마감)",
+      "category": "교외",
+      "summary": "관심있는 학생은 첨부파일을 참고하시어, 기간내에 신청하시기 바랍니다.",
+      "amount": {
+        "type": "lump_sum",
+        "value": 1000000,
+        "text": "최대 100만원"
+      },
+      "deadline": "2026-10-07",
+      "deadline_text": "2026. 9. 28.(월) ~ 10. 7.(수) [10일간]",
+      "closed": true,
+      "eligibility": {
+        "grades": null,
+        "departments": [
+          "기계시스템공학부",
+          "지능형로봇전공",
+          "미래자동차전공",
+          "기계공학과",
+          "안전공학과",
+          "신소재공학과",
+          "건설시스템공학과",
+          "건축학부",
+          "건축공학전공",
+          "건축학전공",
+          "건축기계설비공학과",
+          "기계시스템디자인공학과",
+          "기계·자동차공학과",
+          "전기정보공학과",
+          "전자공학과",
+          "컴퓨터공학과",
+          "스마트ICT융합공학과",
+          "인공지능응용학과",
+          "지능형반도체공학과",
+          "미래에너지융합학과",
+          "화공생명공학과",
+          "환경공학과",
+          "식품생명공학과",
+          "산업공학과",
+          "산업정보시스템전공",
+          "ITM전공",
+          "MSDE학과",
+          "융합기계공학과",
+          "건설환경융합공학과",
+          "정보통신융합공학과",
+          "글로벌IT컨버전스학과",
+          "정밀화학과",
+          "안경광학과",
+          "바이오메디컬학과",
+          "양자융합물리학과"
+        ],
+        "gpa_min": null,
+        "score_min": null,
+        "income_max": null,
+        "residence": "춘천시",
+        "unclear": [
+          "departments"
+        ],
+        "other_conditions": [
+          "공고일 현재 주민등록 주소지가 1년 이상 춘천시에 등록된 시민 또는 그 자녀로서 중‧고등학교 및 대학(교)에 재학 중인 학생 * 주소이전 장학생, 세인트존스대학교 장학생 예외",
+          "애향 장학금 | 저소득 자녀(손) | 관내 1년 이상 | 高·大 | 국민기초생활보장법 제2조에 따른 기초생활수급자·차상위계층 및 한부모 가족지원법 제5조·제5조의2에 따른 한부모…",
+          "통리반장 자녀 | 〃 | 〃 | 공고일 현재 이․통․반장으로 2년 이상 재직자 본인 또는 자녀 | 직전학기 전 과목(예체능 제외) 평균 5등급(5.0) 이하(고) / 직전학기 1…",
+          "시정유공 본인‧자녀 | 〃 | 〃 | 시정유공자로 시장 또는 강원도지사와 중앙부처 장의 포상을 받은 후 1년이 경과하지 않은 본인 또는 자녀 ※ 시·도청·중앙부처 내부직원이 받은…",
+          "환경공원 주변자녀 | 〃 | 〃 | 환경공원 주변 (혈동2리, 팔미3리, 증2리) 거주자 본인 또는 자녀 | 〃 | 〃 | 〃",
+          "성적우수 장학금 | 〃 | 高·大 | 성적 우수 재학생 - 고등학생:평균2등급(2.0) 이하 - 대학생 :12학점이상 이수 & 평균A 학점 이상(4.5기준 4,0) | 12학점 …",
+          "특기 장학금 | 〃 | 中·高·大 | 공고일로부터 1년 이내 광역시․도 단위 대회(경진대회) 1위 입상자 또는 국제․전국대회 3위 이상 입상자 - 중학생은 중학교 재학 후 실적 …",
+          "주소이전 장학금 | 관내 3개월 이상 1년 미만 | 大 | 타 지역 학생으로 공고일 현재 3개월(90일) 이상~1년(365일) 미만 춘천시로 주민등록 주소지가 이전된 관내 대학(…",
+          "원격대학 장학금 | 관내 1년 이상 | 大 | 「고등교육법」제2조에 따른 방송대학‧통신대학‧방송통신대학 및 사이버대학 재학생 | 〃 | 성적 40% + 생활수준 50% + 봉사 …",
+          "퇴학·정학·휴학 등 학사처분 및 형사처분 등의 사유로 1학기 이상 학업을 계속하지 않았을 경우",
+          "그 밖에 부정한 방법으로 선발되거나 장학금을 받은 경우",
+          "신청자 수가 선발계획규모에 미달되더라도 적격자가 아닌 신청자는 선발되지 않습니다."
+        ]
+      },
+      "burden": {
+        "documents": [
+          "춘천인재육성장학재단 장학금 지원 신청서 및 신청인 서약서"
+        ],
+        "interview": false
+      },
+      "duplicate_restriction": true,
+      "source": {
+        "board": "장학공지",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896254",
+        "posted_at": "2026-10-06"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": "[첨부: 2026년 하반기 봄내장학생 선발 공고(게시용-QR).hwp] ❍ 장학금: 고등학생 50만원, 대학생 최대 100만원",
+        "deadline": "[첨부: 2026년 하반기 봄내장학생 선발 공고(게시용-QR).hwp] ❍ 신청기간: 2026. 9. 28.(월) ~ 10. 7.(수) [10일간]",
+        "duplicate_restriction": "[첨부: 2026년 하반기 봄내장학생 선발 공고(게시용-QR).hwp] ❍ 유의사항: 타장학금과중복수혜불가",
+        "departments": "[첨부: 2026년 하반기 봄내장학생 선발 공고(게시용-QR).hwp] 신청인 서약서 본인은 (재)춘천인재육성장학재단의 장학금 신청인으로서 장학금지원을 받는 동안 등록금 범위를 초과하여 장학금을 중복으로 지원받지 않을 것임을 서약합니다. 또한 본인이 한 학기 등록금을 초과하여 수령하는 장학금지원금에 대해 즉시 상환 또는 반환할 것을 서약합니다. <이중지원…",
+        "residence": "[첨부: 2026년 하반기 봄내장학생 선발 공고(게시용-QR).hwp] ❍ 공통기준: 공고일 현재 주민등록 주소지가 1년 이상 춘천시에 등록된 시민 또는 그 자녀로서 중‧고등학교 및 대학(교)에 재학 중인 학생 * 주소이전 장학생, 세인트존스대학교 장학생 예외"
+      },
+      "needs_check": [
+        "poster_only"
+      ],
+      "reviewed": false
+    },
+    {
+      "id": "event-896262",
+      "status": "완료",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "896262",
+          "label": "완료",
+          "title": "(홍보) 2026년 하반기 (재)논산시장학회 학업장려 장학생 선발 안내(마감)",
+          "board": "장학공지",
+          "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896262",
+          "posted_at": "2026-10-06",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "2026년 하반기 (재)논산시장학회 학업장려 장학생",
+      "title": "(홍보) 2026년 하반기 (재)논산시장학회 학업장려 장학생 선발 안내(마감)",
+      "category": "교외",
+      "summary": "관심있는 학생은 첨부파일을 참고하시어, 기한 내에 신청하시기 바랍니다.",
+      "amount": {
+        "type": "lump_sum",
+        "value": 1500000,
+        "text": "150만원"
+      },
+      "deadline": "2026-10-30",
+      "deadline_text": "2026년 9월 28일(월) ~ 2026년 10월 30일(금)",
+      "closed": true,
+      "eligibility": {
+        "grades": null,
+        "departments": null,
+        "gpa_min": null,
+        "score_min": null,
+        "income_max": null,
+        "residence": "논산시",
+        "unclear": [],
+        "other_conditions": [
+          "논산시에 1년 이상 주소를 두고 실제 거주하는 주민 또는 그 자녀로서 논산시 관내 고등학교의 재학생이거나, 국내 정규대학교(2년제 포함)의 신입생",
+          "신입생 장학금은 상반기 미신청자에 한해 신청 가능",
+          "2026년도 국내 정규대학교(2년제 전문대 포함) 신입생",
+          "2003년 1월 1일 이후 출생자 중 공고일 기준 고등학교 졸업 학력 취득 후",
+          "5년이 경과되지 않은 자",
+          "학생 본인, 부, 모중 어느 한 명이라도 공고일(2026년 9월 28일) 기준",
+          "논산시에 계속하여 1년 이상(2025년 9월 29일 이전 ~ 신청일 현재) 주민등록을 둔자",
+          "「고등교육법」 제2조중 국내의 대학, 산업대학, 교육대학 및 전문대학의 신입생에 한함",
+          "원격대학(사이버대학, 방송통신대학), 대학원대학교, 대학원, 외국대학▪ 평생교육법에 의한 학점은행제 교육원 및 전문학교 ※ 다만 전공대학에 해당하는 대학 신입생의 경우 신청 가능…",
+          "| | | | |"
+        ]
+      },
+      "burden": {
+        "documents": [
+          "장학금 신청서 및 개인정보 수집 및 활용 동의서"
+        ],
+        "interview": false
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "장학공지",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896262",
+        "posted_at": "2026-10-06"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": "[첨부: 2026년도 하반기 재단법인 논산시장학회 장학생 선발 공고문(발췌본).hwpx] ❍ 지원내용 : 1인 150만원 생활비",
+        "deadline": "[첨부: 2026년도 하반기 재단법인 논산시장학회 장학생 선발 공고문(발췌본).hwpx] ❍ 공고 및 접수기간 : 2026년 9월 28일(월) ~ 2026년 10월 30일(금)",
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": "[첨부: 2026년도 하반기 재단법인 논산시장학회 장학생 선발 공고문(발췌본).hwpx] ❍ 신청자격 : 논산시에 1년 이상 주소를 두고 실제 거주하는 주민 또는 그 자녀로서 논산시 관내 고등학교의 재학생이거나, 국내 정규대학교(2년제 포함)의 신입생"
+      },
+      "needs_check": [
+        "poster_only"
+      ],
+      "reviewed": false
+    },
+    {
+      "id": "event-896300",
+      "status": "완료",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "896300",
+          "label": "완료",
+          "title": "(홍보) [아산사회복지재단] 2027년도 북한이탈청소년·의생명과학분야 대학 장학생 선발 안내(마감)",
+          "board": "장학공지",
+          "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896300",
+          "posted_at": "2026-10-07",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "2027년도 북한이탈청소년·의생명과학분야 대학 장학생",
+      "title": "(홍보) [아산사회복지재단] 2027년도 북한이탈청소년·의생명과학분야 대학 장학생 선발 안내(마감)",
+      "category": "교외",
+      "summary": "아산사회복지재단에서 2027년도 북한이탈청소년·의생명과학분야 대학 장학생을 선발합니다.",
+      "amount": {
+        "type": "lump_sum",
+        "value": 3000000,
+        "text": "학기당 300만 원"
+      },
+      "deadline": "2026-10-26",
+      "deadline_text": "2026년 10월 6일(화) ~ 10월 26일(월) 23시 59분",
+      "closed": true,
+      "eligibility": {
+        "grades": [
+          2,
+          3,
+          4
+        ],
+        "departments": null,
+        "gpa_min": 3.7,
+        "score_min": null,
+        "income_max": null,
+        "residence": null,
+        "unclear": [
+          "income_max"
+        ],
+        "other_conditions": [
+          "정부기관의 보호결정을 받은 북한이탈청소년으로, 2027년 신규학기에 2, 3, 4학년으로 진학 예정인 대학생",
+          "의생명과학분야 연구자가 되고자 대학원 진학을 목표로 하는 대학생 중",
+          "경제적 사유로 학업 또는 진학에 어려움이 있는 학생",
+          "(성적평점 3.7/4.5 이상, 2027년 신규학기 2, 3, 4학년 진학 예정자)",
+          "제외: 신규학기에 타 기관(민간재단, 기업체) 장학금 수혜 대상인 학생"
+        ]
+      },
+      "burden": {
+        "documents": [],
+        "interview": true
+      },
+      "duplicate_restriction": true,
+      "source": {
+        "board": "장학공지",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896300",
+        "posted_at": "2026-10-07"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": "- 장학금 : 학기당 300만 원(연 600만 원), 학업보조비·생활비, 최대 6학기 지원",
+        "deadline": "- 접수 기간 : 2026년 10월 6일(화) ~ 10월 26일(월) 23시 59분",
+        "duplicate_restriction": "- 제외 대상 : 신규학기에 타 기관(민간재단, 기업체) 장학금 수혜 대상인 학생",
+        "departments": null,
+        "residence": null
+      },
+      "needs_check": [
+        "documents"
+      ],
+      "reviewed": false
+    },
+    {
+      "id": "event-896304",
+      "status": "완료",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "896304",
+          "label": "완료",
+          "title": "(홍보) 우양재단 2026년 동행 장학생 모집 안내(마감)",
+          "board": "장학공지",
+          "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896304",
+          "posted_at": "2026-10-07",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "우양재단 2026년 동행 장학생",
+      "title": "(홍보) 우양재단 2026년 동행 장학생 모집 안내(마감)",
+      "category": "교외",
+      "summary": "관심있는 학생은 아래 내용과 첨부파일을 참고하시어, 기한 내에 신청하시기 바랍니다.",
+      "amount": {
+        "type": "unknown",
+        "value": null,
+        "text": null
+      },
+      "deadline": null,
+      "deadline_text": null,
+      "closed": true,
+      "eligibility": {
+        "grades": null,
+        "departments": null,
+        "gpa_min": null,
+        "score_min": null,
+        "income_max": null,
+        "residence": null,
+        "unclear": [],
+        "other_conditions": []
+      },
+      "burden": {
+        "documents": [
+          "증빙서류는 각 인정발급일 기준에 맞춰 발급한 서류만 인정하며, 각 서류의"
+        ],
+        "interview": false
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "장학공지",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896304",
+        "posted_at": "2026-10-07"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": null,
+        "deadline": null,
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": null
+      },
+      "needs_check": [
+        "amount",
+        "deadline",
+        "poster_only"
+      ],
+      "reviewed": false
+    },
+    {
+      "id": "event-896321",
+      "status": "모집",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "896321",
+          "label": "모집",
+          "title": "(홍보) 대산농촌재단 2027년도 장학생 선발 안내(~11/11(수)까지)",
+          "board": "장학공지",
+          "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896321",
+          "posted_at": "2026-10-07",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "대산농촌재단 2027년도 장학생",
+      "title": "(홍보) 대산농촌재단 2027년도 장학생 선발 안내(~11/11(수)까지)",
+      "category": "교외",
+      "summary": "관심있는 학생은 아래 내용과 첨부파일을 확인하시어, 기한내에 신청하시기 바랍니다.",
+      "amount": {
+        "type": "tuition_ratio",
+        "value": 100,
+        "text": "등록금 전액 (4학기 범위 내에서 졸업 시까지)"
+      },
+      "deadline": "2026-11-11",
+      "deadline_text": "제출기한: 2026.11.11.(수)",
+      "closed": false,
+      "eligibility": {
+        "grades": [
+          2,
+          3,
+          4
+        ],
+        "departments": null,
+        "gpa_min": 3.5,
+        "score_min": null,
+        "income_max": null,
+        "residence": null,
+        "unclear": [],
+        "other_conditions": [
+          "졸업 후 농업계(영농, 농업연구, 유통 등)에 종사해 농업리더로 성장하겠다는 의지와 실천 계획이 있는 학생",
+          "국내 4년제 대학 2학년 2학기 이상 재학생",
+          "직전 학기까지 누계 평균 평점 3.5/4.5 이상 (3.3/4.3 이상)",
+          "우대: 영농기반이 있는 영농희망자, 농학계열 재학생"
+        ]
+      },
+      "burden": {
+        "documents": [
+          "대산농업리더장학생 지원서",
+          "(서류 합격자, 면접 시) 재학증명서, 성적증명서, 가족관계증명서",
+          "(해당자) 영농현황 자료, 영농교육 수료증명서"
+        ],
+        "interview": true
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "장학공지",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896321",
+        "posted_at": "2026-10-07"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": null,
+        "deadline": "(홍보) 대산농촌재단 2027년도 장학생 선발 안내(~11/11(수)까지)",
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": true
+    },
+    {
+      "id": "event-896364",
+      "status": "완료",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "896364",
+          "label": "완료",
+          "title": "[장애학생지원센터] 2026학년도 2학기 장애학생 봉사유형 국가근로장학생 모집(학습도우미, 마감)",
+          "board": "장학공지",
+          "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=57138&bidx=896364",
+          "posted_at": "2026-10-08",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "2026학년도 2학기 장애학생 봉사유형 국가근로장학생",
+      "title": "[장애학생지원센터] 2026학년도 2학기 장애학생 봉사유형 국가근로장학생 모집(학습도우미, 마감)",
+      "category": "근로",
+      "summary": "장애학생지원센터에서는 2026학년도 2학기 장애학생 봉사유형 국가근로장학생을 다음과 같이 모집합니다.",
+      "amount": {
+        "type": "hourly",
+        "value": 12790,
+        "text": "시급 12,790원"
+      },
+      "deadline": "2026-10-16",
+      "deadline_text": "~2026. 10. 16.(금) 16:00까지",
+      "closed": true,
+      "eligibility": {
+        "grades": null,
+        "departments": null,
+        "gpa_min": null,
+        "score_min": 70,
+        "income_max": null,
+        "residence": null,
+        "unclear": [],
+        "other_conditions": [
+          "해당 근로시간에 근무가 가능한 자(해당수업 청강이 가능한 학생)",
+          "모델링 프로그램 Rhino를 활용할 수 있으며, 수업내용을 이해 할 수 있어 장애학생 학습지원이 가능한 자",
+          "여학생 모집"
+        ]
+      },
+      "burden": {
+        "documents": [
+          "국가근로장학생지원서"
+        ],
+        "interview": true
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "장학공지",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=57138&bidx=896364",
+        "posted_at": "2026-10-08"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": "2. 근로조건: 시급 12,790원 (교외근로 시급 적용)",
+        "deadline": "7. 모집기간: ~2026. 10. 16.(금) 16:00까지",
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": false
+    },
+    {
+      "id": "event-896404",
+      "status": "완료",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "896404",
+          "label": "완료",
+          "title": "(홍보) 2026년 하반기 은평구민장학생 선발 안내(마감)",
+          "board": "장학공지",
+          "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896404",
+          "posted_at": "2026-10-12",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "2026년 하반기 은평구민장학생",
+      "title": "(홍보) 2026년 하반기 은평구민장학생 선발 안내(마감)",
+      "category": "교외",
+      "summary": "< 2026년 하반기 은평구민장학생 선발 공고 >",
+      "amount": {
+        "type": "unknown",
+        "value": null,
+        "text": null
+      },
+      "deadline": "2026-10-28",
+      "deadline_text": "2026. 10. 12.(월) ~ 10. 28.(수) 18:00 까지 (주말,공휴일, 점심시간 제외 12:…",
+      "closed": true,
+      "eligibility": {
+        "grades": null,
+        "departments": null,
+        "gpa_min": 3.0,
+        "score_min": null,
+        "income_max": 8,
+        "residence": "은평구",
+        "unclear": [],
+        "other_conditions": [
+          "공고일 현재 은평구에 2년 이상 계속 거주하고 있는 초 · 중 · 고 · 대학생",
+          "학점은행제, 사이버 · 원격대학, 방송통신대학 제외",
+          "2026년 2학기 재학 중인 대학생",
+          "특기(초 · 중 · 고등학생)",
+          "체육, 문화에술, 기술 분야에서 광역자치단체, 국제기능올림픽대회, 한국위원회 등이 주관하는",
+          "전국 규모 이상의 대회에서 3위권 이내 입상성적이 있는 자(개인 분야)",
+          "중위소득 180% 이하"
+        ]
+      },
+      "burden": {
+        "documents": [],
+        "interview": false
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "장학공지",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896404",
+        "posted_at": "2026-10-12"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": null,
+        "deadline": "3. 신청기간 : 2026. 10. 12.(월) ~ 10. 28.(수) 18:00 까지 (주말,공휴일, 점심시간 제외 12:00~13:00)",
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": "4. 신청자격 : 공고일 현재 은평구에 2년 이상 계속 거주하고 있는 초 · 중 · 고 · 대학생"
+      },
+      "needs_check": [
+        "amount",
+        "documents"
+      ],
+      "reviewed": false
+    },
+    {
+      "id": "event-896459",
+      "status": "모집",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "896459",
+          "label": "모집",
+          "title": "2026년 건축공학전공 장학생(전문 건설인, 지건 홍상일) 선발 안내",
+          "board": "장학금",
+          "url": "https://architecture.seoultech.ac.kr/bachelor_of_information/scholarship?do=view&bnum=575&bidx=896459",
+          "posted_at": "2026-10-13",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "2026년 건축공학전공 장학생(전문 건설인, 지건 홍상일)",
+      "title": "2026년 건축공학전공 장학생(전문 건설인, 지건 홍상일) 선발 안내",
+      "category": "교내",
+      "summary": "2026년 건축공학전공 장학생 선발 안내",
+      "amount": {
+        "type": "lump_sum",
+        "value": 1000000,
+        "text": "100만원"
+      },
+      "deadline": "2026-10-30",
+      "deadline_text": "2026. 10. 16.(금) 09:00~10. 30.(금) 18:00",
+      "closed": false,
+      "eligibility": {
+        "grades": null,
+        "departments": [
+          "건축공학전공"
+        ],
+        "gpa_min": 2.5,
+        "score_min": null,
+        "income_max": 0,
+        "residence": null,
+        "unclear": [],
+        "other_conditions": [
+          "2026학년도 2학기 건축공학전공 재학생"
+        ]
+      },
+      "burden": {
+        "documents": [
+          "건축학부 건축공학전공 발전기금 장학생 신청서[붙임 1]",
+          "개인정보 수집 및 이용에 대한 동의서[붙임 2]",
+          "성적증명서 및 재학증명서",
+          "한국장학재단 사이트내 학자금 지원구간 통지서",
+          "통장사본",
+          "지원 사유 증빙자료(선택 제출, 평가 반영)"
+        ],
+        "interview": false
+      },
+      "duplicate_restriction": false,
+      "source": {
+        "board": "장학금",
+        "url": "https://architecture.seoultech.ac.kr/bachelor_of_information/scholarship?do=view&bnum=575&bidx=896459",
+        "posted_at": "2026-10-13"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": "다. 장학금: 1인당 100만원 이내(단, 지원 현황에 따라 조정 가능)",
+        "deadline": "☞ 신청 기간: 2026. 10. 16.(금) 09:00~10. 30.(금) 18:00",
+        "duplicate_restriction": "[첨부: 2026 지건홍상일 장학생 선발 계획.hwp] 생활비(학업보조비)장학금은 등록금 범위를 초과하여 타 장학금과 중복수혜 가능 ※ 근거: 서울과학기술대학교 장학금 관리 지침 제3조및제4조",
+        "departments": "나. 선발 대상: 2026학년도 2학기 건축공학전공 재학생",
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": false
+    },
+    {
+      "id": "event-896494",
+      "status": "모집",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "896494",
+          "label": "모집",
+          "title": "2026학년도 2학기 지능형반도체공학과 LBSemicon 장학생 신청 안내",
+          "board": "공지사항",
+          "url": "https://dse.seoultech.ac.kr/information/bulletin?do=view&bnum=57750&bidx=896494",
+          "posted_at": "2026-10-14",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "2026학년도 2학기 지능형반도체공학과 LBSemicon 장학생",
+      "title": "2026학년도 2학기 지능형반도체공학과 LBSemicon 장학생 신청 안내",
+      "category": "교내",
+      "summary": "<2026학년도 2학기 지능형반도체공학과 LBSemicon 장학생 신청 안내>",
+      "amount": {
+        "type": "lump_sum",
+        "value": 2500000,
+        "text": "250만원"
+      },
+      "deadline": "2026-10-29",
+      "deadline_text": "2026. 10. 15. ~ 2026. 10. 29.(목) 18:00 까지 (※ 기한 엄수, 기한 후 제출…",
+      "closed": false,
+      "eligibility": {
+        "grades": [
+          3
+        ],
+        "departments": [
+          "지능형반도체공학과"
+        ],
+        "gpa_min": null,
+        "score_min": null,
+        "income_max": null,
+        "residence": null,
+        "unclear": [],
+        "other_conditions": []
+      },
+      "burden": {
+        "documents": [
+          "LBSemicon 장학생 지원 신청서",
+          "개인정보이용 동의서"
+        ],
+        "interview": false
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "공지사항",
+        "url": "https://dse.seoultech.ac.kr/information/bulletin?do=view&bnum=57750&bidx=896494",
+        "posted_at": "2026-10-14"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": null,
+        "deadline": "3. 신청기간: 2026. 10. 15. ~ 2026. 10. 29.(목) 18:00 까지 (※ 기한 엄수, 기한 후 제출 불가)",
+        "duplicate_restriction": null,
+        "departments": "1. 지원대상: 2026학년도 2학기 지능형반도체공학과 3학년 전원",
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": true
+    },
+    {
+      "id": "event-896613",
+      "status": "모집",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "896613",
+          "label": "모집",
+          "title": "[덕신EPC] 건축안전 장학생 선발 안내",
+          "board": "장학금",
+          "url": "https://architecture.seoultech.ac.kr/bachelor_of_information/scholarship?do=view&bnum=575&bidx=896613",
+          "posted_at": "2026-10-15",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "건축안전 장학생",
+      "title": "[덕신EPC] 건축안전 장학생 선발 안내",
+      "category": "교내",
+      "summary": "[덕신EPC] 건축안전 장학생 선발 안내",
+      "amount": {
+        "type": "lump_sum",
+        "value": 2000000,
+        "text": "2,000,000원"
+      },
+      "deadline": "2026-10-30",
+      "deadline_text": "~2026. 10. 30.(금) 18:00",
+      "closed": false,
+      "eligibility": {
+        "grades": null,
+        "departments": [
+          "건축공학전공"
+        ],
+        "gpa_min": null,
+        "score_min": null,
+        "income_max": null,
+        "residence": null,
+        "unclear": [],
+        "other_conditions": [
+          "2027학년도 1학기 기준 졸업 직전 학년인 건축공학전공 재학생",
+          "우대: 학자금 지원 구간이 3구간 이하인 학생"
+        ]
+      },
+      "burden": {
+        "documents": [
+          "추천서",
+          "개인정보 수집이용동의서"
+        ],
+        "interview": false
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "장학금",
+        "url": "https://architecture.seoultech.ac.kr/bachelor_of_information/scholarship?do=view&bnum=575&bidx=896613",
+        "posted_at": "2026-10-15"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": "2. 선발인원 및 금액: 2명/ 인당 2,000,000원(생활지원 장학금)",
+        "deadline": "3. 신청 기간: ~2026. 10. 30.(금) 18:00",
+        "duplicate_restriction": null,
+        "departments": "6. 신청 대상자: 2027학년도 1학기 기준 졸업 직전 학년인 건축공학전공 재학생",
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": false
+    },
+    {
+      "id": "event-896657",
+      "status": "모집",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "896657",
+          "label": "모집",
+          "title": "(홍보) 두산연강재단 2027년도 대학 장학생 선발 안내(~11/13(금)까지)",
+          "board": "장학공지",
+          "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896657",
+          "posted_at": "2026-10-16",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "두산연강재단 2027년도 대학 장학생",
+      "title": "(홍보) 두산연강재단 2027년도 대학 장학생 선발 안내(~11/13(금)까지)",
+      "category": "교외",
+      "summary": "관심있는 학생은 아래 내용과 첨부파일을 확인하시어, 기한 내에 신청하시기 바랍니다.",
+      "amount": {
+        "type": "lump_sum",
+        "value": 4000000,
+        "text": "졸업 시까지 학기당 학업장려금(생활비성) 400만원"
+      },
+      "deadline": "2026-11-13",
+      "deadline_text": "접수 기간: 26년 10월 14일(수) ~ 11월 13일(금) 18시까지",
+      "closed": false,
+      "eligibility": {
+        "grades": [
+          1
+        ],
+        "departments": null,
+        "gpa_min": 3.0,
+        "score_min": null,
+        "income_max": 6,
+        "residence": null,
+        "unclear": [],
+        "other_conditions": [
+          "국내 4년제 학과 소속 대한민국 국적 학부생",
+          "2027년 3월 기준 2학년 1학기 진학 예정자, 2027년 1·2학기 모두 재학 가능",
+          "전체 학기 평점 평균 3.0/4.5 이상",
+          "한국장학재단 소득분위(2026년 2학기) 6분위 이내",
+          "재단 행사 참석 가능"
+        ]
+      },
+      "burden": {
+        "documents": [
+          "(재단 양식) 추천서: 학과장 또는 지도교수 작성·날인",
+          "재학(휴학) 증명서",
+          "성적 증명서",
+          "가족관계증명서(부 또는 모 기준 상세)",
+          "2026년 2학기 학자금 지원구간 통지서",
+          "가계곤란 증빙서류"
+        ],
+        "interview": true
+      },
+      "duplicate_restriction": true,
+      "source": {
+        "board": "장학공지",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896657",
+        "posted_at": "2026-10-16"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": "[첨부: 1. 2027년도 두산연강재단 장학생 선발 공고문.pdf] 2.1. 졸업 시까지 학기당 학업장려금(생활비성 장학금) 400만원 지원",
+        "deadline": "(홍보) 두산연강재단 2027년도 대학 장학생 선발 안내(~11/13(금)까지)",
+        "duplicate_restriction": "[첨부: 1. 2027년도 두산연강재단 장학생 선발 공고문.pdf] 9.6. 타 장학금과 중복 수혜 불가",
+        "departments": null,
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": true
+    },
+    {
+      "id": "event-896744",
+      "status": "완료",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "896744",
+          "label": "완료",
+          "title": "(홍보) 한국고등교육재단 제7회 인재림 장학생 선발 안내(마감)",
+          "board": "장학공지",
+          "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896744",
+          "posted_at": "2026-10-20",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "한국고등교육재단 제7회 인재림 장학생",
+      "title": "(홍보) 한국고등교육재단 제7회 인재림 장학생 선발 안내(마감)",
+      "category": "교외",
+      "summary": "본문 없이 포스터 이미지로 안내된 공지입니다. 원문을 확인하세요.",
+      "amount": {
+        "type": "lump_sum",
+        "value": 8000000,
+        "text": "800만원"
+      },
+      "deadline": null,
+      "deadline_text": null,
+      "closed": true,
+      "eligibility": {
+        "grades": [
+          2,
+          3
+        ],
+        "departments": null,
+        "gpa_min": null,
+        "score_min": null,
+        "income_max": null,
+        "residence": null,
+        "unclear": [],
+        "other_conditions": [
+          "📌 기본 요건",
+          "대한민국 국적 보유자(복수국적자 포함) 지원 가능",
+          "2028년 2월까지 학부생 자격 유지 필수",
+          "어학연수, 교환학생, 취업 및군 복무 등으로 프로그램 불참 및 중단 불가",
+          "소속 대학, 한국장학재단 등타 기관의 장학금 및 장학 프로그램과 중복수혜 가능",
+          "📌 학적 요건",
+          "(지원 가능) 성적표에 2개 학기 이상(계절 학기 불포함) 교과목 이수 기록이 있는 학생"
+        ]
+      },
+      "burden": {
+        "documents": [],
+        "interview": true
+      },
+      "duplicate_restriction": false,
+      "source": {
+        "board": "장학공지",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896744",
+        "posted_at": "2026-10-20"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": "[첨부: [한국고등교육재단] 인재림 제7기 장학생 선발 모집 요강.docx] 장학금(800만원) 및 프로그램 교육비 전액 지원",
+        "deadline": null,
+        "duplicate_restriction": "[첨부: [한국고등교육재단] 인재림 제7기 장학생 선발 모집 요강.docx] 소속 대학, 한국장학재단 등타 기관의 장학금 및 장학 프로그램과 중복수혜 가능",
+        "departments": null,
+        "residence": null
+      },
+      "needs_check": [
+        "deadline",
+        "documents",
+        "poster_only"
+      ],
+      "reviewed": false
+    },
+    {
+      "id": "event-896774",
+      "status": "모집",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "896774",
+          "label": "모집",
+          "title": "2026학년도 2학기(3차) 국가근로장학금 학생 신청기간 안내",
+          "board": "장학공지",
+          "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=57138&bidx=896774",
+          "posted_at": "2026-10-21",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "2026학년도 2학기(3차) 국가근로장학금 학생",
+      "title": "2026학년도 2학기(3차) 국가근로장학금 학생 신청기간 안내",
+      "category": "근로",
+      "summary": "나. 신청 방법: 한국장학재단 홈페이지(http://www.kosaf.go.kr) 및 모바일 앱을 이용하여 신청",
+      "amount": {
+        "type": "unknown",
+        "value": null,
+        "text": null
+      },
+      "deadline": "2026-10-29",
+      "deadline_text": "2026. 10. 21.(수) 9시 ~ 2026. 10. 29.(목) 18시까지",
+      "closed": false,
+      "eligibility": {
+        "grades": null,
+        "departments": null,
+        "gpa_min": null,
+        "score_min": null,
+        "income_max": null,
+        "residence": null,
+        "unclear": [],
+        "other_conditions": []
+      },
+      "burden": {
+        "documents": [],
+        "interview": false
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "장학공지",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=57138&bidx=896774",
+        "posted_at": "2026-10-21"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": null,
+        "deadline": "가. 신청 기간 : 2026. 10. 21.(수) 9시 ~ 2026. 10. 29.(목) 18시까지",
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": false
+    },
+    {
+      "id": "event-896867",
+      "status": "모집",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "896867",
+          "label": "모집",
+          "title": "2026학년도 2학기 2차 어의장학생 선발 안내",
+          "board": "공지사항",
+          "url": "https://dse.seoultech.ac.kr/information/bulletin?do=view&bnum=57750&bidx=896867",
+          "posted_at": "2026-10-22",
+          "also_posted_bidx": [
+            "896882",
+            "896970"
+          ]
+        }
+      ],
+      "name": "2026학년도 2학기 2차 어의장학생",
+      "title": "2026학년도 2학기 2차 어의장학생 선발 안내",
+      "category": "교내",
+      "summary": "2026학년도 2학기 2차 어의장학생을 아래와 같이 선발하고자 합니다.",
+      "amount": {
+        "type": "tuition_ratio",
+        "value": 100,
+        "text": "수업료 100%"
+      },
+      "deadline": "2026-11-06",
+      "deadline_text": "2026. 10. 23.(금)~11. 6.(금)",
+      "closed": false,
+      "eligibility": {
+        "grades": null,
+        "departments": null,
+        "gpa_min": 2.75,
+        "score_min": null,
+        "income_max": 5,
+        "residence": null,
+        "unclear": [],
+        "other_conditions": [
+          "직전학기의 취득학점 12학점 이상, 직전학기 평점평균 2.75이상 (신·편입학생은 성적기준 없음)",
+          "방학 중에 취득한 현장실습, 계절학기 및 디스커버리학기 성적은 제외"
+        ]
+      },
+      "burden": {
+        "documents": [
+          "(국민기초생활수급자) 국민기초생활수급자 증명서(본인 명의)",
+          "(아동복지시설 기수용자) 시설발급 재원 증명서",
+          "(소년소녀가정) 제적등본, 가족관계증명서",
+          "(장애의 정도가 심한 장애인 본인 또는 부모) 장애인증명서, 가족관계증명서(부모가 장애인인 경우)"
+        ],
+        "interview": false
+      },
+      "duplicate_restriction": true,
+      "source": {
+        "board": "공지사항",
+        "url": "https://dse.seoultech.ac.kr/information/bulletin?do=view&bnum=57750&bidx=896867",
+        "posted_at": "2026-10-22"
+      },
+      "also_posted_bidx": [
+        "896882",
+        "896970"
+      ],
+      "evidence": {
+        "amount": "마. 지원내역: 수업료 100% 면제",
+        "deadline": "가. 신청기간: 2026. 10. 23.(금)~11. 6.(금)",
+        "duplicate_restriction": "[첨부: (붙임1) 2026학년도 2학기 2차 어의장학생 선발 안내문.hwp] - 교내 타 장학금 이중수혜 불가",
+        "departments": null,
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": true
+    },
+    {
+      "id": "event-896869",
+      "status": "모집",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "896869",
+          "label": "모집",
+          "title": "2026학년도 2학기 2차 SeoulTech 가족장학생 선발 안내",
+          "board": "공지사항",
+          "url": "https://dse.seoultech.ac.kr/information/bulletin?do=view&bnum=57750&bidx=896869",
+          "posted_at": "2026-10-22",
+          "also_posted_bidx": [
+            "896883"
+          ]
+        }
+      ],
+      "name": "2026학년도 2학기 2차 SeoulTech 가족장학생",
+      "title": "2026학년도 2학기 2차 SeoulTech 가족장학생 선발 안내",
+      "category": "교내",
+      "summary": "2026학년도 2학기 2차 SeoulTech 가족장학생을 아래와 같이 선발하고자합니다.",
+      "amount": {
+        "type": "tuition_ratio",
+        "value": 50,
+        "text": "수업료 50%"
+      },
+      "deadline": "2026-11-06",
+      "deadline_text": "2026. 10. 23.(금)~11. 6.(금)",
+      "closed": false,
+      "eligibility": {
+        "grades": [
+          1
+        ],
+        "departments": null,
+        "gpa_min": 3.0,
+        "score_min": null,
+        "income_max": null,
+        "residence": null,
+        "unclear": [],
+        "other_conditions": [
+          "본교(대학원, 박사과정 포함)에 동시 재적하고 있는 2명 이상의 부부/ 부모-자녀/형제/자매/남매 중 1학년 학부생 1명"
+        ]
+      },
+      "burden": {
+        "documents": [
+          "재학 또는 휴학증명서(신청인 및 재적 중인 가족)"
+        ],
+        "interview": false
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "공지사항",
+        "url": "https://dse.seoultech.ac.kr/information/bulletin?do=view&bnum=57750&bidx=896869",
+        "posted_at": "2026-10-22"
+      },
+      "also_posted_bidx": [
+        "896883"
+      ],
+      "evidence": {
+        "amount": "바. 지원내역: 수업료 50% 감면",
+        "deadline": "나. 신청기간: 2026. 10. 23.(금)~11. 6.(금)",
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": false
+    },
+    {
+      "id": "event-896900",
+      "status": "모집",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "896900",
+          "label": "모집",
+          "title": "(통정시 신청, 2026. 10. 23.~11. 6.) 2026. 2학기 2차 어의 및 가족장학금 신청 안내",
+          "board": "장학공지",
+          "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896900",
+          "posted_at": "2026-10-22",
+          "also_posted_bidx": [
+            "896935"
+          ]
+        }
+      ],
+      "name": "2026. 2학기 2차 어의 및 가족장학금",
+      "title": "(통정시 신청, 2026. 10. 23.~11. 6.) 2026. 2학기 2차 어의 및 가족장학금 신청 안내",
+      "category": "교내",
+      "summary": "국가장학금1유형 신청자는 신청할 필요없음",
+      "amount": {
+        "type": "tuition_ratio",
+        "value": 100,
+        "text": "수업료 100%"
+      },
+      "deadline": "2026-11-06",
+      "deadline_text": "(통정시 신청, 2026. 10. 23.~11. 6.) 2026. 2학기 2차 어의 및 가족장학금 신청 안내",
+      "closed": false,
+      "eligibility": {
+        "grades": [
+          1
+        ],
+        "departments": null,
+        "gpa_min": 2.75,
+        "score_min": null,
+        "income_max": 5,
+        "residence": null,
+        "unclear": [],
+        "other_conditions": [
+          "직전학기의 취득학점 12학점 이상, 평점평균 2.75이상 ※ 계절학기 및 방학 중 현장실습취득학점 제외",
+          "본교(대학원, 박사과정 포함)에 동시 재학하고 있는 2명 이상의 부부/부모-자녀/형제/자매/남매 중1학년 학부생 1명",
+          "직전학기의 취득학점 12학점 이상, 직전학기 평점평균 B(3.0) 이상",
+          "계절학기 및 방학 중 현장실습취득학점 제외"
+        ]
+      },
+      "burden": {
+        "documents": [
+          "재학증명서(신청인 및 재학 중인 가족)",
+          "가족관계증명서 등(신청인 및 재학 중인 가족의 관계 증명 가능 서류)"
+        ],
+        "interview": false
+      },
+      "duplicate_restriction": true,
+      "source": {
+        "board": "장학공지",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896900",
+        "posted_at": "2026-10-22"
+      },
+      "also_posted_bidx": [
+        "896935"
+      ],
+      "evidence": {
+        "amount": "라. 지원내역: 수업료 100% 면제(단, 학자금 지원구간 차상위~5구간 학생 중 국가장학 Ⅰ유형 미수혜 학생은 50%만 면제)",
+        "deadline": "(통정시 신청, 2026. 10. 23.~11. 6.) 2026. 2학기 2차 어의 및 가족장학금 신청 안내",
+        "duplicate_restriction": "- 교내 타 장학금 중복수혜 금지이며, 중복 선정 시 본인에게 유리한 장학금으로 선택가능",
+        "departments": null,
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": false
+    },
+    {
+      "id": "event-897008",
+      "status": "완료",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "897008",
+          "label": "완료",
+          "title": "(홍보) 2026년 2학기 선원가족장학사업 선발 안내(마감)",
+          "board": "장학공지",
+          "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=897008",
+          "posted_at": "2026-10-23",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "2026년 2학기 선원가족장학사업",
+      "title": "(홍보) 2026년 2학기 선원가족장학사업 선발 안내(마감)",
+      "category": "교외",
+      "summary": "관심있는 학생은 아래 내용과 첨부파일을 확인하시어 기한내에 신청하시기 바랍니다.",
+      "amount": {
+        "type": "unknown",
+        "value": null,
+        "text": null
+      },
+      "deadline": "2026-10-30",
+      "deadline_text": "신청기간 | 구분접수 선발시기 선발횟수 기간 9월 1일 ∼ 10월 30일 11월 中 당해 연도 학생당 2회…",
+      "closed": true,
+      "eligibility": {
+        "grades": null,
+        "departments": null,
+        "gpa_min": 2.0,
+        "score_min": null,
+        "income_max": null,
+        "residence": null,
+        "unclear": [],
+        "other_conditions": [
+          "선발대상 | ㅇ (대상) 선원법 제3조 적용선박에 승선 및 하선한 선원 및그 가족* 중 고등학생 혹은 대학생 * 선원가족의 범위: 본인, 배우자, 부모, 자녀 선원이 손자ㆍ손녀를…",
+          "가산점: 소득기준 | 구분 2025년도 선원월평균임금 이하 (「한국선원통계연보」기준) ※ 단, 선원가족 중 2인 이상 고등학교 또는 대학생에 재학 중인 경우 기준금액에 10% 가…",
+          "가산점: 구분 | 2025년도 선원월평균임금 이하 (「한국선원통계연보」기준)",
+          "가산점: 신청기간 | 구분접수 선발시기 선발횟수 기간 9월 1일 ∼ 10월 30일 11월 中 당해 연도 학생당 2회 가능",
+          "가산점: 구분 | 접수",
+          "가산점: 선발시기 | 선발횟수",
+          "가산점: 기간 | 9월 1일 ∼ 10월 30일",
+          "가산점: 당해 연도 학생당 2회 가능",
+          "우선순위: 선발순위 | ㅇ 제1순위 : 순직선원 유가족 ㅇ 제2순위 : 장해선원 가족 ㅇ 제3순위 : 기초수급자 선원가족 ㅇ 제4순위 : 차상위계층 선원가족 ㅇ 제5순위 : 다자…",
+          "우선순위: 접수방법 | ㅇ 방문 및 우편 접수 (전화: [연락처], 팩스: [연락처]) - 부산광역시 중구 충장대로9번길66 3층 (한국선원복지고용센터 복지지원팀)"
+        ]
+      },
+      "burden": {
+        "documents": [
+          "실직 후 6개월이 경과한 선원은 생략가능 ㅇ 승무경력증명서(연근해어선 부",
+          "차상위계층증명서",
+          "한부모가정증명서 ※ 재학 및 성적증명서는 반드시 원본제출(PDF로 발급된"
+        ],
+        "interview": false
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "장학공지",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=897008",
+        "posted_at": "2026-10-23"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": null,
+        "deadline": "[첨부: 2026년 2학기 선원가족장학사업 선발 모집 요강(변경).hwp] 신청기간 | 구분접수 선발시기 선발횟수 기간 9월 1일 ∼ 10월 30일 11월 中 당해 연도 학생당 2회 가능",
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": null
+      },
+      "needs_check": [
+        "amount",
+        "poster_only"
+      ],
+      "reviewed": false
+    },
+    {
+      "id": "event-897009",
+      "status": "모집",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "897009",
+          "label": "모집",
+          "title": "(홍보) 2026년 2학기 거창군 지역출신 대학생 등록금 지원사업 안내(~11/16(월)까지)",
+          "board": "장학공지",
+          "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=897009",
+          "posted_at": "2026-10-23",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "2026년 2학기 거창군 지역출신 대학생 등록금 지원사업",
+      "title": "(홍보) 2026년 2학기 거창군 지역출신 대학생 등록금 지원사업 안내(~11/16(월)까지)",
+      "category": "교외",
+      "summary": "관심있는 학생은 아래 내용과 첨부파일을 확인하시어 기한내에 신청하시기 바랍니다.",
+      "amount": {
+        "type": "lump_sum",
+        "value": 1000000,
+        "text": "2026년 2학기 실제 본인부담 등록금 100만원 한도"
+      },
+      "deadline": "2026-11-16",
+      "deadline_text": "접수 기간: 2026년 10월 16일 ~ 11월 16일",
+      "closed": false,
+      "eligibility": {
+        "grades": [
+          3,
+          4
+        ],
+        "departments": null,
+        "gpa_min": 2.5,
+        "score_min": null,
+        "income_max": null,
+        "residence": "거창군",
+        "unclear": [],
+        "other_conditions": [
+          "만 30세 미만 (1996년 10월 15일 이후 출생자)",
+          "2026년 2학기 한국장학재단 국가장학금 신청자",
+          "직전 학기 12학점 이상, 평균 2.5(4.5 만점) 이상",
+          "학생: 공고일 기준 3년 이상 거창군 주민등록 또는 거창군 소재 중·고등학교 3년 재학·졸업",
+          "가족 1명 이상(부모, 조부모, 외조부모, 배우자)이 공고일 기준 3년 이상 거창군 주민등록"
+        ]
+      },
+      "burden": {
+        "documents": [
+          "지역출신 대학생 등록금 지원신청서(개인정보동의서)",
+          "등록금 지급(미지급) 확인서",
+          "한국장학재단 신청증명서",
+          "학자금 지원 구간 통지서",
+          "대학교 성적증명서",
+          "통장 사본",
+          "가족관계증명서",
+          "주민등록초본(대학생, 전체 주소이력)",
+          "주민등록초본(가족 중 1명, 전체 주소이력)",
+          "(해당자) 거창군 관내 중·고등학교 생활기록부 첫 장"
+        ],
+        "interview": false
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "장학공지",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=897009",
+        "posted_at": "2026-10-23"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": "[첨부: 공고문_2026년 2학기 거창군 지역출신 대학생 등록금 지원사업.pdf] 나. 금액 : 학기당 본인부담 등록금* 최대 100만원 한도",
+        "deadline": "(홍보) 2026년 2학기 거창군 지역출신 대학생 등록금 지원사업 안내(~11/16(월)까지)",
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": "[첨부: 공고문_2026년 2학기 거창군 지역출신 대학생 등록금 지원사업.pdf] 가. 지원요건을 모두 충족하는 거창군 출신 대학생"
+      },
+      "needs_check": [],
+      "reviewed": true
+    },
+    {
+      "id": "event-897116",
+      "status": "모집",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "897116",
+          "label": "모집",
+          "title": "(홍보) 2026년 2학기 푸른등대 기부장학금 신규장학생 신청 안내(~11/12(목)까지)",
+          "board": "장학공지",
+          "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=897116",
+          "posted_at": "2026-10-27",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "2026년 2학기 푸른등대 기부장학금 신규장학생",
+      "title": "(홍보) 2026년 2학기 푸른등대 기부장학금 신규장학생 신청 안내(~11/12(목)까지)",
+      "category": "교외",
+      "summary": "본문 없이 포스터 이미지로 안내된 공지입니다. 원문을 확인하세요.",
+      "amount": {
+        "type": "lump_sum",
+        "value": 2000000,
+        "text": "200만원"
+      },
+      "deadline": "2026-11-12",
+      "deadline_text": "(홍보) 2026년 2학기 푸른등대 기부장학금 신규장학생 신청 안내(~11/12(목)까지)",
+      "closed": false,
+      "eligibility": {
+        "grades": null,
+        "departments": null,
+        "gpa_min": null,
+        "score_min": null,
+        "income_max": null,
+        "residence": null,
+        "unclear": [],
+        "other_conditions": [
+          "대한민국 국적의 국내 4년제·전문대 재학생 (신·편입생 제외, 신청 시작일 기준 잔여 정규학기 1개 이상)",
+          "2023년 이후 고립·은둔 지원 프로그램 수료자 (프로그램 수료일 기준)"
+        ]
+      },
+      "burden": {
+        "documents": [
+          "고립·은둔 지원 프로그램 참여 또는 수료 증빙서류"
+        ],
+        "interview": null
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "장학공지",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=897116",
+        "posted_at": "2026-10-27"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": null,
+        "deadline": "(홍보) 2026년 2학기 푸른등대 기부장학금 신규장학생 신청 안내(~11/12(목)까지)",
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": true
+    },
+    {
+      "id": "event-897117",
+      "status": "완료",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "897117",
+          "label": "완료",
+          "title": "(홍보) 2026년도 하반기 강화군 대학생 등록금 지원사업 안내(마감)",
+          "board": "장학공지",
+          "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=897117",
+          "posted_at": "2026-10-27",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "2026년도 하반기 강화군 대학생 등록금 지원사업",
+      "title": "(홍보) 2026년도 하반기 강화군 대학생 등록금 지원사업 안내(마감)",
+      "category": "교외",
+      "summary": "본문 없이 포스터 이미지로 안내된 공지입니다. 원문을 확인하세요.",
+      "amount": {
+        "type": "lump_sum",
+        "value": 1000000,
+        "text": "학기별 최대 100만원"
+      },
+      "deadline": "2026-11-09",
+      "deadline_text": "2026. 10. 26.(월) ~ 11. 9.(월) 18:00",
+      "closed": true,
+      "eligibility": {
+        "grades": [
+          1
+        ],
+        "departments": null,
+        "gpa_min": null,
+        "score_min": 60,
+        "income_max": 8,
+        "residence": "강화군",
+        "unclear": [],
+        "other_conditions": [
+          "구분 | 기준 | 비고"
+        ]
+      },
+      "burden": {
+        "documents": [
+          "신청서 서명 누락",
+          "국가장학금 신청증명서 대신 결과 화면(캡쳐) 제출",
+          "다른 학기 성적증명서 또는 지원구간 통지서 제출"
+        ],
+        "interview": false
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "장학공지",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=897117",
+        "posted_at": "2026-10-27"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": "[첨부: 공고문(2026년 하반기 강화군 대학생 등록금 지원사업).hwpx]  학기별 최대 100만원(연 200만원 한도), 등록금은 필수경비(수업료)만 해당",
+        "deadline": "[첨부: 공고문(2026년 하반기 강화군 대학생 등록금 지원사업).hwpx] 1) 접수기간 : 2026. 10. 26.(월) ~ 11. 9.(월) 18:00",
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": "[첨부: 공고문(2026년 하반기 강화군 대학생 등록금 지원사업).hwpx] 군민의 고등교육비 부담을 경감 및 지역인재를 육성하고자「강화군 대학생 등록금 지원 조례」에 따라 2026년도 하반기 강화군 대학생 등록금 지원 사업을 다음과 같이 공고합니다."
+      },
+      "needs_check": [
+        "poster_only"
+      ],
+      "reviewed": false
+    },
+    {
+      "id": "event-897174",
+      "status": "모집",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "897174",
+          "label": "모집",
+          "title": "2026학년도 2학기 (11월~2월) 학과사무실 근로장학생 신청 안내",
+          "board": "학부공지",
+          "url": "https://eie.seoultech.ac.kr/majornotice/notice?do=view&bnum=973&bidx=897174",
+          "posted_at": "2026-10-28",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "2026학년도 2학기 (11월~2월) 학과사무실 근로장학생",
+      "title": "2026학년도 2학기 (11월~2월) 학과사무실 근로장학생 신청 안내",
+      "category": "근로",
+      "summary": "전기정보공학과에서는 2026학년도 2학기 (11월~2월) 학과사무실 근로 장학생을 아래와 같이 모집합니다.",
+      "amount": {
+        "type": "hourly",
+        "value": 10320,
+        "text": "시간당 10,320원"
+      },
+      "deadline": "2026-10-31",
+      "deadline_text": "~2026. 10. 31.(일) 23:59",
+      "closed": false,
+      "eligibility": {
+        "grades": null,
+        "departments": [
+          "전기정보공학과"
+        ],
+        "gpa_min": null,
+        "score_min": null,
+        "income_max": 10,
+        "residence": null,
+        "unclear": [],
+        "other_conditions": [
+          "시간제 (월 48시간, 시간당 10,320원)",
+          "우대: 교내근로, 국가근로(교내부서) 경험자",
+          "우대: 직전학기(2026학년도 1학기) 성적이 높은자",
+          "우대: 소득분위(구간)가 낮은자",
+          "우대: 토익스피킹 lv 7, OPIC IH 이상"
+        ]
+      },
+      "burden": {
+        "documents": [
+          "근로시간표(근로 불가능한 시간을 표시해서 제출) - 첨부파일"
+        ],
+        "interview": true
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "학부공지",
+        "url": "https://eie.seoultech.ac.kr/majornotice/notice?do=view&bnum=973&bidx=897174",
+        "posted_at": "2026-10-28"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": "○ 시간제 (월 48시간, 시간당 10,320원)",
+        "deadline": "2. 신청기간: ~2026. 10. 31.(일) 23:59",
+        "duplicate_restriction": null,
+        "departments": "가) 전기정보공학과 재학생(휴학생은 신청 불가)",
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": false
+    },
+    {
+      "id": "event-897279",
+      "status": "모집",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "897279",
+          "label": "모집",
+          "title": "2026학년도 국가근로장학금 동계방학 집중근로 희망근로지 신청기간 안내(~11/12 18시까지)",
+          "board": "장학공지",
+          "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=57138&bidx=897279",
+          "posted_at": "2026-10-30",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "2026학년도 국가근로장학금 동계방학 집중근로 희망근로지",
+      "title": "2026학년도 국가근로장학금 동계방학 집중근로 희망근로지 신청기간 안내(~11/12 18시까지)",
+      "category": "근로",
+      "summary": "2026년도 국가근로장학사업 “동계방학 집중근로 프로그램” 희망근로지 신청 매뉴얼을 안내드립니다.",
+      "amount": {
+        "type": "unknown",
+        "value": null,
+        "text": null
+      },
+      "deadline": "2026-11-12",
+      "deadline_text": "2026학년도 국가근로장학금 동계방학 집중근로 희망근로지 신청기간 안내(~11/12 18시까지)",
+      "closed": false,
+      "eligibility": {
+        "grades": null,
+        "departments": null,
+        "gpa_min": null,
+        "score_min": null,
+        "income_max": null,
+        "residence": null,
+        "unclear": [],
+        "other_conditions": [
+          "2026년도 2학기 국가근로장학금 1차, 2차, 3차 신청기간 내 신청한 재학생"
+        ]
+      },
+      "burden": {
+        "documents": [],
+        "interview": false
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "장학공지",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=57138&bidx=897279",
+        "posted_at": "2026-10-30"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": null,
+        "deadline": "2026학년도 국가근로장학금 동계방학 집중근로 희망근로지 신청기간 안내(~11/12 18시까지)",
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": false
+    },
+    {
+      "id": "event-897345",
+      "status": "모집",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "897345",
+          "label": "모집",
+          "title": "(홍보) 통영시 저소득 대학생 장학금 지원대상자 선발 안내(~11/23(월)까지)",
+          "board": "장학공지",
+          "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=897345",
+          "posted_at": "2026-11-02",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "통영시 저소득 대학생 장학금 지원대상자",
+      "title": "(홍보) 통영시 저소득 대학생 장학금 지원대상자 선발 안내(~11/23(월)까지)",
+      "category": "교외",
+      "summary": "본문 없이 포스터 이미지로 안내된 공지입니다. 원문을 확인하세요.",
+      "amount": {
+        "type": "lump_sum",
+        "value": 1000000,
+        "text": "1인당 상한액 100만원"
+      },
+      "deadline": "2026-11-23",
+      "deadline_text": "2026.11.2(월) ~ 11.23.(월)",
+      "closed": false,
+      "eligibility": {
+        "grades": null,
+        "departments": null,
+        "gpa_min": 2.0,
+        "score_min": null,
+        "income_max": null,
+        "residence": "통영시",
+        "unclear": [],
+        "other_conditions": [
+          "기초생활수급자 및 차상위 계층 대학생",
+          "2026년 1학기 성적 평균 C학점 이상",
+          "관내 고등학교 졸업, 공고일 현재 주민등록상 6년 이상 통영시 거주, 통영시 관내 학교 6년 이상 재학",
+          "제외: 이 장학금 4회 이상 수혜자, 2026년 통영시 성적우수·지역대학생·인재육성 장학금 수혜자, 생활비 성격 장학금 수혜자, 대학원생, 휴학생"
+        ]
+      },
+      "burden": {
+        "documents": [
+          "장학금 지급신청서",
+          "기초생활수급자 또는 차상위계층 증명서",
+          "재학증명서",
+          "성적증명서",
+          "생활기록부",
+          "주민등록초본",
+          "통장사본"
+        ],
+        "interview": false
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "장학공지",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=897345",
+        "posted_at": "2026-11-02"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": "[첨부: 2026년 통영시 저소득 대학생 장학금 지원대상자 선발 공고.hwpx] 2. 지원금액: 1인당 상한액 100만원",
+        "deadline": "(홍보) 통영시 저소득 대학생 장학금 지원대상자 선발 안내(~11/23(월)까지)",
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": "[첨부: 2026년 통영시 저소득 대학생 장학금 지원대상자 선발 공고.hwpx] 다. 관내 고등학교 졸업자로, 공고일 현재 주민등록상 6년 이상 통영시에 주소를 두고, 통영시 관내 학교를 6년 이상 다닌 자"
+      },
+      "needs_check": [],
+      "reviewed": true
+    },
+    {
+      "id": "event-897471",
+      "status": "모집",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "897471",
+          "label": "모집",
+          "title": "[정보전산원] 2026년 한시적 근로장학생 모집 안내",
+          "board": "장학공지",
+          "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=57138&bidx=897471",
+          "posted_at": "2026-11-04",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "2026년 한시적 근로장학생",
+      "title": "[정보전산원] 2026년 한시적 근로장학생 모집 안내",
+      "category": "근로",
+      "summary": "AI 업무 지원 근로학생 모집 공고",
+      "amount": {
+        "type": "unknown",
+        "value": null,
+        "text": null
+      },
+      "deadline": "2026-11-06",
+      "deadline_text": "2026년 11월 4일(수) ~ 11월 6일(금) 12:00까지",
+      "closed": false,
+      "eligibility": {
+        "grades": null,
+        "departments": null,
+        "gpa_min": null,
+        "score_min": null,
+        "income_max": null,
+        "residence": null,
+        "unclear": [],
+        "other_conditions": [
+          "필수교육 미이수 시 근로 참여가 제한될 수 있습니다.",
+          "본교 재학생 및 휴학생 (학부생/대학원생)",
+          "우대: ChatGPT, Claude, 생성형 AI 서비스 활용 경험자",
+          "우대: 프롬프트 작성 및 데이터/문서 처리 능력 보유자"
+        ]
+      },
+      "burden": {
+        "documents": [
+          "정보전산원 근로 지원서"
+        ],
+        "interview": false
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "장학공지",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=57138&bidx=897471",
+        "posted_at": "2026-11-04"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": null,
+        "deadline": "- 서류 접수 기간: 2026년 11월 4일(수) ~ 11월 6일(금) 12:00까지",
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": false
+    },
+    {
+      "id": "event-897477",
+      "status": "완료",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "897477",
+          "label": "완료",
+          "title": "2027년 한국지도자육성장학재단 장학금 신청안내(마감)",
+          "board": "장학공지",
+          "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=897477",
+          "posted_at": "2026-11-04",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "2027년 한국지도자육성장학재단 장학금",
+      "title": "2027년 한국지도자육성장학재단 장학금 신청안내(마감)",
+      "category": "교외",
+      "summary": "가. 장학명: 2027년 한국지도자육성장학재단 장학금",
+      "amount": {
+        "type": "tuition_ratio",
+        "value": 100,
+        "text": "등록금 전액(수업료) 또는 학기당 350만원의 학업보조비 ※동시지원불가, 택1 하여 지원"
+      },
+      "deadline": "2026-11-09",
+      "deadline_text": "신청기간: 2026. 11. 9. (월) 까지",
+      "closed": true,
+      "eligibility": {
+        "grades": [
+          3
+        ],
+        "departments": null,
+        "gpa_min": null,
+        "score_min": 85,
+        "income_max": null,
+        "residence": null,
+        "unclear": [],
+        "other_conditions": [
+          "2027년도 1학기 기준, 3학년 1학기에 등록예정인 자",
+          "매 정규학기 당 최소 12학점 이상 이수한 자(계절학기 미인정)",
+          "학칙에 의한 징계사실(학사징계 포함)이 없는 자",
+          "가산점: 리더십 활동 유경험자 및 특별재능 보유자는 서류 심사 시 가산점 부여: 대한민국인재상 수상, 대통령상 또는 국무총리상 수상, 장관 및",
+          "가산점: 광역단체장상 수상, 대학 총학생회장/부회장 당선 및 역임자, 전국 규모 이상의 학술 및 논문공모전 입상자",
+          "우선순위: 1순위: 해당 가산점 항목 중 실적이 많은 학생",
+          "우선순위: 2순위: 직전학기 평점평균이 높은 학생",
+          "우선순위: 3순위: 직전학기 취득학점이 높은 학생"
+        ]
+      },
+      "burden": {
+        "documents": [
+          "장학생 지원서",
+          "추천서",
+          "자기소개서",
+          "개인정보 수집 이용 제공 및 조회 동의서",
+          "장학생 의무사항 참여동의서",
+          "전체학년 성적증명서",
+          "우대조건(가산점 부여) 항목 증빙서류"
+        ],
+        "interview": true
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "장학공지",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=897477",
+        "posted_at": "2026-11-04"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": "다. 지원금액: 등록금 전액(수업료) 또는 학기당 350만원의 학업보조비 ※동시지원불가, 택1 하여 지원",
+        "deadline": "마: 신청기간: 2026. 11. 9. (월) 까지",
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": false
+    },
+    {
+      "id": "event-897485",
+      "status": "모집",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "897485",
+          "label": "모집",
+          "title": "[장애학생지원센터] 2026학년도 2학기 장애학생 봉사유형 국가근로장학생 모집",
+          "board": "장학공지",
+          "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=57138&bidx=897485",
+          "posted_at": "2026-11-04",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "2026학년도 2학기 장애학생 봉사유형 국가근로장학생",
+      "title": "[장애학생지원센터] 2026학년도 2학기 장애학생 봉사유형 국가근로장학생 모집",
+      "category": "근로",
+      "summary": "장애학생지원센터에서는 2026학년도 2학기 장애학생 봉사유형 국가근로장학생을 다음과 같이 모집합니다.",
+      "amount": {
+        "type": "hourly",
+        "value": 12790,
+        "text": "시급 12,790원"
+      },
+      "deadline": "2026-11-13",
+      "deadline_text": "~2026. 11. 13.(금)까지",
+      "closed": false,
+      "eligibility": {
+        "grades": null,
+        "departments": null,
+        "gpa_min": null,
+        "score_min": 70,
+        "income_max": null,
+        "residence": null,
+        "unclear": [],
+        "other_conditions": [
+          "해당 근로시간에 근무가 가능한 자"
+        ]
+      },
+      "burden": {
+        "documents": [
+          "국가근로장학생지원서",
+          "2026학년도 2학기 시간표(통합정보시스템 출력)"
+        ],
+        "interview": true
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "장학공지",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=57138&bidx=897485",
+        "posted_at": "2026-11-04"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": "2. 근로조건: 시급 12,790원 (교외근로 시급 적용)",
+        "deadline": "5. 모집기간: ~2026. 11. 13.(금)까지",
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": false
+    },
+    {
+      "id": "event-897503",
+      "status": "모집",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "897503",
+          "label": "모집",
+          "title": "2026-2학기 국가근로장학생 교체 선발모집_(주)아이티희망나눔",
+          "board": "장학공지",
+          "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=57138&bidx=897503",
+          "posted_at": "2026-11-05",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "2026-2학기 국가근로장학생 교체 선발모집_(주)아이티희망나눔",
+      "title": "2026-2학기 국가근로장학생 교체 선발모집_(주)아이티희망나눔",
+      "category": "근로",
+      "summary": "(주)아이티희망나눔에서는 2026-2학기 국가근로장학생을 아래와 같이 교체 선발 모집합니다.",
+      "amount": {
+        "type": "hourly",
+        "value": 12790,
+        "text": "시간당 12,790원"
+      },
+      "deadline": null,
+      "deadline_text": "상시 모집 (~ (기관)선발 완료시 까지)",
+      "closed": false,
+      "eligibility": {
+        "grades": null,
+        "departments": null,
+        "gpa_min": null,
+        "score_min": 70,
+        "income_max": 9,
+        "residence": null,
+        "unclear": [],
+        "other_conditions": [
+          "재학생 및 수업연한초과자(초과학기생, 학사학위취득유예생) 신청 가능 - (*단, 휴학생은 안됨)",
+          "우선순위: 학자금지원구간 4분위 이하",
+          "우선순위: (기초생활수급자 및 차상위계층 포함)",
+          "우선순위: 학자금지원구간 5분위 이상 ~ 6분위 이하",
+          "우선순위: 학자금지원구간 7분위 이상 ~ 9분위 이하"
+        ]
+      },
+      "burden": {
+        "documents": [
+          "국가근로장학생 지원서(학생)"
+        ],
+        "interview": false
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "장학공지",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=57138&bidx=897503",
+        "posted_at": "2026-11-05"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": "4. 지급금액 : 시간당 12,790원",
+        "deadline": "※ 지원기간: ~ (기관)선발 완료시 까지",
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": false
+    },
+    {
+      "id": "event-897508",
+      "status": "완료",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "897508",
+          "label": "완료",
+          "title": "[학부] (마감)2026 산업보건분야 미래인재 양성사업 장학생 신청 (2026. 11. 9.(월)까지)",
+          "board": "공지사항",
+          "url": "https://safety.seoultech.ac.kr/b_information/notic?do=view&bnum=763&bidx=897508",
+          "posted_at": "2026-11-05",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "2026 산업보건분야 미래인재 양성사업 장학생",
+      "title": "[학부] (마감)2026 산업보건분야 미래인재 양성사업 장학생 신청 (2026. 11. 9.(월)까지)",
+      "category": "교내",
+      "summary": "대한산업보건협회 ｢2026 산업보건분야 미래인재 양성사업｣ 장학생 추천 안내",
+      "amount": {
+        "type": "lump_sum",
+        "value": 1000000,
+        "text": "1,000,000원"
+      },
+      "deadline": "2026-11-09",
+      "deadline_text": "[학부] (마감)2026 산업보건분야 미래인재 양성사업 장학생 신청 (2026. 11. 9.(월)까지)",
+      "closed": true,
+      "eligibility": {
+        "grades": [
+          4
+        ],
+        "departments": [
+          "안전공학과"
+        ],
+        "gpa_min": 3.5,
+        "score_min": null,
+        "income_max": null,
+        "residence": null,
+        "unclear": [],
+        "other_conditions": []
+      },
+      "burden": {
+        "documents": [
+          "학과 장학생 추천서",
+          "개인정보 제공 및 처리 동의서",
+          "재학증명서",
+          "직전학기 성적증명서"
+        ],
+        "interview": false
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "공지사항",
+        "url": "https://safety.seoultech.ac.kr/b_information/notic?do=view&bnum=763&bidx=897508",
+        "posted_at": "2026-11-05"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": "다. 장학금액: 1,000,000원(생활비성)",
+        "deadline": "[학부] (마감)2026 산업보건분야 미래인재 양성사업 장학생 신청 (2026. 11. 9.(월)까지)",
+        "duplicate_restriction": null,
+        "departments": "1) 안전공학과 재학생(※ 단, 4학년은 제외)",
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": false
+    },
+    {
+      "id": "event-897575",
+      "status": "모집",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "897575",
+          "label": "모집",
+          "title": "전기공사공제조합장학회 제22기 장학생 선발 공고 (~11.13 18시)",
+          "board": "학부공지",
+          "url": "https://eie.seoultech.ac.kr/majornotice/notice?do=view&bnum=973&bidx=897575",
+          "posted_at": "2026-11-09",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "전기공사공제조합장학회 제22기 장학생",
+      "title": "전기공사공제조합장학회 제22기 장학생 선발 공고 (~11.13 18시)",
+      "category": "교외",
+      "summary": "전기공사공제조합 장학회 장학생을 붙임과 같이 모집하오니 선발기준에 적합한 학생들은 안내문을 참조하여 서류를 지원하시기 바랍니다.",
+      "amount": {
+        "type": "lump_sum",
+        "value": 2500000,
+        "text": "학기당 250만원"
+      },
+      "deadline": "2026-11-13",
+      "deadline_text": "전기공사공제조합장학회 제22기 장학생 선발 공고 (~11.13 18시)",
+      "closed": false,
+      "eligibility": {
+        "grades": null,
+        "departments": null,
+        "gpa_min": null,
+        "score_min": null,
+        "income_max": null,
+        "residence": null,
+        "unclear": [],
+        "other_conditions": [
+          "구분 일반전형 조합원전형",
+          "우대: 자격기준 신청일 현재 전기관련학과에 재학 중인 자 신청일 현재 전기공사공제조합에 가입되어 있는 조합원 대표와 임직원 및그 자녀",
+          "우대: 성적기준 1. 신청일 기준 이전 최근 이수학기의 평균평점이 3.0(4.5만점 기준) 이상인 자 2. 신청일 기준 이전 최근 이수학기의 이수학점이 12학점 이상인 자",
+          "ᄋ 대학입학 예정자",
+          "ᄋ 2027년도 1, 2학기에 타 기관에서 장학금 수혜가 예정되어 있는 자",
+          "(단, 교내 및 국가장학금 수령시 등록금 실비 내 지원)",
+          "ᄋ 2027년도 휴학(군휴학 등) 예정자 및 초과학기 이수예정자"
+        ]
+      },
+      "burden": {
+        "documents": [
+          "체크리스트 및 자기소개서(장학회 홈페이지 양식)",
+          "성적증명서",
+          "가족관계증명서",
+          "2026년 지방세 세목별 과세증명서(부모 모두, 과세 사실 없으면 미과세 증명)",
+          "2025년 소득금액증명원(부모 모두)",
+          "(해당자) 국민기초생활수급자 또는 차상위계층 확인 증명서",
+          "(조합원 전형) 조합원사 재직증명서"
+        ],
+        "interview": false
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "학부공지",
+        "url": "https://eie.seoultech.ac.kr/majornotice/notice?do=view&bnum=973&bidx=897575",
+        "posted_at": "2026-11-09"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": "지원금액: 등록금 연간 최대 5백만 원 지원 (학기당 250만원 한도)",
+        "deadline": "전기공사공제조합장학회 제22기 장학생 선발 공고 (~11.13 18시)",
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": true
+    },
+    {
+      "id": "event-897664",
+      "status": "모집",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "897664",
+          "label": "모집",
+          "title": "2026-2학기 국가근로장학생 모집(교체선발)_한국전시산업융합연구원",
+          "board": "장학공지",
+          "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=57138&bidx=897664",
+          "posted_at": "2026-11-10",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "2026-2학기 국가근로장학생 모집(교체선발)_한국전시산업융합연구원",
+      "title": "2026-2학기 국가근로장학생 모집(교체선발)_한국전시산업융합연구원",
+      "category": "근로",
+      "summary": "한국전시산업융합연구원에서는 2026-2학기 국가근로장학생을 아래와 같이 모집합니다.",
+      "amount": {
+        "type": "hourly",
+        "value": 12430,
+        "text": "시 급 : 12,430원"
+      },
+      "deadline": null,
+      "deadline_text": "상시 모집 (~ (기관)선발 완료시 까지)",
+      "closed": false,
+      "eligibility": {
+        "grades": null,
+        "departments": null,
+        "gpa_min": null,
+        "score_min": 70,
+        "income_max": 9,
+        "residence": null,
+        "unclear": [],
+        "other_conditions": [
+          "재학생 및 수업연한초과자(초과학기생, 학사학위취득유예생) 신청 가능 - (*단, 휴학생은 안됨)",
+          "학술지 발간 관련보조",
+          "우선순위: 학자금지원구간 4분위 이하",
+          "우선순위: (기초생활수급자 및 차상위계층 포함)",
+          "우선순위: 학자금지원구간 5분위 이상 ~ 6분위 이하",
+          "우선순위: 학자금지원구간 7분위 이상 ~ 9분위 이하",
+          "우대: 학교인근 거주자 우대, 컴퓨터활용능력자격증 소지자 우대 (필수사항은 아님)"
+        ]
+      },
+      "burden": {
+        "documents": [
+          "국가근로장학생 지원서(학생)"
+        ],
+        "interview": false
+      },
+      "duplicate_restriction": null,
+      "source": {
+        "board": "장학공지",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=57138&bidx=897664",
+        "posted_at": "2026-11-10"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": "- 시 급 : 12,430원",
+        "deadline": "※ 지원기간: ~ (기관)선발 완료시 까지",
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": false
+    },
+    {
+      "id": "event-897699",
+      "status": "모집",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "897699",
+          "label": "모집",
+          "title": "(공동실험실습관)26학년도 2학기 국가근로장학생 모집(교체선발)",
+          "board": "장학공지",
+          "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=57138&bidx=897699",
+          "posted_at": "2026-11-11",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "26학년도 2학기 국가근로장학생",
+      "title": "(공동실험실습관)26학년도 2학기 국가근로장학생 모집(교체선발)",
+      "category": "근로",
+      "summary": "공동실험실습관에서 2026년도 2학기 교체 국가근로 장학생을 아래와 같이 모집합니다.",
+      "amount": {
+        "type": "hourly",
+        "value": 10320,
+        "text": "시간당 10,320원"
+      },
+      "deadline": "2026-11-12",
+      "deadline_text": "2026. 11. 12.(목) 09:00 ~ 18:00 까지",
+      "closed": false,
+      "eligibility": {
+        "grades": null,
+        "departments": null,
+        "gpa_min": null,
+        "score_min": 70,
+        "income_max": 9,
+        "residence": null,
+        "unclear": [],
+        "other_conditions": [
+          "한국장학재단 2026-2학기 국가근로장학사업 신청자",
+          "우대: 관련학과, 직전학기 미선발자, 2학년 이하, 실험실활동 유경험자",
+          "우대: X선분석실-화공생명공학과, 신소재공학과"
+        ]
+      },
+      "burden": {
+        "documents": [
+          "근로장학생 지원서(서식1) 및 자기소개서(서식2)",
+          "근무가능시간표(서식3)",
+          "직전학기 성적증명서",
+          "학자금지원 소득구간(분위) 통지서 사본"
+        ],
+        "interview": true
+      },
+      "duplicate_restriction": true,
+      "source": {
+        "board": "장학공지",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=57138&bidx=897699",
+        "posted_at": "2026-11-11"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": "5. 근무시간: 1일 최대 8시간 / 월~금(9시~18시) / 점심 휴게시간 근무제외 / (방학중) 주당 최대 40시간 근무 가능 / 시간당 10,320원",
+        "deadline": "3. 모집기간: 2026. 11. 12.(목) 09:00 ~ 18:00 까지",
+        "duplicate_restriction": "- 교내근로(ST근로, ST인턴, ST튜터) 장학과의 중복 수혜 불가",
+        "departments": null,
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": false
+    },
+    {
+      "id": "event-897713",
+      "status": "모집",
+      "grouped_by": "single",
+      "notices": [
+        {
+          "bidx": "897713",
+          "label": "모집",
+          "title": "(홍보) 유하푸른재단 2027년도 제10기 장학생 선발 안내(~11/20(금)까지)",
+          "board": "장학공지",
+          "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=897713",
+          "posted_at": "2026-11-11",
+          "also_posted_bidx": []
+        }
+      ],
+      "name": "유하푸른재단 2027년도 제10기 장학생",
+      "title": "(홍보) 유하푸른재단 2027년도 제10기 장학생 선발 안내(~11/20(금)까지)",
+      "category": "교외",
+      "summary": "관심있는 학생은 아래 내용과 첨부파일을 꼼꼼히 확인하여 기한 내에 지원하시기 바랍니다.",
+      "amount": {
+        "type": "lump_sum",
+        "value": 2000000,
+        "text": "선발장학금 1인 200만원(1회) + 등록금(최대 6학기)·자기개발비 학기당 50만원 등"
+      },
+      "deadline": "2026-11-20",
+      "deadline_text": "원서 접수: 2026.11.20(금) 23:59까지 재단 지정 이메일 수신분",
+      "closed": false,
+      "eligibility": {
+        "grades": [
+          1
+        ],
+        "departments": [
+          "기계시스템공학부",
+          "지능형로봇전공",
+          "미래자동차전공",
+          "기계공학과",
+          "안전공학과",
+          "신소재공학과",
+          "건설시스템공학과",
+          "건축학부",
+          "건축공학전공",
+          "건축학전공",
+          "건축기계설비공학과",
+          "기계시스템디자인공학과",
+          "기계·자동차공학과",
+          "전기정보공학과",
+          "전자공학과",
+          "컴퓨터공학과",
+          "스마트ICT융합공학과",
+          "인공지능응용학과",
+          "지능형반도체공학과",
+          "미래에너지융합학과",
+          "화공생명공학과",
+          "환경공학과",
+          "식품생명공학과",
+          "산업공학과",
+          "산업정보시스템전공",
+          "ITM전공",
+          "MSDE학과",
+          "융합기계공학과",
+          "건설환경융합공학과",
+          "정보통신융합공학과",
+          "글로벌IT컨버전스학과",
+          "화공생명공학과",
+          "환경공학과",
+          "식품생명공학과",
+          "정밀화학과",
+          "안경광학과",
+          "바이오메디컬학과",
+          "양자융합물리학과"
+        ],
+        "gpa_min": 3.8,
+        "score_min": null,
+        "income_max": null,
+        "residence": null,
+        "unclear": [
+          "departments"
+        ],
+        "other_conditions": [
+          "재단 지정 4년제 1학년 재학생 (2027학년도 1학기 기준 3학기 진입 예정자)",
+          "이공계열 전공자 (우대: 반도체, 화학공학, 전기전자, 기계 관련 / 의대·약대·간호대 등 제외)",
+          "1학년 1학기 평점 3.8/4.5 이상(또는 3.6/4.3 이상), 정규학기 12학점 이상 이수"
+        ]
+      },
+      "burden": {
+        "documents": [
+          "장학생 지원서",
+          "자기소개서",
+          "1학년 1학기 성적증명서",
+          "(해당자) 경제적 여건 증빙: 기초생활수급자 증명서, 차상위계층 확인서, 한부모가족 지원대상자 증명서",
+          "(해당자) 기타 평가 증빙: 헌혈 실적 확인서, 공인어학 성적표(TOEIC·TOEFL·New TEPS·OPIc), 학술대회·경진대회 수상 증빙"
+        ],
+        "interview": false
+      },
+      "duplicate_restriction": true,
+      "source": {
+        "board": "장학공지",
+        "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=897713",
+        "posted_at": "2026-11-11"
+      },
+      "also_posted_bidx": [],
+      "evidence": {
+        "amount": null,
+        "deadline": "(홍보) 유하푸른재단 2027년도 제10기 장학생 선발 안내(~11/20(금)까지)",
+        "duplicate_restriction": null,
+        "departments": null,
+        "residence": null
+      },
+      "needs_check": [],
+      "reviewed": true
+    }
+  ]
+}

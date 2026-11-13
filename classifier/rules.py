@@ -5,14 +5,11 @@
 """
 
 import re
-from datetime import date, timedelta
+from datetime import date
 
 from config import (
-    AMOUNT_AFTER_SKIP,
-    AMOUNT_BEFORE_SKIP,
     AMOUNT_LINE_SKIP,
     AMOUNT_LINE_WORDS,
-    AMOUNT_MAX_PER_PERSON,
     CLOSED_WORDS,
     COND_AFTER_SKIP,
     COND_BEFORE_SKIP,
@@ -24,8 +21,6 @@ from config import (
     CONTEXT_BEFORE,
     CONTINUATION_MARKS,
     DEADLINE_LINE_WORDS,
-    DEADLINE_SKIP_WORDS,
-    DEADLINE_YEAR_GAP,
     DEPARTMENT_LINE_WORDS,
     DOCUMENT_HEAD_WORDS,
     DOCUMENT_SKIP_WORDS,
@@ -47,7 +42,6 @@ from config import (
     NO_LIMIT_WORDS,
     NOT_CONDITION_WORDS,
     NOTICE_ATTACHMENT_WORDS,
-    PERIOD_OTHER_WORDS,
     PREFERENCE_HEAD_WORDS,
     PREFERENCE_TAGS,
     RECRUIT_WORDS,
@@ -62,9 +56,10 @@ from config import (
     WORK_BNUMS,
     WORK_WORDS,
 )
-from dictionary import COLLEGES, DEPARTMENTS, FIELDS, NOT_REGION, SIDO, SIGUNGU
-from lexer import Token, tokenize
-from phrases import amounts, periods
+from dictionary import COLLEGES, DEPARTMENTS, FIELDS, NOT_REGION, SIDO, SIGUNGU, expand_department
+from lexer import tokenize
+from phrases import amounts
+from semantics import MIN_HOURLY, dated_periods, has_apply_period, line_deadline, roled_amounts
 
 
 def _lines(text: str) -> list[str]:
@@ -211,29 +206,15 @@ def extract_name(title: str) -> str:
 # 여기서는 "이 금액 구가 1인당 장학금인가"를 정한다: 소득 기준·예산·계산 예시·기준 금액을 거르고, 대상별이면 대학생 것을 고른다.
 
 _KIND_ORDER = {"tuition_ratio": 0, "hourly": 1, "lump_sum": 2}  # 한 줄에 여러 종류면 등록금 비율 → 시급 → 금액 순으로 본다
-_MIN_VALUE = {"lump_sum": 10_000, "hourly": 5_000, "tuition_ratio": 1}  # "1원", "3원"처럼 금액일 수 없는 값은 버린다
-# 1인당 장학금으로 보기에 너무 큰 금액은 총 예산이다 ("우수장학금 | 대학생 | 115명 | 180백만원", raw_test 894772)
-_MAX_VALUE = {"lump_sum": AMOUNT_MAX_PER_PERSON, "hourly": 100_000, "tuition_ratio": 100}
 
 
 def _amount_from_line(line: str) -> dict | None:
-    """한 줄의 금액 구 중 장학금 금액을 고른다.
+    """한 줄의 금액 구 중 장학금 금액을 고른다. 금액마다 쓰임(role)은 semantics.py가 속성으로 정해 둔다.
 
-    소득 단어("차상위", "소득")보다 뒤에 나오는 금액은 소득 기준일 수 있어서 쓰지 않는다.
-    예: "수업료 100% 면제(단, 차상위~5구간 … 50%만 면제)" → 100%를 쓴다.
+    role이 "지급"인 것만 쓴다. 예: "수업료 100% 면제(단, 차상위~5구간 … 50%만 면제)"의 50%는
+    왼쪽에 소득 말이 있어 "소득 기준"이 되고, 100%를 쓴다.
     """
-    income_at = min((line.find(w) for w in INCOME_WORDS if w in line), default=len(line))
-    tokens = tokenize(line)
-
-    def table_total(a) -> bool:
-        # 표 행 "재능장학금 | 대학생 | 10명 | 10백만원"의 금액은 인원 전체의 예산이다 ("인당"이 있으면 1인당)
-        return (any(t.kind == "CELL" for t in tokens) and "인당" not in line
-                and re.search(r"\d+\s*명", line[: a.first]) is not None)
-
-    ok = [a for a in amounts(tokens)
-          if a.first < income_at and _MIN_VALUE[a.kind] <= a.value <= _MAX_VALUE[a.kind]
-          and not table_total(a)
-          and not _context_skip(line, a.first, a.last, AMOUNT_BEFORE_SKIP, AMOUNT_AFTER_SKIP)]
+    ok = [r.amount for r in roled_amounts(line) if r.role == "지급"]
     if not ok:
         return None
     kind = min((a.kind for a in ok), key=_KIND_ORDER.__getitem__)
@@ -258,7 +239,7 @@ def extract_amount(body: str) -> tuple[dict, str | None]:
                 return found, _short(line)
     # 2) 근로 공지는 시급이 금액 단어 없이 나오기도 한다 ("1일 최대 8시간 (… 시간 당 10,320원)")
     for line in lines:
-        hourly = [a for a in amounts(tokenize(line)) if a.kind == "hourly" and a.value >= _MIN_VALUE["hourly"]]
+        hourly = [a for a in amounts(tokenize(line)) if a.kind == "hourly" and a.value >= MIN_HOURLY]
         if hourly:
             a = hourly[0]
             return {"type": "hourly", "value": a.value, "text": line[a.first : a.last].strip()}, _short(line)
@@ -273,91 +254,21 @@ YEAR_FIX_NOTE = "원문 연도를 게시 연도로 고침"  # deadline_text에 �
 OPEN_END_NOTE = "끝 날짜가 적혀 있지 않음"  # "6. 8.(월) 10:00 ~": 시작일일 수 있다
 
 
-def _year_typo_fixed(value: date, posted: date) -> date | None:
-    """원문에 적힌 연도가 오타로 보이면 게시 연도로 고친 날짜를, 아니면 None을 돌려준다.
-
-    예: 2026년 9월 게시글의 "신청기간 : 2025. 9. 30. ~ 10. 5." (896003), 2026년 8월 게시글의 "2027. 8. 24." (894168).
-    적힌 연도로는 게시일과 180일 넘게 떨어져 있고, 게시 연도로 바꾸면 게시일 30일 전 ~ 120일 뒤에 들어오면 오타로 본다.
-    """
-    if abs((value - posted).days) <= DEADLINE_YEAR_GAP:
-        return None
-    try:
-        fixed = value.replace(year=posted.year)
-    except ValueError:  # 2월 29일
-        return None
-    return fixed if -30 <= (fixed - posted).days <= 120 else None
-
-
-def _resolve_dates(tokens: list[Token], posted: date) -> tuple[dict[int, date], bool]:
-    """줄의 DATE 토큰마다 실제 날짜를 정한다. 반환: ({토큰 위치: 날짜}, 연도 오타를 고쳤는지).
-
-    연도가 없으면 앞 날짜의 연도, 그것도 없으면 게시일 기준으로 정한다 (12월 글의 "~1/10"은 다음 해).
-    """
-    resolved: dict[int, date] = {}
-    year: int | None = None
-    fixed_any = False
-    for t in tokens:
-        if t.kind != "DATE":
-            continue
-        y, mo, d = t.value
-        if y:
-            year = y
-        use_year = year or posted.year
-        try:
-            value = date(use_year, mo, d)
-        except ValueError:
-            continue
-        if y and (fixed := _year_typo_fixed(value, posted)):
-            value, year, fixed_any = fixed, fixed.year, True  # 뒤에 오는 연도 없는 날짜도 고친 연도를 쓴다
-        if year is None and value < posted - timedelta(days=60):
-            value = value.replace(year=use_year + 1)
-        resolved[t.start] = value
-    return resolved, fixed_any
-
-
-def _pick_period(line: str, found: list) -> object:
-    """한 줄에 기간 구가 여러 개면 신청 마감에 해당하는 것을 고른다.
-
-    각 기간 앞의 이름표(앞 기간이 끝난 곳부터 이 기간 시작까지의 글자)를 본다. 이름표에 "실행·발표·지급 …"이 있는 기간은
-    신청 기간이 아니라서 뺀다. 남은 것 중 마지막을 쓴다.
-      "대출신청기간: 7. 1. ~ 11. 17., 대출실행기간: 7. 1. ~ 11. 18." → 11/17 (실행기간은 뺌)
-      "모집기간: 7. 3. ~ 7. 9. 7/13(월)까지 기한 연장!" → 7/13 (뒤 기간은 이름표가 없어 같은 이름표가 이어진다)
-    """
-    keep = []
-    prev_end = 0
-    for p in found:
-        label = line[prev_end : p.first]
-        if not _has_any(label, PERIOD_OTHER_WORDS):
-            keep.append(p)
-        prev_end = p.last
-    return (keep or found)[-1]
-
-
-def _deadline_in(line: str, posted: date) -> tuple[str, date | None, bool, bool] | None:
-    """한 줄의 기간 구로 마감을 정한다.
+def _deadline_in(line: str, posted: date, title: bool = False) -> tuple[str, date | None, bool, bool] | None:
+    """한 줄의 기간 구로 마감을 정한다. 날짜·이름표·쓰임은 semantics.py가 속성으로 계산해 둔다.
 
     반환: ("date", 날짜, 연도 고침, 끝 날짜 없음) / ("rolling", None, False, False) / None.
     "8. 24. ~ 8. 31."은 끝(8/31), "~ 2026.6.22."는 그 날짜, "8. 24. ~ 선발완료 시까지"는 상시 모집이다.
+    "대출신청기간: 7. 1. ~ 11. 17., 대출실행기간: 7. 1. ~ 11. 18."은 실행기간의 applies가 False라 11/17이다.
     "6. 8.(월) 10:00 ~"처럼 "~" 뒤에 끝이 없으면 그 날짜를 쓰되 확인 필요로 표시한다 (시작일일 수 있다).
     """
-    tokens = tokenize(line)
-    found = periods(tokens)
-    if not found:
+    items = dated_periods(line, posted)
+    chosen = line_deadline(items, fallback=title)
+    if chosen is None:
         return None
-    chosen = _pick_period(line, found)
-    if chosen.rolling:
+    if chosen.period.rolling:
         return None if _has_any(line, ROLLING_SKIP_WORDS) else ("rolling", None, False, False)
-    resolved, fixed = _resolve_dates(tokens, posted)
-    value = resolved.get(chosen.end.start)
-    if value is None and chosen.start is not None and chosen.start.start in resolved:
-        # 구문 분석이 만든 끝 날짜 ("8. 13.(목) ~ 14.(금)"의 14일): 연도는 시작 날짜에서 가져온다
-        begin = resolved[chosen.start.start]
-        _, month, day = chosen.end.value
-        try:
-            value = date(begin.year + (1 if month < begin.month else 0), month, day)
-        except ValueError:
-            value = None
-    return ("date", value, fixed, chosen.open) if value else None
+    return ("date", chosen.date, chosen.fixed, chosen.period.open) if chosen.date else None
 
 
 def extract_deadline(title: str, body: str, posted: date) -> tuple[str | None, str | None, str | None]:
@@ -372,11 +283,13 @@ def extract_deadline(title: str, body: str, posted: date) -> tuple[str | None, s
         return f"{text} ({', '.join(notes)})" if notes else text
 
     if "~" in title or "까지" in title:
-        found = _deadline_in(title, posted)
+        found = _deadline_in(title, posted, title=True)
         if found and found[0] == "date":
             return found[1].isoformat(), note(title, found), _short(title)
     for line in _lines(body):
-        if not _has_any(line, DEADLINE_LINE_WORDS) or _has_any(line, DEADLINE_SKIP_WORDS):
+        # 마감 말("신청기간", "까지" …)이 있거나, 기간 앞뒤 이름표에 신청 말이 붙은 줄만 본다 ("6. 제출 기간: 9. 22.").
+        # 발표일·근무기간은 줄을 통째로 버리지 않고 기간마다 이름표(semantics.py의 applies)로 거른다
+        if not _has_any(line, DEADLINE_LINE_WORDS) and not has_apply_period(line, posted):
             continue
         found = _deadline_in(line, posted)
         if found is None:
@@ -560,11 +473,13 @@ def extract_departments(body: str) -> tuple[list[str] | None, bool, str | None, 
                 continue
             if not _has_any(line, DEPARTMENT_LINE_WORDS):
                 continue  # 이어 쓴 줄인데 앞 줄도 조건 줄이 아니면 쓰지 않는다
-            if name not in departments:
-                departments.append(name)
+            # 단과대·계열 이름은 학과 목록으로 펼친다 (화면의 학과 필터는 학과 이름만 안다)
+            for dept in expand_department(name):
+                if dept not in departments:
+                    departments.append(dept)
             evidence = evidence or _short(line)
-            if name in COLLEGES or name in FIELDS:
-                unclear = True  # 단과대·계열은 어느 학과까지인지 공지마다 다르다
+            if name in FIELDS:
+                unclear = True  # 계열은 어느 학과까지인지 공지마다 다르다. 단과대는 소속이 정해져 있다
     return (departments or None), unclear, evidence, filtered
 
 
@@ -782,6 +697,71 @@ def _looks_like_doc(text: str) -> bool:
     """서류 이름처럼 보이는지. 설명 문장('~할 경우', '업무: ...')은 뺀다."""
     if not text or ":" in text or "http" in text or _has_any(text, DOCUMENT_SKIP_WORDS):
         return False
+    return _has_any(text, DOCUMENT_WORDS)
+
+
+_NAME_EXT = re.compile(r"\.[A-Za-z0-9]{2,5}$")
+# 파일 이름 앞의 번호·꼬리표: "1.", "3)", "(붙임2)", "[학생용]", "붙임1_", "2027년도_"
+_NAME_HEAD = re.compile(r"^\s*(?:\d+\s*[.)]|[\[(（【][^\])）】]{0,10}[\])）】]|(?:붙임|서식|양식)\s*\d*\s*[.)_]?|\d{4}\s*(?:학년도|년도|년)?|\d\s*학기|[상하]반기)\s*_?\s*")
+_NAME_FORM_WORDS = re.compile(r"\s*(?:작성\s*)?(?:양식|서식)\s*")  # "신청서 양식", "신청서(작성서식)"
+_NAME_SKIP_WORDS = ["기준", "요강", "시행", "계획(안)", "운영 계획", "안내", "공고"]
+# 파일 이름에 적으라는 자리 "(학교명, 지원자명)", "(행정_홍길동)", "_학번_성명"
+_NAME_PLACEHOLDER = re.compile(r"\([^)]*(?:명|이름|학번|홍길동)[^)]*\)")  # 양식 말이 있어도 공고문·기준표다
+
+
+def _doc_from_name(name: str) -> list[str]:
+    """양식 첨부 이름 하나 → 서류 이름들. "[학생용] 붙임2. 자기소개서 양식 1부.hwp" → ["자기소개서"]."""
+    text = _NAME_EXT.sub("", name)
+    if _has_any(text, _NAME_SKIP_WORDS):
+        return []
+    while (stripped := _NAME_HEAD.sub("", text, count=1)) != text:
+        text = stripped
+    text = _NAME_PLACEHOLDER.sub("", text)
+    docs = []
+    for part in re.split(r"[,，]", text):
+        # "_학번_성명", "_팀이름" 같은 파일 이름 꼬리는 버리고, 서류 말이 있는 조각을 쓴다
+        pieces = [p for p in part.split("_") if _has_any(p, DOCUMENT_WORDS)]
+        if not pieces:
+            continue
+        doc = _NAME_FORM_WORDS.sub(" ", pieces[0])
+        doc = re.sub(r"\(\s*\)", "", doc)
+        # "서류(지원서)"처럼 괄호 밖에 서류 말이 없으면 괄호 안을 쓴다
+        inner = re.search(r"\(([^)]*)\)", doc)
+        if inner and not _has_any(doc[: inner.start()] + doc[inner.end() :], DOCUMENT_WORDS):
+            doc = inner.group(1)
+        doc = re.sub(r"(?<![가-힣\d])\d+\s*부(?![가-힣])", "", doc)  # "1부"
+        doc = re.sub(r"\s+", " ", doc).strip(" .,_-")
+        if _has_any(doc, DOCUMENT_WORDS) and len(doc) <= 40:
+            docs.append(doc)
+    return docs
+
+
+def documents_from_names(names: list[str]) -> list[str]:
+    """본문·첨부 텍스트에 서류 목록이 없을 때, 양식 첨부 파일 이름으로 서류 목록을 만든다.
+
+    "(GTM전공) 생활비지원장학금 신청서 양식.hwp", "개인정보동의서(학생).hwp" → ["생활비지원장학금 신청서", "개인정보동의서(학생)"].
+    같은 양식을 hwp·pdf로 함께 올린 것은 한 번만 쓴다.
+    """
+    docs: list[str] = []
+    for name in names:
+        for doc in _doc_from_name(name):
+            if doc not in docs:
+                docs.append(doc)
+    return docs
+
+
+def has_amount_phrase(text: str) -> bool:
+    """글 어디든 금액 구("100만원", "수업료 전액" …)가 있는지. 없으면 금액은 원문에 적혀 있지 않다."""
+    return any(amounts(tokenize(line)) for line in _lines(text))
+
+
+def has_date(text: str) -> bool:
+    """글 어디든 날짜 토큰이 있는지. 없으면 마감일은 원문에 적혀 있지 않다."""
+    return any(t.kind == "DATE" for line in _lines(text) for t in tokenize(line))
+
+
+def has_document_words(text: str) -> bool:
+    """글 어디든 서류 이름 말("신청서", "증명서" …)이 있는지."""
     return _has_any(text, DOCUMENT_WORDS)
 
 

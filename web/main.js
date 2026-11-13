@@ -1,0 +1,294 @@
+// 원본 데이터와 화면 상태를 보관하고 데이터 읽기·정렬·즐겨찾기·화면 전환을 연결한다.
+// 입력: 이벤트 JSON·저장된 즐겨찾기·사용자 조작. 출력: 메인·즐겨찾기·상세 화면.
+import { loadScholarships } from './data.js';
+import { sortScholarships, compareDeadline, compareAmount, filterScholarships, getMatchingFavoriteIds, getFavoriteEntries } from './logic.js';
+import { renderMain, renderScholarshipList, renderListStatus, renderSelectedFilters } from './renderMain.js';
+import { renderDetail } from './renderDetail.js';
+import { renderFilterPopup } from './renderFilterPopup.js';
+import { loadSettings, saveSettings } from './settingStore.js';
+import { AMOUNT_TYPES } from './filterOptions.js';
+import { loadFavorites, saveFavorites } from './favoriteStore.js';
+import { renderFavorites, renderFavoriteList } from './renderFavorites.js';
+
+const state = {
+  items: [],
+  visibleItems: [],
+  ...loadSettings(),
+  favoriteIds: loadFavorites(),
+  favoritesScrollTop: 0,
+  detailSource: 'main',
+  favoriteDetailOrder: [],
+  loading: true,
+  error: null,
+  selectedId: null,
+  view: 'loading',
+};
+const compareFunctions = { deadline: compareDeadline, amount: compareAmount };
+const mainHandlers = {
+  onOpenFavorites: handleOpenFavorites,
+  onOpenFilters: handleOpenFilterPopup,
+  onResetFilters: handleResetFilters,
+  onSortChange: handleSortChange,
+  onAmountTypeChange: handleAmountTypeChange,
+};
+const app = document.getElementById('app');
+let areas = renderMain(app, mainHandlers);
+let detailAreas = null;
+let detailHandlers = null;
+let filterPopup = null;
+
+// 원본을 필터링한 뒤 정렬해 메인과 상세 이동이 공유할 표시 목록을 저장한다.
+function updateVisibleItems() {
+  const filters = {
+    ...state.filters,
+    amountType: state.sortBy === 'amount' ? state.amountType : null,
+  };
+  const filteredItems = filterScholarships(state.items, filters);
+  state.visibleItems = sortScholarships(filteredItems, compareFunctions[state.sortBy]);
+}
+
+// 메인 목록·건수·설정을 표시한다. 로딩·오류 시 건수를 숨기고, 스크롤 복원 후 설정을 저장한다.
+function updateMain() {
+  const count = areas.title.querySelector('.main-list-count');
+  count.hidden = state.loading || !!state.error;
+  count.textContent = count.hidden ? '' : `총 ${state.visibleItems.length}건`;
+  areas.sort.select.value = state.sortBy;
+  areas.sort.select.disabled = state.loading || !!state.error;
+  areas.sort.amountTypes.hidden = state.sortBy !== 'amount';
+  areas.sort.amountSelect.value = state.amountType;
+  areas.sort.amountSelect.disabled = state.loading || !!state.error;
+  areas.filterSelectButton.disabled = state.loading || !!state.error;
+  areas.resetButton.disabled = state.loading || !!state.error;
+  if (state.loading) return renderListStatus(areas.list, 'loading');
+  if (state.error) return renderListStatus(areas.list, 'error');
+  renderScholarshipList(areas.list, state.visibleItems, handleOpenDetail, state.favoriteIds, handleToggleFavorite);
+  renderSelectedFilters(areas.filters, state.filters, handleRemoveFilter);
+  areas.list.scrollTop = state.listScrollTop;
+  saveSettings(state);
+}
+
+// 즐겨찾기 진입·해제 시 저장 ID를 이벤트에 연결하고, 목록·건수·이전 스크롤 위치를 표시한다.
+function updateFavorites() {
+  const entries = getFavoriteEntries(state.items, state.favoriteIds);
+  areas.title.querySelector('.main-list-count').textContent = `총 ${entries.length}건`;
+  renderFavoriteList(areas.list, entries, state.favoriteIds, {
+    onOpenDetail: handleOpenDetail,
+    onToggleFavorite: handleToggleFavorite,
+  });
+  areas.list.scrollTop = state.favoritesScrollTop;
+}
+
+// 상세에서 즐겨찾기를 변경했을 때 현재 화면을 유지하며 남아 있는 항목으로 이전·다음을 다시 연결한다.
+function updateFavoriteNavigation() {
+  const entries = getFavoriteEntries(state.items, state.favoriteIds);
+  const remaining = new Map();
+  for (const { item } of entries) {
+    if (item) remaining.set(String(item.id), item);
+  }
+  // 현재 항목을 다시 저장했다면 즐겨찾기 페이지의 새 저장 순서를 따른다.
+  if (remaining.has(state.selectedId)) state.favoriteDetailOrder = [...remaining.keys()];
+  const index = state.favoriteDetailOrder.indexOf(state.selectedId);
+  // 현재 항목을 해제해도 기존 위치를 기준으로 살아 있는 이웃을 찾는다.
+  const previousId = index > 0
+    ? state.favoriteDetailOrder.slice(0, index).reverse().find((id) => remaining.has(id)) : null;
+  // 사라진 항목과 해제된 항목은 이동 대상에서 제외한다.
+  const nextId = index >= 0
+    ? state.favoriteDetailOrder.slice(index + 1).find((id) => remaining.has(id)) : null;
+  detailHandlers.previousItem = remaining.get(previousId) ?? null;
+  detailHandlers.nextItem = remaining.get(nextId) ?? null;
+  detailAreas.navigation.previousButton.disabled = !detailHandlers.previousItem;
+  detailAreas.navigation.nextButton.disabled = !detailHandlers.nextItem;
+}
+
+// 메인·즐겨찾기·상세의 별에서 호출한다. 합쳐진 공지의 저장 ID도 함께 해제하고, 저장 성공 후 현재 화면을 갱신한다.
+function handleToggleFavorite(item) {
+  const matchingIds = getMatchingFavoriteIds(item, state.favoriteIds);
+  // 해제할 때 같은 이벤트에 해당하는 ID를 모두 제거한다.
+  const nextIds = matchingIds.length > 0
+    ? state.favoriteIds.filter((id) => !matchingIds.includes(id))
+    : [...state.favoriteIds, String(item.id)];
+  if (!saveFavorites(nextIds)) {
+    window.alert('즐겨찾기를 저장하지 못했습니다. 브라우저의 사이트 저장 설정을 확인해 주세요.');
+    return;
+  }
+  state.favoriteIds = nextIds;
+  if (state.view === 'detail') {
+    const selected = getMatchingFavoriteIds(item, state.favoriteIds).length > 0;
+    const button = detailAreas.favoriteButton;
+    button.setAttribute('aria-pressed', String(selected));
+    button.setAttribute('aria-label', `${item.name || '장학금'} 즐겨찾기 ${selected ? '해제' : '저장'}`);
+    button.title = selected ? '즐겨찾기 해제' : '즐겨찾기 저장';
+    if (state.detailSource === 'favorites') updateFavoriteNavigation();
+    return;
+  }
+  if (state.view === 'favorites') {
+    state.favoritesScrollTop = areas.list.scrollTop;
+    updateFavorites();
+  } else {
+    state.listScrollTop = areas.list.scrollTop;
+    updateMain();
+  }
+  // 다시 그린 뒤에도 누른 별에 키보드 포커스를 유지한다.
+  const button = Array.from(areas.list.querySelectorAll('.scholarship-favorite'))
+    .find((candidate) => candidate.dataset.favoriteId === String(item.id));
+  (button ?? areas.list).focus({ preventScroll: true });
+}
+
+// 드롭다운의 정렬 기준을 저장하고 목록을 재계산한다. 금액순으로 전환하면 일시금을 기본 선택한다.
+function handleSortChange(sortBy) {
+  if (!Object.hasOwn(compareFunctions, sortBy) || state.sortBy === sortBy) return;
+  state.sortBy = sortBy;
+  if (sortBy === 'amount') state.amountType = 'lump_sum';
+  state.listScrollTop = 0;
+  updateVisibleItems();
+  updateMain();
+}
+
+// 금액 유형 드롭다운에서 호출하며, 유형 하나를 저장하고 필터링·정렬 후 목록을 맨 위부터 표시한다.
+function handleAmountTypeChange(amountType) {
+  if (state.sortBy !== 'amount' || !Object.hasOwn(AMOUNT_TYPES, amountType) ||
+      state.amountType === amountType) return;
+  state.amountType = amountType;
+  state.listScrollTop = 0;
+  updateVisibleItems();
+  updateMain();
+}
+
+// 필터 선택 버튼에서 호출하며, 현재 적용 상태를 복사해 편집할 팝업을 연다.
+function handleOpenFilterPopup() {
+  if (state.loading || state.error || filterPopup?.open) return;
+  filterPopup = renderFilterPopup(app, state.filters, { onApply: handleApplyFilters });
+}
+
+// 팝업이 전달한 필터를 저장하고 표시 목록을 재계산한 뒤 목록을 맨 위부터 그린다.
+function handleApplyFilters(filters) {
+  state.filters = structuredClone(filters);
+  state.listScrollTop = 0;
+  updateVisibleItems();
+  updateMain();
+}
+
+// 메인의 선택된 필터 하나를 제거한다. 팝업을 거치지 않고 즉시 적용한다.
+function handleRemoveFilter(key, value) {
+  const filters = structuredClone(state.filters);
+  if (Array.isArray(filters[key])) {
+    const index = filters[key].indexOf(value);
+    if (index >= 0) filters[key].splice(index, 1);
+  } else {
+    filters[key] = key === 'openOnly' ? false : null;
+  }
+  handleApplyFilters(filters);
+}
+
+// 메인의 초기화 버튼에서 호출하며, 복수 학과를 포함한 모든 조건을 즉시 해제한다.
+function handleResetFilters() {
+  handleApplyFilters({ categories: [], grades: [], departments: [], openOnly: false });
+}
+
+// 메인의 제목 버튼에서 호출하며 즐겨찾기 주소로 이동한다. 실제 표시는 주소 변경 이벤트가 담당한다.
+function handleOpenFavorites() {
+  window.location.hash = '/favorites';
+}
+
+// 상세 주소를 변경한다. 실제 화면 표시는 주소 변경 이벤트가 담당하며 방문 기록도 남는다.
+function handleOpenDetail(item) {
+  const source = state.view === 'favorites' ||
+    (state.view === 'detail' && state.detailSource === 'favorites') ? '/favorites' : '';
+  window.location.hash = `${source}/scholarships/${encodeURIComponent(item.id)}`;
+}
+
+// 상세에서는 들어온 목록으로 복귀하고, 즐겨찾기 페이지의 뒤로가기는 메인으로 이동한다.
+function handleBackToList() {
+  window.location.hash = state.view === 'detail' && state.detailSource === 'favorites' ? '/favorites' : '/';
+}
+
+// 현재 주소에 맞는 화면을 표시한다. 버튼 이동·뒤로/앞으로 가기·최초 접속에 공통으로 사용한다.
+function handleRouteChange() {
+  if (state.loading || state.error) return;
+  if (filterPopup?.open) filterPopup.close();
+  if (state.view === 'main') {
+    state.listScrollTop = areas.list.scrollTop;
+    saveSettings(state);
+  } else if (state.view === 'favorites') {
+    state.favoritesScrollTop = areas.list.scrollTop;
+  }
+
+  const hash = window.location.hash;
+  if (hash === '' || hash === '#' || hash === '#/') {
+    state.view = 'main';
+    state.selectedId = null;
+    areas = renderMain(app, mainHandlers);
+    updateMain();
+    // 목록 스크롤이 바뀔 때 저장해 목록에서 새로고침해도 위치를 복원한다.
+    areas.list.addEventListener('scroll', () => {
+      state.listScrollTop = areas.list.scrollTop;
+      saveSettings(state);
+    });
+    return;
+  }
+
+  if (hash === '#/favorites') {
+    state.view = 'favorites';
+    state.selectedId = null;
+    areas = renderFavorites(app, { onBack: handleBackToList });
+    updateFavorites();
+    return;
+  }
+
+  const match = hash.match(/^#\/(favorites\/)?scholarships\/([^/]+)$/);
+  let id = null;
+  try {
+    if (match) id = decodeURIComponent(match[2]);
+  } catch {
+    // 잘못 인코딩된 주소도 찾을 수 없는 장학금 안내로 처리한다.
+  }
+  state.view = 'detail';
+  state.selectedId = id;
+  state.detailSource = match?.[1] ? 'favorites' : 'main';
+  let items = state.visibleItems;
+  if (state.detailSource === 'favorites') {
+    items = [];
+    for (const { item } of getFavoriteEntries(state.items, state.favoriteIds)) {
+      if (item) items.push(item);
+    }
+    // 즐겨찾기에 표시된 순서를 보관해 현재 항목을 해제한 뒤에도 이웃을 찾을 수 있게 한다.
+    state.favoriteDetailOrder = items.map((item) => String(item.id));
+  }
+  // 주소의 ID에 해당하는 항목과 현재 목록에서의 위치를 찾는다.
+  const item = state.items.find((candidate) => String(candidate.id) === id);
+  // 이전·다음은 현재 정렬된 목록의 위치를 기준으로 선택한다.
+  const index = items.findIndex((candidate) => String(candidate.id) === id);
+  detailHandlers = {
+    isFavorite: item ? getMatchingFavoriteIds(item, state.favoriteIds).length > 0 : false,
+    onToggleFavorite: handleToggleFavorite,
+    previousItem: index > 0 ? items[index - 1] : null,
+    nextItem: index >= 0 && index < items.length - 1 ? items[index + 1] : null,
+    onOpenDetail: handleOpenDetail,
+    onBack: handleBackToList,
+  };
+  detailAreas = renderDetail(app, item, detailHandlers);
+}
+
+// 원본 데이터를 읽고 표시 목록을 계산한 뒤 현재 주소에 맞는 화면을 표시한다.
+async function initialize() {
+  updateMain();
+  try {
+    state.items = await loadScholarships();
+    updateVisibleItems();
+  } catch (error) {
+    state.error = error;
+  } finally {
+    state.loading = false;
+    if (state.error) updateMain();
+    else handleRouteChange();
+  }
+}
+
+// 주소가 바뀌면 같은 처리 함수를 실행해 브라우저 이동과 화면 표시를 일치시킨다.
+window.addEventListener('hashchange', handleRouteChange);
+// 새로고침·탭 이동 전에 현재 목록 위치를 마지막으로 저장한다.
+window.addEventListener('pagehide', () => {
+  if (state.view === 'main') state.listScrollTop = areas.list.scrollTop;
+  saveSettings(state);
+});
+initialize();

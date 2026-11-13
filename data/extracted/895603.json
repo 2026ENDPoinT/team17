@@ -13,8 +13,8 @@
     "value": 2000000,
     "text": "2,000,000원"
   },
-  "deadline": null,
-  "deadline_text": null,
+  "deadline": "2026-09-22",
+  "deadline_text": "2026. 9. 22.(화) 13:00",
   "closed": false,
   "eligibility": {
     "grades": null,
@@ -29,7 +29,10 @@
     "other_conditions": []
   },
   "burden": {
-    "documents": [],
+    "documents": [
+      "대림수암장학문화재단 장학금 신청서(자기소개서)",
+      "개인정보 수집 이용 동의서 장학재단"
+    ],
     "interview": false
   },
   "duplicate_restriction": null,
@@ -42,17 +45,16 @@
   "also_posted_bidx": [],
   "evidence": {
     "amount": "2. 장학금: 금2,000,000원(금이백만원)",
-    "deadline": null,
+    "deadline": "6. 제출 기간: 2026. 9. 22.(화) 13:00",
     "duplicate_restriction": null,
     "departments": null,
     "residence": null
   },
   "filtered_conditions": [],
-  "from_attachment": [],
-  "needs_check": [
-    "deadline",
+  "from_attachment": [
     "documents"
   ],
+  "needs_check": [],
   "content_hash": "sha256:1c0db26f71ffd89129ceebc0a9cf644fae2291fb86e43766a68ce0dc847f0ecc",
   "reviewed": false
 }

@@ -4,15 +4,18 @@
   "2026. 8. 28." / "2026년 8월 28일" / "8/28"       → DATE (2026|None, 8, 28)
   "2.5 이상" / "3.0/4.5"                            → NUMBER (평점 같은 소수. 날짜로 읽지 않는다)
   "15:00" / "18시" / "3:00 p.m."                    → TIME
-  "250만원" / "5백만 원" / "2천만원" / "10,320원"    → MONEY (정수 원)
-  "시급" / "시간당" / "시간 당" / "학기당" / "연간"   → PER ("시간" / "학기" / "연" / "월")
+  "250만원" / "5백만 원" / "2천만원" / "10,320원" / "1,000천원" → MONEY (정수 원)
+  "시급" / "시 급" / "시간당" / "학기당" / "연간"    → PER ("시간" / "학기" / "연" / "월")
+  "신청" / "접수" / "제출" / "마감" …               → APPLY (신청 쪽 이름표)
+  "발표" / "면접" / "지급" / "근무기간" …           → OTHER (신청이 아닌 일정의 이름표)
+  "이후" / "이전" / "기준"                          → REF ("10. 1. 이후 발급"처럼 기준 날짜를 가리키는 말)
 이 파일은 뜻을 판단하지 않는다. "이 날짜가 마감일인가"는 phrases.py(구문)와 rules.py(의미)가 정한다.
 """
 
 import re
 from dataclasses import dataclass
 
-from config import ROLLING_WORDS
+from config import APPLY_LABEL_TAILS, APPLY_LABEL_WORDS, PERIOD_OTHER_WORDS, REF_WORDS, ROLLING_WORDS
 
 
 @dataclass
@@ -24,21 +27,36 @@ class Token:
     end: int
 
 
+def _words(words: list[str]) -> str:
+    return "|".join(re.escape(w) for w in sorted(words, key=len, reverse=True))
+
+
+_NOT_GRADE = r"(?!\s*(?:학년|학기|학점))"
+
 # 순서가 중요하다: 앞의 규칙이 먼저 자리를 차지한다 (TIME이 DATE보다 먼저라서 "15:00"이 날짜가 되지 않는다)
 _RULES: list[tuple[str, re.Pattern]] = [
-    ("TIME", re.compile(r"(?<!\d)(\d{1,2})\s*:\s*(\d{2})(?:\s*[ap]\.?\s*m\.?)?|(?<!\d)(\d{1,2})\s*시(?:\s*(\d{1,2})\s*분)?(?![가-힣])")),
+    ("TIME", re.compile(r"(?<!\d)(\d{1,2})\s*:\s*(\d{2})(?:\s*[ap]\.?\s*m\.?)?|(?<!\d)(\d{1,2})\s*시(?:\s*(\d{1,2})\s*분)?(?![가-힣])"
+                        # "18시까지", "10시부터"처럼 조사가 붙은 시각. "2시간", "시기"는 시각이 아니다
+                        r"|(?<!\d)(\d{1,2})\s*시(?:\s*(\d{1,2})\s*분)?(?=까지|부터|정각|이전|이후|전|후)")),
     ("NUMBER", re.compile(r"(?<![\d.])(\d\.\d{1,2})(?=\s*(?:/\s*\d\.\d|점|이상|이하|초과|미만|만점|기준|학점|평점))"
-                          r"|(?<=/)\s*(\d\.\d{1,2})")),  # 평점 "2.5 이상", "3.0/4.5" (날짜가 아니다)
-    ("DATE", re.compile(r"(?<!\d)(?:(\d{4}|\d{2})\s*[.년\-]\s*)?(\d{1,2})\s*[.월/\-]\s*(\d{1,2})(?!\d)\s*(?:일|\.)?")),
+                          r"|(?<=/)\s*(\d\.\d{1,2})"
+                          r"|(?<=평점|학점|성적)[\s:]*(\d\.\d{1,2})(?![\d.])")),  # 평점 "2.5 이상", "3.0/4.5", "평점 3.5" (날짜가 아니다)
+    # 뒤에 "학년·학기·학점"이 오면 날짜가 아니다: "3/4학년", "3-4학년"
+    ("DATE", re.compile(r"(?<!\d)(?:(\d{4}|\d{2})\s*[.년\-]\s*)?(\d{1,2})\s*[.월/\-]\s*(\d{1,2})(?!\d)\s*(?:일|\.)?"
+                        + _NOT_GRADE)),
     # 위 규칙이 두 자리 연도로 읽다 실패한 자리를 연도 없이 한 번 더 읽는다.
     # "11. 17. 18시"는 "11년 17월 18일"로 먼저 읽혀 틀린 날짜가 되고, 그 글자를 다시 보지 않아 "11. 17."을 놓쳤다
-    ("DATE", re.compile(r"(?<!\d)()(\d{1,2})\s*[.월/\-]\s*(\d{1,2})(?!\d)\s*(?:일|\.)?")),
+    ("DATE", re.compile(r"(?<!\d)()(\d{1,2})\s*[.월/\-]\s*(\d{1,2})(?!\d)\s*(?:일|\.)?" + _NOT_GRADE)),
     # 기간의 끝에 일만 쓴 것: "8. 13.(목) ~ 14.(금)". 월은 구문 분석이 시작 날짜에서 가져온다
     ("DAY", re.compile(r"(?<![\d.])(\d{1,2})\s*(?:일|\.)?\s*(?=\((?:월|화|수|목|금|토|일)\))")),
+    # "7월 1일 ~ 10일"처럼 "~" 바로 뒤에 "N일"만 쓴 것 (요일 없음)
+    ("DAY", re.compile(r"(?<=[~∼～])\s*(\d{1,2})\s*일(?![가-힣])")),
     ("SAMEDAY", re.compile(r"당일")),  # "8월 24일 00시 ~ 당일 자정까지"
-    ("MONEY", re.compile(r"(?<![\d.])(\d{1,3}(?:,\d{3})+|\d+)(?:\.(\d+))?\s*(억|천\s*만|백\s*만|십\s*만|만)?\s*원")),
+    # "천원"은 표의 단위로 자주 쓴다: "최대 1,000천원" = 100만원 (892400)
+    ("MONEY", re.compile(r"(?<![\d.])(\d{1,3}(?:,\d{3})+|\d+)(?:\.(\d+))?\s*(억|천\s*만|백\s*만|십\s*만|만|천)?\s*원")),
     ("PERCENT", re.compile(r"(?<!\d)(\d{1,3})\s*%")),
-    ("PER", re.compile(r"시급|시간\s*당|학기\s*당|학기별|연간|(?<![가-힣])월\s*(?=\d)|매월")),
+    # "시 급", "학기 별"처럼 띄어 쓴 것도 같은 단위다 (897664 "- 시 급 : 12,430원")
+    ("PER", re.compile(r"(?<![가-힣\d])시\s*급(?!여)|시간\s*당|학기\s*당|학기\s*별|연간|(?<![가-힣])월\s*(?=\d)|매월")),
     ("TUITION", re.compile(r"등록금|수업료")),
     ("FULL", re.compile(r"전액")),
     ("MAX", re.compile(r"최대|상한액?|한도")),
@@ -46,9 +64,15 @@ _RULES: list[tuple[str, re.Pattern]] = [
     ("UNTIL", re.compile(r"까지")),
     ("COLON", re.compile(r"(?<!\d)[:：]|[:：](?!\d)")),  # 이름표 콜론. 시각 "15:00"의 콜론은 TIME이 먼저 가져간다
     ("CELL", re.compile(r"\|")),
+    # 기간 앞뒤의 이름표. 긴 말부터 잡는다 ("근로기간"이 "근로"보다 먼저). 의미(신청 기간인가)는 semantics.py가 정한다
+    ("OTHER", re.compile(_words(PERIOD_OTHER_WORDS))),
+    # 이름표로 쓴 말만 잡는다: 뒤에 "기간·기한·일시 …"가 붙거나 한글이 이어지지 않아야 한다.
+    # "제출한 자격증", "신청연도", "신청서", "접수처"는 이름표가 아니다 (890977, 896418)
+    ("APPLY", re.compile("(?:" + _words(APPLY_LABEL_WORDS) + r")(?:\s*(?:" + _words(APPLY_LABEL_TAILS) + r"))?(?![가-힣])")),
+    ("REF", re.compile(_words(REF_WORDS))),
 ]
 _ROLLING = re.compile("|".join(re.escape(w) for w in sorted(ROLLING_WORDS, key=len, reverse=True)))
-_UNIT = {"억": 100_000_000, "천만": 10_000_000, "백만": 1_000_000, "십만": 100_000, "만": 10_000}
+_UNIT = {"억": 100_000_000, "천만": 10_000_000, "백만": 1_000_000, "십만": 100_000, "만": 10_000, "천": 1_000}
 _PER = {"시급": "시간", "연간": "연", "매월": "월", "학기별": "학기"}
 
 
@@ -58,8 +82,8 @@ def _value(kind: str, m: re.Match) -> object:
         year = (int(y) + 2000 if len(y) == 2 else int(y)) if y else None
         return (year, mo, d)
     if kind == "TIME":
-        hour = int(m.group(1) or m.group(3))
-        minute = int(m.group(2) or m.group(4) or 0)
+        hour = int(m.group(1) or m.group(3) or m.group(5))
+        minute = int(m.group(2) or m.group(4) or m.group(6) or 0)
         if "p" in m.group(0).lower() and hour < 12:
             hour += 12
         return (hour, minute)
@@ -73,12 +97,14 @@ def _value(kind: str, m: re.Match) -> object:
     if kind == "PERCENT":
         return int(m.group(1))
     if kind == "NUMBER":
-        return float(m.group(1) or m.group(2))
+        return float(m.group(1) or m.group(2) or m.group(3))
     if kind == "DAY":
         return int(m.group(1))
     if kind == "PER":
         word = re.sub(r"\s", "", m.group(0))
         return _PER.get(word, word.replace("당", ""))
+    if kind in ("APPLY", "OTHER", "REF"):
+        return m.group(0)
     return m.group(0)
 
 

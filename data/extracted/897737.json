@@ -61,9 +61,7 @@
   ],
   "from_attachment": [],
   "needs_check": [
-    "amount",
-    "deadline",
-    "documents"
+    "deadline"
   ],
   "content_hash": "sha256:67cc684c02d1752d29f94f23ff93365a29c385e4f9ab44cd8d871536cf729ea5",
   "reviewed": false

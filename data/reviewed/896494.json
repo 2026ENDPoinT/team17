@@ -1,0 +1,9 @@
+{
+  "_comment": "gari 검수 (2026-11-14, 팀원이 원문 첨부·제목을 직접 보고 정리한 내용)",
+  "amount": {
+    "type": "lump_sum",
+    "value": 2500000,
+    "text": "250만원"
+  },
+  "needs_check": []
+}
