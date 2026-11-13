@@ -138,10 +138,19 @@ def make_event(notices: list[dict], grouped_by: str) -> dict | None:
     elif bad_deadline:
         detail["deadline"] = None  # 마감일 문장(deadline_text)은 남겨 사람이 보게 한다
 
+    # 마감일을 가져온 공지보다 뒤에, 마감일을 뽑지 못한 수정 공지(기한 연장 등)가 있으면 그 마감일은 옛 값일 수 있다.
+    # 날짜는 정렬·마감 임박 판단을 위해 옛 값을 두고, 마감일 문장은 수정 공지 것을 보여 주며 확인 필요로 표시한다.
+    source_at = next((i for i, n in enumerate(active) if n is with_deadline[-1]), -1) if with_deadline else -1
+    stale = [n for n in active[source_at + 1:] if n["_label"] == "수정"]
+    if stale:
+        filled.discard("deadline")
+        if stale[-1].get("deadline_text"):
+            detail["deadline_text"] = stale[-1]["deadline_text"]
+
     status = notices[-1]["_label"]
     detail["closed"] = status == "완료" or bool(latest.get("closed"))
     detail["needs_check"] = [c for c in latest.get("needs_check", []) if c not in filled]
-    if bad_deadline and "deadline" not in detail["needs_check"]:
+    if (bad_deadline or stale) and "deadline" not in detail["needs_check"]:
         detail["needs_check"].append("deadline")
     detail["also_posted_bidx"] = [b for n in notices for b in n.get("also_posted_bidx", [])]
     detail["reviewed"] = any(n.get("reviewed") for n in notices)
