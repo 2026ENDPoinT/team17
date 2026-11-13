@@ -56,7 +56,7 @@ from config import (
     WORK_BNUMS,
     WORK_WORDS,
 )
-from dictionary import COLLEGES, DEPARTMENTS, FIELDS, NOT_REGION, SIDO, SIGUNGU
+from dictionary import COLLEGES, DEPARTMENTS, FIELDS, NOT_REGION, SIDO, SIGUNGU, expand_department
 from lexer import tokenize
 from phrases import amounts
 from semantics import MIN_HOURLY, dated_periods, has_apply_period, line_deadline, roled_amounts
@@ -473,11 +473,13 @@ def extract_departments(body: str) -> tuple[list[str] | None, bool, str | None, 
                 continue
             if not _has_any(line, DEPARTMENT_LINE_WORDS):
                 continue  # 이어 쓴 줄인데 앞 줄도 조건 줄이 아니면 쓰지 않는다
-            if name not in departments:
-                departments.append(name)
+            # 단과대·계열 이름은 학과 목록으로 펼친다 (화면의 학과 필터는 학과 이름만 안다)
+            for dept in expand_department(name):
+                if dept not in departments:
+                    departments.append(dept)
             evidence = evidence or _short(line)
-            if name in COLLEGES or name in FIELDS:
-                unclear = True  # 단과대·계열은 어느 학과까지인지 공지마다 다르다
+            if name in FIELDS:
+                unclear = True  # 계열은 어느 학과까지인지 공지마다 다르다. 단과대는 소속이 정해져 있다
     return (departments or None), unclear, evidence, filtered
 
 
