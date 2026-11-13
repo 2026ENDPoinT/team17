@@ -2,6 +2,8 @@
   "id": "896613",
   "notice_kind": "모집",
   "notice_kind_reason": "제목에 '장학', '선발'",
+  "label": "모집",
+  "label_reason": "모집 공지",
   "name": "건축안전 장학생",
   "title": "[덕신EPC] 건축안전 장학생 선발 안내",
   "category": "교내",
@@ -22,7 +24,7 @@
     "gpa_min": null,
     "score_min": null,
     "income_max": null,
-    "residence": "전체표시",
+    "residence": null,
     "unclear": [],
     "other_conditions": [
       "2027학년도 1학기 기준 졸업 직전 학년인 건축공학전공 재학생",
@@ -46,7 +48,7 @@
     "deadline": "3. 신청 기간: ~2026. 10. 30.(금) 18:00",
     "duplicate_restriction": null,
     "departments": "6. 신청 대상자: 2027학년도 1학기 기준 졸업 직전 학년인 건축공학전공 재학생",
-    "residence": "나. 주민등록등본(주민등록번호 전체표시 필수) 1부"
+    "residence": null
   },
   "filtered_conditions": [],
   "from_attachment": [],

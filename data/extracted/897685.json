@@ -2,6 +2,8 @@
   "id": "897685",
   "notice_kind": "확인필요",
   "notice_kind_reason": "제목에 '모집'는 있지만 장학 관련 단어가 없음",
+  "label": null,
+  "label_reason": "공지 종류가 '확인필요'",
   "name": "2026년 KRA아동돌봄 지원사업(겨울방학) 참여 대학생",
   "title": "(홍보) 2026년 KRA아동돌봄 지원사업(겨울방학) 참여 대학생 모집 안내(~11/18(수)까지)",
   "category": "교외",
@@ -20,7 +22,7 @@
     "gpa_min": null,
     "score_min": 80,
     "income_max": null,
-    "residence": "문구",
+    "residence": null,
     "unclear": [],
     "other_conditions": [
       "◯ 2026년 2학기 기준 서울·경기지역 소재 대학(4년제 및 전문대학 포함)에 재학 중이며, 2027년 1학기에도 재학 예정인 학생",
@@ -54,14 +56,13 @@
     "deadline": "(홍보) 2026년 KRA아동돌봄 지원사업(겨울방학) 참여 대학생 모집 안내(~11/18(수)까지)",
     "duplicate_restriction": "[첨부: [붙임]1. 2026년 대학생 봉사자 연계 지역돌봄 지원사업(KRA지역돌봄-겨울방학).hwpx] * 본 장학금은 등록금과 관계없는 생활비성 지원으로, 국가장학금 및 교내장학금 등과 중복수혜 가능",
     "departments": null,
-    "residence": "[첨부: [붙임]1. 2026년 대학생 봉사자 연계 지역돌봄 지원사업(KRA지역돌봄-겨울방학).hwpx] *계획서 작성 시, 내용에 본인 출신 지역이나 학교 등 소속을 알수 있는 단어, 문구, 이름 등을 기재한 경우 심사 시 감점"
+    "residence": null
   },
   "filtered_conditions": [],
   "from_attachment": [
     "amount",
     "duplicate_restriction",
     "other_conditions",
-    "residence",
     "score_min"
   ],
   "needs_check": [

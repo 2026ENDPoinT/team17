@@ -20,7 +20,7 @@ from config import BUILD_OUT, EXTRACTED_DIR, REVIEWED_DIR
 KST = timezone(timedelta(hours=9))
 # 화면에 넘기지 않는 필드
 INTERNAL_KEYS = ["notice_kind", "notice_kind_reason", "content_hash", "exclude", "filtered_conditions", "duplicate_of",
-                 "from_attachment"]
+                 "from_attachment", "duplicate_split", "label", "label_reason"]
 
 
 def merge(base: dict, patch: dict) -> dict:

@@ -1,19 +1,23 @@
 """data/raw/{bidx}.json을 읽어 규칙으로 분류·추출하고 data/extracted/{bidx}.json에 쓴다.
 
-실행: uv run python classifier/extract.py
+실행: uv run python classifier/extract.py  (규칙 시험: --raw data/raw_test --out 저장소 밖 폴더)
 입력 형식: data/raw/_sample.json (본문 body_text + 첨부 attachments[].text) / 출력 형식: data/scholarships.sample.json의 items 한 건 + 분류용 필드
 """
 
+import argparse
 import json
 import time
 from datetime import date
 from pathlib import Path
 
-from config import EXTRACTED_DIR, RAW_DIR
+from config import EXTRACTED_DIR, HQ_SITE, RAW_DIR
 from parser import NOT_VALUE_KINDS, Document, other_conditions, parse
 from rules import (
+    OPEN_END_NOTE,
+    YEAR_FIX_NOTE,
     classify_category,
     classify_kind,
+    classify_label,
     extract_amount,
     extract_deadline,
     extract_departments,
@@ -64,10 +68,16 @@ def pass_amount(doc: Document):
 
 
 def pass_deadline(doc: Document, title: str, posted: date):
+    """기간 문단을 먼저 보고, 없으면 전체를 본다.
+
+    다른 필드와 달리 문단을 빼지 않는다. 실제 공지는 마감을 "4. 지원방법: … 6.19.(금) 18시까지 이메일 제출"처럼
+    신청방법 문단에 같이 쓰는 경우가 많았다 (raw_test에서 문단을 빼서 놓친 마감 12건, 2026-11-14).
+    발표일·면접일 줄은 DEADLINE_SKIP_WORDS가 줄 단위로 거른다.
+    """
     found = extract_deadline(title, doc.text(["period"]), posted)
     if found[0] is not None or found[1] is not None:
         return found
-    return extract_deadline(title, doc.text_except(NOT_VALUE_KINDS + ["amount"]), posted)
+    return extract_deadline(title, doc.full(), posted)
 
 
 def pass_eligibility(doc: Document) -> dict:
@@ -197,15 +207,21 @@ def extract_one(raw: dict) -> dict:
         needs_check.append("amount")
     if deadline is None and deadline_text is None:  # 상시 모집은 deadline_text만 있다
         needs_check.append("deadline")
+    elif deadline_text and (YEAR_FIX_NOTE in deadline_text or OPEN_END_NOTE in deadline_text):  # 연도를 고쳤거나 끝 날짜가 없으면 사람이 확인
+        needs_check.append("deadline")
     if not documents:
         needs_check.append("documents")
     if len(body.strip()) < 100:
         needs_check.append("poster_only" if raw.get("has_images") else "body_short")
 
+    label, label_reason = classify_label(title, kind)
+
     return {
         "id": str(raw["bidx"]),
         "notice_kind": kind,  # 모집 / 결과 / 안내 / 확인필요. 빌드할 때 '모집'만 남긴다
         "notice_kind_reason": kind_reason,
+        "label": label,  # 모집 / 수정 / 완료 / None. 이벤트 묶기 단계가 장학금 상태를 정할 때 쓴다
+        "label_reason": label_reason,
         "name": extract_name(title),
         "title": title,
         "category": classify_category(title, raw.get("bnum", 0)),
@@ -251,10 +267,52 @@ def write_json(path: Path, data: dict) -> None:
             time.sleep(1)
 
 
+def split_by_deadline(items: dict[str, dict], sites: dict[str, str]) -> list[str]:
+    """크롤러가 제목으로 묶은 재게시 그룹을 마감일로 다시 나눈다. 나눈 글의 id 목록을 돌려준다.
+
+    크롤러는 제목의 괄호 "(~11/6(금))"를 지우고 비교해서, 같은 제목에 마감일만 다른 공지
+    (같은 이름의 다른 차수 모집)도 한 그룹으로 묶을 수 있다. 분류는 공지마다 마감일을 뽑았으니
+    그룹 안에서 마감일이 다르면 따로 둔다.
+    - 마감일을 모르는 글은 대표 글 쪽에 남긴다 (다르다는 근거가 없다).
+    - 제목에 "연장"이 있는 글은 같은 공지의 기간 연장이라 나누지 않는다.
+    - 나뉜 쪽에서는 크롤러와 같은 순서(본부 글 > 먼저 올라온 글 > bidx가 작은 글)로 새 대표를 고른다.
+    """
+    groups: dict[str, list[dict]] = {}
+    for item in items.values():
+        rep_id = item["duplicate_of"]
+        if rep_id and rep_id in items:
+            groups.setdefault(rep_id, [items[rep_id]]).append(item)
+
+    def priority(item: dict) -> tuple:
+        return (sites.get(item["id"]) != HQ_SITE, item["source"]["posted_at"], int(item["id"]))
+
+    split: list[str] = []
+    for rep_id, members in groups.items():
+        rep_deadline = items[rep_id]["deadline"]
+        by_deadline: dict[str, list[dict]] = {}
+        for item in members[1:]:
+            if item["deadline"] and rep_deadline and item["deadline"] != rep_deadline and "연장" not in item["title"]:
+                by_deadline.setdefault(item["deadline"], []).append(item)
+        for deadline, others in by_deadline.items():
+            new_rep = min(others, key=priority)
+            for item in others:
+                item["duplicate_of"] = None if item is new_rep else new_rep["id"]
+                item["duplicate_split"] = (f"대표 글 {rep_id}와 마감일이 달라 따로 둠 "
+                                           f"({rep_deadline} / {deadline})")
+                split.append(item["id"])
+    return split
+
+
 def main() -> None:
-    EXTRACTED_DIR.mkdir(parents=True, exist_ok=True)
+    cli = argparse.ArgumentParser(description="data/raw → data/extracted")
+    cli.add_argument("--raw", type=Path, default=RAW_DIR, help="입력 폴더 (규칙 시험: data/raw_test)")
+    cli.add_argument("--out", type=Path, default=EXTRACTED_DIR, help="출력 폴더 (시험할 때는 저장소 밖 폴더)")
+    args = cli.parse_args()
+
+    args.out.mkdir(parents=True, exist_ok=True)
     items: dict[str, dict] = {}
-    for path in sorted(RAW_DIR.glob("*.json")):
+    sites: dict[str, str] = {}
+    for path in sorted(args.raw.glob("*.json")):
         if path.name.startswith("_"):  # _sample.json 등은 건너뛴다
             continue
         raw = json.loads(path.read_text(encoding="utf-8"))
@@ -262,6 +320,10 @@ def main() -> None:
             continue
         item = extract_one(raw)
         items[item["id"]] = item
+        sites[item["id"]] = raw.get("site", "")
+
+    # 크롤러가 제목으로 묶은 재게시 그룹을 마감일로 한 번 더 나눈다
+    split = split_by_deadline(items, sites)
 
     # 다시 올린 글을 대표 글의 also_posted_bidx에 모은다. 다시 올린 글 파일도 남겨 두고, 빌드할 때 뺀다.
     for item in items.values():
@@ -270,13 +332,16 @@ def main() -> None:
             rep["also_posted_bidx"].append(item["id"])
 
     counts: dict[str, int] = {}
+    labels: dict[str, int] = {}
     for item in items.values():
-        out = EXTRACTED_DIR / f"{item['id']}.json"
-        out.write_text(json.dumps(item, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
+        write_json(args.out / f"{item['id']}.json", item)
         counts[item["notice_kind"]] = counts.get(item["notice_kind"], 0) + 1
+        labels[str(item["label"])] = labels.get(str(item["label"]), 0) + 1
     duplicates = sum(1 for i in items.values() if i["duplicate_of"])
     summary = ", ".join(f"{k} {v}" for k, v in sorted(counts.items()))
-    print(f"{len(items)}건 추출 → {EXTRACTED_DIR.relative_to(EXTRACTED_DIR.parents[1])} ({summary}, 재게시 {duplicates})")
+    label_summary = ", ".join(f"{k} {v}" for k, v in sorted(labels.items()))
+    print(f"{len(items)}건 추출 → {args.out} ({summary}, 재게시 {duplicates}, 마감일이 달라 나눈 글 {len(split)})")
+    print(f"라벨: {label_summary}")
 
 
 if __name__ == "__main__":

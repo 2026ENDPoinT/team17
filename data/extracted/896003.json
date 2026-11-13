@@ -2,6 +2,8 @@
   "id": "896003",
   "notice_kind": "모집",
   "notice_kind_reason": "제목에 '장학', '신청'",
+  "label": "수정",
+  "label_reason": "제목에 '(수정)'",
   "name": "2026학년도 2학기 발전기금 특정장학금",
   "title": "2026학년도 2학기 발전기금 특정장학금 신청 안내(수정)",
   "category": "교내",
@@ -11,8 +13,8 @@
     "value": 500000,
     "text": "50만 원"
   },
-  "deadline": "2025-10-05",
-  "deadline_text": "2025. 9. 30.(수) ~ 10. 5.(월)까지 (기간 엄수)",
+  "deadline": "2026-10-05",
+  "deadline_text": "2025. 9. 30.(수) ~ 10. 5.(월)까지 (기간 엄수) (원문 연도를 게시 연도로 고침)",
   "closed": false,
   "eligibility": {
     "grades": null,
@@ -48,7 +50,9 @@
   },
   "filtered_conditions": [],
   "from_attachment": [],
-  "needs_check": [],
+  "needs_check": [
+    "deadline"
+  ],
   "content_hash": "sha256:90385d9c9cfedaae773c0576debc004532ebd582b4e76294f79794fb59d5f58b",
   "reviewed": false
 }
