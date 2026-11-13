@@ -1,0 +1,25 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.ruff_cache/
+
+# Node / 프론트엔드 빌드
+node_modules/
+dist/
+
+# 비밀 값 (변수 이름만 .env.example에 적는다)
+.env
+.env.*
+!.env.example
+
+# 에디터·OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Claude Code 개인 설정
+CLAUDE.local.md
+.claude/settings.local.json
+.claude/worktrees/

@@ -1,0 +1,28 @@
+[project]
+name = "team17-scholarship-hunter"
+version = "0.1.0"
+description = "서울과기대 교내 게시판 장학금 공지 수집·비교 (ENDPoinT 해커톤 2026 Team 17)"
+readme = "README.md"
+# 팀원 PC 중 가장 낮은 버전이 3.11이다. 3.11에서 돌아가는 문법만 쓴다.
+requires-python = ">=3.11"
+# 라이브러리는 담당자가 필요할 때 `uv add <이름>`으로 추가한다. (AGENTS.md: 추가 전 팀에 알리기)
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "ruff",
+]
+
+[tool.uv]
+# 이 저장소는 설치용 패키지가 아니라 스크립트 모음이다.
+package = false
+
+[tool.ruff]
+# 3.11에서 쓸 수 없는 문법을 에러로 잡는다.
+target-version = "py311"
+line-length = 120
+extend-exclude = ["web", "node_modules"]
+
+[tool.ruff.lint]
+# 규칙을 명시해 둔다 (ruff 기본값이 버전마다 바뀔 수 있음): 문법·명백한 오류(E4, E7, E9, F) + import 정렬(I) + 3.11 기준 문법 정리(UP)
+select = ["E4", "E7", "E9", "F", "I", "UP"]
