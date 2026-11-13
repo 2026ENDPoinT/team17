@@ -6,6 +6,7 @@
   uv run python crawler/crawl.py --mode live      # 학교 서버에서 받기만
 
 흐름: 목록 ?page=N 읽기 → 제목 키워드로 거르기 → 처음 보는 bidx거나 최근 글이면 상세 읽기 → 개인정보 지우기 → 저장
+      → data/raw 전체에서 재게시 묶기(duplicate_of 표시)
 """
 
 import argparse
@@ -14,6 +15,7 @@ import hashlib
 import json
 import sys
 
+import dedup
 import fetch
 import privacy
 from config import BOARDS, KEYWORDS, MAX_PAGES, RAW_DIR, RECHECK_DAYS, SINCE_DAYS
@@ -63,6 +65,7 @@ def build_record(board: dict, row: dict, detail: dict, old: dict | None, now: st
         "title": title,
         "posted_date": detail["posted_date"] or row["posted_date"],
         "pinned": row["pinned"],
+        "duplicate_of": old.get("duplicate_of") if old else None,  # mark_duplicates()가 채운다
         "matched_keywords": matched(title, board),
         "body_text": body,
         "has_images": detail["has_images"],
@@ -71,6 +74,22 @@ def build_record(board: dict, row: dict, detail: dict, old: dict | None, now: st
         "first_seen": old["first_seen"] if old else now,
         "last_checked": now,
     }
+
+
+def mark_duplicates():
+    """data/raw 전체를 다시 보고 duplicate_of를 채운다. 값이 바뀐 파일만 다시 쓴다."""
+    paths = [p for p in RAW_DIR.glob("*.json") if not p.name.startswith("_")]
+    records = {p: json.loads(p.read_text(encoding="utf-8")) for p in paths}
+    result = dedup.assign_duplicates(list(records.values()))
+    changed = 0
+    for p, rec in records.items():
+        new = result[rec["bidx"]]
+        if "duplicate_of" not in rec or rec["duplicate_of"] != new:
+            rec["duplicate_of"] = new
+            p.write_text(json.dumps(rec, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
+            changed += 1
+    dups = sum(1 for v in result.values() if v is not None)
+    print(f"재게시 묶기: 재게시 {dups}건, 표시가 바뀐 파일 {changed}개")
 
 
 def run(mode: str) -> int:
@@ -121,6 +140,7 @@ def run(mode: str) -> int:
             path.write_text(json.dumps(rec, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
 
     print("결과:", counts)
+    mark_duplicates()
     return 1 if counts["error"] else 0
 
 

@@ -7,6 +7,7 @@
   "title": "[덕신EPC] 건축안전 장학생 선발 안내",
   "posted_date": "2026-10-15",
   "pinned": true,
+  "duplicate_of": null,
   "matched_keywords": [
     "장학"
   ],
@@ -36,6 +37,6 @@
     }
   ],
   "content_hash": "sha256:d281b003302b66cf204a48cd10f873f907dc5a46ecaf90ca77b90d642f05c0a5",
-  "first_seen": "2026-11-13T20:30:08+09:00",
-  "last_checked": "2026-11-13T20:30:08+09:00"
+  "first_seen": "2026-11-13T20:57:59+09:00",
+  "last_checked": "2026-11-13T20:57:59+09:00"
 }

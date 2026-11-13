@@ -7,6 +7,7 @@
   "title": "\"토픽 성적\" 관련 장학금 및 졸업시험(교양) 신청 안내",
   "posted_date": "2026-09-17",
   "pinned": false,
+  "duplicate_of": null,
   "matched_keywords": [
     "장학"
   ],
@@ -22,6 +23,6 @@
     }
   ],
   "content_hash": "sha256:3167f86965bd4e8be60966be4255ef100b3ff93e2df187d4070672d4ab5d02b6",
-  "first_seen": "2026-11-13T20:30:08+09:00",
-  "last_checked": "2026-11-13T20:30:08+09:00"
+  "first_seen": "2026-11-13T20:57:59+09:00",
+  "last_checked": "2026-11-13T20:57:59+09:00"
 }
