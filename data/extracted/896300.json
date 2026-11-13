@@ -18,9 +18,9 @@
   "closed": true,
   "eligibility": {
     "grades": [
+      1,
       2,
-      3,
-      4
+      3
     ],
     "departments": null,
     "gpa_min": 3.7,
@@ -39,7 +39,10 @@
     ]
   },
   "burden": {
-    "documents": [],
+    "documents": [
+      "학자금 지원구간 통지서 (한국장학재단 2026년 2학기 기준)",
+      "부모 모두의 2025년 지방세 세목별 과세 증명서"
+    ],
     "interview": true
   },
   "duplicate_restriction": true,
@@ -58,10 +61,10 @@
     "residence": null
   },
   "filtered_conditions": [],
-  "from_attachment": [],
-  "needs_check": [
+  "from_attachment": [
     "documents"
   ],
+  "needs_check": [],
   "content_hash": "sha256:bc611219d716ed68572defa1b6cdca90adb62222d851479edb12434fae2ac3d1",
   "reviewed": false
 }

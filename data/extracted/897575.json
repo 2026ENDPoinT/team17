@@ -35,7 +35,16 @@
     ]
   },
   "burden": {
-    "documents": [],
+    "documents": [
+      "체크리스트 및 자기소개서(장학회 홈페이지에서 양식 다운로드)",
+      "성적증명서(학교 발급)",
+      "가족관계증명서",
+      "재정상황 증빙서류(모두제출)",
+      "2026년 지방세 세목별 과세증명서(부모 모두 제출)",
+      "2025년 소득금액증명원(부모 모두 제출)",
+      "(해당자만) 국민기초생활수급자 또는 차상위계층 확인자 증명서",
+      "(조합원 전형만 제출) 조합원사 재직증명서 (사업자등록번호 표기)"
+    ],
     "interview": false
   },
   "duplicate_restriction": null,
@@ -55,11 +64,10 @@
   },
   "filtered_conditions": [],
   "from_attachment": [
+    "documents",
     "other_conditions"
   ],
-  "needs_check": [
-    "documents"
-  ],
+  "needs_check": [],
   "content_hash": "sha256:affbe13244e42fcc6788d1b55c350797766e2d297d247c48ab986d23168f759d",
   "reviewed": false
 }

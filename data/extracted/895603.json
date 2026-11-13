@@ -30,8 +30,11 @@
   },
   "burden": {
     "documents": [
-      "대림수암장학문화재단 장학금 신청서(자기소개서)",
-      "개인정보 수집 이용 동의서 장학재단"
+      "자기소개서(첨부의 서식 활용)",
+      "성적증명서(직전학기)",
+      "소득증명서류",
+      "개인정보 수집 동의서(첨부의 서식 활용)",
+      "통장사본(본인 명의)"
     ],
     "interview": false
   },
@@ -51,9 +54,7 @@
     "residence": null
   },
   "filtered_conditions": [],
-  "from_attachment": [
-    "documents"
-  ],
+  "from_attachment": [],
   "needs_check": [],
   "content_hash": "sha256:1c0db26f71ffd89129ceebc0a9cf644fae2291fb86e43766a68ce0dc847f0ecc",
   "reviewed": false
