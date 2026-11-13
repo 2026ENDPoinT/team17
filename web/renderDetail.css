@@ -114,9 +114,14 @@
   line-height: 1.7;
 }
 
-.detail-review {
+.detail-header {
   grid-column: 1 / -1;
-  justify-self: start;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.detail-review {
   margin: 0;
   padding: 8px 14px;
   border: 1px solid var(--color-border);
@@ -189,6 +194,22 @@
 .detail-layout button:disabled {
   opacity: 0.45;
   cursor: default;
+}
+
+/* 별의 크기·채움은 메인의 공통 스타일을 사용하고, 검수 배지 옆에 배치한다. */
+.detail-layout .detail-favorite {
+  position: static;
+  display: grid;
+  flex-shrink: 0;
+  padding: 8px;
+  border: 0;
+  background: transparent;
+  color: var(--color-primary);
+}
+
+.detail-layout .detail-favorite:hover:not(:disabled) {
+  background: transparent;
+  color: var(--color-primary-hover);
 }
 
 .detail-original p {

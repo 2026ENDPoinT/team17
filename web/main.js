@@ -28,6 +28,7 @@ const mainHandlers = {
 };
 const app = document.getElementById('app');
 let areas = renderMain(app, mainHandlers);
+let detailAreas = null;
 let filterPopup = null;
 
 // 원본을 필터링한 뒤 정렬해 메인과 상세 이동이 공유할 표시 목록을 저장한다.
@@ -57,7 +58,7 @@ function updateMain() {
   saveSettings(state);
 }
 
-// 카드의 별에서 호출한다. 합쳐진 공지의 저장 ID도 함께 해제하고, 저장 성공 후 화면을 갱신한다.
+// 메인·상세의 별에서 호출한다. 합쳐진 공지의 저장 ID도 함께 해제하고, 저장 성공 후 현재 화면을 갱신한다.
 function handleToggleFavorite(item) {
   const matchingIds = getMatchingFavoriteIds(item, state.favoriteIds);
   // 해제할 때 같은 이벤트에 해당하는 ID를 모두 제거한다.
@@ -69,6 +70,14 @@ function handleToggleFavorite(item) {
     return;
   }
   state.favoriteIds = nextIds;
+  if (state.view === 'detail') {
+    const selected = getMatchingFavoriteIds(item, state.favoriteIds).length > 0;
+    const button = detailAreas.favoriteButton;
+    button.setAttribute('aria-pressed', String(selected));
+    button.setAttribute('aria-label', `${item.name || '장학금'} 즐겨찾기 ${selected ? '해제' : '저장'}`);
+    button.title = selected ? '즐겨찾기 해제' : '즐겨찾기 저장';
+    return;
+  }
   state.listScrollTop = areas.list.scrollTop;
   updateMain();
   // 다시 그린 뒤에도 누른 별에 키보드 포커스를 유지한다.
@@ -175,7 +184,9 @@ function handleRouteChange() {
   const item = state.items.find((candidate) => String(candidate.id) === id);
   // 이전·다음은 현재 정렬된 목록의 위치를 기준으로 선택한다.
   const index = items.findIndex((candidate) => String(candidate.id) === id);
-  renderDetail(app, item, {
+  detailAreas = renderDetail(app, item, {
+    isFavorite: item ? getMatchingFavoriteIds(item, state.favoriteIds).length > 0 : false,
+    onToggleFavorite: handleToggleFavorite,
     previousItem: index > 0 ? items[index - 1] : null,
     nextItem: index >= 0 && index < items.length - 1 ? items[index + 1] : null,
     onOpenDetail: handleOpenDetail,
