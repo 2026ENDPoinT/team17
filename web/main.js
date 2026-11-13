@@ -38,15 +38,13 @@ function updateVisibleItems() {
   state.visibleItems = sortScholarships(filteredItems, compareFunctions[state.sortBy]);
 }
 
-// 로딩·오류 안내 또는 보관 중인 표시 목록을 그린 뒤 스크롤 위치를 복원하고 설정을 저장한다.
+// 정렬·금액 유형 선택과 목록을 상태에 맞춰 표시하고, 스크롤을 복원한 뒤 설정을 저장한다.
 function updateMain() {
   areas.sort.select.value = state.sortBy;
   areas.sort.select.disabled = state.loading || !!state.error;
   areas.sort.amountTypes.hidden = state.sortBy !== 'amount';
-  for (const [type, button] of Object.entries(areas.sort.amountButtons)) {
-    button.setAttribute('aria-pressed', String(type === state.amountType));
-    button.disabled = state.loading || !!state.error;
-  }
+  areas.sort.amountSelect.value = state.amountType;
+  areas.sort.amountSelect.disabled = state.loading || !!state.error;
   areas.filterSelectButton.disabled = state.loading || !!state.error;
   areas.resetButton.disabled = state.loading || !!state.error;
   if (state.loading) return renderListStatus(areas.list, 'loading');
@@ -67,7 +65,7 @@ function handleSortChange(sortBy) {
   updateMain();
 }
 
-// 금액 유형 버튼에서 호출하며, 유형 하나를 저장하고 필터링·정렬 후 목록을 맨 위부터 표시한다.
+// 금액 유형 드롭다운에서 호출하며, 유형 하나를 저장하고 필터링·정렬 후 목록을 맨 위부터 표시한다.
 function handleAmountTypeChange(amountType) {
   if (state.sortBy !== 'amount' || !Object.hasOwn(AMOUNT_TYPES, amountType) ||
       state.amountType === amountType) return;

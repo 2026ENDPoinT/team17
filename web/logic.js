@@ -83,7 +83,7 @@ export function getRecruitmentStatus(item, today = getToday()) {
     }
   }
   return {
-    label: closed ? '마감' : open ? '모집 중' : '모집 여부 미확인',
+    label: closed ? '마감' : open ? '모집 중' : '마감일 미확인',
     modified: open && (modified || item.status === '수정'),
     modifiedDate,
   };

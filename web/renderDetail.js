@@ -1,8 +1,9 @@
 // 선택한 장학금의 핵심 정보·검수 여부·상세 메모를 표시한다.
 // 입력: 화면을 넣을 DOM 요소와 장학금 한 건. 출력: 영역별 DOM 요소.
 import { formatAmount, formatDeadline, getMainConditions } from './logic.js';
+import { renderNoticesPopup } from './renderNoticesPopup.js';
 
-// 상세 정보와 이동 이벤트를 배치한다. 항목이 없으면 안내와 목록 이동 버튼을 표시한다.
+// 검수 배지를 공통 상단에 두고 좌우 상세 영역을 정렬한다. 항목이 없으면 목록 이동을 안내한다.
 export function renderDetail(container, item, handlers = {}) {
   const layout = document.createElement('main');
   layout.className = 'detail-layout';
@@ -29,13 +30,13 @@ export function renderDetail(container, item, handlers = {}) {
   const navigation = createDetailNavigationArea(handlers);
   const details = createDetailInfoArea(item);
 
-  left.append(review, mainInfo, navigation.section);
-  layout.append(left, details.section);
+  left.append(mainInfo, navigation.section);
+  layout.append(review, left, details.section);
   container.replaceChildren(layout);
   return { layout, review, mainInfo, navigation, details };
 }
 
-// 핵심 정보를 채우고 금액·마감을 가로로 배치한다. 원문은 각 칸 안에서 독립적으로 펼친다.
+// 핵심 정보·원문·줄별 조건을 내부 스크롤에 넣고 공식 공지 팝업을 연결한다.
 function createDetailMainArea(item) {
   const section = document.createElement('section');
   section.className = 'detail-main-info';
@@ -71,27 +72,31 @@ function createDetailMainArea(item) {
 
   const conditionTitle = document.createElement('h2');
   conditionTitle.textContent = '핵심 지원 조건';
-  const conditions = document.createElement('p');
-  conditions.textContent = getMainConditions(item.eligibility).join(' / ');
+  const conditions = document.createElement('div');
+  conditions.className = 'detail-main-conditions';
+  for (const condition of getMainConditions(item.eligibility)) {
+    const line = document.createElement('span');
+    line.className = 'scholarship-condition';
+    line.textContent = condition;
+    conditions.append(line);
+  }
   section.append(conditionTitle, conditions);
 
-  if (/^https?:\/\//i.test(item.source?.url ?? '')) {
-    const link = document.createElement('a');
-    link.className = 'detail-official-link';
-    link.textContent = '공식 공지 보기';
-    link.href = item.source.url;
-    link.target = '_blank';
-    link.rel = 'noopener noreferrer';
-    section.append(link);
-  } else {
-    const missing = document.createElement('p');
-    missing.textContent = '공식 공지 링크 미확인';
-    section.append(missing);
-  }
+  const noticesButton = document.createElement('button');
+  noticesButton.type = 'button';
+  noticesButton.className = 'detail-official-link';
+  noticesButton.textContent = '공식 공지 보기';
+  // 선택한 이벤트의 공지 목록을 전달해 관련 공지 팝업을 연다.
+  noticesButton.addEventListener('click', () => renderNoticesPopup(section.closest('.detail-layout'), item.notices ?? []));
+  section.append(noticesButton);
   const guidance = document.createElement('p');
   guidance.className = 'detail-guidance';
   guidance.textContent = '신청 전 공식 공지를 확인하세요.';
   section.append(guidance);
+  const scrollContent = document.createElement('div');
+  scrollContent.className = 'detail-main-scroll';
+  scrollContent.append(...section.childNodes);
+  section.append(scrollContent);
   return section;
 }
 
@@ -126,7 +131,7 @@ function createDetailNavigationArea(handlers) {
   return { section, previousButton, nextButton, backButton };
 }
 
-// 제목 없는 카테고리·요약문과 지원 자격·준비 사항·주의 사항을 오른쪽 메모에 채운다.
+// 카테고리 배지·강조 요약문과 지원 자격·준비 사항·주의 사항을 오른쪽 메모에 채운다.
 function createDetailInfoArea(item) {
   const section = document.createElement('div');
   section.className = 'detail-info';
@@ -153,8 +158,9 @@ function createDetailInfoArea(item) {
     areas[key] = content;
   }
 
-  for (const value of [item.category, item.summary]) {
+  for (const [className, value] of [['detail-category', item.category], ['detail-summary', item.summary]]) {
     const text = document.createElement('p');
+    text.className = className;
     text.textContent = value || '미확인';
     areas.overview.append(text);
   }

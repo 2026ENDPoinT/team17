@@ -263,7 +263,7 @@
       "eligibility": {
         "grades": null,
         "departments": null,
-        "gpa_min": 3.0,
+        "gpa_min": 3,
         "score_min": null,
         "income_max": null,
         "residence": null,
@@ -628,7 +628,7 @@
       "eligibility": {
         "grades": null,
         "departments": null,
-        "gpa_min": 3.0,
+        "gpa_min": 3,
         "score_min": null,
         "income_max": null,
         "residence": null,
@@ -754,7 +754,7 @@
       "eligibility": {
         "grades": null,
         "departments": null,
-        "gpa_min": 3.0,
+        "gpa_min": 3,
         "score_min": null,
         "income_max": null,
         "residence": null,
@@ -1375,7 +1375,7 @@
       "eligibility": {
         "grades": null,
         "departments": null,
-        "gpa_min": 3.0,
+        "gpa_min": 3,
         "score_min": null,
         "income_max": 8,
         "residence": "은평구",
@@ -1645,7 +1645,7 @@
           2
         ],
         "departments": null,
-        "gpa_min": 3.0,
+        "gpa_min": 3,
         "score_min": null,
         "income_max": 6,
         "residence": null,
@@ -1917,7 +1917,7 @@
           1
         ],
         "departments": null,
-        "gpa_min": 3.0,
+        "gpa_min": 3,
         "score_min": null,
         "income_max": null,
         "residence": null,
@@ -2053,7 +2053,7 @@
       "eligibility": {
         "grades": null,
         "departments": null,
-        "gpa_min": 2.0,
+        "gpa_min": 2,
         "score_min": null,
         "income_max": null,
         "residence": null,

@@ -35,7 +35,7 @@ export function renderScholarshipList(container, items, onOpenDetail) {
   container.replaceChildren(fragment);
 }
 
-// 장학금 카드 첫 줄에 모집 상태와 수정 게시일 말풍선을 표시하고, 클릭하면 상세로 이동한다.
+// 첫 줄에 상태·수정 말풍선, 둘째 줄에는 금액과 모집 중인 항목의 날짜만 표시하고 상세 이동을 연결한다.
 export function createScholarshipBlock(item, onOpenDetail, today) {
   const block = document.createElement('button');
   block.type = 'button';
@@ -70,14 +70,22 @@ export function createScholarshipBlock(item, onOpenDetail, today) {
   info.className = 'scholarship-info';
   const amount = document.createElement('span');
   amount.textContent = formatAmount(item.amount);
-  const deadline = document.createElement('span');
-  deadline.textContent = `${formatDeadline(item.deadline, today)}${item.closed === true ? ' · 마감됨' : ''}`;
-  deadline.title = item.deadline_text || '마감 상세 정보 미확인';
-  info.append(amount, deadline);
+  info.append(amount);
+  if (status.label === '모집 중') {
+    const deadline = document.createElement('span');
+    deadline.textContent = formatDeadline(item.deadline, today);
+    deadline.title = item.deadline_text || '마감 상세 정보 미확인';
+    info.append(deadline);
+  }
 
   const conditions = document.createElement('span');
   conditions.className = 'scholarship-conditions';
-  conditions.textContent = getMainConditions(item.eligibility).join(' / ');
+  for (const condition of getMainConditions(item.eligibility)) {
+    const line = document.createElement('span');
+    line.className = 'scholarship-condition';
+    line.textContent = condition;
+    conditions.append(line);
+  }
 
   block.append(heading, info, conditions);
   // 클릭한 장학금을 main.js의 상세 이동 함수에 전달한다.
@@ -85,12 +93,15 @@ export function createScholarshipBlock(item, onOpenDetail, today) {
   return block;
 }
 
-// 메인 화면의 좌우 틀을 만들고, 이후 부분 갱신에 사용할 각 영역을 반환한다.
+// 상단 제목 바와 아래쪽 목록·설정 박스를 만들고 부분 갱신용 영역을 반환한다.
 export function renderMain(container, handlers = {}) {
   const layout = document.createElement('div');
   layout.className = 'main-layout';
 
   const list = createListArea();
+  const listPanel = document.createElement('div');
+  listPanel.className = 'main-list-panel';
+  listPanel.append(list);
   const sidebar = document.createElement('aside');
   sidebar.className = 'main-sidebar';
   sidebar.setAttribute('aria-label', '장학금 검색 설정');
@@ -105,8 +116,9 @@ export function renderMain(container, handlers = {}) {
   resetButton.disabled = !handlers.onResetFilters;
   if (handlers.onResetFilters) resetButton.addEventListener('click', handlers.onResetFilters);
 
-  sidebar.append(title, sort.section, filters.section, resetButton);
-  layout.append(list, sidebar);
+  filters.section.append(resetButton);
+  sidebar.append(sort.section, filters.section);
+  layout.append(title, listPanel, sidebar);
   container.replaceChildren(layout);
 
   return { layout, list, title, sort, filters: filters.content, filterSelectButton: filters.selectButton, resetButton };
@@ -148,7 +160,7 @@ function createListArea() {
   return list;
 }
 
-// 오른쪽 위에 표시할 서비스 제목과 설명 영역을 만든다.
+// 메인 상단 바에 표시할 서비스 제목과 한 줄 설명을 만든다.
 function createTitleArea() {
   const header = document.createElement('header');
   header.className = 'main-title';
@@ -162,7 +174,7 @@ function createTitleArea() {
   return header;
 }
 
-// 정렬 드롭다운과 금액 유형 단일 선택 버튼을 만들고, 변경 이벤트를 main.js에 전달한다.
+// 정렬·금액 유형 드롭다운을 만들고, 선택 변경을 main.js의 처리 함수에 전달한다.
 function createSortArea(handlers) {
   const section = document.createElement('section');
   section.className = 'main-sort';
@@ -182,26 +194,25 @@ function createSortArea(handlers) {
   // 선택된 기준을 전달한다. 상태 변경과 목록 재계산은 main.js에서 수행한다.
   select.addEventListener('change', (event) => handlers.onSortChange?.(event.target.value));
 
-  const amountTypes = document.createElement('fieldset');
+  const amountTypes = document.createElement('label');
   amountTypes.className = 'main-amount-types';
   amountTypes.hidden = true;
-  const legend = document.createElement('legend');
-  legend.textContent = '금액 유형';
-  amountTypes.append(legend);
-  const amountButtons = {};
+  const amountLabel = document.createElement('span');
+  amountLabel.textContent = '금액 유형';
+  const amountSelect = document.createElement('select');
+  amountSelect.setAttribute('aria-label', '금액 유형');
+  amountSelect.disabled = !handlers.onAmountTypeChange;
   for (const [value, label] of Object.entries(AMOUNT_TYPES)) {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.textContent = label;
-    button.setAttribute('aria-pressed', 'false');
-    button.disabled = !handlers.onAmountTypeChange;
-    // 클릭한 유형 하나를 전달한다. 같은 버튼을 다시 눌러도 선택은 유지한다.
-    button.addEventListener('click', () => handlers.onAmountTypeChange?.(value));
-    amountButtons[value] = button;
-    amountTypes.append(button);
+    const option = document.createElement('option');
+    option.value = value;
+    option.textContent = label;
+    amountSelect.append(option);
   }
+  // 선택한 금액 유형을 전달한다. 상태 저장과 목록 갱신은 main.js에서 처리한다.
+  amountSelect.addEventListener('change', (event) => handlers.onAmountTypeChange?.(event.target.value));
+  amountTypes.append(amountLabel, amountSelect);
   section.append(heading, select, amountTypes);
-  return { section, select, amountTypes, amountButtons };
+  return { section, select, amountTypes, amountSelect };
 }
 
 // 필터 제목 옆에 팝업 열기 버튼을 두고 적용된 필터를 표시할 영역을 반환한다.
