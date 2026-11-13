@@ -137,6 +137,16 @@
   line-height: 1.6;
 }
 
+/* 메인·즐겨찾기의 목록 건수를 둥근 배지와 굵은 글씨로 강조한다. */
+.main-title .main-list-count {
+  flex-shrink: 0;
+  padding: 6px 14px;
+  border: 1px solid var(--color-primary);
+  border-radius: 12px;
+  background: var(--color-secondary);
+  font-weight: bold;
+}
+
 /* 제목 바 오른쪽에 기존 버튼과 같은 밤색 즐겨찾기 버튼을 둔다. */
 .main-favorites-button {
   flex-shrink: 0;
