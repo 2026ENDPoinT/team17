@@ -1,6 +1,6 @@
 // 메인 화면의 전체 배치와 영역별 틀을 만든다.
 // 입력: 화면을 넣을 DOM 요소. 출력: 이후 갱신에 사용할 영역별 DOM 요소.
-import { formatAmount, formatDeadline, getMainConditions, getToday, getRecruitmentStatus } from './logic.js';
+import { formatAmount, formatDeadline, getMainConditions, getToday, getRecruitmentStatus, getMatchingFavoriteIds } from './logic.js';
 import { AMOUNT_TYPES } from './filterOptions.js';
 
 // 데이터를 기다리거나 불러오기에 실패했을 때 왼쪽 영역에 상태 안내를 표시한다.
@@ -20,12 +20,12 @@ export function renderListStatus(container, status) {
 }
 
 // 목록이 바뀌면 왼쪽 영역만 다시 그린다. 상세 이동 동작은 호출자가 전달한다.
-export function renderScholarshipList(container, items, onOpenDetail) {
+export function renderScholarshipList(container, items, onOpenDetail, favoriteIds = [], onToggleFavorite) {
   const fragment = document.createDocumentFragment();
   const today = getToday();
 
   for (const item of items) {
-    fragment.append(createScholarshipBlock(item, onOpenDetail, today));
+    fragment.append(createScholarshipBlock(item, onOpenDetail, today, favoriteIds, onToggleFavorite));
   }
   if (items.length === 0) {
     const message = document.createElement('p');
@@ -35,11 +35,13 @@ export function renderScholarshipList(container, items, onOpenDetail) {
   container.replaceChildren(fragment);
 }
 
-// 첫 줄에 상태·수정 말풍선, 둘째 줄에는 금액과 모집 중인 항목의 날짜만 표시하고 상세 이동을 연결한다.
-export function createScholarshipBlock(item, onOpenDetail, today) {
-  const block = document.createElement('button');
-  block.type = 'button';
+// 메인·즐겨찾기 공통 카드를 만들고, 세 번째 줄 오른쪽에 마감 임박을 표시한다.
+export function createScholarshipBlock(item, onOpenDetail, today, favoriteIds = [], onToggleFavorite) {
+  const block = document.createElement('article');
   block.className = 'scholarship-block';
+  const openButton = document.createElement('button');
+  openButton.type = 'button';
+  openButton.className = 'scholarship-open';
 
   const name = document.createElement('span');
   name.className = 'scholarship-name';
@@ -61,7 +63,7 @@ export function createScholarshipBlock(item, onOpenDetail, today) {
     tooltip.id = `modified-date-${item.id}`;
     tooltip.setAttribute('role', 'tooltip');
     tooltip.textContent = `수정 공지 게시일: ${status.modifiedDate ?? '미확인'}`;
-    block.setAttribute('aria-describedby', tooltip.id);
+    openButton.setAttribute('aria-describedby', tooltip.id);
     statusArea.append(modified, tooltip);
   }
   heading.append(name, statusArea);
@@ -87,9 +89,39 @@ export function createScholarshipBlock(item, onOpenDetail, today) {
     conditions.append(line);
   }
 
-  block.append(heading, info, conditions);
+  const conditionsRow = document.createElement('span');
+  conditionsRow.className = 'scholarship-conditions-row';
+  conditionsRow.append(conditions);
+  if (status.urgent) {
+    const urgent = document.createElement('span');
+    urgent.className = 'scholarship-deadline-urgent';
+    urgent.textContent = '마감 임박';
+    conditionsRow.append(urgent);
+  }
+
+  openButton.append(heading, info, conditionsRow);
   // 클릭한 장학금을 main.js의 상세 이동 함수에 전달한다.
-  block.addEventListener('click', () => onOpenDetail(item));
+  openButton.addEventListener('click', () => onOpenDetail(item));
+
+  const favorite = document.createElement('button');
+  favorite.type = 'button';
+  favorite.className = 'scholarship-favorite';
+  favorite.dataset.favoriteId = String(item.id);
+  const selected = getMatchingFavoriteIds(item, favoriteIds).length > 0;
+  favorite.setAttribute('aria-pressed', String(selected));
+  favorite.setAttribute('aria-label', `${item.name || '장학금'} 즐겨찾기 ${selected ? '해제' : '저장'}`);
+  favorite.title = selected ? '즐겨찾기 해제' : '즐겨찾기 저장';
+  favorite.disabled = !onToggleFavorite;
+  const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  icon.setAttribute('viewBox', '0 0 24 24');
+  icon.setAttribute('aria-hidden', 'true');
+  const star = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  star.setAttribute('d', 'M12 3 14.78 8.63 21 9.54 16.5 13.92 17.56 20.12 12 17.19 6.44 20.12 7.5 13.92 3 9.54 9.22 8.63Z');
+  icon.append(star);
+  favorite.append(icon);
+  // 상세 이동 버튼과 독립적으로 저장·해제를 요청한다.
+  favorite.addEventListener('click', () => onToggleFavorite?.(item));
+  block.append(openButton, favorite);
   return block;
 }
 
@@ -106,7 +138,7 @@ export function renderMain(container, handlers = {}) {
   sidebar.className = 'main-sidebar';
   sidebar.setAttribute('aria-label', '장학금 검색 설정');
 
-  const title = createTitleArea();
+  const title = createTitleArea(handlers.onOpenFavorites);
   const sort = createSortArea(handlers);
   const filters = createFilterArea(handlers.onOpenFilters);
   const resetButton = document.createElement('button');
@@ -124,12 +156,12 @@ export function renderMain(container, handlers = {}) {
   return { layout, list, title, sort, filters: filters.content, filterSelectButton: filters.selectButton, resetButton };
 }
 
-// 메인에 적용된 필터만 표시하고, 각 제거 버튼을 누르면 해당 조건을 호출자에게 전달한다.
+// 적용된 필터를 학과별로도 각각 표시하고, 제거 버튼을 누르면 해당 조건만 호출자에게 전달한다.
 export function renderSelectedFilters(container, filters, onRemove) {
   const entries = [];
   for (const value of filters.categories) entries.push(['categories', value, value]);
   for (const value of filters.grades) entries.push(['grades', value, `${value}학년`]);
-  if (filters.department) entries.push(['department', filters.department, filters.department]);
+  for (const value of filters.departments) entries.push(['departments', value, value]);
   if (filters.openOnly) entries.push(['openOnly', true, '모집 중만 보기']);
   const fragment = document.createDocumentFragment();
   for (const [key, value, label] of entries) {
@@ -160,17 +192,24 @@ function createListArea() {
   return list;
 }
 
-// 메인 상단 바에 표시할 서비스 제목과 한 줄 설명을 만든다.
-function createTitleArea() {
+// 서비스 제목·목록 건수 영역과 즐겨찾기 버튼을 만든다. 건수는 main.js에서 갱신한다.
+function createTitleArea(onOpenFavorites) {
   const header = document.createElement('header');
   header.className = 'main-title';
 
   const heading = document.createElement('h1');
   heading.textContent = '장학금 헌터';
-  const description = document.createElement('p');
-  description.textContent = '교내 게시판의 장학금을 모아 금액·마감·지원 조건을 비교하세요.';
+  const count = document.createElement('p');
+  count.className = 'main-list-count';
+  count.setAttribute('aria-live', 'polite');
+  const favoritesButton = document.createElement('button');
+  favoritesButton.type = 'button';
+  favoritesButton.className = 'main-favorites-button';
+  favoritesButton.textContent = '즐겨찾기';
+  favoritesButton.disabled = !onOpenFavorites;
+  if (onOpenFavorites) favoritesButton.addEventListener('click', onOpenFavorites);
 
-  header.append(heading, description);
+  header.append(heading, count, favoritesButton);
   return header;
 }
 

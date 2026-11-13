@@ -1,6 +1,29 @@
 // 장학금 정보를 메인 블록에 표시할 문구로 가공한다.
 // 입력: 장학금의 금액·마감·지원 조건. 출력: 표시용 문자열과 조건 배열.
 
+// 현재 이벤트 ID 또는 소속 공지 bidx와 일치하는 저장 ID들을 반환한다. 합쳐진 이벤트도 찾는다.
+export function getMatchingFavoriteIds(item, favoriteIds) {
+  const noticeIds = new Set((item.notices ?? []).map((notice) => String(notice.bidx)));
+  // 실제 ID의 event- 접두사를 제외해 공지 번호와 비교한다.
+  return favoriteIds.filter((id) => String(id) === String(item.id) ||
+    noticeIds.has(String(id).replace(/^event-/, '')));
+}
+
+// 저장한 순서대로 이벤트를 찾는다. 합쳐진 이벤트는 한 번만 남기고 사라진 ID는 item: null로 유지한다.
+export function getFavoriteEntries(items, favoriteIds) {
+  const entries = [];
+  const seen = new Set();
+  for (const id of favoriteIds) {
+    // 현재 이벤트 ID를 먼저 찾고, 없으면 소속 공지 번호를 대조한다.
+    const item = items.find((candidate) => String(candidate.id) === String(id)) ??
+      items.find((candidate) => getMatchingFavoriteIds(candidate, [id]).length > 0);
+    if (item && seen.has(String(item.id))) continue;
+    if (item) seen.add(String(item.id));
+    entries.push({ id, item: item ?? null });
+  }
+  return entries;
+}
+
 // 한국의 오늘 날짜를 YYYY-MM-DD 형식으로 반환한다.
 export function getToday() {
   return new Intl.DateTimeFormat('en-CA', {
@@ -38,9 +61,10 @@ export function filterScholarships(items, filters, today = getToday()) {
       // 선택한 학년 중 하나라도 대상 학년에 포함되면 이 그룹의 조건을 통과한다.
       if (!filters.grades.some((grade) => eligibility.grades.includes(grade))) return false;
     }
-    if (filters.department && (uncertain.includes('departments') ||
+    if (filters.departments.length > 0 && (uncertain.includes('departments') ||
         !Array.isArray(eligibility.departments) ||
-        !eligibility.departments.includes(filters.department))) return false;
+        // 선택한 학과 중 하나라도 지원 학과에 포함되면 통과한다.
+        !filters.departments.some((department) => eligibility.departments.includes(department)))) return false;
     if (filters.openOnly) {
       const deadline = parseDeadline(item.deadline);
       if (item.closed === true || uncertain.includes('deadline') ||
@@ -65,11 +89,12 @@ export function compareDeadline(a, b, today = getToday()) {
   return dateA - dateB;
 }
 
-// 카드의 모집 상태와 최신 수정 공지 게시일을 계산한다. 마감일 미확인은 모집 중으로 단정하지 않는다.
+// 카드의 모집 상태·7일 이내 마감 여부·최신 수정 공지 게시일을 계산한다.
 export function getRecruitmentStatus(item, today = getToday()) {
   const deadline = parseDeadline(item.deadline);
+  const currentDate = parseDeadline(today);
   const closed = item.closed === true || item.status === '완료' ||
-    (deadline !== null && deadline < parseDeadline(today));
+    (deadline !== null && deadline < currentDate);
   const uncertain = [...(item.eligibility?.unclear ?? []), ...(item.needs_check ?? [])];
   const open = !closed && deadline !== null && !uncertain.includes('deadline');
   let modified = false;
@@ -84,6 +109,8 @@ export function getRecruitmentStatus(item, today = getToday()) {
   }
   return {
     label: closed ? '마감' : open ? '모집 중' : '마감일 미확인',
+    urgent: open && currentDate !== null && deadline >= currentDate &&
+      deadline - currentDate <= 7 * 86400000,
     modified: open && (modified || item.status === '수정'),
     modifiedDate,
   };

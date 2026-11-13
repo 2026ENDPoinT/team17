@@ -2,7 +2,7 @@
 // 입력: 부모 DOM·적용된 필터·적용 이벤트. 출력: 열린 dialog 요소.
 import { FILTER_OPTIONS } from './filterOptions.js';
 
-// 현재 필터를 복사해 팝업을 열고, 적용할 때만 복사한 결과를 호출자에게 전달한다.
+// 유형·학년·학과를 복수 선택하는 임시 필터를 만들고, 적용할 때만 호출자에게 전달한다.
 export function renderFilterPopup(container, filters, handlers) {
   const draft = structuredClone(filters);
   const dialog = document.createElement('dialog');
@@ -21,7 +21,7 @@ export function renderFilterPopup(container, filters, handlers) {
   for (const [key, label, values] of [
     ['categories', '유형 · 여러 개 선택', FILTER_OPTIONS.categories],
     ['grades', '학년 · 여러 개 선택', FILTER_OPTIONS.grades],
-    ['department', '학과·학부·전공 · 하나만 선택', FILTER_OPTIONS.departments],
+    ['departments', '학과·학부·전공 · 여러 개 선택', FILTER_OPTIONS.departments],
     ['openOnly', '모집 상태', [true]],
   ]) {
     const group = document.createElement('fieldset');
@@ -43,8 +43,6 @@ export function renderFilterPopup(container, filters, handlers) {
           const index = draft[key].indexOf(value);
           if (index < 0) draft[key].push(value);
           else draft[key].splice(index, 1);
-        } else if (key === 'department') {
-          draft.department = draft.department === value ? null : value;
         } else {
           draft.openOnly = !draft.openOnly;
         }
@@ -71,7 +69,7 @@ export function renderFilterPopup(container, filters, handlers) {
   resetButton.addEventListener('click', () => {
     draft.categories = [];
     draft.grades = [];
-    draft.department = null;
+    draft.departments = [];
     draft.openOnly = false;
     for (const { button } of optionButtons) button.setAttribute('aria-pressed', 'false');
   });

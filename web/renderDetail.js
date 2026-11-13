@@ -3,7 +3,7 @@
 import { formatAmount, formatDeadline, getMainConditions } from './logic.js';
 import { renderNoticesPopup } from './renderNoticesPopup.js';
 
-// 검수 배지를 공통 상단에 두고 좌우 상세 영역을 정렬한다. 항목이 없으면 목록 이동을 안내한다.
+// 전달받은 즐겨찾기 상태로 검수 옆의 별을 표시하고 저장·해제 요청을 연결한다. 항목이 없으면 목록 이동을 안내한다.
 export function renderDetail(container, item, handlers = {}) {
   const layout = document.createElement('main');
   layout.className = 'detail-layout';
@@ -26,14 +26,33 @@ export function renderDetail(container, item, handlers = {}) {
   const review = document.createElement('p');
   review.className = 'detail-review';
   review.textContent = `검수 여부 : ${item.reviewed === true ? '검수 완료' : item.reviewed === false ? '미검수' : '미확인'}`;
+  const header = document.createElement('div');
+  header.className = 'detail-header';
+  const favoriteButton = document.createElement('button');
+  favoriteButton.type = 'button';
+  favoriteButton.className = 'scholarship-favorite detail-favorite';
+  favoriteButton.setAttribute('aria-pressed', String(handlers.isFavorite === true));
+  favoriteButton.setAttribute('aria-label', `${item.name || '장학금'} 즐겨찾기 ${handlers.isFavorite ? '해제' : '저장'}`);
+  favoriteButton.title = handlers.isFavorite ? '즐겨찾기 해제' : '즐겨찾기 저장';
+  favoriteButton.disabled = !handlers.onToggleFavorite;
+  const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  icon.setAttribute('viewBox', '0 0 24 24');
+  icon.setAttribute('aria-hidden', 'true');
+  const star = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  star.setAttribute('d', 'M12 3 14.78 8.63 21 9.54 16.5 13.92 17.56 20.12 12 17.19 6.44 20.12 7.5 13.92 3 9.54 9.22 8.63Z');
+  icon.append(star);
+  favoriteButton.append(icon);
+  // 선택한 장학금을 main.js의 공통 저장·해제 처리 함수에 전달한다.
+  favoriteButton.addEventListener('click', () => handlers.onToggleFavorite?.(item));
+  header.append(review, favoriteButton);
   const mainInfo = createDetailMainArea(item);
   const navigation = createDetailNavigationArea(handlers);
   const details = createDetailInfoArea(item);
 
   left.append(mainInfo, navigation.section);
-  layout.append(review, left, details.section);
+  layout.append(header, left, details.section);
   container.replaceChildren(layout);
-  return { layout, review, mainInfo, navigation, details };
+  return { layout, review, favoriteButton, mainInfo, navigation, details };
 }
 
 // 핵심 정보·원문·줄별 조건을 내부 스크롤에 넣고 공식 공지 팝업을 연결한다.
