@@ -78,14 +78,18 @@ uv.lock            Python 라이브러리 정확한 버전 (직접 고치지 않
 .github/workflows/ 자동 검사
 ```
 
-서비스 코드는 역할별로 폴더를 나눈다 (2026-11-13 결정, 3명).
+서비스 코드는 역할별로 폴더를 나눈다 (2026-11-13 결정, 3명). 단계는 **수집 → 라벨링 → 이벤트 묶기 → 화면**이다.
 
 ```
-crawler/        크롤링 담당   → data/raw/{bidx}.json
-classifier/     분류 담당     → data/extracted/{bidx}.json, 빌드 → web/public/scholarships.json
-web/            화면 담당     ← web/public/scholarships.json
+crawler/        크롤링 담당     → data/raw/{bidx}.json         공지 1건 = 파일 1개. 내용이 같은 복사본만 duplicate_of로 표시
+classifier/     분류 담당       → data/extracted/{bidx}.json   공지마다 추출 + 라벨(모집 / 수정 / 완료)
+(미정)          이벤트 묶기     → 이벤트 JSON (화면이 읽음)     같은 장학금의 공지들을 이벤트 1개로 묶음. 크롤링 담당이 크롤링 후 맡음
+web/            화면 담당       ← 이벤트 JSON (공지가 아니라 이벤트 단위)
 data/reviewed/  사람 검수 (모두)
 ```
+
+- 이벤트 묶기의 폴더·출력 파일 이름과 최종 빌드 담당은 아직 정하지 않았다. 이벤트 묶기 담당이 정하고 이 절을 고친다.
+- `data/raw_test/`는 분류 규칙 시험용 6개월치 공지다. 데모 화면용 빌드에는 넣지 않는다.
 
 - **다른 역할의 폴더는 고치지 않는다.** 고쳐야 하면 그 담당에게 알린다. AI도 요청받은 역할의 폴더 밖은 건드리지 않는다.
 - 역할 사이에는 JSON 파일로만 주고받는다. 형식의 기준은 샘플 파일(`data/raw/_sample.json`, `data/scholarships.sample.json`)이다. 필드를 바꾸면 샘플도 같이 고친다.
