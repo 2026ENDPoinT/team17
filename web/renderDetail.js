@@ -2,17 +2,31 @@
 // 입력: 화면을 넣을 DOM 요소와 장학금 한 건. 출력: 영역별 DOM 요소.
 import { formatAmount, formatDeadline, getMainConditions } from './logic.js';
 
-// 왼쪽 정보·왼쪽 이동 버튼·오른쪽 상세 정보 영역을 배치하고 각 영역을 반환한다.
-export function renderDetail(container, item) {
+// 상세 정보와 이동 이벤트를 배치한다. 항목이 없으면 안내와 목록 이동 버튼을 표시한다.
+export function renderDetail(container, item, handlers = {}) {
   const layout = document.createElement('main');
   layout.className = 'detail-layout';
+  if (!item) {
+    const message = document.createElement('section');
+    const heading = document.createElement('h1');
+    heading.textContent = '장학금을 찾을 수 없습니다.';
+    const backButton = document.createElement('button');
+    backButton.type = 'button';
+    backButton.textContent = '목록으로';
+    backButton.disabled = !handlers.onBack;
+    if (handlers.onBack) backButton.addEventListener('click', handlers.onBack);
+    message.append(heading, backButton);
+    layout.append(message);
+    container.replaceChildren(layout);
+    return { layout, backButton };
+  }
   const left = document.createElement('div');
   left.className = 'detail-left';
   const review = document.createElement('p');
   review.className = 'detail-review';
   review.textContent = `검수 여부 : ${item.reviewed === true ? '검수 완료' : item.reviewed === false ? '미검수' : '미확인'}`;
   const mainInfo = createDetailMainArea(item);
-  const navigation = createDetailNavigationArea();
+  const navigation = createDetailNavigationArea(handlers);
   const details = createDetailInfoArea(item);
 
   left.append(review, mainInfo, navigation.section);
@@ -21,7 +35,7 @@ export function renderDetail(container, item) {
   return { layout, review, mainInfo, navigation, details };
 }
 
-// 장학금 핵심 정보를 채우고, 금액·마감의 독립적인 원문 토글과 공식 링크를 만든다.
+// 핵심 정보를 채우고 금액·마감을 가로로 배치한다. 원문은 각 칸 안에서 독립적으로 펼친다.
 function createDetailMainArea(item) {
   const section = document.createElement('section');
   section.className = 'detail-main-info';
@@ -30,6 +44,8 @@ function createDetailMainArea(item) {
   heading.textContent = item.name || '장학금명 미확인';
   section.append(heading);
 
+  const amountAndDeadline = document.createElement('div');
+  amountAndDeadline.className = 'detail-amount-deadline';
   for (const [label, value, original] of [
     ['금액', formatAmount(item.amount), item.amount?.text],
     ['마감', `${formatDeadline(item.deadline)}${item.closed === true ? ' · 마감됨' : ''}`, item.deadline_text],
@@ -49,8 +65,9 @@ function createDetailMainArea(item) {
     originalText.textContent = original || '미확인';
     toggle.append(trigger, originalText);
     group.append(title, text, toggle);
-    section.append(group);
+    amountAndDeadline.append(group);
   }
+  section.append(amountAndDeadline);
 
   const conditionTitle = document.createElement('h2');
   conditionTitle.textContent = '핵심 지원 조건';
@@ -78,29 +95,38 @@ function createDetailMainArea(item) {
   return section;
 }
 
-// 이전·다음 장학금과 목록으로 이동할 버튼 영역을 만든다. 이벤트 연결 전에는 비활성화한다.
-function createDetailNavigationArea() {
+// 전달받은 이전·다음 항목과 이벤트를 버튼에 연결하며, 이동할 항목이 없으면 비활성화한다.
+function createDetailNavigationArea(handlers) {
   const section = document.createElement('nav');
   section.className = 'detail-navigation';
   section.setAttribute('aria-label', '장학금 화면 이동');
   const previousButton = document.createElement('button');
   previousButton.type = 'button';
   previousButton.textContent = '이전 장학금';
-  previousButton.disabled = true;
+  previousButton.disabled = !handlers.previousItem || !handlers.onOpenDetail;
+  // 이전 장학금 선택을 main.js의 주소 변경 함수에 전달한다.
+  previousButton.addEventListener('click', () => {
+    if (!previousButton.disabled) handlers.onOpenDetail(handlers.previousItem);
+  });
   const nextButton = document.createElement('button');
   nextButton.type = 'button';
   nextButton.textContent = '다음 장학금';
-  nextButton.disabled = true;
+  nextButton.disabled = !handlers.nextItem || !handlers.onOpenDetail;
+  // 다음 장학금 선택을 main.js의 주소 변경 함수에 전달한다.
+  nextButton.addEventListener('click', () => {
+    if (!nextButton.disabled) handlers.onOpenDetail(handlers.nextItem);
+  });
   const backButton = document.createElement('button');
   backButton.type = 'button';
   backButton.className = 'detail-back-button';
   backButton.textContent = '목록으로';
-  backButton.disabled = true;
+  backButton.disabled = !handlers.onBack;
+  if (handlers.onBack) backButton.addEventListener('click', handlers.onBack);
   section.append(previousButton, nextButton, backButton);
   return { section, previousButton, nextButton, backButton };
 }
 
-// 요약·카테고리, 전체 지원 자격, 준비 사항과 주의 사항을 오른쪽 메모에 채운다.
+// 제목 없는 카테고리·요약문과 지원 자격·준비 사항·주의 사항을 오른쪽 메모에 채운다.
 function createDetailInfoArea(item) {
   const section = document.createElement('div');
   section.className = 'detail-info';
@@ -113,18 +139,23 @@ function createDetailInfoArea(item) {
   ]) {
     const note = document.createElement('section');
     note.className = 'detail-note';
-    const heading = document.createElement('h2');
-    heading.textContent = title;
     const content = document.createElement('div');
     content.className = 'detail-note-content';
-    note.append(heading, content);
+    if (key !== 'overview') {
+      const heading = document.createElement('h2');
+      heading.textContent = title;
+      note.append(heading);
+    } else {
+      content.classList.add('detail-overview');
+    }
+    note.append(content);
     section.append(note);
     areas[key] = content;
   }
 
-  for (const [label, value] of [['요약', item.summary], ['카테고리', item.category]]) {
+  for (const value of [item.category, item.summary]) {
     const text = document.createElement('p');
-    text.textContent = `${label} : ${value || '미확인'}`;
+    text.textContent = value || '미확인';
     areas.overview.append(text);
   }
 
