@@ -53,6 +53,7 @@ from config import (
     SCHOLARSHIP_WORDS,
     SUMMARY_MAX,
     SUMMARY_SKIP_STARTS,
+    UPDATE_WORDS,
     WORK_BNUMS,
     WORK_WORDS,
 )
@@ -121,6 +122,24 @@ def classify_kind(title: str) -> tuple[str, str]:
 
 def is_closed(title: str) -> bool:
     return _has_any(title, CLOSED_WORDS)
+
+
+def classify_label(title: str, notice_kind: str) -> tuple[str | None, str]:
+    """공지 하나의 라벨: 모집 / 수정 / 완료. 반환: (라벨, 이유). 장학금 공지가 아니면 (None, 이유).
+
+    이벤트 묶기 단계가 같은 장학금의 공지들(모집 → 수정 → 완료)을 묶고 "마지막 공지"로 상태를 정한다.
+    그래서 공지 하나에 여러 신호가 있으면 더 나중 상태를 고른다: 완료 > 수정 > 모집.
+    예: "(신청기간 연장) … 선발 안내(선발완료)"는 연장도 있지만 지금 상태는 완료다.
+    """
+    if notice_kind == "결과":  # 지급완료, 선발 결과, 합격자 …
+        return "완료", "결과 공지"
+    if notice_kind != "모집":  # 안내(서약서·지급 일정 …), 확인필요(장학금인지 모름)
+        return None, f"공지 종류가 '{notice_kind}'"
+    if word := next((w for w in CLOSED_WORDS if w in title), None):
+        return "완료", f"제목에 '{word}'"
+    if word := next((w for w in UPDATE_WORDS if w in title), None):
+        return "수정", f"제목에 '{word}'"
+    return "모집", "모집 공지"
 
 
 # ── 유형 ──

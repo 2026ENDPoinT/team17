@@ -1,9 +1,10 @@
 """data/raw/{bidx}.json을 읽어 규칙으로 분류·추출하고 data/extracted/{bidx}.json에 쓴다.
 
-실행: uv run python classifier/extract.py
+실행: uv run python classifier/extract.py  (규칙 시험: --raw data/raw_test --out 저장소 밖 폴더)
 입력 형식: data/raw/_sample.json (본문 body_text + 첨부 attachments[].text) / 출력 형식: data/scholarships.sample.json의 items 한 건 + 분류용 필드
 """
 
+import argparse
 import json
 import time
 from datetime import date
@@ -14,6 +15,7 @@ from parser import NOT_VALUE_KINDS, Document, other_conditions, parse
 from rules import (
     classify_category,
     classify_kind,
+    classify_label,
     extract_amount,
     extract_deadline,
     extract_departments,
@@ -202,10 +204,14 @@ def extract_one(raw: dict) -> dict:
     if len(body.strip()) < 100:
         needs_check.append("poster_only" if raw.get("has_images") else "body_short")
 
+    label, label_reason = classify_label(title, kind)
+
     return {
         "id": str(raw["bidx"]),
         "notice_kind": kind,  # 모집 / 결과 / 안내 / 확인필요. 빌드할 때 '모집'만 남긴다
         "notice_kind_reason": kind_reason,
+        "label": label,  # 모집 / 수정 / 완료 / None. 이벤트 묶기 단계가 장학금 상태를 정할 때 쓴다
+        "label_reason": label_reason,
         "name": extract_name(title),
         "title": title,
         "category": classify_category(title, raw.get("bnum", 0)),
@@ -288,10 +294,15 @@ def split_by_deadline(items: dict[str, dict], sites: dict[str, str]) -> list[str
 
 
 def main() -> None:
-    EXTRACTED_DIR.mkdir(parents=True, exist_ok=True)
+    cli = argparse.ArgumentParser(description="data/raw → data/extracted")
+    cli.add_argument("--raw", type=Path, default=RAW_DIR, help="입력 폴더 (규칙 시험: data/raw_test)")
+    cli.add_argument("--out", type=Path, default=EXTRACTED_DIR, help="출력 폴더 (시험할 때는 저장소 밖 폴더)")
+    args = cli.parse_args()
+
+    args.out.mkdir(parents=True, exist_ok=True)
     items: dict[str, dict] = {}
     sites: dict[str, str] = {}
-    for path in sorted(RAW_DIR.glob("*.json")):
+    for path in sorted(args.raw.glob("*.json")):
         if path.name.startswith("_"):  # _sample.json 등은 건너뛴다
             continue
         raw = json.loads(path.read_text(encoding="utf-8"))
@@ -311,14 +322,16 @@ def main() -> None:
             rep["also_posted_bidx"].append(item["id"])
 
     counts: dict[str, int] = {}
+    labels: dict[str, int] = {}
     for item in items.values():
-        out = EXTRACTED_DIR / f"{item['id']}.json"
-        write_json(out, item)
+        write_json(args.out / f"{item['id']}.json", item)
         counts[item["notice_kind"]] = counts.get(item["notice_kind"], 0) + 1
+        labels[str(item["label"])] = labels.get(str(item["label"]), 0) + 1
     duplicates = sum(1 for i in items.values() if i["duplicate_of"])
     summary = ", ".join(f"{k} {v}" for k, v in sorted(counts.items()))
-    print(f"{len(items)}건 추출 → {EXTRACTED_DIR.relative_to(EXTRACTED_DIR.parents[1])} "
-          f"({summary}, 재게시 {duplicates}, 마감일이 달라 나눈 글 {len(split)})")
+    label_summary = ", ".join(f"{k} {v}" for k, v in sorted(labels.items()))
+    print(f"{len(items)}건 추출 → {args.out} ({summary}, 재게시 {duplicates}, 마감일이 달라 나눈 글 {len(split)})")
+    print(f"라벨: {label_summary}")
 
 
 if __name__ == "__main__":

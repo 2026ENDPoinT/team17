@@ -7,6 +7,8 @@
 
 from extract import split_by_deadline
 from rules import (
+    classify_kind,
+    classify_label,
     extract_amount,
     extract_departments,
     extract_eligibility,
@@ -46,6 +48,10 @@ def departments(text):
 
 def residence(text):
     return extract_residence("", text)[0]
+
+
+def label(title):
+    return classify_label(title, classify_kind(title)[0])[0]
 
 
 # 재게시 묶음 나누기용 가짜 공지 3건. 크롤러가 셋 다 1번 글로 묶었다고 가정한다 (2, 3 → 1).
@@ -128,6 +134,15 @@ CASES = [
     (residence, "- 희망사항: 학교인근 거주자 우대, 컴퓨터활용능력자격증 소지자 우대 (필수사항은 아님)", None, "897664"),
     (residence, "5. 신청방법 : 등기우편 및 방문접수 (서울특별시 은평구 은평로195 은평구청 3층 시민교육과)", None, "896404 접수처"),
     (residence, "지원자격: 서울 소재 대학 재학생, 거주지 무관", None, "학교 위치·무관"),
+    # ── 라벨 (모집 / 수정 / 완료) ──
+    (label, "2026학년도 2학기 2차 어의장학생 선발 안내", "모집", "모집 공지"),
+    (label, "[학부] 2026년 대림수암장학문화재단 장학생 선발 안내(기한 연장: ~9. 23.(수) 13:00까지)", "수정", "raw_test 기한 연장"),
+    (label, "2026학년도 2학기 발전기금 특정장학금 신청 안내(수정)", "수정", "raw_test 수정 공지"),
+    (label, "(홍보) 우양재단 2026년 동행 장학생 모집 안내(마감)", "완료", "896304 마감"),
+    (label, "(신청기간 연장) 2026년 에스엘이충곤재단 장학생 선발 안내(선발완료)", "완료", "895588 연장보다 완료가 나중 상태"),
+    (label, "(지급완료)2026학년도 2학기 국가장학금1유형 1차 대상자 후지급 완료", "완료", "896739 결과 공지"),
+    (label, "2026학년도 2학기 학부 등록금 분할납부 2차 납부 안내", None, "896103 장학금 공지 아님"),
+    (label, "[주거안정장학금 선발 학생 필독] 장학생 서약서 10/27(화)까지 제출(필수) 및 지급 일정 안내", None, "896751 안내"),
     # ── 재게시 묶음 나누기 (입력: 아래 GROUPS의 이름, 출력: {id: duplicate_of}) ──
     (regroup, "마감일 같음", {"1": None, "2": "1", "3": "1"}, "같은 마감일이면 크롤러 묶음 그대로"),
     (regroup, "마감일 다름", {"1": None, "2": None, "3": "1"}, "2차 모집(마감일 다름)은 따로 대표"),

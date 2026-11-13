@@ -1,7 +1,8 @@
 # classifier: 장학금 공지 분류·추출
 
-크롤러가 만든 `data/raw/{bidx}.json`을 읽어 모집 공지인지 가리고, 금액·마감·조건·서류를 뽑아 `data/extracted/{bidx}.json`에 쓴다.
-빌드하면 사람 검수값(`data/reviewed/`)을 덮어써서 화면용 `web/public/scholarships.json`을 만든다.
+크롤러가 만든 `data/raw/{bidx}.json`을 읽어 공지마다 금액·마감·조건·서류를 뽑고 **라벨(모집 / 수정 / 완료)**을 붙여 `data/extracted/{bidx}.json`에 쓴다.
+전체 단계는 **수집 → 라벨링(이 폴더) → 이벤트 묶기 → 화면**이다 ([docs/scholarship-mvp.md](../docs/scholarship-mvp.md) 3절). 이벤트 묶기 단계가 `data/extracted/`를 읽어 같은 장학금의 공지들을 이벤트 1개로 묶는다.
+`build.py`(공지 단위 `scholarships.json`)는 이벤트 묶기 이전 방식이다. 최종 빌드 담당이 정해질 때까지 남겨 둔다.
 
 - 담당: 분류 담당 (이 폴더와 `data/extracted/`는 분류 담당만 고친다)
 - 입력 형식: [`data/raw/_sample.json`](../data/raw/_sample.json), 설명은 [`crawler/README.md`](../crawler/README.md)
@@ -13,6 +14,7 @@
 
 ```bash
 uv run python classifier/extract.py   # data/raw → data/extracted
+uv run python classifier/extract.py --raw data/raw_test --out <저장소 밖 폴더>  # 6개월 시험 데이터로 규칙 점검 (data/extracted에 쓰지 않는다)
 uv run python classifier/build.py     # data/extracted + data/reviewed → web/public/scholarships.json
 uv run python classifier/check_rules.py  # 규칙 정답 세트 (맞힌 수 출력)
 ```
@@ -69,6 +71,16 @@ raw JSON (본문 + 첨부)
 ## 처리 순서
 
 1. **공지 종류** (제목만 본다): 결과 단어("지급완료", "심사 결과"…) → `결과`, 안내 단어("서약서", "박람회"…) → `안내`, 모집 단어 + 장학 단어 → `모집`, 나머지 → `확인필요`. **빌드에는 `모집`만 들어간다.**
+   - **라벨** (`classify_label`): 이벤트 묶기 단계가 같은 장학금의 공지들(모집 → 수정 → 완료)을 묶고 마지막 공지로 상태를 정할 때 쓴다. 한 공지에 여러 신호가 있으면 더 나중 상태를 고른다 (완료 > 수정 > 모집).
+
+     | 라벨 | 조건 | 예 |
+     |---|---|---|
+     | `완료` | 공지 종류가 `결과`이거나, 모집 공지 제목에 `CLOSED_WORDS`(마감·선발완료·모집완료·종료) | "(지급완료) …", "… 모집 안내(마감)", "(신청기간 연장) … (선발완료)" |
+     | `수정` | 모집 공지 제목에 `UPDATE_WORDS`(연장·변경·정정·(수정)·재공고) | "… 선발 안내(기한 연장: ~9. 23.)", "… 신청 안내(수정)" |
+     | `모집` | 나머지 모집 공지 | |
+     | `null` | 공지 종류가 `안내`·`확인필요` (장학금 모집·수정·완료 공지가 아님) | "등록금 분할납부 2차 납부 안내", "장학생 서약서 제출 및 지급 일정 안내" |
+
+     시험 데이터 238건: 모집 102, 수정 5, 완료 79(마감 59, 결과 12, 모집완료 5, 선발완료 3), 없음 52. 라벨이 없는 것은 대부분 등록금 납부·튜터 모집·서류 제출 안내다. 공지 종류 규칙이 놓친 모집 공지("국가근로장학생 교체_(주)피플즈", "연구 장학금 지원 안내")는 라벨도 없으니 검수에서 `{"notice_kind": "모집", "label": "모집"}`으로 고친다.
 2. **유형**: 근로장학 게시판(`bnum=57138`)이거나 제목에 "근로" → `근로`, "(홍보)"·"재단"·"장학회" → `교외`, 나머지 → `교내`.
 3. **금액**: 금액 단어가 있는 줄에서 등록금 비율 → 시급 → 만원 → 원 순서로 찾는다. 같은 줄에서 소득 단어("차상위", "소득")보다 뒤에 나오는 금액은 소득 기준일 수 있어 쓰지 않는다. "또는", "택1"이 있으면 값은 첫 금액, `text`는 줄 전체로 둔다.
 4. **마감일**: 제목의 `~11/12`을 먼저 보고(연장되면 제목이 바뀌므로), 없으면 본문의 "신청기간", "까지" 줄에서 마지막 날짜를 쓴다. 발표·면접·근무기간 줄은 건너뛴다. "선발 완료시까지" 같은 상시 모집은 `deadline: null`, `deadline_text: "상시 모집 (…)"`로 두고 확인 필요로 표시하지 않는다.
@@ -145,7 +157,7 @@ raw JSON (본문 + 첨부)
 
 ## 추출 결과 필드 (`data/extracted/{bidx}.json`)
 
-공지 1건 = 파일 1개. 화면용 `scholarships.json`의 항목은 이 파일에서 `notice_kind`, `notice_kind_reason`, `duplicate_of`, `duplicate_split`, `filtered_conditions`, `from_attachment`, `content_hash`, `exclude`를 뺀 것이다 (`build.py`의 `INTERNAL_KEYS`). 화면 쪽 기준 샘플은 [`data/scholarships.sample.json`](../data/scholarships.sample.json).
+공지 1건 = 파일 1개. 화면용 `scholarships.json`의 항목은 이 파일에서 `notice_kind`, `notice_kind_reason`, `label`, `label_reason`, `duplicate_of`, `duplicate_split`, `filtered_conditions`, `from_attachment`, `content_hash`, `exclude`를 뺀 것이다 (`build.py`의 `INTERNAL_KEYS`). 화면 쪽 기준 샘플은 [`data/scholarships.sample.json`](../data/scholarships.sample.json).
 
 **기본 정보**
 
@@ -166,6 +178,8 @@ raw JSON (본문 + 첨부)
 |---|---|---|
 | `notice_kind` | string | `모집` / `결과` / `안내` / `확인필요`. 빌드에는 `모집`만 들어간다 |
 | `notice_kind_reason` | string | 그렇게 판단한 이유. 예: "제목에 '장학', '선발'" |
+| `label` | string \| null | 라벨: `모집` / `수정`(기한 연장·일정 변경·정정) / `완료`(마감·결과). 장학금 공지가 아니면 `null`. 이벤트 묶기 단계가 읽는다 |
+| `label_reason` | string | 그 라벨을 붙인 이유. 예: "제목에 '연장'" |
 | `closed` | bool | 제목에 "(마감)", "선발완료" 등이 있으면 `true`. 마감일을 모르는 공지도 모집이 끝났는지 알 수 있다 |
 
 **금액·마감**
