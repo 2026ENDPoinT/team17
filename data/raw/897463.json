@@ -1,0 +1,20 @@
+{
+  "bidx": 897463,
+  "bnum": 5233,
+  "site": "www",
+  "board": "장학공지",
+  "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=897463",
+  "title": "(홍보) 한국장학재단 중복지원 방지 사업 안내 (필독: 장학금+학자금 대출 받은 학생)",
+  "posted_date": "2026-11-04",
+  "pinned": false,
+  "matched_keywords": [
+    "장학",
+    "학자금"
+  ],
+  "body_text": "장학금과 학자금 대출을 모두 수혜받은 학생은 아래 내용을 확인하여 중복지원에 해당하는지 확인하시기 바랍니다.\n\n중복지원이 해소되지 않을 경우, 향후 장학금 수혜에 불이익이 있을 수 있습니다.",
+  "has_images": true,
+  "attachments": [],
+  "content_hash": "sha256:60ee2b1cb17f7751cd8ad92cb4a7dd2e76ae0340f20df19c89af43632b2e37c1",
+  "first_seen": "2026-11-13T19:43:17+09:00",
+  "last_checked": "2026-11-13T19:44:05+09:00"
+}

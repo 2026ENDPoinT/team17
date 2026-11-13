@@ -1,0 +1,3 @@
+# 학교 페이지 원본 HTML. 이메일·전화번호가 그대로 들어 있어 Git에 올리지 않는다.
+# 다시 만들기: uv run python crawler/crawl.py --mode record
+fixtures/

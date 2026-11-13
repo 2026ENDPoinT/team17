@@ -1,0 +1,34 @@
+{
+  "bidx": 895660,
+  "bnum": 5233,
+  "site": "www",
+  "board": "장학공지",
+  "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=895660",
+  "title": "(홍보) 2026년 하반기 문주장학재단 AI · ICT 인재 장학생 선발 안내(마감)",
+  "posted_date": "2026-09-17",
+  "pinned": false,
+  "matched_keywords": [
+    "장학"
+  ],
+  "body_text": "",
+  "has_images": true,
+  "attachments": [
+    {
+      "name": "(신청서식)2026년_하반기_문주장학재단_주관_장학생_지원서식.hwp",
+      "ext": "hwp",
+      "url": "https://www.seoultech.ac.kr/storage/www/bbs/5233/6FA3626E318745289FAF2A4EC33876E1_.hwp",
+      "text": null,
+      "text_status": "not_extracted"
+    },
+    {
+      "name": "(공고문)2026년_하반기_문주장학재단_주관_AI_ICT_장학생_선발_공고문.pdf",
+      "ext": "pdf",
+      "url": "https://www.seoultech.ac.kr/storage/www/bbs/5233/DF81C5450C694B32843CF00BB00484BC_.pdf",
+      "text": null,
+      "text_status": "not_extracted"
+    }
+  ],
+  "content_hash": "sha256:3bde078519b5c0e4d8d0ef9f999e2a9abbe047dc342288d02de3cf9a79801f3c",
+  "first_seen": "2026-11-13T19:43:17+09:00",
+  "last_checked": "2026-11-13T19:43:17+09:00"
+}

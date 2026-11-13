@@ -1,0 +1,34 @@
+{
+  "bidx": 897116,
+  "bnum": 5233,
+  "site": "www",
+  "board": "장학공지",
+  "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=897116",
+  "title": "(홍보) 2026년 2학기 푸른등대 기부장학금 신규장학생 신청 안내(~11/12(목)까지)",
+  "posted_date": "2026-10-27",
+  "pinned": false,
+  "matched_keywords": [
+    "장학"
+  ],
+  "body_text": "",
+  "has_images": true,
+  "attachments": [
+    {
+      "name": "붙임1_2026년 2학기 푸른등대 기부장학금(2차) 사업계획서 및 업무처리기준.pdf",
+      "ext": "pdf",
+      "url": "https://www.seoultech.ac.kr/storage/www/bbs/5233/B562E417A45F4C77A83BAA2A246DBF1F_.pdf",
+      "text": null,
+      "text_status": "not_extracted"
+    },
+    {
+      "name": "붙임2_2026년 2학기 푸른등대 기부장학금(2차) 신청 홍보 포스터.jpg",
+      "ext": "jpg",
+      "url": "https://www.seoultech.ac.kr/storage/www/bbs/5233/D5BD8A0C455743548A5C9F52B98AF6C6_.jpg",
+      "text": null,
+      "text_status": "not_extracted"
+    }
+  ],
+  "content_hash": "sha256:008ad57c509527b549a2b491b2ef5f6a85e8627ee34a7be3f1f4b453930993a2",
+  "first_seen": "2026-11-13T19:43:17+09:00",
+  "last_checked": "2026-11-13T19:43:17+09:00"
+}

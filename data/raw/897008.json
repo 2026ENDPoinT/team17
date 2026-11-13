@@ -1,0 +1,27 @@
+{
+  "bidx": 897008,
+  "bnum": 5233,
+  "site": "www",
+  "board": "장학공지",
+  "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=897008",
+  "title": "(홍보) 2026년 2학기 선원가족장학사업 선발 안내(마감)",
+  "posted_date": "2026-10-23",
+  "pinned": false,
+  "matched_keywords": [
+    "장학"
+  ],
+  "body_text": "관심있는 학생은 아래 내용과 첨부파일을 확인하시어 기한내에 신청하시기 바랍니다.",
+  "has_images": true,
+  "attachments": [
+    {
+      "name": "2026년 2학기 선원가족장학사업 선발 모집 요강(변경).hwp",
+      "ext": "hwp",
+      "url": "https://www.seoultech.ac.kr/storage/www/bbs/5233/0E3F209B72434E599A8F97D934625320_.hwp",
+      "text": null,
+      "text_status": "not_extracted"
+    }
+  ],
+  "content_hash": "sha256:d350d4211d82fce82042f01df2a879224be192d6884dabcca4e376e915c9381a",
+  "first_seen": "2026-11-13T19:43:17+09:00",
+  "last_checked": "2026-11-13T19:43:17+09:00"
+}

@@ -1,0 +1,34 @@
+{
+  "bidx": 897009,
+  "bnum": 5233,
+  "site": "www",
+  "board": "장학공지",
+  "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=897009",
+  "title": "(홍보) 2026년 2학기 거창군 지역출신 대학생 등록금 지원사업 안내(~11/16(월)까지)",
+  "posted_date": "2026-10-23",
+  "pinned": false,
+  "matched_keywords": [
+    "등록금"
+  ],
+  "body_text": "관심있는 학생은 아래 내용과 첨부파일을 확인하시어 기한내에 신청하시기 바랍니다.",
+  "has_images": true,
+  "attachments": [
+    {
+      "name": "공고문_2026년 2학기 거창군 지역출신 대학생 등록금 지원사업.pdf",
+      "ext": "pdf",
+      "url": "https://www.seoultech.ac.kr/storage/www/bbs/5233/9BA3B25BA45344FCB19562144C7BCA5C_.pdf",
+      "text": null,
+      "text_status": "not_extracted"
+    },
+    {
+      "name": "신청서 서식.hwpx",
+      "ext": "hwpx",
+      "url": "https://www.seoultech.ac.kr/storage/www/bbs/5233/36D30385157A487DA7C643555DC5DE4A_.hwpx",
+      "text": null,
+      "text_status": "not_extracted"
+    }
+  ],
+  "content_hash": "sha256:29e0474a38642320bc37b18af94f17e5d2a8708eedd564a38054e3d7e754ae10",
+  "first_seen": "2026-11-13T19:43:17+09:00",
+  "last_checked": "2026-11-13T19:43:17+09:00"
+}

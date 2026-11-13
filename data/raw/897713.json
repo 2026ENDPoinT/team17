@@ -1,0 +1,27 @@
+{
+  "bidx": 897713,
+  "bnum": 5233,
+  "site": "www",
+  "board": "장학공지",
+  "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=897713",
+  "title": "(홍보) 유하푸른재단 2027년도 제10기 장학생 선발 안내(~11/20(금)까지)",
+  "posted_date": "2026-11-11",
+  "pinned": false,
+  "matched_keywords": [
+    "장학"
+  ],
+  "body_text": "관심있는 학생은 아래 내용과 첨부파일을 꼼꼼히 확인하여 기한 내에 지원하시기 바랍니다.",
+  "has_images": true,
+  "attachments": [
+    {
+      "name": "2. 유하푸른재단 제 10기 장학생 지원서 (학교명, 지원자명).docx",
+      "ext": "docx",
+      "url": "https://www.seoultech.ac.kr/storage/www/bbs/5233/02A742E0130E4231B20205FEBFA29C79_.docx",
+      "text": null,
+      "text_status": "not_extracted"
+    }
+  ],
+  "content_hash": "sha256:67848b6ec6937b72e61e8477079554fa335c3f26c9f139469da83d78f48ab449",
+  "first_seen": "2026-11-13T19:43:17+09:00",
+  "last_checked": "2026-11-13T19:44:05+09:00"
+}

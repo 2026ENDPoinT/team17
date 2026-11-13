@@ -1,0 +1,34 @@
+{
+  "bidx": 896744,
+  "bnum": 5233,
+  "site": "www",
+  "board": "장학공지",
+  "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896744",
+  "title": "(홍보) 한국고등교육재단 제7회 인재림 장학생 선발 안내(마감)",
+  "posted_date": "2026-10-20",
+  "pinned": false,
+  "matched_keywords": [
+    "장학"
+  ],
+  "body_text": "",
+  "has_images": true,
+  "attachments": [
+    {
+      "name": "[한국고등교육재단] 인재림 제7기 장학생 선발 모집 요강.docx",
+      "ext": "docx",
+      "url": "https://www.seoultech.ac.kr/storage/www/bbs/5233/0FD1816C095B4826B9CA2E97722FDDA0_.docx",
+      "text": null,
+      "text_status": "not_extracted"
+    },
+    {
+      "name": "2026_인재림_제7기_포스터.jpg",
+      "ext": "jpg",
+      "url": "https://www.seoultech.ac.kr/storage/www/bbs/5233/6C649F02DA6B40A7BBB6C02554CF3950_.jpg",
+      "text": null,
+      "text_status": "not_extracted"
+    }
+  ],
+  "content_hash": "sha256:7228510845327052b9eaa275be626a122565a85b2743ca91ff65be66df2571f2",
+  "first_seen": "2026-11-13T19:43:17+09:00",
+  "last_checked": "2026-11-13T19:43:17+09:00"
+}

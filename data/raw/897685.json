@@ -1,0 +1,25 @@
+{
+  "bidx": 897685,
+  "bnum": 5233,
+  "site": "www",
+  "board": "장학공지",
+  "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=897685",
+  "title": "(홍보) 2026년 KRA아동돌봄 지원사업(겨울방학) 참여 대학생 모집 안내(~11/18(수)까지)",
+  "posted_date": "2026-11-10",
+  "pinned": false,
+  "matched_keywords": [],
+  "body_text": "",
+  "has_images": true,
+  "attachments": [
+    {
+      "name": "[붙임]1. 2026년 대학생 봉사자 연계 지역돌봄 지원사업(KRA지역돌봄-겨울방학).hwpx",
+      "ext": "hwpx",
+      "url": "https://www.seoultech.ac.kr/storage/www/bbs/5233/7DACF6EDD2EA45BC9809D302A9E04F4B_.hwpx",
+      "text": null,
+      "text_status": "not_extracted"
+    }
+  ],
+  "content_hash": "sha256:9953958bcc74fe5ce56478cbe93fb04d9c1929ecac962918101b3b791bd9825c",
+  "first_seen": "2026-11-13T19:43:17+09:00",
+  "last_checked": "2026-11-13T19:44:05+09:00"
+}

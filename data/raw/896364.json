@@ -1,0 +1,35 @@
+{
+  "bidx": 896364,
+  "bnum": 57138,
+  "site": "www",
+  "board": "장학공지",
+  "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=57138&bidx=896364",
+  "title": "[장애학생지원센터] 2026학년도 2학기 장애학생 봉사유형 국가근로장학생 모집(학습도우미, 마감)",
+  "posted_date": "2026-10-08",
+  "pinned": false,
+  "matched_keywords": [
+    "장학",
+    "근로"
+  ],
+  "body_text": "장애학생지원센터에서는 2026학년도 2학기 장애학생 봉사유형 국가근로장학생을 다음과 같이 모집합니다.\n\n1. 모집인원: 1명\n\n2. 근로조건: 시급 12,790원 (교외근로 시급 적용)\n\n3. 근로시간\n\n가. 토요일 13시~16시(디지털메이킹(2) 수업시간)\n\n나. 그외 튜터링에 필요한 시간(장애학생과 협의)\n\n4. 근로내용: 디지털메이킹(2) 수업 튜터링(학습도우미)\n\n5. 지원자격\n\n가. 직전학기 성적 70점 이상 취득한 학생\n\n나. 해당 근로시간에 근무가 가능한 자(해당수업 청강이 가능한 학생)\n\n다. 모델링 프로그램 Rhino를 활용할 수 있으며, 수업내용을 이해 할 수 있어 장애학생 학습지원이 가능한 자\n\n라. 여학생 모집\n\n6. 근무기간: 선발~2026. 12.21. (종강)까지\n\n7. 모집기간: ~2026. 10. 16.(금) 16:00까지\n\n※지원자가 많을 시 조기 마감될 수 있음\n\n※지원서 제출 후 1차 선발예정자에 한하여 개별 연락 및 면접 진행 예정\n\n8. 지원방법: 작성 서류 이메일 제출 ([연락처])\n\n가. 제출서류\n\n1) 국가근로장학생지원서 1부 ※지도교수 추천서는 공란으로 제출(최종 선발자에 한하여 별도 요청 예정)\n\n9. 문의처: 장애학생지원센터 (☏[연락처])",
+  "has_images": false,
+  "attachments": [
+    {
+      "name": "국가근로장학생 지원서.hwp",
+      "ext": "hwp",
+      "url": "https://www.seoultech.ac.kr/storage/www/bbs/57138/A5870092D5B243E8A9F3666BAAAB3632_.hwp",
+      "text": null,
+      "text_status": "not_extracted"
+    },
+    {
+      "name": "근로학생 자기소개서.hwp",
+      "ext": "hwp",
+      "url": "https://www.seoultech.ac.kr/storage/www/bbs/57138/283BF63DAF5543ACA8D13F391036FADB_.hwp",
+      "text": null,
+      "text_status": "not_extracted"
+    }
+  ],
+  "content_hash": "sha256:3d9852e5f7e7845b8110a0488b0c47317fe2f86f98ce18633ac6359a067d27fa",
+  "first_seen": "2026-11-13T19:43:17+09:00",
+  "last_checked": "2026-11-13T19:43:17+09:00"
+}

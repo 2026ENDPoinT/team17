@@ -1,0 +1,34 @@
+{
+  "bidx": 896262,
+  "bnum": 5233,
+  "site": "www",
+  "board": "장학공지",
+  "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896262",
+  "title": "(홍보) 2026년 하반기 (재)논산시장학회 학업장려 장학생 선발 안내(마감)",
+  "posted_date": "2026-10-06",
+  "pinned": false,
+  "matched_keywords": [
+    "장학"
+  ],
+  "body_text": "관심있는 학생은 첨부파일을 참고하시어, 기한 내에 신청하시기 바랍니다.",
+  "has_images": true,
+  "attachments": [
+    {
+      "name": "2026년도 하반기 재단법인 논산시장학회 장학생 신청 서식.hwpx",
+      "ext": "hwpx",
+      "url": "https://www.seoultech.ac.kr/storage/www/bbs/5233/B4408C7478B7460AB4D292BFB4841FFA_.hwpx",
+      "text": null,
+      "text_status": "not_extracted"
+    },
+    {
+      "name": "2026년도 하반기 재단법인 논산시장학회 장학생 선발 공고문(발췌본).hwpx",
+      "ext": "hwpx",
+      "url": "https://www.seoultech.ac.kr/storage/www/bbs/5233/841444BDC7CF4C1D90A08DF9F74851BA_.hwpx",
+      "text": null,
+      "text_status": "not_extracted"
+    }
+  ],
+  "content_hash": "sha256:19c01d626ac9dbf19c42f28a4642db529b9798c6e058c0fa6caed74981edd2bb",
+  "first_seen": "2026-11-13T19:43:17+09:00",
+  "last_checked": "2026-11-13T19:43:17+09:00"
+}
