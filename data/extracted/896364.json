@@ -1,0 +1,55 @@
+{
+  "id": "896364",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '모집'",
+  "name": "2026학년도 2학기 장애학생 봉사유형 국가근로장학생 모집",
+  "title": "[장애학생지원센터] 2026학년도 2학기 장애학생 봉사유형 국가근로장학생 모집(학습도우미, 마감)",
+  "category": "근로",
+  "summary": "장애학생지원센터에서는 2026학년도 2학기 장애학생 봉사유형 국가근로장학생을 다음과 같이 모집합니다.",
+  "amount": {
+    "type": "hourly",
+    "value": 12790,
+    "text": "시급 12,790원"
+  },
+  "deadline": "2026-10-16",
+  "deadline_text": "~2026. 10. 16.(금) 16:00까지",
+  "closed": true,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": null,
+    "score_min": 70,
+    "income_max": null,
+    "residence": null,
+    "unclear": [],
+    "other_conditions": [
+      "해당 근로시간에 근무가 가능한 자(해당수업 청강이 가능한 학생)",
+      "모델링 프로그램 Rhino를 활용할 수 있으며, 수업내용을 이해 할 수 있어 장애학생 학습지원이 가능한 자",
+      "여학생 모집"
+    ]
+  },
+  "burden": {
+    "documents": [
+      "국가근로장학생지원서"
+    ],
+    "interview": true
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "장학공지",
+    "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=57138&bidx=896364",
+    "posted_at": "2026-10-08"
+  },
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": "2. 근로조건: 시급 12,790원 (교외근로 시급 적용)",
+    "deadline": "7. 모집기간: ~2026. 10. 16.(금) 16:00까지",
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "needs_check": [],
+  "content_hash": "sha256:3d9852e5f7e7845b8110a0488b0c47317fe2f86f98ce18633ac6359a067d27fa",
+  "reviewed": false
+}

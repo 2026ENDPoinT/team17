@@ -1,0 +1,53 @@
+{
+  "id": "896094",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '선발'",
+  "name": "2026학년도 2학기 조형도동문 장학생",
+  "title": "[발전기금] 2026학년도 2학기 조형도동문 장학생 선발 공고(국가유공자 관련 장학, ~10/14(수)까지)",
+  "category": "교내",
+  "summary": "조형도동문 장학금 장학생을 다음과 같이 모집하오니 선발기준에 적합한 학생들은 안내문을 참조하여 서류를 지원하시기 바랍니다.",
+  "amount": {
+    "type": "lump_sum",
+    "value": 1000000,
+    "text": "100만원"
+  },
+  "deadline": "2026-10-14",
+  "deadline_text": "[발전기금] 2026학년도 2학기 조형도동문 장학생 선발 공고(국가유공자 관련 장학, ~10/14(수)까지)",
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": null,
+    "score_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": [
+      "income_max"
+    ],
+    "other_conditions": []
+  },
+  "burden": {
+    "documents": [],
+    "interview": false
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "장학공지",
+    "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896094",
+    "posted_at": "2026-09-30"
+  },
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": "5. 장학금액 : 1인당 100만원(최대1학기만 지원)",
+    "deadline": "[발전기금] 2026학년도 2학기 조형도동문 장학생 선발 공고(국가유공자 관련 장학, ~10/14(수)까지)",
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "needs_check": [
+    "documents"
+  ],
+  "content_hash": "sha256:072a42258049d16b40234cca2f0e7f78f31af96e8f48f17504ef185c7e1d5c38",
+  "reviewed": false
+}

@@ -36,7 +36,11 @@ def _wait_for(host: str):
     _last_request[host] = time.monotonic()
 
 
-def _download(url: str) -> str:
+class TooLarge(Exception):
+    pass
+
+
+def _download_bytes(url: str, max_bytes: int | None = None) -> bytes:
     host = urllib.parse.urlparse(url).netloc
     delay = 2.0
     for attempt in range(RETRIES + 1):
@@ -44,13 +48,38 @@ def _download(url: str) -> str:
         try:
             req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
             with urllib.request.urlopen(req, timeout=TIMEOUT, context=_ssl) as r:
-                return r.read().decode("utf-8", "replace")
+                if max_bytes is None:
+                    return r.read()
+                data = r.read(max_bytes + 1)
+                if len(data) > max_bytes:
+                    raise TooLarge(url)
+                return data
+        except TooLarge:
+            raise
         except Exception:
             if attempt == RETRIES:
                 raise
             time.sleep(delay)
             delay *= 2
     raise RuntimeError("unreachable")
+
+
+def _download(url: str) -> str:
+    return _download_bytes(url).decode("utf-8", "replace")
+
+
+def get_bytes(url: str, mode: str, max_bytes: int) -> bytes:
+    """첨부파일용. record 모드면 crawler/fixtures/files/에 저장한다. (첨부 원본은 Git에 올리지 않는다)"""
+    path = FIXTURE_DIR / "files" / (hashlib.sha1(url.encode("utf-8")).hexdigest()[:16] + ".bin")
+    if mode == "offline":
+        if not path.exists():
+            raise FixtureMissing(url)
+        return path.read_bytes()
+    data = _download_bytes(url, max_bytes)
+    if mode == "record":
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(data)
+    return data
 
 
 def _save_fixture(url: str, text: str):

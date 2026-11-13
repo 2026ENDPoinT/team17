@@ -1,0 +1,51 @@
+{
+  "id": "896665",
+  "notice_kind": "확인필요",
+  "notice_kind_reason": "제목에 '모집'는 있지만 장학 관련 단어가 없음",
+  "name": "2026학년도 2학기 중간고사 시험지원인력 모집",
+  "title": "[장애학생지원센터] 2026학년도 2학기 중간고사 시험지원인력 모집(마감)",
+  "category": "근로",
+  "summary": "장애학생지원센터에서는 2026학년도 2학기 중간고사 시험지원인력을 다음과 같이 모집합니다.",
+  "amount": {
+    "type": "hourly",
+    "value": 12790,
+    "text": "시급 12,790원"
+  },
+  "deadline": "2026-10-21",
+  "deadline_text": "~2026. 10. 21.(수) 16:00까지",
+  "closed": true,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": null,
+    "score_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": [],
+    "other_conditions": []
+  },
+  "burden": {
+    "documents": [],
+    "interview": false
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "장학공지",
+    "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=57138&bidx=896665",
+    "posted_at": "2026-10-16"
+  },
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": "가. 답안지 대필: 시급 12,790원(1명)",
+    "deadline": "4. 모집기간: ~2026. 10. 21.(수) 16:00까지",
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "needs_check": [
+    "documents"
+  ],
+  "content_hash": "sha256:752300fece7a8891ac33a33ba8cdead7351075a8898c1498e355333188c790ed",
+  "reviewed": false
+}

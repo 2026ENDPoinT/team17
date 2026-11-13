@@ -6,7 +6,10 @@ readme = "README.md"
 # 팀원 PC 중 가장 낮은 버전이 3.11이다. 3.11에서 돌아가는 문법만 쓴다.
 requires-python = ">=3.11"
 # 라이브러리는 담당자가 필요할 때 `uv add <이름>`으로 추가한다. (AGENTS.md: 추가 전 팀에 알리기)
-dependencies = []
+dependencies = [
+    "hwp-hwpx-parser>=1.0.0",
+    "pypdf>=7.1.0",
+]
 
 [dependency-groups]
 dev = [

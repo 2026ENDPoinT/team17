@@ -1,0 +1,63 @@
+{
+  "id": "897477",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '신청'",
+  "name": "2027년 한국지도자육성장학재단 장학금",
+  "title": "2027년 한국지도자육성장학재단 장학금 신청안내(마감)",
+  "category": "교외",
+  "summary": "가. 장학명: 2027년 한국지도자육성장학재단 장학금",
+  "amount": {
+    "type": "tuition_ratio",
+    "value": 100,
+    "text": "등록금 전액(수업료) 또는 학기당 350만원의 학업보조비 ※동시지원불가, 택1 하여 지원"
+  },
+  "deadline": "2026-11-09",
+  "deadline_text": "신청기간: 2026. 11. 9. (월) 까지",
+  "closed": true,
+  "eligibility": {
+    "grades": [
+      3
+    ],
+    "departments": null,
+    "gpa_min": null,
+    "score_min": 85,
+    "income_max": null,
+    "residence": null,
+    "unclear": [],
+    "other_conditions": [
+      "2027년도 1학기 기준, 3학년 1학기에 등록예정인 자",
+      "매 정규학기 당 최소 12학점 이상 이수한 자(계절학기 미인정)",
+      "학칙에 의한 징계사실(학사징계 포함)이 없는 자"
+    ]
+  },
+  "burden": {
+    "documents": [
+      "장학생 지원서",
+      "추천서",
+      "자기소개서",
+      "개인정보 수집 이용 제공 및 조회 동의서",
+      "장학생 의무사항 참여동의서",
+      "전체학년 성적증명서",
+      "우대조건(가산점 부여) 항목 증빙서류"
+    ],
+    "interview": true
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "장학공지",
+    "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=897477",
+    "posted_at": "2026-11-04"
+  },
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": "다. 지원금액: 등록금 전액(수업료) 또는 학기당 350만원의 학업보조비 ※동시지원불가, 택1 하여 지원",
+    "deadline": "마: 신청기간: 2026. 11. 9. (월) 까지",
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "needs_check": [],
+  "content_hash": "sha256:25f46016553aa3bb4ce029daf0a111af2078386ad34f3bc3b764ba4364e786c2",
+  "reviewed": false
+}

@@ -1,0 +1,53 @@
+{
+  "id": "897685",
+  "notice_kind": "확인필요",
+  "notice_kind_reason": "제목에 '모집'는 있지만 장학 관련 단어가 없음",
+  "name": "2026년 KRA아동돌봄 지원사업(겨울방학) 참여 대학생",
+  "title": "(홍보) 2026년 KRA아동돌봄 지원사업(겨울방학) 참여 대학생 모집 안내(~11/18(수)까지)",
+  "category": "교외",
+  "summary": "본문 없이 포스터 이미지로 안내된 공지입니다. 원문을 확인하세요.",
+  "amount": {
+    "type": "unknown",
+    "value": null,
+    "text": null
+  },
+  "deadline": "2026-11-18",
+  "deadline_text": "(홍보) 2026년 KRA아동돌봄 지원사업(겨울방학) 참여 대학생 모집 안내(~11/18(수)까지)",
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": null,
+    "score_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": [],
+    "other_conditions": []
+  },
+  "burden": {
+    "documents": [],
+    "interview": null
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "장학공지",
+    "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=897685",
+    "posted_at": "2026-11-10"
+  },
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": null,
+    "deadline": "(홍보) 2026년 KRA아동돌봄 지원사업(겨울방학) 참여 대학생 모집 안내(~11/18(수)까지)",
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "needs_check": [
+    "amount",
+    "documents",
+    "poster_only"
+  ],
+  "content_hash": "sha256:9953958bcc74fe5ce56478cbe93fb04d9c1929ecac962918101b3b791bd9825c",
+  "reviewed": false
+}

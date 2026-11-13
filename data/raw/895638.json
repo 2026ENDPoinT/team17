@@ -1,0 +1,28 @@
+{
+  "bidx": 895638,
+  "bnum": 56506,
+  "site": "biz",
+  "board": "공지사항",
+  "url": "https://biz.seoultech.ac.kr/railway/bizrailwaynotice?do=view&bnum=56506&bidx=895638",
+  "title": "\"토픽 성적\" 관련 장학금 및 졸업시험(교양) 신청 안내",
+  "posted_date": "2026-09-17",
+  "pinned": false,
+  "duplicate_of": null,
+  "matched_keywords": [
+    "장학"
+  ],
+  "body_text": "",
+  "has_images": true,
+  "attachments": [
+    {
+      "name": "IMG_3372.png",
+      "ext": "png",
+      "url": "https://biz.seoultech.ac.kr/storage/biz/bbs/56506/291454499E1C4D40BF3909E2A3F797F2_.png",
+      "text": null,
+      "text_status": "unsupported"
+    }
+  ],
+  "content_hash": "sha256:3167f86965bd4e8be60966be4255ef100b3ff93e2df187d4070672d4ab5d02b6",
+  "first_seen": "2026-11-13T20:57:59+09:00",
+  "last_checked": "2026-11-13T20:57:59+09:00"
+}

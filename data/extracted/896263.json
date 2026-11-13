@@ -1,0 +1,55 @@
+{
+  "id": "896263",
+  "notice_kind": "안내",
+  "notice_kind_reason": "제목에 '박람회'",
+  "name": "희망사다리 장학생 대상 대전 일자리 박람회",
+  "title": "(홍보) 희망사다리 장학생 대상 대전 일자리 박람회 안내(마감)",
+  "category": "교외",
+  "summary": "한국장학재단에서는 희망사다리 장학생의 취업, 창업 활성화를 위해 다양한 기관과 협업하여 일자리 박람회를 개최하고 있습니다.",
+  "amount": {
+    "type": "unknown",
+    "value": null,
+    "text": null
+  },
+  "deadline": null,
+  "deadline_text": null,
+  "closed": true,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": null,
+    "score_min": null,
+    "income_max": null,
+    "residence": "대전",
+    "unclear": [
+      "residence"
+    ],
+    "other_conditions": []
+  },
+  "burden": {
+    "documents": [],
+    "interview": false
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "장학공지",
+    "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896263",
+    "posted_at": "2026-10-06"
+  },
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": null,
+    "deadline": null,
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": "(홍보) 희망사다리 장학생 대상 대전 일자리 박람회 안내(마감)"
+  },
+  "filtered_conditions": [],
+  "needs_check": [
+    "amount",
+    "deadline",
+    "documents"
+  ],
+  "content_hash": "sha256:18853c3bc5679770b308f0345d89e655aea264da1220a650599f48702e161a4c",
+  "reviewed": false
+}

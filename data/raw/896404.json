@@ -7,6 +7,7 @@
   "title": "(홍보) 2026년 하반기 은평구민장학생 선발 안내(마감)",
   "posted_date": "2026-10-12",
   "pinned": false,
+  "duplicate_of": null,
   "matched_keywords": [
     "장학"
   ],
@@ -18,10 +19,10 @@
       "ext": "pdf",
       "url": "https://www.seoultech.ac.kr/storage/www/bbs/5233/68B2403633204E7D99E69758E8F5E193_.pdf",
       "text": null,
-      "text_status": "not_extracted"
+      "text_status": "empty"
     }
   ],
   "content_hash": "sha256:b3235a53e1031da3b48a376df926c25e81011ad78aece5e545045ea0ad49f34f",
-  "first_seen": "2026-11-13T19:43:17+09:00",
-  "last_checked": "2026-11-13T19:43:17+09:00"
+  "first_seen": "2026-11-13T20:57:59+09:00",
+  "last_checked": "2026-11-13T20:57:59+09:00"
 }

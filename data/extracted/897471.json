@@ -1,0 +1,54 @@
+{
+  "id": "897471",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '모집'",
+  "name": "2026년 한시적 근로장학생",
+  "title": "[정보전산원] 2026년 한시적 근로장학생 모집 안내",
+  "category": "근로",
+  "summary": "AI 업무 지원 근로학생 모집 공고",
+  "amount": {
+    "type": "unknown",
+    "value": null,
+    "text": null
+  },
+  "deadline": "2026-11-06",
+  "deadline_text": "2026년 11월 4일(수) ~ 11월 6일(금) 12:00까지",
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": null,
+    "score_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": [],
+    "other_conditions": [
+      "본교 재학생 및 휴학생 (학부생/대학원생)"
+    ]
+  },
+  "burden": {
+    "documents": [],
+    "interview": false
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "장학공지",
+    "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=57138&bidx=897471",
+    "posted_at": "2026-11-04"
+  },
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": null,
+    "deadline": "- 서류 접수 기간: 2026년 11월 4일(수) ~ 11월 6일(금) 12:00까지",
+    "duplicate_restriction": null,
+    "departments": null,
+    "residence": null
+  },
+  "filtered_conditions": [],
+  "needs_check": [
+    "amount",
+    "documents"
+  ],
+  "content_hash": "sha256:45a0c57da3108275681528fd6930dec1478fba64c0d47cb4aa9f8535c121e5f7",
+  "reviewed": false
+}
