@@ -1,0 +1,42 @@
+{
+  "bidx": 894811,
+  "bnum": 5233,
+  "site": "www",
+  "board": "장학공지",
+  "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=894811",
+  "title": "(홍보) 한국장학재단 희망사다리 장학금 신청 안내(마감)",
+  "posted_date": "2026-09-02",
+  "pinned": false,
+  "duplicate_of": null,
+  "matched_keywords": [
+    "장학"
+  ],
+  "body_text": "관심있는 학생은 아래 내용과 첨부파일을 잘 확인하시어 신청기간내에 신청하시기 바랍니다.",
+  "has_images": true,
+  "attachments": [
+    {
+      "name": "(포스터) 2026년 2학기 중소기업취업연계장학금.jpg",
+      "ext": "jpg",
+      "url": "https://www.seoultech.ac.kr/storage/www/bbs/5233/03D1B01F82BD4860826EC0D32CB97855_.jpg",
+      "text": null,
+      "text_status": "unsupported"
+    },
+    {
+      "name": "중소기업 취업연계(희망사다리 1유형)_(학생용) 장학신청 매뉴얼.pdf",
+      "ext": "pdf",
+      "url": "https://www.seoultech.ac.kr/storage/www/bbs/5233/3ECECCB0EA3E4D38A1252B5A1E6C5313_.pdf",
+      "text": "13",
+      "text_status": "ok"
+    },
+    {
+      "name": "(포스터) 2026년 2학기 고졸후학습자장학금.jpg",
+      "ext": "jpg",
+      "url": "https://www.seoultech.ac.kr/storage/www/bbs/5233/FFB1AB188AE8401C895D8008A7AC4728_.jpg",
+      "text": null,
+      "text_status": "unsupported"
+    }
+  ],
+  "content_hash": "sha256:5365c60feff814314fbe8f0b1109cc8be965d37ed25ced3062516e8e122da514",
+  "first_seen": "2026-11-13T22:17:59+09:00",
+  "last_checked": "2026-11-13T22:17:59+09:00"
+}

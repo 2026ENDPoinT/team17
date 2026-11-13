@@ -10,6 +10,7 @@
 4. 게시일 차이가 14일 이내다.
 
 대표 글: 본부(www) 글 > 먼저 올라온 글 > bidx가 작은 글
+각 글은 대표 글과 직접 비교한다 (사슬처럼 이어 묶지 않는다).
 """
 
 import datetime
@@ -55,27 +56,16 @@ def _priority(r: dict):
 
 
 def assign_duplicates(records: list[dict]) -> dict[int, int | None]:
-    # 비슷한 글끼리 이어 그룹을 만든다 (A~B, B~C면 A, B, C가 한 그룹)
-    parent = {r["bidx"]: r["bidx"] for r in records}
-
-    def find(x):
-        while parent[x] != x:
-            parent[x] = parent[parent[x]]
-            x = parent[x]
-        return x
-
-    for i, a in enumerate(records):
-        for b in records[i + 1:]:
-            if is_same_notice(a, b):
-                parent[find(a["bidx"])] = find(b["bidx"])
-
-    groups: dict[int, list[dict]] = {}
-    for r in records:
-        groups.setdefault(find(r["bidx"]), []).append(r)
-
+    """대표 글 후보 순서(_priority)대로 보면서, 이미 정한 대표 글과 **직접** 같은 글이면 그 대표에 붙인다.
+    A~B, B~C라서 A와 C까지 한 묶음이 되는 사슬 묶기는 하지 않는다.
+    (6개월 데이터에서 '등록금 납부 일정 안내'가 '분할납부제 실시 안내'와 사슬로 묶인 일이 있었다)"""
+    reps: list[dict] = []
     result: dict[int, int | None] = {}
-    for members in groups.values():
-        rep = min(members, key=_priority)["bidx"]
-        for r in members:
-            result[r["bidx"]] = None if r["bidx"] == rep else rep
+    for r in sorted(records, key=_priority):
+        rep = next((x for x in reps if is_same_notice(x, r)), None)
+        if rep is None:
+            reps.append(r)
+            result[r["bidx"]] = None
+        else:
+            result[r["bidx"]] = rep["bidx"]
     return result
