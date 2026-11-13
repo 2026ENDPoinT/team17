@@ -11,7 +11,8 @@ lexer.py가 토큰을, phrases.py가 구(문법 트리의 마디)를 만들면, 
   항목.applies  ↓  label에 (요일 "(수)"를 빼고) 한글이 있으면 "다른 기간 말(실행·발표·지급 …)이 없다",
                    한글이 없으면 앞 항목의 값을 이어받는다
   날짜.year     ↓  적힌 연도(오타면 게시 연도) → 왼쪽 날짜의 연도 → 게시 연도 (게시일보다 60일 넘게 앞이면 다음 해)
-  날짜.prev     ↓  바로 왼쪽 날짜. 연도 없는 날짜가 그보다 180일 넘게 앞이면 해를 넘긴 것이다 ("2026. 12. 20. ~ 1. 5.")
+  날짜.prev     ↓  바로 왼쪽 날짜. 왼쪽에 연도가 적혀 있고 연도 없는 날짜가 그보다 180일 넘게 앞이면 해를 넘긴 것이다
+                   ("2026. 12. 20. ~ 1. 5.")
   날짜.fixed    ↓  이 날짜, 또는 연도를 물려준 왼쪽 날짜의 연도 오타를 고쳤는지
   일만 쓴 끝    ↓  "8. 13. ~ 14."의 14는 시작 날짜의 달·연도를 받는다 (시작보다 작으면 다음 달)
   기간.date     ↑  끝 날짜 (끝이 없으면 그 날짜 하나)
@@ -114,7 +115,9 @@ def _date_of(token: Token, ctx: _DateContext, posted: date) -> tuple[date | None
         ctx.year, ctx.fixed = fixed.year, True  # 오른쪽의 연도 없는 날짜도 고친 연도를 받는다
     if ctx.year is None and value < posted - timedelta(days=ROLLOVER_DAYS):
         value = value.replace(year=value.year + 1)
-    elif not y and ctx.prev and (ctx.prev - value).days > BACKWARD_DAYS:
+    elif not y and ctx.year is not None and ctx.prev and (ctx.prev - value).days > BACKWARD_DAYS:
+        # 왼쪽에 연도가 적혀 있을 때만 쓴다. 연도가 없으면 게시일 기준 규칙이 해를 정한다
+        # (번호 "2. 3."을 날짜로 잘못 읽어 다음 해가 되면, 오른쪽 진짜 날짜까지 다음 해로 밀리던 것을 막는다)
         value = _next_year(value) or value
     ctx.prev = value
     return value, ctx.fixed
