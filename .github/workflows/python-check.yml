@@ -15,7 +15,8 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - uses: astral-sh/setup-uv@v10
+      # setup-uv는 v10 같은 메이저 태그를 만들지 않으므로 정확한 버전을 적는다.
+      - uses: astral-sh/setup-uv@v10.3.3
         with:
           enable-cache: true
 
