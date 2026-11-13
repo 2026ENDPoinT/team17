@@ -1,0 +1,47 @@
+{
+  "id": "897503",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '선발'",
+  "name": "2026-2학기 국가근로장학생 교체 선발모집_(주)아이티희망나눔",
+  "title": "2026-2학기 국가근로장학생 교체 선발모집_(주)아이티희망나눔",
+  "category": "근로",
+  "summary": "(주)아이티희망나눔에서는 2026-2학기 국가근로장학생을 아래와 같이 교체 선발 모집합니다.",
+  "amount": {
+    "type": "hourly",
+    "value": 12790,
+    "text": "시간당 12,790원"
+  },
+  "deadline": null,
+  "deadline_text": null,
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": null,
+    "income_max": 9,
+    "residence": null,
+    "unclear": []
+  },
+  "burden": {
+    "documents": [],
+    "interview": false
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "장학공지",
+    "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=57138&bidx=897503",
+    "posted_at": "2026-11-05"
+  },
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": "4. 지급금액 : 시간당 12,790원",
+    "deadline": null,
+    "duplicate_restriction": null
+  },
+  "needs_check": [
+    "deadline",
+    "documents"
+  ],
+  "content_hash": "sha256:d30e2b2d786e279cb4870ebee0ed06e8de9b08f529f5f7061c668b271c9e3511",
+  "reviewed": false
+}

@@ -1,0 +1,51 @@
+{
+  "id": "896900",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '신청'",
+  "name": "2026. 2학기 2차 어의 및 가족장학금",
+  "title": "(통정시 신청, 2026. 10. 23.~11. 6.) 2026. 2학기 2차 어의 및 가족장학금 신청 안내",
+  "category": "교내",
+  "summary": "국가장학금1유형 신청자는 신청할 필요없음",
+  "amount": {
+    "type": "unknown",
+    "value": null,
+    "text": null
+  },
+  "deadline": "2026-11-06",
+  "deadline_text": "(통정시 신청, 2026. 10. 23.~11. 6.) 2026. 2학기 2차 어의 및 가족장학금 신청 안내",
+  "closed": false,
+  "eligibility": {
+    "grades": [
+      1
+    ],
+    "departments": null,
+    "gpa_min": 2.75,
+    "income_max": 5,
+    "residence": null,
+    "unclear": []
+  },
+  "burden": {
+    "documents": [
+      "재학증명서(신청인 및 재학 중인 가족)",
+      "가족관계증명서 등(신청인 및 재학 중인 가족의 관계 증명 가능 서류)"
+    ],
+    "interview": false
+  },
+  "duplicate_restriction": true,
+  "source": {
+    "board": "장학공지",
+    "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896900",
+    "posted_at": "2026-10-22"
+  },
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": null,
+    "deadline": "(통정시 신청, 2026. 10. 23.~11. 6.) 2026. 2학기 2차 어의 및 가족장학금 신청 안내",
+    "duplicate_restriction": "- 교내 타 장학금 중복수혜 금지이며, 중복 선정 시 본인에게 유리한 장학금으로 선택가능"
+  },
+  "needs_check": [
+    "amount"
+  ],
+  "content_hash": "sha256:6d752cb9fd41ee0f2e4f0193ab39abee0d901160c199f9a9096b8b17c0551044",
+  "reviewed": false
+}

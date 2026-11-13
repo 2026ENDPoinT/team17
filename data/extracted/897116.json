@@ -1,0 +1,48 @@
+{
+  "id": "897116",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '신청'",
+  "name": "2026년 2학기 푸른등대 기부장학금 신규장학생",
+  "title": "(홍보) 2026년 2학기 푸른등대 기부장학금 신규장학생 신청 안내(~11/12(목)까지)",
+  "category": "교외",
+  "summary": "본문 없이 포스터 이미지로 안내된 공지입니다. 원문을 확인하세요.",
+  "amount": {
+    "type": "unknown",
+    "value": null,
+    "text": null
+  },
+  "deadline": "2026-11-12",
+  "deadline_text": "(홍보) 2026년 2학기 푸른등대 기부장학금 신규장학생 신청 안내(~11/12(목)까지)",
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": []
+  },
+  "burden": {
+    "documents": [],
+    "interview": null
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "장학공지",
+    "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=897116",
+    "posted_at": "2026-10-27"
+  },
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": null,
+    "deadline": "(홍보) 2026년 2학기 푸른등대 기부장학금 신규장학생 신청 안내(~11/12(목)까지)",
+    "duplicate_restriction": null
+  },
+  "needs_check": [
+    "amount",
+    "documents",
+    "poster_only"
+  ],
+  "content_hash": "sha256:008ad57c509527b549a2b491b2ef5f6a85e8627ee34a7be3f1f4b453930993a2",
+  "reviewed": false
+}

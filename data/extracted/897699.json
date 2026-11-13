@@ -1,0 +1,49 @@
+{
+  "id": "897699",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '선발'",
+  "name": "26학년도 2학기 국가근로장학생 모집",
+  "title": "(공동실험실습관)26학년도 2학기 국가근로장학생 모집(교체선발)",
+  "category": "근로",
+  "summary": "공동실험실습관에서 2026년도 2학기 교체 국가근로 장학생을 아래와 같이 모집합니다.",
+  "amount": {
+    "type": "hourly",
+    "value": 10320,
+    "text": "시간당 10,320원"
+  },
+  "deadline": "2026-11-12",
+  "deadline_text": "2026. 11. 12.(목) 09:00 ~ 18:00 까지",
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": null,
+    "income_max": 9,
+    "residence": null,
+    "unclear": []
+  },
+  "burden": {
+    "documents": [
+      "근로장학생 지원서(서식1) 및 자기소개서(서식2)",
+      "근무가능시간표(서식3)",
+      "직전학기 성적증명서",
+      "학자금지원 소득구간(분위) 통지서 사본"
+    ],
+    "interview": true
+  },
+  "duplicate_restriction": true,
+  "source": {
+    "board": "장학공지",
+    "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=57138&bidx=897699",
+    "posted_at": "2026-11-11"
+  },
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": "5. 근무시간: 1일 최대 8시간 / 월~금(9시~18시) / 점심 휴게시간 근무제외 / (방학중) 주당 최대 40시간 근무 가능 / 시간당 10,320원",
+    "deadline": "3. 모집기간: 2026. 11. 12.(목) 09:00 ~ 18:00 까지",
+    "duplicate_restriction": "- 교내근로(ST근로, ST인턴, ST튜터) 장학과의 중복 수혜 불가"
+  },
+  "needs_check": [],
+  "content_hash": "sha256:c1de404d64901326cd1c8a1b0c4b5c6f167a23a15e1e9634386a02f8ffc6c4c5",
+  "reviewed": false
+}

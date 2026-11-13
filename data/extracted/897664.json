@@ -1,0 +1,50 @@
+{
+  "id": "897664",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '선발'",
+  "name": "2026-2학기 국가근로장학생 모집(교체선발)_한국전시산업융합연구원",
+  "title": "2026-2학기 국가근로장학생 모집(교체선발)_한국전시산업융합연구원",
+  "category": "근로",
+  "summary": "한국전시산업융합연구원에서는 2026-2학기 국가근로장학생을 아래와 같이 모집합니다.",
+  "amount": {
+    "type": "unknown",
+    "value": null,
+    "text": null
+  },
+  "deadline": null,
+  "deadline_text": null,
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": null,
+    "income_max": 9,
+    "residence": null,
+    "unclear": [
+      "residence"
+    ]
+  },
+  "burden": {
+    "documents": [],
+    "interview": false
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "장학공지",
+    "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=57138&bidx=897664",
+    "posted_at": "2026-11-10"
+  },
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": null,
+    "deadline": null,
+    "duplicate_restriction": null
+  },
+  "needs_check": [
+    "amount",
+    "deadline",
+    "documents"
+  ],
+  "content_hash": "sha256:197c2d90b22bbdeac13724bee806e33881678ebf6603c4f567a7520ff389d024",
+  "reviewed": false
+}

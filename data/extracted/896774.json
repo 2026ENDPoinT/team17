@@ -1,0 +1,47 @@
+{
+  "id": "896774",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '신청'",
+  "name": "2026학년도 2학기(3차) 국가근로장학금 학생 신청기간",
+  "title": "2026학년도 2학기(3차) 국가근로장학금 학생 신청기간 안내",
+  "category": "근로",
+  "summary": "2026학년도 2학기 1차 및 2차, 그리고 동계방학중 국가근로를 신청하지 못한 재학생은 아래와 같이 3차 신청해주시기 바랍니다.",
+  "amount": {
+    "type": "unknown",
+    "value": null,
+    "text": null
+  },
+  "deadline": "2026-10-29",
+  "deadline_text": "2026. 10. 21.(수) 9시 ~ 2026. 10. 29.(목) 18시까지",
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": []
+  },
+  "burden": {
+    "documents": [],
+    "interview": false
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "장학공지",
+    "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=57138&bidx=896774",
+    "posted_at": "2026-10-21"
+  },
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": null,
+    "deadline": "가. 신청 기간 : 2026. 10. 21.(수) 9시 ~ 2026. 10. 29.(목) 18시까지",
+    "duplicate_restriction": null
+  },
+  "needs_check": [
+    "amount",
+    "documents"
+  ],
+  "content_hash": "sha256:d1b8e3bf16ed48ecf3b52d1dcd902fe508a5bbc2115b5e5f42a4004be3cbf23e",
+  "reviewed": false
+}

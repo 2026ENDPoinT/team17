@@ -1,0 +1,48 @@
+{
+  "id": "895588",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '선발'",
+  "name": "2026년 에스엘이충곤재단 장학생",
+  "title": "(신청기간 연장) 2026년 에스엘이충곤재단 장학생 선발 안내(선발완료)",
+  "category": "교외",
+  "summary": "선발 완료 ☞ 통정시 '선발:승인' 또는 '미선발:반려'로 확인가능",
+  "amount": {
+    "type": "lump_sum",
+    "value": 5000000,
+    "text": "500만원"
+  },
+  "deadline": "2026-10-12",
+  "deadline_text": "~2026. 10. 12.(월) ※ 통합정보시스템 장학금 신청",
+  "closed": true,
+  "eligibility": {
+    "grades": [
+      3
+    ],
+    "departments": null,
+    "gpa_min": null,
+    "income_max": 5,
+    "residence": null,
+    "unclear": []
+  },
+  "burden": {
+    "documents": [],
+    "interview": false
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "장학공지",
+    "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=895588",
+    "posted_at": "2026-09-16"
+  },
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": "2. 지원금액: 1인당 500만원(250만원×2개 학기) ※ 생활비성 장학금",
+    "deadline": "6. (학생)신청기간: ~2026. 10. 12.(월) ※ 통합정보시스템 장학금 신청",
+    "duplicate_restriction": null
+  },
+  "needs_check": [
+    "documents"
+  ],
+  "content_hash": "sha256:2cb470f93dafff8dc87f3d2356553a6f474a5e8e44b5abbaf85b17f1c05891c3",
+  "reviewed": false
+}

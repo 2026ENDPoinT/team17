@@ -1,0 +1,47 @@
+{
+  "id": "897485",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '모집'",
+  "name": "2026학년도 2학기 장애학생 봉사유형 국가근로장학생 모집",
+  "title": "[장애학생지원센터] 2026학년도 2학기 장애학생 봉사유형 국가근로장학생 모집",
+  "category": "근로",
+  "summary": "장애학생지원센터에서는 2026학년도 2학기 장애학생 봉사유형 국가근로장학생을 다음과 같이 모집합니다.",
+  "amount": {
+    "type": "hourly",
+    "value": 12790,
+    "text": "시급 12,790원"
+  },
+  "deadline": "2026-11-13",
+  "deadline_text": "~2026. 11. 13.(금)까지",
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": []
+  },
+  "burden": {
+    "documents": [
+      "국가근로장학생지원서",
+      "2026학년도 2학기 시간표(통합정보시스템 출력)"
+    ],
+    "interview": true
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "장학공지",
+    "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=57138&bidx=897485",
+    "posted_at": "2026-11-04"
+  },
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": "2. 근로조건: 시급 12,790원 (교외근로 시급 적용)",
+    "deadline": "5. 모집기간: ~2026. 11. 13.(금)까지",
+    "duplicate_restriction": null
+  },
+  "needs_check": [],
+  "content_hash": "sha256:7b936574c536d1deddf5b3d64bd64c8fd8eb3f4f675a6f69a8c0c18aa1192dcb",
+  "reviewed": false
+}

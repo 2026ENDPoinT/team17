@@ -1,0 +1,48 @@
+{
+  "id": "896657",
+  "notice_kind": "모집",
+  "notice_kind_reason": "제목에 '장학', '선발'",
+  "name": "두산연강재단 2027년도 대학 장학생",
+  "title": "(홍보) 두산연강재단 2027년도 대학 장학생 선발 안내(~11/13(금)까지)",
+  "category": "교외",
+  "summary": "관심있는 학생은 아래 내용과 첨부파일을 확인하시어, 기한 내에 신청하시기 바랍니다.",
+  "amount": {
+    "type": "unknown",
+    "value": null,
+    "text": null
+  },
+  "deadline": "2026-11-13",
+  "deadline_text": "(홍보) 두산연강재단 2027년도 대학 장학생 선발 안내(~11/13(금)까지)",
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": []
+  },
+  "burden": {
+    "documents": [],
+    "interview": false
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "장학공지",
+    "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896657",
+    "posted_at": "2026-10-16"
+  },
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": null,
+    "deadline": "(홍보) 두산연강재단 2027년도 대학 장학생 선발 안내(~11/13(금)까지)",
+    "duplicate_restriction": null
+  },
+  "needs_check": [
+    "amount",
+    "documents",
+    "poster_only"
+  ],
+  "content_hash": "sha256:4bb248746e42d46bf1bd6641221e714331d5bb9671f3cb5ab2c954457cad361b",
+  "reviewed": false
+}

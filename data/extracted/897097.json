@@ -1,0 +1,49 @@
+{
+  "id": "897097",
+  "notice_kind": "안내",
+  "notice_kind_reason": "제목에 '교육생'",
+  "name": "한국장학재단 희망사다리1유형 장학생 대상 삼성 SSFY 교육생 모집",
+  "title": "(홍보) 한국장학재단 희망사다리1유형 장학생 대상 삼성 SSFY 교육생 모집(마감)",
+  "category": "교외",
+  "summary": "본문 없이 포스터 이미지로 안내된 공지입니다. 원문을 확인하세요.",
+  "amount": {
+    "type": "unknown",
+    "value": null,
+    "text": null
+  },
+  "deadline": null,
+  "deadline_text": null,
+  "closed": true,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": []
+  },
+  "burden": {
+    "documents": [],
+    "interview": null
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "장학공지",
+    "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=897097",
+    "posted_at": "2026-10-27"
+  },
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": null,
+    "deadline": null,
+    "duplicate_restriction": null
+  },
+  "needs_check": [
+    "amount",
+    "deadline",
+    "documents",
+    "poster_only"
+  ],
+  "content_hash": "sha256:c13bee5fb913ae15f5dd11193a53f76ed3d181643b86d2a83dcf6deb8abba75e",
+  "reviewed": false
+}

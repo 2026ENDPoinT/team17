@@ -1,0 +1,49 @@
+{
+  "id": "896418",
+  "notice_kind": "안내",
+  "notice_kind_reason": "제목에 '기준 안내'",
+  "name": "서울과학기술대학교 중소기업 취업연계 장학사업 (희망사다리Ⅰ유형) 신규장학생 자체선발 기준",
+  "title": "서울과학기술대학교 중소기업 취업연계 장학사업 (희망사다리Ⅰ유형) 신규장학생 자체선발 기준 안내",
+  "category": "교내",
+  "summary": "서울과학기술대학교 중소기업 취업연계 장학사업 (희망사다리Ⅰ유형) 신규장학생 자체선발 기준을 첨부파일과 같이 안내드립니다.",
+  "amount": {
+    "type": "unknown",
+    "value": null,
+    "text": null
+  },
+  "deadline": null,
+  "deadline_text": null,
+  "closed": false,
+  "eligibility": {
+    "grades": null,
+    "departments": null,
+    "gpa_min": null,
+    "income_max": null,
+    "residence": null,
+    "unclear": []
+  },
+  "burden": {
+    "documents": [],
+    "interview": false
+  },
+  "duplicate_restriction": null,
+  "source": {
+    "board": "장학공지",
+    "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=896418",
+    "posted_at": "2026-10-12"
+  },
+  "also_posted_bidx": [],
+  "evidence": {
+    "amount": null,
+    "deadline": null,
+    "duplicate_restriction": null
+  },
+  "needs_check": [
+    "amount",
+    "deadline",
+    "documents",
+    "body_short"
+  ],
+  "content_hash": "sha256:6dee97a93f191cbb00c3cebe0181b1b20d3eb7012a370ccb9aa6a5a913e0d0f7",
+  "reviewed": false
+}
