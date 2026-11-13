@@ -23,7 +23,9 @@
     "residence": null,
     "unclear": [],
     "other_conditions": [
-      "본교 재학생 및 휴학생 (학부생/대학원생)"
+      "본교 재학생 및 휴학생 (학부생/대학원생)",
+      "우대: ChatGPT, Claude, 생성형 AI 서비스 활용 경험자",
+      "우대: 프롬프트 작성 및 데이터/문서 처리 능력 보유자"
     ]
   },
   "burden": {

@@ -22,7 +22,9 @@
     "income_max": 9,
     "residence": null,
     "unclear": [],
-    "other_conditions": []
+    "other_conditions": [
+      "우대: 학교인근 거주자 우대, 컴퓨터활용능력자격증 소지자 우대 (필수사항은 아님)"
+    ]
   },
   "burden": {
     "documents": [],

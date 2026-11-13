@@ -18,7 +18,6 @@ from config import (
     CONDITION_LIST_MAX,
     CONDITION_MAX,
     CONDITION_NOT_WORDS,
-    CONDITION_SKIP_WORDS,
     CONTEXT_AFTER,
     CONTEXT_BEFORE,
     CONTINUATION_MARKS,
@@ -40,6 +39,8 @@ from config import (
     MULTI_AMOUNT_WORDS,
     NO_LIMIT_WORDS,
     NOT_CONDITION_WORDS,
+    PREFERENCE_HEAD_WORDS,
+    PREFERENCE_TAGS,
     RECRUIT_WORDS,
     RESIDENCE_WORDS,
     RESULT_WORDS,
@@ -465,7 +466,8 @@ def extract_residence(title: str, body: str) -> tuple[str | None, bool, str | No
 
 _COND_LEVEL_DIGIT = re.compile(r"^\s*\d+\s*[.)]\s*")  # "4. 지원자격"
 _COND_LEVEL_LETTER = re.compile(r"^\s*[가-하]\s*[.):]\s*")  # "나. 자격조건:"
-_COND_MARK = re.compile(r"^\s*(\d+\s*\)|[-•○▶►·※*]|[①-⑳])\s*")  # "○ …", "- …", "1) …"
+_COND_MARK = re.compile(r"^\s*(\d+\s*\)|[-•○▶►·※*★☆]|[①-⑳])\s*")  # "○ …", "- …", "1) …"
+_RANK_HEAD = re.compile(r"^\d+\s*순위")  # "1순위: …"는 이름표를 떼지 않는다 (순서가 내용이다)
 _TRIVIAL_PART = re.compile(r"^(본교\s*)?(학부\s*)?(재학생|재학 중인 (대)?학생|대학생)(으로서)?$")
 _STRUCTURED = [_GRADE_RANGE, _GRADE_LIST, _GPA, _SCORE, _INCOME]
 _TIME_OR_DATE = re.compile(r"\d{1,2}:\d{2}|^\s*\d{1,2}\s*[./]\s*\d{1,2}\s*\(")  # "09:00", "11.10(화)" 일정 줄
@@ -487,7 +489,8 @@ def _clean_condition(line: str) -> str:
     text = _COND_LEVEL_LETTER.sub("", text)
     text = _COND_MARK.sub("", text)
     head, sep, rest = text.partition(":")
-    if sep and len(head) <= 12 and rest.strip():  # "대상 : …", "성적기준 : …"의 앞 이름표를 뗀다
+    # "대상 : …", "성적기준 : …"의 앞 이름표를 뗀다
+    if sep and len(head) <= 12 and rest.strip() and not _RANK_HEAD.match(head.strip()):
         text = rest
     return text.strip(" ,")
 
@@ -498,18 +501,32 @@ def _only_structured(text: str) -> bool:
     return all(_TRIVIAL_PART.match(p) or any(r.search(p) for r in _STRUCTURED) for p in parts)
 
 
+def _preference_tag(line: str) -> str | None:
+    """우대·가산점·우선순위 줄이면 그 이름표를 돌려준다. 자격 조건 줄이면 None."""
+    for tag, words in PREFERENCE_TAGS.items():
+        if _has_any(line, words):
+            return tag
+    return None
+
+
 def extract_other_conditions(body: str) -> list[str]:
-    """'지원자격', '선발대상' 같은 제목 아래 문단에서 값으로 못 바꾸는 조건 문장을 뽑는다."""
+    """'지원자격', '선발대상', '우대사항' 같은 제목 아래 문단에서 값으로 못 바꾸는 조건 문장을 뽑는다.
+
+    자격 조건은 문장 그대로, 우대·가산점·우선순위는 "우대: …", "가산점: …", "우선순위: 1순위: …"처럼
+    앞에 이름표를 붙여 같은 목록에 담는다. 이름표가 없는 문장만 꼭 갖춰야 하는 조건이다.
+    """
     lines = _lines(body)
     results: list[str] = []
+    heads = CONDITION_HEAD_WORDS + PREFERENCE_HEAD_WORDS
     i = 0
     while i < len(lines):
         line = lines[i]
-        is_head = _has_any(line, CONDITION_HEAD_WORDS) and not _has_any(line, CONDITION_SKIP_WORDS)
-        # 긴 안내 문장 속 "선발기준에 적합한 학생은…"은 문단 제목이 아니다
-        if not is_head or (":" not in line and len(line) > 30):
+        # 긴 안내 문장 속 "선발기준에 적합한 학생은…"과 "제출서류(가산점 증빙서류 외 …)"는 문단 제목이 아니다
+        if (not _has_any(line, heads) or (":" not in line and len(line) > 40)
+                or _has_any(line, CONDITION_NOT_WORDS)):
             i += 1
             continue
+        block_tag = _preference_tag(line) if _has_any(line, PREFERENCE_HEAD_WORDS) else None
         head_level = _level(line)
         block = [line]
         j = i + 1
@@ -519,7 +536,7 @@ def extract_other_conditions(body: str) -> list[str]:
             # 제목과 같거나 더 높은 단계의 번호가 나오면 다음 항목이다. (○·- 단계 제목이면 다음 ○·-에서 끝)
             if lv <= head_level and not (head_level == 4 and lv == 4):
                 break
-            if _has_any(nxt, CONDITION_HEAD_WORDS) and lv <= 2:
+            if _has_any(nxt, heads) and lv <= 2:
                 break
             block.append(nxt)
             j += 1
@@ -530,15 +547,16 @@ def extract_other_conditions(body: str) -> list[str]:
                 merged[-1] = merged[-1] + " " + raw
             else:
                 merged.append(raw)
-        skipped_prev = False
+        prev_tag: str | None = None
         for raw in merged:
-            # 우대·가산·순위 줄, 그리고 그 줄에 번호 없이 이어 쓴 줄은 자격이 아니다 (앞뒤 문맥 규칙은 보류 중)
-            if _has_any(raw, CONDITION_SKIP_WORDS) or (skipped_prev and _level(raw) == 4):
-                skipped_prev = True
+            # 이 줄의 이름표: 줄에 우대·가산·순위 말이 있으면 그것, 번호 없이 앞 줄에 이어 쓴 줄이면 앞 줄 것,
+            # 아니면 문단 제목의 이름표 ("우대사항" 문단 아래 줄은 모두 우대)
+            tag = _preference_tag(raw) or (prev_tag if _level(raw) == 4 else None) or block_tag
+            prev_tag = tag
+            # 문단 제목만 있는 줄 ("4. (재단)지원자격", "- 우대 사항:", "신청대상 및 제출서류")
+            if _has_any(raw, heads) and not _clean_condition(raw).strip(":"):
                 continue
-            skipped_prev = False
-            # 문단 제목만 있는 줄 ("4. (재단)지원자격", "신청대상 및 제출서류")
-            if _has_any(raw, CONDITION_HEAD_WORDS) and ":" not in raw:
+            if _has_any(raw, heads) and ":" not in raw and not tag:
                 continue
             # 신청 방법·서류·일정 안내 줄
             if _has_any(raw, CONDITION_NOT_WORDS) or _TIME_OR_DATE.search(raw):
@@ -548,8 +566,12 @@ def extract_other_conditions(body: str) -> list[str]:
             text = _clean_condition(raw)
             if ":" in raw and "제외" in raw.split(":")[0] and not text.startswith("제외"):
                 text = "제외: " + text  # "제외 대상 : …"
-            if len(text) < 6 or "아래" in text or _only_structured(text):
+            if len(text) < 6 or (not tag and ("아래" in text or _only_structured(text))):
                 continue
+            if tag and _has_any(text, PREFERENCE_HEAD_WORDS) and text.endswith((")", ":")) and len(text) < 40:
+                continue  # "교내 선발우선순위(지원자가 선발인원보다 많을 경우)" 같은 문단 제목
+            if tag and not text.startswith(tag):
+                text = f"{tag}: {text}"
             text = _short(text, CONDITION_MAX)
             if text not in results:
                 results.append(text)
