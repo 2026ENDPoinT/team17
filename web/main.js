@@ -3,6 +3,7 @@
 import { loadScholarships } from './data.js';
 import { sortScholarships, compareDeadline } from './logic.js';
 import { renderMain, renderScholarshipList, renderListStatus } from './renderMain.js';
+import { renderDetail } from './renderDetail.js';
 
 const state = {
   items: [],
@@ -11,8 +12,11 @@ const state = {
   loading: true,
   error: null,
   selectedId: null,
+  view: 'main',
+  listScrollTop: 0,
 };
-const areas = renderMain(document.getElementById('app'));
+const app = document.getElementById('app');
+const areas = renderMain(app);
 
 // 현재 상태에 따라 로딩·오류 안내 또는 정렬된 장학금 목록을 표시한다.
 function updateMain() {
@@ -22,9 +26,12 @@ function updateMain() {
   renderScholarshipList(areas.list, items, handleOpenDetail);
 }
 
-// 선택한 장학금을 기록한다. 상세 화면 전환은 후속 구현에서 연결한다.
+// 선택한 장학금 ID와 목록 스크롤 위치를 저장한 뒤, 같은 자리에 상세 화면의 틀을 표시한다.
 function handleOpenDetail(item) {
   state.selectedId = item.id;
+  state.listScrollTop = areas.list.scrollTop;
+  state.view = 'detail';
+  renderDetail(app);
 }
 
 // 처음 한 번 데이터를 읽어 보관하고, 성공 여부에 맞춰 화면을 갱신한다.
