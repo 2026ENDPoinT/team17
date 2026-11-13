@@ -52,6 +52,12 @@ def departments(text):
     return extract_departments(text)[0]
 
 
+def departments_unclear(text):
+    """입력: 본문 한 줄 / 출력: (학과 목록, 확인 필요 여부)"""
+    found = extract_departments(text)
+    return found[0], found[1]
+
+
 def residence(text):
     return extract_residence("", text)[0]
 
@@ -172,6 +178,11 @@ CASES = [
     (departments, "서울과학기술대학교 산업공학과 동문회에서는 동문 재학생을 대상으로 장학금을 지원합니다",
      ["산업공학과"], "895611 학과 동문 대상"),
     (departments, "지원대상: 벤처경영학과 재학생", ["벤처경영학과"], "겹치는 이름"),
+    (departments_unclear, "지원대상: 정보통신대학 재학생",
+     (["전기정보공학과", "전자공학과", "컴퓨터공학과", "스마트ICT융합공학과"], False), "단과대는 소속 학과로 펼치고 확정"),
+    (lambda t: ("컴퓨터공학과" in departments(t), "인공지능응용학과" in departments(t),
+                "경영학과" in departments(t), departments_unclear(t)[1]),
+     "○ 자동차/전자/전기/기계 등 공학계열 전공자", (True, True, False, True), "895588 계열은 펼치되 확인 필요"),
     # ── 거주지 ──
     (residence, "4. 신청자격 : 공고일 현재 은평구에 2년 이상 계속 거주하고 있는 초 · 중 · 고 · 대학생", "은평구", "896404"),
     (residence, "지원대상: 부 또는 모가 부산광역시에 주민등록이 되어 있는 자", "부산광역시", "부모 주민등록"),
