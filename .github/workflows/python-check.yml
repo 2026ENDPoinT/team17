@@ -1,0 +1,32 @@
+# 푸시와 PR마다 Python 3.11 기준으로 검사한다.
+# - ruff: 3.11에서 쓸 수 없는 문법과 명백한 오류를 잡는다.
+# - compileall: 실제 Python 3.11로 모든 .py 파일을 컴파일해 본다.
+# - 테스트(tests/)가 생기면 pytest 단계를 추가한다.
+# 해커톤 중에는 PR 리뷰가 필수가 아니라서 실패해도 main 반영을 막지는 못한다. 빨간 X가 뜨면 바로 고친다.
+name: Python 3.11 검사
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: astral-sh/setup-uv@v10
+        with:
+          enable-cache: true
+
+      - name: 의존성 설치 (.python-version의 3.11 사용)
+        run: uv sync --locked
+
+      - name: Python 버전 확인
+        run: uv run python --version
+
+      - name: ruff 검사
+        run: uv run ruff check . --output-format=github
+
+      - name: Python 3.11로 컴파일
+        run: uv run python -m compileall -q -x '(\.venv|node_modules)' .
