@@ -1,9 +1,10 @@
 // 원본 데이터와 화면 상태를 보관하고 데이터 읽기·정렬·화면 표시를 연결한다.
 // 입력: 샘플 JSON과 사용자 조작. 출력: 메인 화면.
 import { loadScholarships } from './data.js';
-import { sortScholarships, compareDeadline } from './logic.js';
-import { renderMain, renderScholarshipList, renderListStatus } from './renderMain.js';
+import { sortScholarships, compareDeadline, filterScholarships } from './logic.js';
+import { renderMain, renderScholarshipList, renderListStatus, renderSelectedFilters } from './renderMain.js';
 import { renderDetail } from './renderDetail.js';
+import { renderFilterPopup } from './renderFilterPopup.js';
 import { loadSettings, saveSettings } from './settingStore.js';
 
 const state = {
@@ -17,21 +18,56 @@ const state = {
 };
 const compareFunctions = { deadline: compareDeadline };
 const app = document.getElementById('app');
-let areas = renderMain(app);
+let areas = renderMain(app, { onOpenFilters: handleOpenFilterPopup, onResetFilters: handleResetFilters });
+let filterPopup = null;
 
-// 원본과 현재 정렬 기준을 로직에 전달하고, 계산된 목록을 메인 상태에 저장한다.
-// 데이터 로딩 후와 향후 필터·정렬 변경 이벤트에서 호출한다. 필터 계산은 후속 구현이다.
+// 원본을 필터링한 뒤 정렬해 메인과 상세 이동이 공유할 표시 목록을 저장한다.
 function updateVisibleItems() {
-  state.visibleItems = sortScholarships(state.items, compareFunctions[state.sortBy]);
+  const filteredItems = filterScholarships(state.items, state.filters);
+  state.visibleItems = sortScholarships(filteredItems, compareFunctions[state.sortBy]);
 }
 
 // 로딩·오류 안내 또는 보관 중인 표시 목록을 그린 뒤 스크롤 위치를 복원하고 설정을 저장한다.
 function updateMain() {
+  areas.filterSelectButton.disabled = state.loading || !!state.error;
+  areas.resetButton.disabled = state.loading || !!state.error;
   if (state.loading) return renderListStatus(areas.list, 'loading');
   if (state.error) return renderListStatus(areas.list, 'error');
   renderScholarshipList(areas.list, state.visibleItems, handleOpenDetail);
+  renderSelectedFilters(areas.filters, state.filters, handleRemoveFilter);
   areas.list.scrollTop = state.listScrollTop;
   saveSettings(state);
+}
+
+// 필터 선택 버튼에서 호출하며, 현재 적용 상태를 복사해 편집할 팝업을 연다.
+function handleOpenFilterPopup() {
+  if (state.loading || state.error || filterPopup?.open) return;
+  filterPopup = renderFilterPopup(app, state.filters, { onApply: handleApplyFilters });
+}
+
+// 팝업이 전달한 필터를 저장하고 표시 목록을 재계산한 뒤 목록을 맨 위부터 그린다.
+function handleApplyFilters(filters) {
+  state.filters = structuredClone(filters);
+  state.listScrollTop = 0;
+  updateVisibleItems();
+  updateMain();
+}
+
+// 메인의 선택된 필터 하나를 제거한다. 팝업을 거치지 않고 즉시 적용한다.
+function handleRemoveFilter(key, value) {
+  const filters = structuredClone(state.filters);
+  if (Array.isArray(filters[key])) {
+    const index = filters[key].indexOf(value);
+    if (index >= 0) filters[key].splice(index, 1);
+  } else {
+    filters[key] = key === 'openOnly' ? false : null;
+  }
+  handleApplyFilters(filters);
+}
+
+// 메인의 초기화 버튼에서 호출하며, 적용된 모든 조건을 즉시 해제한다.
+function handleResetFilters() {
+  handleApplyFilters({ categories: [], grades: [], department: null, openOnly: false });
 }
 
 // 상세 주소를 변경한다. 실제 화면 표시는 주소 변경 이벤트가 담당하며 방문 기록도 남는다.
@@ -47,6 +83,7 @@ function handleBackToList() {
 // 현재 주소에 맞는 화면을 표시한다. 버튼 이동·뒤로/앞으로 가기·최초 접속에 공통으로 사용한다.
 function handleRouteChange() {
   if (state.loading || state.error) return;
+  if (filterPopup?.open) filterPopup.close();
   if (state.view === 'main') {
     state.listScrollTop = areas.list.scrollTop;
     saveSettings(state);
@@ -56,7 +93,7 @@ function handleRouteChange() {
   if (hash === '' || hash === '#' || hash === '#/') {
     state.view = 'main';
     state.selectedId = null;
-    areas = renderMain(app);
+    areas = renderMain(app, { onOpenFilters: handleOpenFilterPopup, onResetFilters: handleResetFilters });
     updateMain();
     // 목록 스크롤이 바뀔 때 저장해 목록에서 새로고침해도 위치를 복원한다.
     areas.list.addEventListener('scroll', () => {

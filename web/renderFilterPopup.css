@@ -1,0 +1,34 @@
+/* 필터 팝업의 선택 영역과 고정된 제목·하단 버튼을 배치한다. 입력: dialog DOM. 출력: 팝업 화면. */
+.filter-popup,
+.filter-popup * { box-sizing: border-box; }
+
+.filter-popup {
+  width: min(960px, calc(100vw - 64px));
+  max-height: calc(100dvh - 64px);
+  padding: 0;
+  border: 1px solid #bbb;
+  border-radius: 12px;
+  color: #202124;
+  background: #fff;
+}
+
+.filter-popup[open] { display: flex; flex-direction: column; }
+.filter-popup::backdrop { background: rgb(0 0 0 / 40%); }
+.filter-popup header,
+.filter-popup footer { padding: 20px 24px; flex-shrink: 0; }
+.filter-popup header { border-bottom: 1px solid #ddd; }
+.filter-popup h2 { margin: 0; font-size: 22px; }
+.filter-popup-content { padding: 24px; min-height: 0; overflow-y: auto; }
+.filter-popup fieldset { margin: 0 0 24px; padding: 16px; border: 1px solid #ddd; }
+.filter-popup legend { padding: 0 8px; font-weight: bold; }
+.filter-popup-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.filter-popup-options-grades { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.filter-popup-options-openOnly { grid-template-columns: 1fr; }
+.filter-popup-content > p { line-height: 1.6; }
+.filter-popup button { padding: 10px 14px; font: inherit; cursor: pointer; }
+.filter-option { border: 1px solid #bbb; border-radius: 6px; background: #fff; overflow-wrap: anywhere; }
+.filter-option[aria-pressed="true"],
+.filter-popup-apply { background: #2563eb; color: #fff; border: 1px solid #2563eb; }
+.filter-popup footer { display: flex; gap: 12px; border-top: 1px solid #ddd; }
+.filter-popup footer button:first-child { margin-right: auto; }
+.filter-popup button:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }

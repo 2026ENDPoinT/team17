@@ -21,6 +21,32 @@ export function sortScholarships(items, compareFunction) {
   return [...items].sort(compareFunction);
 }
 
+// 원본과 적용된 필터를 받아 조건에 맞는 새 목록을 반환한다. 같은 그룹은 OR, 그룹 사이는 AND다.
+export function filterScholarships(items, filters, today = getToday()) {
+  const currentDate = parseDeadline(today);
+  // 선택한 그룹만 검사하며, 그 그룹의 조건이 미확인이면 해당 장학금을 제외한다.
+  return items.filter((item) => {
+    const eligibility = item.eligibility ?? {};
+    const uncertain = [...(eligibility.unclear ?? []), ...(item.needs_check ?? [])];
+    if (filters.categories.length > 0 &&
+        (uncertain.includes('category') || !filters.categories.includes(item.category))) return false;
+    if (filters.grades.length > 0) {
+      if (uncertain.includes('grades') || !Array.isArray(eligibility.grades)) return false;
+      // 선택한 학년 중 하나라도 대상 학년에 포함되면 이 그룹의 조건을 통과한다.
+      if (!filters.grades.some((grade) => eligibility.grades.includes(grade))) return false;
+    }
+    if (filters.department && (uncertain.includes('departments') ||
+        !Array.isArray(eligibility.departments) ||
+        !eligibility.departments.includes(filters.department))) return false;
+    if (filters.openOnly) {
+      const deadline = parseDeadline(item.deadline);
+      if (item.closed === true || uncertain.includes('deadline') ||
+          deadline === null || deadline < currentDate) return false;
+    }
+    return true;
+  });
+}
+
 // 두 장학금을 모집 중 → 마감됨 → 날짜 미확인 순으로 비교한다.
 // 음수면 a가 앞, 양수면 b가 앞, 0이면 기존 순서를 유지한다.
 export function compareDeadline(a, b, today = getToday()) {

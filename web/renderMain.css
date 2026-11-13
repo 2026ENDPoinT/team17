@@ -58,9 +58,19 @@
 }
 
 .main-filter-content {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: start;
+  gap: 10px;
   min-height: 0;
   overflow-y: auto;
 }
+
+.main-filter-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.main-filter-header h2 { margin: 0; }
+.main-filter-header button { padding: 8px 12px; font: inherit; cursor: pointer; }
+.main-selected-filter { padding: 10px; border: 1px solid #2563eb; border-radius: 6px; background: #2563eb; color: #fff; font: inherit; cursor: pointer; overflow-wrap: anywhere; }
+.main-filter-empty { grid-column: 1 / -1; margin: 0; line-height: 1.6; }
 
 .main-filter-reset {
   padding: 12px;

@@ -63,7 +63,7 @@ export function createScholarshipBlock(item, onOpenDetail, today) {
 }
 
 // 메인 화면의 좌우 틀을 만들고, 이후 부분 갱신에 사용할 각 영역을 반환한다.
-export function renderMain(container) {
+export function renderMain(container, handlers = {}) {
   const layout = document.createElement('div');
   layout.className = 'main-layout';
 
@@ -74,19 +74,46 @@ export function renderMain(container) {
 
   const title = createTitleArea();
   const sort = createSortArea();
-  const filters = createFilterArea();
+  const filters = createFilterArea(handlers.onOpenFilters);
   const resetButton = document.createElement('button');
   resetButton.type = 'button';
   resetButton.className = 'main-filter-reset';
   resetButton.textContent = '필터 초기화';
-  // 필터 이벤트를 연결하기 전까지는 조작할 수 없게 둔다.
-  resetButton.disabled = true;
+  resetButton.disabled = !handlers.onResetFilters;
+  if (handlers.onResetFilters) resetButton.addEventListener('click', handlers.onResetFilters);
 
   sidebar.append(title, sort, filters.section, resetButton);
   layout.append(list, sidebar);
   container.replaceChildren(layout);
 
-  return { layout, list, title, sort, filters: filters.content, resetButton };
+  return { layout, list, title, sort, filters: filters.content, filterSelectButton: filters.selectButton, resetButton };
+}
+
+// 메인에 적용된 필터만 표시하고, 각 제거 버튼을 누르면 해당 조건을 호출자에게 전달한다.
+export function renderSelectedFilters(container, filters, onRemove) {
+  const entries = [];
+  for (const value of filters.categories) entries.push(['categories', value, value]);
+  for (const value of filters.grades) entries.push(['grades', value, `${value}학년`]);
+  if (filters.department) entries.push(['department', filters.department, filters.department]);
+  if (filters.openOnly) entries.push(['openOnly', true, '모집 중만 보기']);
+  const fragment = document.createDocumentFragment();
+  for (const [key, value, label] of entries) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'main-selected-filter';
+    button.textContent = `${label} ×`;
+    button.setAttribute('aria-label', `${label} 필터 제거`);
+    // 이 조건의 해제를 요청한다. 실제 상태 변경·계산은 main.js에서 수행한다.
+    button.addEventListener('click', () => onRemove(key, value));
+    fragment.append(button);
+  }
+  if (entries.length === 0) {
+    const empty = document.createElement('p');
+    empty.className = 'main-filter-empty';
+    empty.textContent = '선택된 필터가 없습니다.';
+    fragment.append(empty);
+  }
+  container.replaceChildren(fragment);
 }
 
 // 장학금 블록을 담을 왼쪽 스크롤 영역을 만든다.
@@ -127,17 +154,25 @@ function createSortArea() {
   return section;
 }
 
-// 필터 제목과, 나중에 선택 버튼을 넣을 빈 영역을 만들어 반환한다.
-function createFilterArea() {
+// 필터 제목 옆에 팝업 열기 버튼을 두고 적용된 필터를 표시할 영역을 반환한다.
+function createFilterArea(onOpenFilters) {
   const section = document.createElement('section');
   section.className = 'main-filters';
   section.setAttribute('aria-label', '필터');
 
   const heading = document.createElement('h2');
   heading.textContent = '필터';
+  const header = document.createElement('div');
+  header.className = 'main-filter-header';
+  const selectButton = document.createElement('button');
+  selectButton.type = 'button';
+  selectButton.textContent = '필터 선택';
+  selectButton.disabled = !onOpenFilters;
+  if (onOpenFilters) selectButton.addEventListener('click', onOpenFilters);
+  header.append(heading, selectButton);
   const content = document.createElement('div');
   content.className = 'main-filter-content';
 
-  section.append(heading, content);
-  return { section, content };
+  section.append(header, content);
+  return { section, content, selectButton };
 }
