@@ -1,6 +1,14 @@
 // 장학금 정보를 메인 블록에 표시할 문구로 가공한다.
 // 입력: 장학금의 금액·마감·지원 조건. 출력: 표시용 문자열과 조건 배열.
 
+// 현재 이벤트 ID 또는 소속 공지 bidx와 일치하는 저장 ID들을 반환한다. 합쳐진 이벤트도 찾는다.
+export function getMatchingFavoriteIds(item, favoriteIds) {
+  const noticeIds = new Set((item.notices ?? []).map((notice) => String(notice.bidx)));
+  // 실제 ID의 event- 접두사를 제외해 공지 번호와 비교한다.
+  return favoriteIds.filter((id) => String(id) === String(item.id) ||
+    noticeIds.has(String(id).replace(/^event-/, '')));
+}
+
 // 한국의 오늘 날짜를 YYYY-MM-DD 형식으로 반환한다.
 export function getToday() {
   return new Intl.DateTimeFormat('en-CA', {

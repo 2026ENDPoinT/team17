@@ -1,6 +1,6 @@
 // 메인 화면의 전체 배치와 영역별 틀을 만든다.
 // 입력: 화면을 넣을 DOM 요소. 출력: 이후 갱신에 사용할 영역별 DOM 요소.
-import { formatAmount, formatDeadline, getMainConditions, getToday, getRecruitmentStatus } from './logic.js';
+import { formatAmount, formatDeadline, getMainConditions, getToday, getRecruitmentStatus, getMatchingFavoriteIds } from './logic.js';
 import { AMOUNT_TYPES } from './filterOptions.js';
 
 // 데이터를 기다리거나 불러오기에 실패했을 때 왼쪽 영역에 상태 안내를 표시한다.
@@ -20,12 +20,12 @@ export function renderListStatus(container, status) {
 }
 
 // 목록이 바뀌면 왼쪽 영역만 다시 그린다. 상세 이동 동작은 호출자가 전달한다.
-export function renderScholarshipList(container, items, onOpenDetail) {
+export function renderScholarshipList(container, items, onOpenDetail, favoriteIds = [], onToggleFavorite) {
   const fragment = document.createDocumentFragment();
   const today = getToday();
 
   for (const item of items) {
-    fragment.append(createScholarshipBlock(item, onOpenDetail, today));
+    fragment.append(createScholarshipBlock(item, onOpenDetail, today, favoriteIds, onToggleFavorite));
   }
   if (items.length === 0) {
     const message = document.createElement('p');
@@ -35,11 +35,13 @@ export function renderScholarshipList(container, items, onOpenDetail) {
   container.replaceChildren(fragment);
 }
 
-// 첫 줄에 상태·수정 말풍선, 둘째 줄에는 금액과 모집 중인 항목의 날짜만 표시하고 상세 이동을 연결한다.
-export function createScholarshipBlock(item, onOpenDetail, today) {
-  const block = document.createElement('button');
-  block.type = 'button';
+// 카드 내용은 상세 이동 버튼에, 오른쪽 아래 별은 별도의 즐겨찾기 버튼에 연결한다.
+export function createScholarshipBlock(item, onOpenDetail, today, favoriteIds = [], onToggleFavorite) {
+  const block = document.createElement('article');
   block.className = 'scholarship-block';
+  const openButton = document.createElement('button');
+  openButton.type = 'button';
+  openButton.className = 'scholarship-open';
 
   const name = document.createElement('span');
   name.className = 'scholarship-name';
@@ -61,7 +63,7 @@ export function createScholarshipBlock(item, onOpenDetail, today) {
     tooltip.id = `modified-date-${item.id}`;
     tooltip.setAttribute('role', 'tooltip');
     tooltip.textContent = `수정 공지 게시일: ${status.modifiedDate ?? '미확인'}`;
-    block.setAttribute('aria-describedby', tooltip.id);
+    openButton.setAttribute('aria-describedby', tooltip.id);
     statusArea.append(modified, tooltip);
   }
   heading.append(name, statusArea);
@@ -87,9 +89,29 @@ export function createScholarshipBlock(item, onOpenDetail, today) {
     conditions.append(line);
   }
 
-  block.append(heading, info, conditions);
+  openButton.append(heading, info, conditions);
   // 클릭한 장학금을 main.js의 상세 이동 함수에 전달한다.
-  block.addEventListener('click', () => onOpenDetail(item));
+  openButton.addEventListener('click', () => onOpenDetail(item));
+
+  const favorite = document.createElement('button');
+  favorite.type = 'button';
+  favorite.className = 'scholarship-favorite';
+  favorite.dataset.favoriteId = String(item.id);
+  const selected = getMatchingFavoriteIds(item, favoriteIds).length > 0;
+  favorite.setAttribute('aria-pressed', String(selected));
+  favorite.setAttribute('aria-label', `${item.name || '장학금'} 즐겨찾기 ${selected ? '해제' : '저장'}`);
+  favorite.title = selected ? '즐겨찾기 해제' : '즐겨찾기 저장';
+  favorite.disabled = !onToggleFavorite;
+  const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  icon.setAttribute('viewBox', '0 0 24 24');
+  icon.setAttribute('aria-hidden', 'true');
+  const star = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  star.setAttribute('d', 'M12 3 14.78 8.63 21 9.54 16.5 13.92 17.56 20.12 12 17.19 6.44 20.12 7.5 13.92 3 9.54 9.22 8.63Z');
+  icon.append(star);
+  favorite.append(icon);
+  // 상세 이동 버튼과 독립적으로 저장·해제를 요청한다.
+  favorite.addEventListener('click', () => onToggleFavorite?.(item));
+  block.append(openButton, favorite);
   return block;
 }
 

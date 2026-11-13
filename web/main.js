@@ -1,17 +1,19 @@
 // 원본 데이터와 화면 상태를 보관하고 데이터 읽기·정렬·화면 표시를 연결한다.
 // 입력: 이벤트 JSON과 사용자 조작. 출력: 메인 화면.
 import { loadScholarships } from './data.js';
-import { sortScholarships, compareDeadline, compareAmount, filterScholarships } from './logic.js';
+import { sortScholarships, compareDeadline, compareAmount, filterScholarships, getMatchingFavoriteIds } from './logic.js';
 import { renderMain, renderScholarshipList, renderListStatus, renderSelectedFilters } from './renderMain.js';
 import { renderDetail } from './renderDetail.js';
 import { renderFilterPopup } from './renderFilterPopup.js';
 import { loadSettings, saveSettings } from './settingStore.js';
 import { AMOUNT_TYPES } from './filterOptions.js';
+import { loadFavorites, saveFavorites } from './favoriteStore.js';
 
 const state = {
   items: [],
   visibleItems: [],
   ...loadSettings(),
+  favoriteIds: loadFavorites(),
   loading: true,
   error: null,
   selectedId: null,
@@ -49,10 +51,30 @@ function updateMain() {
   areas.resetButton.disabled = state.loading || !!state.error;
   if (state.loading) return renderListStatus(areas.list, 'loading');
   if (state.error) return renderListStatus(areas.list, 'error');
-  renderScholarshipList(areas.list, state.visibleItems, handleOpenDetail);
+  renderScholarshipList(areas.list, state.visibleItems, handleOpenDetail, state.favoriteIds, handleToggleFavorite);
   renderSelectedFilters(areas.filters, state.filters, handleRemoveFilter);
   areas.list.scrollTop = state.listScrollTop;
   saveSettings(state);
+}
+
+// 카드의 별에서 호출한다. 합쳐진 공지의 저장 ID도 함께 해제하고, 저장 성공 후 화면을 갱신한다.
+function handleToggleFavorite(item) {
+  const matchingIds = getMatchingFavoriteIds(item, state.favoriteIds);
+  // 해제할 때 같은 이벤트에 해당하는 ID를 모두 제거한다.
+  const nextIds = matchingIds.length > 0
+    ? state.favoriteIds.filter((id) => !matchingIds.includes(id))
+    : [...state.favoriteIds, String(item.id)];
+  if (!saveFavorites(nextIds)) {
+    window.alert('즐겨찾기를 저장하지 못했습니다. 브라우저의 사이트 저장 설정을 확인해 주세요.');
+    return;
+  }
+  state.favoriteIds = nextIds;
+  state.listScrollTop = areas.list.scrollTop;
+  updateMain();
+  // 다시 그린 뒤에도 누른 별에 키보드 포커스를 유지한다.
+  const button = Array.from(areas.list.querySelectorAll('.scholarship-favorite'))
+    .find((candidate) => candidate.dataset.favoriteId === String(item.id));
+  button?.focus({ preventScroll: true });
 }
 
 // 드롭다운의 정렬 기준을 저장하고 목록을 재계산한다. 금액순으로 전환하면 일시금을 기본 선택한다.

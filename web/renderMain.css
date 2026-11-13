@@ -211,12 +211,9 @@
 }
 
 .scholarship-block {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  position: relative;
   width: 100%;
   margin-bottom: 16px;
-  padding: 24px;
   border: 1px solid var(--color-border);
   border-radius: 16px;
   background: var(--color-content);
@@ -227,10 +224,57 @@
   cursor: pointer;
 }
 
-.scholarship-block:focus-visible {
+.scholarship-open:focus-visible,
+.scholarship-favorite:focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
+
+/* 상세 이동과 별을 형제 버튼으로 두고, 조건 아래에 별을 위한 여유 공간을 확보한다. */
+.scholarship-open {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  min-height: 220px;
+  padding: 24px 24px 68px;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+
+.scholarship-favorite {
+  position: absolute;
+  right: 16px;
+  bottom: 12px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 8px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--color-primary);
+  cursor: pointer;
+}
+
+.scholarship-favorite svg {
+  width: 28px;
+  height: 28px;
+  fill: transparent;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linejoin: round;
+}
+
+.scholarship-favorite[aria-pressed='true'] svg { fill: currentColor; }
+.scholarship-favorite:hover { color: var(--color-primary-hover); }
 
 .scholarship-name {
   font-size: 20px;
@@ -285,7 +329,7 @@
   border-left: 5px solid transparent;
 }
 .scholarship-status:hover .scholarship-status-tooltip,
-.scholarship-block:focus-visible .scholarship-status-tooltip { display: block; }
+.scholarship-open:focus-visible .scholarship-status-tooltip { display: block; }
 
 .scholarship-info {
   display: flex;
