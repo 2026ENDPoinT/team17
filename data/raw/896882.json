@@ -1,0 +1,34 @@
+{
+  "bidx": 896882,
+  "bnum": 58476,
+  "site": "computer",
+  "board": "학부공지",
+  "url": "https://computer.seoultech.ac.kr/info/notice?do=view&bnum=58476&bidx=896882",
+  "title": "2026학년도 2학기 2차 어의장학생 선발 안내(~11/6(금))",
+  "posted_date": "2026-10-22",
+  "pinned": false,
+  "matched_keywords": [
+    "장학"
+  ],
+  "body_text": "",
+  "has_images": true,
+  "attachments": [
+    {
+      "name": "(붙임1) 2026학년도 2학기 2차 어의장학생 선발 안내문.hwp",
+      "ext": "hwp",
+      "url": "https://computer.seoultech.ac.kr/storage/computer2/bbs/58476/24A4F65B06F94E61A39E33E784370D76_.hwp",
+      "text": null,
+      "text_status": "not_extracted"
+    },
+    {
+      "name": "(붙임2) 어의장학금 신청 매뉴얼.pdf",
+      "ext": "pdf",
+      "url": "https://computer.seoultech.ac.kr/storage/computer2/bbs/58476/92E17321E7A54262B0DC75E41C0E256F_.pdf",
+      "text": null,
+      "text_status": "not_extracted"
+    }
+  ],
+  "content_hash": "sha256:4233d17dd88bb03ceaf836e060a98869ab6a298c26bffe9d23088d88df52bc09",
+  "first_seen": "2026-11-13T20:30:08+09:00",
+  "last_checked": "2026-11-13T20:30:08+09:00"
+}

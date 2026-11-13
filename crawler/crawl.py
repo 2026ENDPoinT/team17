@@ -47,8 +47,8 @@ def list_board(board: dict, mode: str, since: str) -> list[dict]:
     return list(found.values())
 
 
-def matched(title: str) -> list[str]:
-    return [k for k in KEYWORDS if k in title]
+def matched(title: str, board: dict) -> list[str]:
+    return [k for k in board.get("keywords", KEYWORDS) if k in title]
 
 
 def build_record(board: dict, row: dict, detail: dict, old: dict | None, now: str) -> dict:
@@ -63,7 +63,7 @@ def build_record(board: dict, row: dict, detail: dict, old: dict | None, now: st
         "title": title,
         "posted_date": detail["posted_date"] or row["posted_date"],
         "pinned": row["pinned"],
-        "matched_keywords": matched(title),
+        "matched_keywords": matched(title, board),
         "body_text": body,
         "has_images": detail["has_images"],
         "attachments": detail["attachments"],
@@ -79,15 +79,20 @@ def run(mode: str) -> int:
     since = (today - datetime.timedelta(days=SINCE_DAYS)).isoformat()
     recheck_since = (today - datetime.timedelta(days=RECHECK_DAYS)).isoformat()
     now = datetime.datetime.now(KST).replace(microsecond=0).isoformat()
-    counts = {"new": 0, "changed": 0, "same": 0, "skipped": 0, "error": 0}
+    counts = {"new": 0, "changed": 0, "same": 0, "skipped": 0, "mirror": 0, "error": 0}
+    seen: set[int] = set()  # 이번 실행에서 처리한 bidx (미러 게시판은 같은 bidx를 쓴다)
 
     for board in BOARDS:
         rows = list_board(board, mode, since)
         if board["filter_keywords"]:
-            rows = [r for r in rows if matched(r["title"])]
+            rows = [r for r in rows if matched(r["title"], board)]
         print(f"[{board['site']} {board['board']}] 대상 {len(rows)}건")
 
         for row in sorted(rows, key=lambda r: r["bidx"]):
+            if row["bidx"] in seen:
+                counts["mirror"] += 1  # 먼저 나온 게시판(BOARDS 순서) 것을 쓴다
+                continue
+            seen.add(row["bidx"])
             path = RAW_DIR / f"{row['bidx']}.json"
             old = json.loads(path.read_text(encoding="utf-8")) if path.exists() else None
             if old and (row["posted_date"] or "") < recheck_since:

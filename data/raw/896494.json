@@ -1,0 +1,41 @@
+{
+  "bidx": 896494,
+  "bnum": 57750,
+  "site": "dse",
+  "board": "공지사항",
+  "url": "https://dse.seoultech.ac.kr/information/bulletin?do=view&bnum=57750&bidx=896494",
+  "title": "2026학년도 2학기 지능형반도체공학과 LBSemicon 장학생 신청 안내",
+  "posted_date": "2026-10-14",
+  "pinned": false,
+  "matched_keywords": [
+    "장학"
+  ],
+  "body_text": "<2026학년도 2학기 지능형반도체공학과 LBSemicon 장학생 신청 안내>\n\n지능형반도체공학과에서 LBSemicon 장학생을 선발하오니, 관심있는 학생들은 아래 내용을 참고하여 지원금을 신청하시기 바랍니다.\n\n신청전 붙임의 '장학생 선발기준'을 확인하시기 바랍니다.\n\n1. 지원대상: 2026학년도 2학기 지능형반도체공학과 3학년 전원\n\n2. 선발인원: 2명(※ 붙임 LBSemicon 장학생 선발기준에 의거, 교내 장학금 관련 규정에 의거)\n\n3. 신청기간: 2026. 10. 15. ~ 2026. 10. 29.(목) 18:00 까지 (※ 기한 엄수, 기한 후 제출 불가)\n\n4. 신청방법: [붙임]의 신청서(본인 서명 필수), 성적표 사본, 신분증 및 통장 사본, 개인정보이용동의서 제출\n\n5. 제출처: 학과사무실 다빈치관 221호\n\n6. 관련문의: 학과사무실 [연락처] / 이메일 [연락처]\n\n감사합니다.",
+  "has_images": false,
+  "attachments": [
+    {
+      "name": "[붙임] LBSemicon 장학생 지원 신청서.hwp",
+      "ext": "hwp",
+      "url": "https://dse.seoultech.ac.kr/storage/des/bbs/57750/B410839B1EF84CAA81DB5982C4CB34FB_.hwp",
+      "text": null,
+      "text_status": "not_extracted"
+    },
+    {
+      "name": "지능형반도체공학과 LBSemicon 장학생 선정 기준 (2024.8.14).pdf",
+      "ext": "pdf",
+      "url": "https://dse.seoultech.ac.kr/storage/des/bbs/57750/3B3A54A80030456C8777D3EC879AB8E2_.pdf",
+      "text": null,
+      "text_status": "not_extracted"
+    },
+    {
+      "name": "개인정보이용 동의서.hwp",
+      "ext": "hwp",
+      "url": "https://dse.seoultech.ac.kr/storage/des/bbs/57750/56CB2A58972143F4BA951BA1C312B58B_.hwp",
+      "text": null,
+      "text_status": "not_extracted"
+    }
+  ],
+  "content_hash": "sha256:95d3b5ec81bd5773170212fe81a2abbebe83cbc5e2c5d45561d2333b93af9f53",
+  "first_seen": "2026-11-13T20:30:08+09:00",
+  "last_checked": "2026-11-13T20:30:08+09:00"
+}

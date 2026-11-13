@@ -1,0 +1,48 @@
+{
+  "bidx": 896294,
+  "bnum": 763,
+  "site": "safety",
+  "board": "공지사항",
+  "url": "https://safety.seoultech.ac.kr/b_information/notic?do=view&bnum=763&bidx=896294",
+  "title": "[학부] 2026년 안전공학과 학부생 학술발표대회 개최 (~11. 2.(월)까지 초록 제출)(추가 장학금 안내)",
+  "posted_date": "2026-10-07",
+  "pinned": true,
+  "matched_keywords": [
+    "장학"
+  ],
+  "body_text": "※ 공과대학 학장상 [1등-1명(팀) 2등-2명(팀)]에게 지급 예정이며, 학장상 수여 학생에게는 공과대학에서 장학금 지급 예정임.\n\n장학금 금액은 추후 공과대학 학장상 수여자에게 개별 안내 예정임.\n\n※ 제출처: 학과 메일: [연락처]\n\n(메일 제목: 2026 학부생학술발표대회 참가 _대표자_2000000(학번)_이름) 으로 송부\n\n학과사무실",
+  "has_images": true,
+  "attachments": [
+    {
+      "name": "붙임 3. 초록 서식.hwp",
+      "ext": "hwp",
+      "url": "https://safety.seoultech.ac.kr/storage/safety/bbs/763/C549FFB486A6421EA5619205C242C08C_.hwp",
+      "text": null,
+      "text_status": "not_extracted"
+    },
+    {
+      "name": "붙임 1. 학술발표대회 참가 신청서.hwp",
+      "ext": "hwp",
+      "url": "https://safety.seoultech.ac.kr/storage/safety/bbs/763/2C6A401C0C0E44248549B29FF090230F_.hwp",
+      "text": null,
+      "text_status": "not_extracted"
+    },
+    {
+      "name": "붙임 2. 지도교수 추천서.hwp",
+      "ext": "hwp",
+      "url": "https://safety.seoultech.ac.kr/storage/safety/bbs/763/4E7E0A0905F440CAB2D837048E0C1D53_.hwp",
+      "text": null,
+      "text_status": "not_extracted"
+    },
+    {
+      "name": "2026년 안전공학과 학술발표대회 우수 장학금 계획(안).pdf",
+      "ext": "pdf",
+      "url": "https://safety.seoultech.ac.kr/storage/safety/bbs/763/283566DB495741BF98A2F00E36C6A091_.pdf",
+      "text": null,
+      "text_status": "not_extracted"
+    }
+  ],
+  "content_hash": "sha256:79bacd5c3f827df69ea5b98a63034c838edc54393927c25e810b4e0bfa48bffd",
+  "first_seen": "2026-11-13T20:30:08+09:00",
+  "last_checked": "2026-11-13T20:30:08+09:00"
+}

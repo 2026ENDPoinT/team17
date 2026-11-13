@@ -1,0 +1,27 @@
+{
+  "bidx": 897575,
+  "bnum": 973,
+  "site": "eie",
+  "board": "학부공지",
+  "url": "https://eie.seoultech.ac.kr/majornotice/notice?do=view&bnum=973&bidx=897575",
+  "title": "전기공사공제조합장학회 제22기 장학생 선발 공고 (~11.13 18시)",
+  "posted_date": "2026-11-09",
+  "pinned": false,
+  "matched_keywords": [
+    "장학"
+  ],
+  "body_text": "전기공사공제조합 장학회 장학생을 붙임과 같이 모집하오니 선발기준에 적합한 학생들은 안내문을 참조하여 서류를 지원하시기 바랍니다.\n\n1. 접수기간: ~2026.11.13(금) 18시\n\n2. 접수방법: 온라인 원서접수 (www.ecfcsf.or.kr)\n\n3. 선발인원: 대학생 74명(일반전형 32명)\n\n4. 선발기준: 서류심사\n\n5. 합격발표: 2026년 12월 중\n\n▣ 장학혜택\n\n지원금액: 등록금 연간 최대 5백만 원 지원 (학기당 250만원 한도)\n\n- 등록금에서 교내 및 국가장학금을 제한 금액을 학기당 250만원 한도 내 지원\n\n지급기간 2027년도 1학기 및 2학기(정규학기에 한정) / 계절학기 및 초과학기는 지원 불가\n\n제출서류 및 유의사항: 붙임 참고",
+  "has_images": false,
+  "attachments": [
+    {
+      "name": "전기공사공제조합장학회 제22기 장학생 선발 공고 (대학교용).pdf",
+      "ext": "pdf",
+      "url": "https://eie.seoultech.ac.kr/storage/eie/bbs/973/9868637DD7144763B841CE7B886F1D89_.pdf",
+      "text": null,
+      "text_status": "not_extracted"
+    }
+  ],
+  "content_hash": "sha256:affbe13244e42fcc6788d1b55c350797766e2d297d247c48ab986d23168f759d",
+  "first_seen": "2026-11-13T20:30:08+09:00",
+  "last_checked": "2026-11-13T20:30:08+09:00"
+}
