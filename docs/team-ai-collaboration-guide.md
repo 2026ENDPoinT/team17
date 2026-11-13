@@ -257,7 +257,8 @@ GitHub Actions로 PR마다 아래를 자동으로 돌린다.
 | 문서 | 내용 |
 |---|---|
 | [notice-sources.md](notice-sources.md) | 수집 대상 게시판 목록, CMS 패턴, 중복 게시판, robots.txt 조사 결과 |
-| [project-risks.md](project-risks.md) | 단계별 위험 요소와 예방책 |
+| [scholarship-mvp.md](scholarship-mvp.md) | 서비스 범위(장학금 헌터, 교내 게시판)와 단계별 계획 |
+| [project-risks.md](project-risks.md) | 단계별 위험 요소와 대응, 지금 할 일 |
 | [research-findings.md](research-findings.md) | 경쟁 서비스, 판례, 알림 채널, 기술 도구 조사 |
 | 이 문서 | 협업 규칙 |
 
@@ -287,7 +288,7 @@ AI가 정리한 사실(URL, 날짜, 법 조항 등)은 틀릴 수 있다. 중요
 
 ### 결정
 
-- [ ] MVP 범위 (수집 대상, 알림 채널) — [project-risks.md](project-risks.md) 7절 참고
+- [ ] MVP 범위 (수집 대상, 알림 채널) — [scholarship-mvp.md](scholarship-mvp.md) 3절, [project-risks.md](project-risks.md) 7절 참고
 - [ ] 기술 스택과 버전
 - [ ] 패키지 관리자, 포매터·린터
 - [ ] 폴더 구조와 모듈별 담당자
