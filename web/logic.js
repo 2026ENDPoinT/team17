@@ -65,6 +65,30 @@ export function compareDeadline(a, b, today = getToday()) {
   return dateA - dateB;
 }
 
+// 카드의 모집 상태와 최신 수정 공지 게시일을 계산한다. 마감일 미확인은 모집 중으로 단정하지 않는다.
+export function getRecruitmentStatus(item, today = getToday()) {
+  const deadline = parseDeadline(item.deadline);
+  const closed = item.closed === true || item.status === '완료' ||
+    (deadline !== null && deadline < parseDeadline(today));
+  const uncertain = [...(item.eligibility?.unclear ?? []), ...(item.needs_check ?? [])];
+  const open = !closed && deadline !== null && !uncertain.includes('deadline');
+  let modified = false;
+  let modifiedDate = null;
+  for (const notice of item.notices ?? []) {
+    if (notice.label !== '수정') continue;
+    modified = true;
+    if (parseDeadline(notice.posted_at) !== null &&
+        (modifiedDate === null || notice.posted_at > modifiedDate)) {
+      modifiedDate = notice.posted_at;
+    }
+  }
+  return {
+    label: closed ? '마감' : open ? '모집 중' : '모집 여부 미확인',
+    modified: open && (modified || item.status === '수정'),
+    modifiedDate,
+  };
+}
+
 // 같은 금액 유형의 두 항목을 금액 내림차순으로 비교하고, 금액이 같으면 마감순으로 비교한다.
 // 금액 유형과 미확인 값은 filterScholarships()에서 먼저 걸러낸다.
 export function compareAmount(a, b, today = getToday()) {

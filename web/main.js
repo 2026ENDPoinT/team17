@@ -1,5 +1,5 @@
 // 원본 데이터와 화면 상태를 보관하고 데이터 읽기·정렬·화면 표시를 연결한다.
-// 입력: 샘플 JSON과 사용자 조작. 출력: 메인 화면.
+// 입력: 이벤트 JSON과 사용자 조작. 출력: 메인 화면.
 import { loadScholarships } from './data.js';
 import { sortScholarships, compareDeadline, compareAmount, filterScholarships } from './logic.js';
 import { renderMain, renderScholarshipList, renderListStatus, renderSelectedFilters } from './renderMain.js';

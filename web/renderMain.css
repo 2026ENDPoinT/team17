@@ -129,6 +129,56 @@
   font-weight: bold;
 }
 
+/* 첫 줄 오른쪽에 모집 상태를 두고, 수정된 모집의 게시일을 말풍선으로 보여 준다. */
+.scholarship-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+}
+
+.scholarship-name { min-width: 0; }
+.scholarship-status {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 8px;
+  padding-top: 3px;
+  font-size: 14px;
+  color: #4b5563;
+}
+.scholarship-status-modified { cursor: help; }
+.scholarship-modified { color: #2563eb; }
+.scholarship-status-tooltip {
+  display: none;
+  position: absolute;
+  z-index: 2;
+  top: 100%;
+  right: 0;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: #202124;
+  color: #fff;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 1.5;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px #0002;
+}
+.scholarship-status-tooltip::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  right: 16px;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #202124;
+  border-left: 5px solid transparent;
+}
+.scholarship-status:hover .scholarship-status-tooltip,
+.scholarship-block:focus-visible .scholarship-status-tooltip { display: block; }
+
 .scholarship-info {
   display: flex;
   justify-content: space-between;

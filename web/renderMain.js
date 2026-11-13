@@ -1,6 +1,6 @@
 // 메인 화면의 전체 배치와 영역별 틀을 만든다.
 // 입력: 화면을 넣을 DOM 요소. 출력: 이후 갱신에 사용할 영역별 DOM 요소.
-import { formatAmount, formatDeadline, getMainConditions, getToday } from './logic.js';
+import { formatAmount, formatDeadline, getMainConditions, getToday, getRecruitmentStatus } from './logic.js';
 import { AMOUNT_TYPES } from './filterOptions.js';
 
 // 데이터를 기다리거나 불러오기에 실패했을 때 왼쪽 영역에 상태 안내를 표시한다.
@@ -35,7 +35,7 @@ export function renderScholarshipList(container, items, onOpenDetail) {
   container.replaceChildren(fragment);
 }
 
-// 장학금 한 건을 세 줄짜리 블록으로 만들고, 클릭하면 전달받은 상세 이동 함수를 호출한다.
+// 장학금 카드 첫 줄에 모집 상태와 수정 게시일 말풍선을 표시하고, 클릭하면 상세로 이동한다.
 export function createScholarshipBlock(item, onOpenDetail, today) {
   const block = document.createElement('button');
   block.type = 'button';
@@ -44,6 +44,27 @@ export function createScholarshipBlock(item, onOpenDetail, today) {
   const name = document.createElement('span');
   name.className = 'scholarship-name';
   name.textContent = item.name || '장학금명 미확인';
+
+  const heading = document.createElement('span');
+  heading.className = 'scholarship-heading';
+  const status = getRecruitmentStatus(item, today);
+  const statusArea = document.createElement('span');
+  statusArea.className = 'scholarship-status';
+  statusArea.textContent = status.label;
+  if (status.modified) {
+    statusArea.classList.add('scholarship-status-modified');
+    const modified = document.createElement('span');
+    modified.className = 'scholarship-modified';
+    modified.textContent = '수정됨';
+    const tooltip = document.createElement('span');
+    tooltip.className = 'scholarship-status-tooltip';
+    tooltip.id = `modified-date-${item.id}`;
+    tooltip.setAttribute('role', 'tooltip');
+    tooltip.textContent = `수정 공지 게시일: ${status.modifiedDate ?? '미확인'}`;
+    block.setAttribute('aria-describedby', tooltip.id);
+    statusArea.append(modified, tooltip);
+  }
+  heading.append(name, statusArea);
 
   const info = document.createElement('span');
   info.className = 'scholarship-info';
@@ -58,7 +79,8 @@ export function createScholarshipBlock(item, onOpenDetail, today) {
   conditions.className = 'scholarship-conditions';
   conditions.textContent = getMainConditions(item.eligibility).join(' / ');
 
-  block.append(name, info, conditions);
+  block.append(heading, info, conditions);
+  // 클릭한 장학금을 main.js의 상세 이동 함수에 전달한다.
   block.addEventListener('click', () => onOpenDetail(item));
   return block;
 }
