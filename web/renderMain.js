@@ -192,15 +192,16 @@ function createListArea() {
   return list;
 }
 
-// 서비스 제목·설명과 오른쪽 즐겨찾기 버튼을 만들고 전달받은 클릭 핸들러를 연결한다.
+// 서비스 제목·목록 건수 영역과 즐겨찾기 버튼을 만든다. 건수는 main.js에서 갱신한다.
 function createTitleArea(onOpenFavorites) {
   const header = document.createElement('header');
   header.className = 'main-title';
 
   const heading = document.createElement('h1');
   heading.textContent = '장학금 헌터';
-  const description = document.createElement('p');
-  description.textContent = '교내 게시판의 장학금을 모아 금액·마감·지원 조건을 비교하세요.';
+  const count = document.createElement('p');
+  count.className = 'main-list-count';
+  count.setAttribute('aria-live', 'polite');
   const favoritesButton = document.createElement('button');
   favoritesButton.type = 'button';
   favoritesButton.className = 'main-favorites-button';
@@ -208,7 +209,7 @@ function createTitleArea(onOpenFavorites) {
   favoritesButton.disabled = !onOpenFavorites;
   if (onOpenFavorites) favoritesButton.addEventListener('click', onOpenFavorites);
 
-  header.append(heading, description, favoritesButton);
+  header.append(heading, count, favoritesButton);
   return header;
 }
 

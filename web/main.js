@@ -47,8 +47,11 @@ function updateVisibleItems() {
   state.visibleItems = sortScholarships(filteredItems, compareFunctions[state.sortBy]);
 }
 
-// 정렬·금액 유형 선택과 목록을 상태에 맞춰 표시하고, 스크롤을 복원한 뒤 설정을 저장한다.
+// 메인 목록·건수·설정을 표시한다. 로딩·오류 시 건수를 숨기고, 스크롤 복원 후 설정을 저장한다.
 function updateMain() {
+  const count = areas.title.querySelector('.main-list-count');
+  count.hidden = state.loading || !!state.error;
+  count.textContent = count.hidden ? '' : `총 ${state.visibleItems.length}건`;
   areas.sort.select.value = state.sortBy;
   areas.sort.select.disabled = state.loading || !!state.error;
   areas.sort.amountTypes.hidden = state.sortBy !== 'amount';
@@ -64,9 +67,10 @@ function updateMain() {
   saveSettings(state);
 }
 
-// 즐겨찾기 진입·해제 시 저장 ID를 실제 이벤트에 연결하고 목록과 이전 스크롤 위치를 표시한다.
+// 즐겨찾기 진입·해제 시 저장 ID를 이벤트에 연결하고, 목록·건수·이전 스크롤 위치를 표시한다.
 function updateFavorites() {
   const entries = getFavoriteEntries(state.items, state.favoriteIds);
+  areas.title.querySelector('.main-list-count').textContent = `총 ${entries.length}건`;
   renderFavoriteList(areas.list, entries, state.favoriteIds, {
     onOpenDetail: handleOpenDetail,
     onToggleFavorite: handleToggleFavorite,

@@ -3,7 +3,7 @@
 import { createScholarshipBlock } from './renderMain.js';
 import { getToday } from './logic.js';
 
-// 즐겨찾기 주소로 이동했을 때 제목·뒤로가기·스크롤 목록의 틀을 만든다.
+// 즐겨찾기 제목·목록 건수 영역·뒤로가기·목록의 틀을 만든다. 건수는 main.js에서 갱신한다.
 export function renderFavorites(container, handlers) {
   const layout = document.createElement('div');
   layout.className = 'main-layout favorites-layout';
@@ -11,12 +11,15 @@ export function renderFavorites(container, handlers) {
   title.className = 'main-title';
   const heading = document.createElement('h1');
   heading.textContent = '즐겨찾기';
+  const count = document.createElement('p');
+  count.className = 'main-list-count';
+  count.setAttribute('aria-live', 'polite');
   const backButton = document.createElement('button');
   backButton.type = 'button';
   backButton.className = 'main-favorites-button';
   backButton.textContent = '뒤로가기';
   backButton.addEventListener('click', handlers.onBack);
-  title.append(heading, backButton);
+  title.append(heading, count, backButton);
   const panel = document.createElement('div');
   panel.className = 'main-list-panel';
   const list = document.createElement('main');
