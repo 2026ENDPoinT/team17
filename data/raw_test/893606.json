@@ -1,0 +1,36 @@
+{
+  "bidx": 893606,
+  "bnum": 57138,
+  "site": "www",
+  "board": "장학공지",
+  "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=57138&bidx=893606",
+  "title": "2026학년도 2학기(2차) 국가근로장학금 학생 신청기간 안내(8/12~9/9)",
+  "posted_date": "2026-08-06",
+  "pinned": false,
+  "duplicate_of": null,
+  "matched_keywords": [
+    "장학",
+    "근로"
+  ],
+  "body_text": "2026년도 2학기 2차 국가근로장학금 학생 신청기간을 안내드립니다.\n\n가. 신청 기간 : 2026. 8. 12.(수) 9시 ~ 2026. 9. 9.(수) 18시까지\n\n나. 신청 방법: 한국장학재단 홈페이지(http://www.kosaf.go.kr) 및 모바일 어플을 이용하여 신청\n\n※ 자세한 신청 방법은 [붙임] 매뉴얼 참고\n\n다. 안내사항\n\n- 학자금 지원구간이 산정된 이후 근로 가능하므로 가급적 빠른 신청 바랍니다.\n\n- 동계방학집중근로 참여 희망학생은 반드시 2026년 2학기 국가근로장학금 학생신청기간에 신청해주시기 바랍니다.",
+  "has_images": false,
+  "attachments": [
+    {
+      "name": "붙임1.2026년 2학기 국가근로장학금 2차 학생신청 매뉴얼(홈페이지).pdf",
+      "ext": "pdf",
+      "url": "https://www.seoultech.ac.kr/storage/www/bbs/57138/2E5418646AEE4AFE8BCE5AEBA7FD448B_.pdf",
+      "text": "이름\n학자금유형\n주민등록번호\n신청일자\n\n0",
+      "text_status": "ok"
+    },
+    {
+      "name": "붙임2.2026년 2학기 국가근로장학금 2차 학생신청 매뉴얼(모바일).pdf",
+      "ext": "pdf",
+      "url": "https://www.seoultech.ac.kr/storage/www/bbs/57138/E792FE13402B46B9AADB20D164376F24_.pdf",
+      "text": null,
+      "text_status": "empty"
+    }
+  ],
+  "content_hash": "sha256:92df4829124d5123e224c393313c0590c2086c67c9c0d4926be2677248dae642",
+  "first_seen": "2026-11-13T22:17:59+09:00",
+  "last_checked": "2026-11-13T22:17:59+09:00"
+}

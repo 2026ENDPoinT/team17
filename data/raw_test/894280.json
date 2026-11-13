@@ -1,0 +1,28 @@
+{
+  "bidx": 894280,
+  "bnum": 5233,
+  "site": "www",
+  "board": "장학공지",
+  "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=894280",
+  "title": "(홍보) 2026-2학기 통영시 대학생 등록금 전액 지원사업 신청안내(마감)",
+  "posted_date": "2026-08-24",
+  "pinned": false,
+  "duplicate_of": null,
+  "matched_keywords": [
+    "등록금"
+  ],
+  "body_text": "",
+  "has_images": true,
+  "attachments": [
+    {
+      "name": "2026-2학기 통영시 등록금 지원사업 카드뉴스.pdf",
+      "ext": "pdf",
+      "url": "https://www.seoultech.ac.kr/storage/www/bbs/5233/21227C79929D4DBFA9EBE535C9F95F20_.pdf",
+      "text": null,
+      "text_status": "empty"
+    }
+  ],
+  "content_hash": "sha256:e43cbc441c2dfb604adb1e26563b4ce9354b2dd2c29c59a88a833a778099728e",
+  "first_seen": "2026-11-13T22:17:59+09:00",
+  "last_checked": "2026-11-13T22:17:59+09:00"
+}

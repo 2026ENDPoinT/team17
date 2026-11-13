@@ -64,8 +64,23 @@ def _download_bytes(url: str, max_bytes: int | None = None) -> bytes:
     raise RuntimeError("unreachable")
 
 
+class Incomplete(Exception):
+    pass
+
+
 def _download(url: str) -> str:
-    return _download_bytes(url).decode("utf-8", "replace")
+    """HTML 페이지. 학교 서버가 응답을 중간에 끊는 경우가 있어(2026-11-13, 369개 중 10개)
+    </html>로 끝나지 않으면 잘린 것으로 보고 다시 받는다."""
+    delay = 2.0
+    for attempt in range(RETRIES + 1):
+        text = _download_bytes(url).decode("utf-8", "replace")
+        if "</html>" in text[-2000:].lower():
+            return text
+        if attempt == RETRIES:
+            raise Incomplete(url)
+        time.sleep(delay)
+        delay *= 2
+    raise RuntimeError("unreachable")
 
 
 def get_bytes(url: str, mode: str, max_bytes: int) -> bytes:

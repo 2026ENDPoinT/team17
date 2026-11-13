@@ -1,0 +1,35 @@
+{
+  "bidx": 894871,
+  "bnum": 5233,
+  "site": "www",
+  "board": "장학공지",
+  "url": "https://www.seoultech.ac.kr/service/info/janghak/?do=commonview&bnum=5233&bidx=894871",
+  "title": "[한국장학재단] 2026년 2학기 국가장학금 신청자 가구원 동의 안내(마감)",
+  "posted_date": "2026-09-02",
+  "pinned": false,
+  "duplicate_of": null,
+  "matched_keywords": [
+    "장학"
+  ],
+  "body_text": "",
+  "has_images": true,
+  "attachments": [
+    {
+      "name": "붙임1. 가구원 정보제공 동의 안내사항.jpg",
+      "ext": "jpg",
+      "url": "https://www.seoultech.ac.kr/storage/www/bbs/5233/69F572DBB74D41E68D3C12E3EB0C0293_.jpg",
+      "text": null,
+      "text_status": "unsupported"
+    },
+    {
+      "name": "붙임2. 가구원 정보제공 동의 매뉴얼(홈페이지  모바일앱).pdf",
+      "ext": "pdf",
+      "url": "https://www.seoultech.ac.kr/storage/www/bbs/5233/32ECEF888A4C4007A955B6B6880CE173_.pdf",
+      "text": "가구원 정보제공 동의 절차\n(홈페이지, 모바일앱)\n한국장학재단\n국가장학실 소득심사기준팀",
+      "text_status": "ok"
+    }
+  ],
+  "content_hash": "sha256:bf4f0c6ee68f5535c308753c0eacd4b9b707f0a66f902c130a388b4a8ce1b4fe",
+  "first_seen": "2026-11-13T22:17:59+09:00",
+  "last_checked": "2026-11-13T22:17:59+09:00"
+}
