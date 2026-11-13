@@ -47,6 +47,7 @@ from config import (
     NO_LIMIT_WORDS,
     NOT_CONDITION_WORDS,
     NOTICE_ATTACHMENT_WORDS,
+    PERIOD_OTHER_WORDS,
     PREFERENCE_HEAD_WORDS,
     PREFERENCE_TAGS,
     RECRUIT_WORDS,
@@ -269,6 +270,7 @@ def extract_amount(body: str) -> tuple[dict, str | None]:
 # 여기서는 "어느 줄의 어느 기간이 신청 마감인가"와 "연도가 없는 날짜의 연도"만 정한다.
 
 YEAR_FIX_NOTE = "원문 연도를 게시 연도로 고침"  # deadline_text에 붙는 표시. extract.py가 보고 확인 필요로 표시한다
+OPEN_END_NOTE = "끝 날짜가 적혀 있지 않음"  # "6. 8.(월) 10:00 ~": 시작일일 수 있다
 
 
 def _year_typo_fixed(value: date, posted: date) -> date | None:
@@ -313,36 +315,66 @@ def _resolve_dates(tokens: list[Token], posted: date) -> tuple[dict[int, date], 
     return resolved, fixed_any
 
 
-def _deadline_in(line: str, posted: date) -> tuple[str, date | None, bool] | None:
-    """한 줄의 마지막 기간 구로 마감을 정한다. 반환: ("date", 날짜, 연도 고침) / ("rolling", None, False) / None.
+def _pick_period(line: str, found: list) -> object:
+    """한 줄에 기간 구가 여러 개면 신청 마감에 해당하는 것을 고른다.
 
+    각 기간 앞의 이름표(앞 기간이 끝난 곳부터 이 기간 시작까지의 글자)를 본다. 이름표에 "실행·발표·지급 …"이 있는 기간은
+    신청 기간이 아니라서 뺀다. 남은 것 중 마지막을 쓴다.
+      "대출신청기간: 7. 1. ~ 11. 17., 대출실행기간: 7. 1. ~ 11. 18." → 11/17 (실행기간은 뺌)
+      "모집기간: 7. 3. ~ 7. 9. 7/13(월)까지 기한 연장!" → 7/13 (뒤 기간은 이름표가 없어 같은 이름표가 이어진다)
+    """
+    keep = []
+    prev_end = 0
+    for p in found:
+        label = line[prev_end : p.first]
+        if not _has_any(label, PERIOD_OTHER_WORDS):
+            keep.append(p)
+        prev_end = p.last
+    return (keep or found)[-1]
+
+
+def _deadline_in(line: str, posted: date) -> tuple[str, date | None, bool, bool] | None:
+    """한 줄의 기간 구로 마감을 정한다.
+
+    반환: ("date", 날짜, 연도 고침, 끝 날짜 없음) / ("rolling", None, False, False) / None.
     "8. 24. ~ 8. 31."은 끝(8/31), "~ 2026.6.22."는 그 날짜, "8. 24. ~ 선발완료 시까지"는 상시 모집이다.
+    "6. 8.(월) 10:00 ~"처럼 "~" 뒤에 끝이 없으면 그 날짜를 쓰되 확인 필요로 표시한다 (시작일일 수 있다).
     """
     tokens = tokenize(line)
     found = periods(tokens)
     if not found:
         return None
-    last = found[-1]
-    if last.rolling:
-        return None if _has_any(line, ROLLING_SKIP_WORDS) else ("rolling", None, False)
+    chosen = _pick_period(line, found)
+    if chosen.rolling:
+        return None if _has_any(line, ROLLING_SKIP_WORDS) else ("rolling", None, False, False)
     resolved, fixed = _resolve_dates(tokens, posted)
-    value = resolved.get(last.end.start)
-    return ("date", value, fixed) if value else None
+    value = resolved.get(chosen.end.start)
+    if value is None and chosen.start is not None and chosen.start.start in resolved:
+        # 구문 분석이 만든 끝 날짜 ("8. 13.(목) ~ 14.(금)"의 14일): 연도는 시작 날짜에서 가져온다
+        begin = resolved[chosen.start.start]
+        _, month, day = chosen.end.value
+        try:
+            value = date(begin.year + (1 if month < begin.month else 0), month, day)
+        except ValueError:
+            value = None
+    return ("date", value, fixed, chosen.open) if value else None
 
 
 def extract_deadline(title: str, body: str, posted: date) -> tuple[str | None, str | None, str | None]:
     """반환: (마감일 YYYY-MM-DD, 원문 표기, 근거 문장). 제목을 먼저 본다 (연장되면 제목이 바뀌므로).
 
-    원문 연도 오타를 고쳤으면 원문 표기 끝에 "(원문 연도를 게시 연도로 고침)"을 붙인다.
+    원문 연도 오타를 고쳤으면 원문 표기 끝에 "(원문 연도를 게시 연도로 고침)"을,
+    "6. 8.(월) 10:00 ~"처럼 끝 날짜가 없으면 "(끝 날짜가 적혀 있지 않음)"을 붙인다. 둘 다 extract.py가 확인 필요로 표시한다.
     상시 모집이면 마감일은 None, 원문 표기는 "상시 모집 (…)"이다.
     """
-    def note(text: str, fixed: bool) -> str:
-        return f"{text} ({YEAR_FIX_NOTE})" if fixed else text
+    def note(text: str, found: tuple) -> str:
+        notes = [n for n, on in [(YEAR_FIX_NOTE, found[2]), (OPEN_END_NOTE, found[3])] if on]
+        return f"{text} ({', '.join(notes)})" if notes else text
 
     if "~" in title or "까지" in title:
         found = _deadline_in(title, posted)
         if found and found[0] == "date":
-            return found[1].isoformat(), note(title, found[2]), _short(title)
+            return found[1].isoformat(), note(title, found), _short(title)
     for line in _lines(body):
         if not _has_any(line, DEADLINE_LINE_WORDS) or _has_any(line, DEADLINE_SKIP_WORDS):
             continue
@@ -351,7 +383,7 @@ def extract_deadline(title: str, body: str, posted: date) -> tuple[str | None, s
             continue
         if found[0] == "rolling":  # "모집기간: 2026. 8. 24. (월) ~ 선발완료 시 까지" (893917)
             return None, "상시 모집 (" + _short(_after_colon(line), 40) + ")", _short(line)
-        return found[1].isoformat(), note(_short(_after_colon(line), 60), found[2]), _short(line)
+        return found[1].isoformat(), note(_short(_after_colon(line), 60), found), _short(line)
     # 날짜 없이 "선발 완료시까지"인 상시 모집: 마감일은 없지만 원문 표기는 남긴다
     for line in _lines(body):
         if (_has_any(line, ROLLING_WORDS) and _has_any(line, DEADLINE_LINE_WORDS + ["지원기간", "지원 기간"])

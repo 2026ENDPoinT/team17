@@ -27,6 +27,9 @@ class Period:
     rolling: bool
     first: int  # 줄 안에서 구가 시작하는 위치
     last: int  # 끝나는 위치
+    # "6. 8.(월) 10:00 ~"처럼 "~" 뒤에 끝이 없다. 이 날짜가 마감일인지 시작일인지 원문만으로는 모른다.
+    # "5. 22.(금) 09:00~18:00"처럼 "~" 바로 뒤가 시각이면 같은 날의 시간 범위라 open이 아니다
+    open: bool = False
 
 
 @dataclass
@@ -67,7 +70,21 @@ def periods(tokens: list[Token]) -> list[Period]:
                     found.append(Period(t, None, True, t.start, nxt.end))
                     i = k + 1
                     continue
-            found.append(Period(None, t, False, t.start, t.end))  # 날짜 하나 ("~"가 뒤에 없거나 끝이 없음)
+                if nxt is not None and nxt.kind == "DAY":  # "8. 13.(목) ~ 14.(금)": 끝은 시작과 같은 달
+                    year, month, start_day = t.value
+                    if nxt.value < start_day:  # "8. 28. ~ 3.(목)"은 다음 달 3일
+                        year, month = (year + 1 if year else None, 1) if month == 12 else (year, month + 1)
+                    end = Token("DATE", nxt.text, (year, month, nxt.value), nxt.start, nxt.end)
+                    end_i = _skip_time(tokens, k + 1)
+                    found.append(Period(t, end, False, t.start, tokens[end_i - 1].end))
+                    i = end_i
+                    continue
+                # "09:00~18:00"이나 "00시 ~ 당일 자정"은 같은 날의 시간 범위다
+                time_range = j + 1 < len(tokens) and tokens[j + 1].kind in ("TIME", "SAMEDAY")
+                found.append(Period(None, t, False, t.start, t.end, open=not time_range))  # "날짜 ~" 끝 없음
+                i = j + 1
+                continue
+            found.append(Period(None, t, False, t.start, t.end))  # 날짜 하나
             i = j
             continue
         if t.kind == "TILDE":  # "~ 2026.6.22."처럼 시작 없이 끝만

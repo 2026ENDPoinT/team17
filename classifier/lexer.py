@@ -2,6 +2,7 @@
 
 컴파일러의 어휘 분석기처럼, 표현이 제각각인 날짜·시각·금액을 여기서 한 번만 정규화한다.
   "2026. 8. 28." / "2026년 8월 28일" / "8/28"       → DATE (2026|None, 8, 28)
+  "2.5 이상" / "3.0/4.5"                            → NUMBER (평점 같은 소수. 날짜로 읽지 않는다)
   "15:00" / "18시" / "3:00 p.m."                    → TIME
   "250만원" / "5백만 원" / "2천만원" / "10,320원"    → MONEY (정수 원)
   "시급" / "시간당" / "시간 당" / "학기당" / "연간"   → PER ("시간" / "학기" / "연" / "월")
@@ -16,7 +17,7 @@ from config import ROLLING_WORDS
 
 @dataclass
 class Token:
-    kind: str  # DATE, TIME, TILDE, UNTIL, ROLLING, MONEY, PERCENT, PER, TUITION, FULL, MAX, COLON, CELL
+    kind: str  # NUMBER, DATE, TIME, TILDE, UNTIL, ROLLING, MONEY, PERCENT, PER, TUITION, FULL, MAX, COLON, CELL
     text: str  # 원문 그대로
     value: object  # 정규화한 값 (DATE: (연|None, 월, 일), MONEY: 원, PER: "시간"/"학기"/"연"/"월" …)
     start: int  # 줄 안에서의 위치
@@ -26,7 +27,15 @@ class Token:
 # 순서가 중요하다: 앞의 규칙이 먼저 자리를 차지한다 (TIME이 DATE보다 먼저라서 "15:00"이 날짜가 되지 않는다)
 _RULES: list[tuple[str, re.Pattern]] = [
     ("TIME", re.compile(r"(?<!\d)(\d{1,2})\s*:\s*(\d{2})(?:\s*[ap]\.?\s*m\.?)?|(?<!\d)(\d{1,2})\s*시(?:\s*(\d{1,2})\s*분)?(?![가-힣])")),
+    ("NUMBER", re.compile(r"(?<![\d.])(\d\.\d{1,2})(?=\s*(?:/\s*\d\.\d|점|이상|이하|초과|미만|만점|기준|학점|평점))"
+                          r"|(?<=/)\s*(\d\.\d{1,2})")),  # 평점 "2.5 이상", "3.0/4.5" (날짜가 아니다)
     ("DATE", re.compile(r"(?<!\d)(?:(\d{4}|\d{2})\s*[.년\-]\s*)?(\d{1,2})\s*[.월/\-]\s*(\d{1,2})(?!\d)\s*(?:일|\.)?")),
+    # 위 규칙이 두 자리 연도로 읽다 실패한 자리를 연도 없이 한 번 더 읽는다.
+    # "11. 17. 18시"는 "11년 17월 18일"로 먼저 읽혀 틀린 날짜가 되고, 그 글자를 다시 보지 않아 "11. 17."을 놓쳤다
+    ("DATE", re.compile(r"(?<!\d)()(\d{1,2})\s*[.월/\-]\s*(\d{1,2})(?!\d)\s*(?:일|\.)?")),
+    # 기간의 끝에 일만 쓴 것: "8. 13.(목) ~ 14.(금)". 월은 구문 분석이 시작 날짜에서 가져온다
+    ("DAY", re.compile(r"(?<![\d.])(\d{1,2})\s*(?:일|\.)?\s*(?=\((?:월|화|수|목|금|토|일)\))")),
+    ("SAMEDAY", re.compile(r"당일")),  # "8월 24일 00시 ~ 당일 자정까지"
     ("MONEY", re.compile(r"(?<![\d.])(\d{1,3}(?:,\d{3})+|\d+)(?:\.(\d+))?\s*(억|천\s*만|백\s*만|십\s*만|만)?\s*원")),
     ("PERCENT", re.compile(r"(?<!\d)(\d{1,3})\s*%")),
     ("PER", re.compile(r"시급|시간\s*당|학기\s*당|학기별|연간|(?<![가-힣])월\s*(?=\d)|매월")),
@@ -63,6 +72,10 @@ def _value(kind: str, m: re.Match) -> object:
         return number * unit
     if kind == "PERCENT":
         return int(m.group(1))
+    if kind == "NUMBER":
+        return float(m.group(1) or m.group(2))
+    if kind == "DAY":
+        return int(m.group(1))
     if kind == "PER":
         word = re.sub(r"\s", "", m.group(0))
         return _PER.get(word, word.replace("당", ""))
@@ -70,6 +83,8 @@ def _value(kind: str, m: re.Match) -> object:
 
 
 def _valid(kind: str, value: object) -> bool:
+    if kind == "DAY":
+        return 1 <= value <= 31
     if kind == "DATE":
         _, mo, d = value
         return 1 <= mo <= 12 and 1 <= d <= 31
@@ -108,7 +123,7 @@ def show(line: str) -> str:
             parts.append(f"[DATE {y or '?'}-{mo:02d}-{d:02d}]")
         elif t.kind == "TIME":
             parts.append(f"[TIME {t.value[0]:02d}:{t.value[1]:02d}]")
-        elif t.kind in ("MONEY", "PERCENT", "PER"):
+        elif t.kind in ("MONEY", "PERCENT", "PER", "NUMBER"):
             parts.append(f"[{t.kind} {t.value}]")
         else:
             parts.append(f"[{t.kind}]")
