@@ -2,7 +2,8 @@
 
 사용법: python summarize.py out/volume.json [일수=30]  (volume.py에 준 일수와 같게)
 """
-import sys, json
+import json
+import sys
 from collections import defaultdict
 
 data = json.load(open(sys.argv[1], encoding='utf-8'))
@@ -19,7 +20,8 @@ for b in data:
         ids[r['id']].add(key)
         titles[r['title'].strip()].add(r['id'])
 
-grad_only = lambda boards: all('대학원' in k or k.startswith('gsp|') for k in boards)
+def grad_only(boards):
+    return all('대학원' in k or k.startswith('gsp|') for k in boards)
 undergrad = sum(1 for boards in ids.values() if not grad_only(boards))
 
 print(f"게시판 {len(data)}개, 오류 {sum(1 for b in data if b['err'])}개")

@@ -2,7 +2,15 @@
 
 사용법: python volume.py boards.txt out/volume.json [일수=30]
 """
-import sys, re, ssl, json, time, datetime, urllib.request, urllib.parse, html
+import datetime
+import html
+import json
+import re
+import ssl
+import sys
+import time
+import urllib.parse
+import urllib.request
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
 
@@ -62,11 +70,14 @@ def board(line):
     for p in range(1, MAXPAGE + 1):
         u = url + ('&' if '?' in url else '?') + f'page={p}'
         try:
-            h, dt = get(u); times.append(dt)
+            h, dt = get(u)
+            times.append(dt)
         except Exception as e:
-            err = str(e)[:60]; break
+            err = str(e)[:60]
+            break
         time.sleep(1)
-        rows = parse_rows(h); pages = p
+        rows = parse_rows(h)
+        pages = p
         new = [r for r in rows if r['id'] not in seen]
         if not [r for r in new if not r['pinned']] and p > 1:
             break
@@ -83,13 +94,14 @@ def board(line):
     return dict(site=site, label=label, url=url, err=err, pages=pages, rows=len(seen),
                 pins=pins, recent=recent, avg_s=round(sum(times)/len(times), 2) if times else None)
 
-lines = [l.strip() for l in open(sys.argv[1], encoding='utf-8') if l.strip()]
+with open(sys.argv[1], encoding='utf-8') as f:
+    lines = [line.strip() for line in f if line.strip()]
 byhost = defaultdict(list)
-for l in lines:
-    byhost[urllib.parse.urlparse(l.split('|', 2)[2]).netloc].append(l)
+for line in lines:
+    byhost[urllib.parse.urlparse(line.split('|', 2)[2]).netloc].append(line)
 
 def host_job(ls):
-    return [board(l) for l in ls]
+    return [board(line) for line in ls]
 
 out = []
 with ThreadPoolExecutor(6) as ex:

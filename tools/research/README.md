@@ -8,16 +8,16 @@
 
 ## 필요한 것
 
-- Python 3.8 이상
+- 저장소 루트에서 `uv sync`를 한 번 실행해 둔다 (Python 3.11 환경)
 - 외부 패키지 없음 (표준 라이브러리만 사용)
 
 ## 실행 순서
 
 ```bash
 cd tools/research
-python volume.py boards.txt out/volume.json 30
-python summarize.py out/volume.json 30
-python views.py out/volume.json out/views.json
+uv run python volume.py boards.txt out/volume.json 30
+uv run python summarize.py out/volume.json 30
+uv run python views.py out/volume.json out/views.json
 ```
 
 | 스크립트 | 하는 일 | 걸리는 시간 (2026-11 기준) |

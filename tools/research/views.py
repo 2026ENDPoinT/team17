@@ -3,8 +3,16 @@
 사용법: python views.py out/volume.json out/views.json
 호스트당 최대 6건을 무작위로 고르고(시드 17), 요청 간격은 1초다.
 """
-import sys, re, json, time, random, html, urllib.request, ssl, urllib.parse
-from collections import defaultdict, Counter
+import html
+import json
+import random
+import re
+import ssl
+import sys
+import time
+import urllib.parse
+import urllib.request
+from collections import Counter, defaultdict
 from concurrent.futures import ThreadPoolExecutor
 
 ctx = ssl.create_default_context()
@@ -33,7 +41,7 @@ def analyze(u):
                 email=bool(re.search(r'[\w.+-]+@[\w-]+\.[\w.]+', text)),
                 phone=bool(re.search(r'0\d{1,2}[-) ]\d{3,4}-\d{4}', text)),
                 stuid=bool(re.search(r'\b(19|20)\d{6}\b|\d{2}\*{2,}\d+|[가-힣]\*[가-힣]', text)),
-                forms=sum(1 for l in links if re.search(r'forms\.gle|docs\.google\.com/forms|naver\.me|form\.office|survey', l)),
+                forms=sum(1 for link in links if re.search(r'forms\.gle|docs\.google\.com/forms|naver\.me|form\.office|survey', link)),
                 deadline=bool(re.search(r'(까지|마감|기한|~\s*\d{1,2}[./]\d{1,2}|신청\s*기간|접수\s*기간)', text)),
                 sample=text[:80])
 
@@ -51,7 +59,11 @@ for host, items in byhost.items():
 def job(items):
     out = []
     for site, label, u in items:
-        r = analyze(u); r['site'] = site; r['label'] = label; out.append(r); time.sleep(1)
+        r = analyze(u)
+        r['site'] = site
+        r['label'] = label
+        out.append(r)
+        time.sleep(1)
     return out
 
 groups = defaultdict(list)
@@ -66,7 +78,8 @@ json.dump(res, open(sys.argv[2], 'w', encoding='utf-8'), ensure_ascii=False, ind
 ok = [r for r in res if r.get('found')]
 n = len(ok)
 print('sampled', len(res), 'parsed', n, 'errors', sum(1 for r in res if r.get('err')))
-pct = lambda k: f"{sum(1 for r in ok if k(r))}/{n} ({100*sum(1 for r in ok if k(r))//max(n,1)}%)"
+def pct(k):
+    return f"{sum(1 for r in ok if k(r))}/{n} ({100*sum(1 for r in ok if k(r))//max(n,1)}%)"
 print('본문 100자 미만', pct(lambda r: r['textlen'] < 100))
 print('본문 100자 미만 + 첨부 있음', pct(lambda r: r['textlen'] < 100 and r['files']))
 print('본문 100자 미만 + 이미지 있음(포스터형)', pct(lambda r: r['textlen'] < 100 and r['imgs']))
