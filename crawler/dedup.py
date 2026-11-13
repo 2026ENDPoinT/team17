@@ -42,10 +42,13 @@ _DATE_LIKE = re.compile(r"\d.*(~|/|\.|:|까지|시|예정|월)|^(~|까지)|^[월
 _STATUS_WORDS = re.compile(r"마감|홍보|완료|수정|필독|필수|중요|연장|안내|공지|교체|추가|신규|타과생")
 #   게시판 분류 표시: 한 글자 괄호 ("(재)", "(善)", "(주)"), 정확히 "장학"·"발전기금"
 _BOARD_LABEL = re.compile(r"^(.|장학|발전기금)$")
-# [목적에 따라 다름] 학교 부서·대상 ([학부], [도서관], (GTM전공), [생활협동조합] …)
+#   대상 표시 (누구에게 보이는 글인지): 같은 장학금 공지에 붙었다 안 붙었다 한다
+#   ("[학부] … 대림수암장학문화재단 장학생"과 "[대림수암장학문화재단] … 장학생")
+_AUDIENCE = re.compile(r"^(학부|대학원|일반대학원|재학생|학부생|학부 재학생)$")
+# [목적에 따라 다름] 학교 부서 (공지를 낸 곳: [도서관], [생활협동조합], (GTM전공), [국제대학] …)
 #   재게시 판정: 학과가 다시 올리며 붙이거나 바꾸므로 지운다 (drop_units=True, 기본값)
 #   이벤트 묶기: "[도서관] 국가근로장학생 모집"과 "[생활협동조합] …"은 다른 모집이라 남긴다 (drop_units=False)
-_SCHOOL_UNIT = re.compile(r"(처|원|센터|과|팀|단|대학|본부|관|실|소|부|전공|조합|미술관)$|^(학부|대학원|일반대학원|재학생|학부생|학부 재학생)$")
+_SCHOOL_UNIT = re.compile(r"(처|원|센터|과|팀|단|대학|본부|관|실|소|부|전공|조합|미술관)$")
 # [항상 남김] 재단·장학회·회사 이름 (상태 꼬리표와 함께 있어도 남긴다), 차수·유형·금액, 과목·분야, 모르는 내용
 _ORG_NAME = re.compile(r"재단|장학회|협회|사랑의열매")
 _IDENTIFIER = re.compile(r"희망사다리|유형|\d+차|^\d[\d,]*만?원$")
@@ -54,7 +57,7 @@ _IDENTIFIER = re.compile(r"희망사다리|유형|\d+차|^\d[\d,]*만?원$")
 def _bracket_kept(inner: str, drop_units: bool = True) -> str:
     """괄호 안 내용을 남길지 정한다. 남기면 괄호 기호만 빼고 내용을 돌려준다."""
     s = inner.strip()
-    if not s or _BOARD_LABEL.match(s) or _DATE_LIKE.search(s.replace(" ", "")):
+    if not s or _BOARD_LABEL.match(s) or _AUDIENCE.match(s) or _DATE_LIKE.search(s.replace(" ", "")):
         return ""
     if _ORG_NAME.search(s):
         return " " + s + " "
