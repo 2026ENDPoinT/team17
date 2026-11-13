@@ -13,6 +13,7 @@ from pathlib import Path
 from config import EXTRACTED_DIR, HQ_SITE, RAW_DIR
 from parser import NOT_VALUE_KINDS, Document, other_conditions, parse
 from rules import (
+    YEAR_FIX_NOTE,
     classify_category,
     classify_kind,
     classify_label,
@@ -198,6 +199,8 @@ def extract_one(raw: dict) -> dict:
     if amount["type"] == "unknown":
         needs_check.append("amount")
     if deadline is None and deadline_text is None:  # 상시 모집은 deadline_text만 있다
+        needs_check.append("deadline")
+    elif deadline_text and YEAR_FIX_NOTE in deadline_text:  # 원문 연도 오타를 고친 마감일은 사람이 확인한다
         needs_check.append("deadline")
     if not documents:
         needs_check.append("documents")

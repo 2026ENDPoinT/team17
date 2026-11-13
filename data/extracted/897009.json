@@ -18,7 +18,8 @@
   "closed": false,
   "eligibility": {
     "grades": [
-      6
+      3,
+      4
     ],
     "departments": null,
     "gpa_min": null,

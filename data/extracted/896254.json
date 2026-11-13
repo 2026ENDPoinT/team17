@@ -17,9 +17,7 @@
   "deadline_text": "2026. 9. 28.(월) ~ 10. 7.(수) [10일간]",
   "closed": true,
   "eligibility": {
-    "grades": [
-      3
-    ],
+    "grades": null,
     "departments": [
       "이공계"
     ],
@@ -73,7 +71,6 @@
     "departments",
     "documents",
     "duplicate_restriction",
-    "grades",
     "other_conditions",
     "residence"
   ],
