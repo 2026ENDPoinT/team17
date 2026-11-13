@@ -1,6 +1,6 @@
 """공지별 추출 결과를 장학금 이벤트로 묶어 화면용 events.json을 만든다 (최종 빌드).
 
-실행: uv run python events/build.py [--out 경로]
+실행: uv run python events/build.py [--out 경로] [--extracted 폴더 --no-review]  (뒤 두 개는 시험 데이터용)
 입력: data/extracted/{bidx}.json (분류 담당), data/reviewed/{bidx}.json (공지별 검수값),
       data/reviewed/events.json (묶음 검수: 라벨 고치기, 묶기, 떼기)
 출력: web/public/events.json (형식: data/events.sample.json). 항목 1개 = 장학금 이벤트 1개.
@@ -17,7 +17,7 @@ import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from group import group_notices, notice_label
+from group import group_notices, has_details, notice_label
 
 ROOT = Path(__file__).resolve().parent.parent
 EXTRACTED_DIR = ROOT / "data" / "extracted"
@@ -26,9 +26,11 @@ EVENT_REVIEW = REVIEWED_DIR / "events.json"
 OUT = ROOT / "web" / "public" / "events.json"
 KST = timezone(timedelta(hours=9))
 
-# 화면에 넘기지 않는 필드 (분류 쪽 내부 필드 + 묶기에만 쓰는 필드)
+# 화면에 넘기지 않는 필드. 앞줄은 분류 쪽 내부 필드로 classifier/build.py의 INTERNAL_KEYS와 같게 둔다
+# (분류가 내부 필드를 늘리면 여기도 늘린다). 뒷줄은 묶기에만 쓰는 필드다.
 INTERNAL_KEYS = ["notice_kind", "notice_kind_reason", "content_hash", "exclude", "filtered_conditions", "duplicate_of",
-                 "from_attachment", "label", "year", "semester", "round", "_label"]
+                 "from_attachment", "duplicate_split", "label", "label_reason",
+                 "year", "semester", "round", "_label"]
 # 최근 공지에 값이 없으면 앞 공지 값으로 채우는 필드
 FILL_FIELDS = ["category", "summary", "amount", "eligibility", "burden", "duplicate_restriction"]
 
@@ -46,13 +48,14 @@ def merge(base: dict, patch: dict) -> dict:
     return result
 
 
-def load_notices() -> list[dict]:
-    """extracted에 공지별 검수값을 덮어쓰고, 제외된 글을 빼고, 재게시 글을 대표 글에 붙인다."""
+def load_notices(extracted_dir: Path = EXTRACTED_DIR, reviewed_dir: Path | None = REVIEWED_DIR) -> list[dict]:
+    """extracted에 공지별 검수값을 덮어쓰고, 제외된 글을 빼고, 재게시 글을 대표 글에 붙인다.
+    reviewed_dir가 None이면 검수값을 쓰지 않는다 (시험 데이터용)."""
     merged: dict[str, dict] = {}
-    for path in sorted(EXTRACTED_DIR.glob("*.json")):
+    for path in sorted(extracted_dir.glob("*.json")):
         item = json.loads(path.read_text(encoding="utf-8"))
-        reviewed_path = REVIEWED_DIR / path.name
-        if reviewed_path.exists():
+        reviewed_path = reviewed_dir / path.name if reviewed_dir else None
+        if reviewed_path and reviewed_path.exists():
             item = merge(item, json.loads(reviewed_path.read_text(encoding="utf-8")))
             item["reviewed"] = True
         if not item.get("exclude"):
@@ -70,10 +73,10 @@ def load_notices() -> list[dict]:
     return notices
 
 
-def load_event_review() -> dict:
-    if not EVENT_REVIEW.exists():
+def load_event_review(path: Path | None = EVENT_REVIEW) -> dict:
+    if path is None or not path.exists():
         return {}
-    return json.loads(EVENT_REVIEW.read_text(encoding="utf-8"))
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
 def apply_review(groups: list[list[dict]], review: dict) -> tuple[list[list[dict]], set[int]]:
@@ -107,9 +110,9 @@ def _empty(field: str, value) -> bool:
 
 
 def make_event(notices: list[dict], grouped_by: str) -> dict | None:
-    """공지 묶음 하나 → 이벤트 하나. 모집·수정 공지가 없으면(결과 공지만 있으면) None."""
+    """공지 묶음 하나 → 이벤트 하나. 상세가 있는 공지(모집·수정, 마감된 모집)가 없으면(결과 공지만 있으면) None."""
     notices = sorted(notices, key=lambda n: (n["source"].get("posted_at") or "", int(n["id"])))
-    active = [n for n in notices if n["_label"] in ("모집", "수정")]
+    active = [n for n in notices if has_details(n)]
     if not active:
         return None
     latest = active[-1]
@@ -174,7 +177,7 @@ def build_events(notices: list[dict], review: dict) -> list[dict]:
     labels = {str(k): v for k, v in review.get("labels", {}).items()}
     labeled = []
     for n in notices:
-        n["_label"] = labels.get(str(n["id"])) or notice_label(n)
+        n["_label"] = labels[str(n["id"])] if str(n["id"]) in labels else notice_label(n)
         if n["_label"] in ("모집", "수정", "완료"):
             labeled.append(n)
 
@@ -203,9 +206,14 @@ def build_events(notices: list[dict], review: dict) -> list[dict]:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--out", type=Path, default=OUT)
+    parser.add_argument("--extracted", type=Path, default=EXTRACTED_DIR, help="입력 추출 결과 폴더 (시험 데이터용)")
+    parser.add_argument("--no-review", action="store_true", help="data/reviewed/의 검수값을 쓰지 않는다 (시험 데이터용)")
     args = parser.parse_args()
 
-    events = build_events(load_notices(), load_event_review())
+    if args.no_review:
+        events = build_events(load_notices(args.extracted, None), {})
+    else:
+        events = build_events(load_notices(args.extracted), load_event_review())
     data = {
         "version": 1,
         "generated_at": datetime.now(KST).isoformat(timespec="seconds"),
