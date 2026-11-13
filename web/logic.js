@@ -9,6 +9,21 @@ export function getMatchingFavoriteIds(item, favoriteIds) {
     noticeIds.has(String(id).replace(/^event-/, '')));
 }
 
+// 저장한 순서대로 이벤트를 찾는다. 합쳐진 이벤트는 한 번만 남기고 사라진 ID는 item: null로 유지한다.
+export function getFavoriteEntries(items, favoriteIds) {
+  const entries = [];
+  const seen = new Set();
+  for (const id of favoriteIds) {
+    // 현재 이벤트 ID를 먼저 찾고, 없으면 소속 공지 번호를 대조한다.
+    const item = items.find((candidate) => String(candidate.id) === String(id)) ??
+      items.find((candidate) => getMatchingFavoriteIds(candidate, [id]).length > 0);
+    if (item && seen.has(String(item.id))) continue;
+    if (item) seen.add(String(item.id));
+    entries.push({ id, item: item ?? null });
+  }
+  return entries;
+}
+
 // 한국의 오늘 날짜를 YYYY-MM-DD 형식으로 반환한다.
 export function getToday() {
   return new Intl.DateTimeFormat('en-CA', {

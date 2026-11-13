@@ -34,6 +34,19 @@
   padding: 12px;
 }
 
+/* 즐겨찾기는 메인의 제목 너비를 유지하고 오른쪽 설정 자리까지 목록으로 사용한다. */
+.favorites-layout > .main-list-panel { grid-column: 1 / -1; }
+.favorite-missing { padding: 24px; cursor: default; }
+.favorite-missing .main-favorites-button {
+  position: static;
+  display: inline-block;
+  width: auto;
+  height: 40px;
+  padding: 10px 16px;
+  background: var(--color-primary);
+  color: var(--color-content);
+}
+
 .main-list {
   flex: 1;
   min-width: 0;
