@@ -1,6 +1,7 @@
 // 메인 화면의 전체 배치와 영역별 틀을 만든다.
 // 입력: 화면을 넣을 DOM 요소. 출력: 이후 갱신에 사용할 영역별 DOM 요소.
 import { formatAmount, formatDeadline, getMainConditions, getToday } from './logic.js';
+import { AMOUNT_TYPES } from './filterOptions.js';
 
 // 데이터를 기다리거나 불러오기에 실패했을 때 왼쪽 영역에 상태 안내를 표시한다.
 export function renderListStatus(container, status) {
@@ -73,7 +74,7 @@ export function renderMain(container, handlers = {}) {
   sidebar.setAttribute('aria-label', '장학금 검색 설정');
 
   const title = createTitleArea();
-  const sort = createSortArea();
+  const sort = createSortArea(handlers);
   const filters = createFilterArea(handlers.onOpenFilters);
   const resetButton = document.createElement('button');
   resetButton.type = 'button';
@@ -82,7 +83,7 @@ export function renderMain(container, handlers = {}) {
   resetButton.disabled = !handlers.onResetFilters;
   if (handlers.onResetFilters) resetButton.addEventListener('click', handlers.onResetFilters);
 
-  sidebar.append(title, sort, filters.section, resetButton);
+  sidebar.append(title, sort.section, filters.section, resetButton);
   layout.append(list, sidebar);
   container.replaceChildren(layout);
 
@@ -139,19 +140,46 @@ function createTitleArea() {
   return header;
 }
 
-// 현재 정렬 기준인 마감순을 표시하는 영역을 만든다.
-function createSortArea() {
+// 정렬 드롭다운과 금액 유형 단일 선택 버튼을 만들고, 변경 이벤트를 main.js에 전달한다.
+function createSortArea(handlers) {
   const section = document.createElement('section');
   section.className = 'main-sort';
   section.setAttribute('aria-label', '정렬');
 
   const heading = document.createElement('h2');
   heading.textContent = '정렬';
-  const value = document.createElement('p');
-  value.textContent = '마감순';
+  const select = document.createElement('select');
+  select.setAttribute('aria-label', '정렬 기준');
+  for (const [value, label] of [['deadline', '마감순'], ['amount', '금액순']]) {
+    const option = document.createElement('option');
+    option.value = value;
+    option.textContent = label;
+    select.append(option);
+  }
+  select.disabled = !handlers.onSortChange;
+  // 선택된 기준을 전달한다. 상태 변경과 목록 재계산은 main.js에서 수행한다.
+  select.addEventListener('change', (event) => handlers.onSortChange?.(event.target.value));
 
-  section.append(heading, value);
-  return section;
+  const amountTypes = document.createElement('fieldset');
+  amountTypes.className = 'main-amount-types';
+  amountTypes.hidden = true;
+  const legend = document.createElement('legend');
+  legend.textContent = '금액 유형';
+  amountTypes.append(legend);
+  const amountButtons = {};
+  for (const [value, label] of Object.entries(AMOUNT_TYPES)) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = label;
+    button.setAttribute('aria-pressed', 'false');
+    button.disabled = !handlers.onAmountTypeChange;
+    // 클릭한 유형 하나를 전달한다. 같은 버튼을 다시 눌러도 선택은 유지한다.
+    button.addEventListener('click', () => handlers.onAmountTypeChange?.(value));
+    amountButtons[value] = button;
+    amountTypes.append(button);
+  }
+  section.append(heading, select, amountTypes);
+  return { section, select, amountTypes, amountButtons };
 }
 
 // 필터 제목 옆에 팝업 열기 버튼을 두고 적용된 필터를 표시할 영역을 반환한다.

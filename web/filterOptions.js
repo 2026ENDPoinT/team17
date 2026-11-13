@@ -1,5 +1,11 @@
-// 필터 선택지를 정의한다. 입력: docs/notice-sources.md 2절의 학과·학부·전공 목록.
-// 출력: 팝업 표시와 저장 상태 검증에서 공유하는 선택지. 학교 서버에는 요청하지 않는다.
+// 필터와 금액 유형 선택지를 정의한다. 학과 출처는 docs/notice-sources.md 2절이다.
+// 출력: 화면 표시와 저장 상태 검증에서 공유하는 선택지. 학교 서버에는 요청하지 않는다.
+export const AMOUNT_TYPES = {
+  lump_sum: '일시금',
+  tuition_ratio: '등록금 비율',
+  hourly: '시급',
+};
+
 export const FILTER_OPTIONS = {
   categories: ['교내', '교외', '근로'],
   grades: [1, 2, 3, 4],

@@ -22,12 +22,15 @@ export function sortScholarships(items, compareFunction) {
 }
 
 // 원본과 적용된 필터를 받아 조건에 맞는 새 목록을 반환한다. 같은 그룹은 OR, 그룹 사이는 AND다.
+// amountType이 전달되면 해당 유형에서 금액이 확인된 항목만 남긴다.
 export function filterScholarships(items, filters, today = getToday()) {
   const currentDate = parseDeadline(today);
   // 선택한 그룹만 검사하며, 그 그룹의 조건이 미확인이면 해당 장학금을 제외한다.
   return items.filter((item) => {
     const eligibility = item.eligibility ?? {};
     const uncertain = [...(eligibility.unclear ?? []), ...(item.needs_check ?? [])];
+    if (filters.amountType && (item.amount?.type !== filters.amountType ||
+        !Number.isFinite(item.amount?.value) || uncertain.includes('amount'))) return false;
     if (filters.categories.length > 0 &&
         (uncertain.includes('category') || !filters.categories.includes(item.category))) return false;
     if (filters.grades.length > 0) {
@@ -60,6 +63,13 @@ export function compareDeadline(a, b, today = getToday()) {
   // 같은 그룹에서는 마감이 빠른 순서로 두고, 같은 날짜는 기존 순서를 유지한다.
   if (dateA === null || dateB === null) return 0;
   return dateA - dateB;
+}
+
+// 같은 금액 유형의 두 항목을 금액 내림차순으로 비교하고, 금액이 같으면 마감순으로 비교한다.
+// 금액 유형과 미확인 값은 filterScholarships()에서 먼저 걸러낸다.
+export function compareAmount(a, b, today = getToday()) {
+  const difference = b.amount.value - a.amount.value;
+  return difference || compareDeadline(a, b, today);
 }
 
 // 금액을 일시금·등록금 비율·시급에 맞는 문구로 바꾸며, 알 수 없으면 미확인으로 표시한다.

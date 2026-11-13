@@ -1,11 +1,12 @@
 // 원본 데이터와 화면 상태를 보관하고 데이터 읽기·정렬·화면 표시를 연결한다.
 // 입력: 샘플 JSON과 사용자 조작. 출력: 메인 화면.
 import { loadScholarships } from './data.js';
-import { sortScholarships, compareDeadline, filterScholarships } from './logic.js';
+import { sortScholarships, compareDeadline, compareAmount, filterScholarships } from './logic.js';
 import { renderMain, renderScholarshipList, renderListStatus, renderSelectedFilters } from './renderMain.js';
 import { renderDetail } from './renderDetail.js';
 import { renderFilterPopup } from './renderFilterPopup.js';
 import { loadSettings, saveSettings } from './settingStore.js';
+import { AMOUNT_TYPES } from './filterOptions.js';
 
 const state = {
   items: [],
@@ -16,19 +17,36 @@ const state = {
   selectedId: null,
   view: 'loading',
 };
-const compareFunctions = { deadline: compareDeadline };
+const compareFunctions = { deadline: compareDeadline, amount: compareAmount };
+const mainHandlers = {
+  onOpenFilters: handleOpenFilterPopup,
+  onResetFilters: handleResetFilters,
+  onSortChange: handleSortChange,
+  onAmountTypeChange: handleAmountTypeChange,
+};
 const app = document.getElementById('app');
-let areas = renderMain(app, { onOpenFilters: handleOpenFilterPopup, onResetFilters: handleResetFilters });
+let areas = renderMain(app, mainHandlers);
 let filterPopup = null;
 
 // 원본을 필터링한 뒤 정렬해 메인과 상세 이동이 공유할 표시 목록을 저장한다.
 function updateVisibleItems() {
-  const filteredItems = filterScholarships(state.items, state.filters);
+  const filters = {
+    ...state.filters,
+    amountType: state.sortBy === 'amount' ? state.amountType : null,
+  };
+  const filteredItems = filterScholarships(state.items, filters);
   state.visibleItems = sortScholarships(filteredItems, compareFunctions[state.sortBy]);
 }
 
 // 로딩·오류 안내 또는 보관 중인 표시 목록을 그린 뒤 스크롤 위치를 복원하고 설정을 저장한다.
 function updateMain() {
+  areas.sort.select.value = state.sortBy;
+  areas.sort.select.disabled = state.loading || !!state.error;
+  areas.sort.amountTypes.hidden = state.sortBy !== 'amount';
+  for (const [type, button] of Object.entries(areas.sort.amountButtons)) {
+    button.setAttribute('aria-pressed', String(type === state.amountType));
+    button.disabled = state.loading || !!state.error;
+  }
   areas.filterSelectButton.disabled = state.loading || !!state.error;
   areas.resetButton.disabled = state.loading || !!state.error;
   if (state.loading) return renderListStatus(areas.list, 'loading');
@@ -37,6 +55,26 @@ function updateMain() {
   renderSelectedFilters(areas.filters, state.filters, handleRemoveFilter);
   areas.list.scrollTop = state.listScrollTop;
   saveSettings(state);
+}
+
+// 드롭다운의 정렬 기준을 저장하고 목록을 재계산한다. 금액순으로 전환하면 일시금을 기본 선택한다.
+function handleSortChange(sortBy) {
+  if (!Object.hasOwn(compareFunctions, sortBy) || state.sortBy === sortBy) return;
+  state.sortBy = sortBy;
+  if (sortBy === 'amount') state.amountType = 'lump_sum';
+  state.listScrollTop = 0;
+  updateVisibleItems();
+  updateMain();
+}
+
+// 금액 유형 버튼에서 호출하며, 유형 하나를 저장하고 필터링·정렬 후 목록을 맨 위부터 표시한다.
+function handleAmountTypeChange(amountType) {
+  if (state.sortBy !== 'amount' || !Object.hasOwn(AMOUNT_TYPES, amountType) ||
+      state.amountType === amountType) return;
+  state.amountType = amountType;
+  state.listScrollTop = 0;
+  updateVisibleItems();
+  updateMain();
 }
 
 // 필터 선택 버튼에서 호출하며, 현재 적용 상태를 복사해 편집할 팝업을 연다.
@@ -93,7 +131,7 @@ function handleRouteChange() {
   if (hash === '' || hash === '#' || hash === '#/') {
     state.view = 'main';
     state.selectedId = null;
-    areas = renderMain(app, { onOpenFilters: handleOpenFilterPopup, onResetFilters: handleResetFilters });
+    areas = renderMain(app, mainHandlers);
     updateMain();
     // 목록 스크롤이 바뀔 때 저장해 목록에서 새로고침해도 위치를 복원한다.
     areas.list.addEventListener('scroll', () => {

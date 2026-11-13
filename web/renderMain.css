@@ -50,6 +50,27 @@
   font-size: 18px;
 }
 
+.main-sort select {
+  width: 100%;
+  padding: 10px;
+  font: inherit;
+}
+
+.main-amount-types {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  min-width: 0;
+  margin: 16px 0 0;
+  padding: 12px;
+  border: 1px solid #ddd;
+}
+
+.main-amount-types[hidden] { display: none; }
+.main-amount-types legend { padding: 0 4px; }
+.main-amount-types button { padding: 10px; font: inherit; cursor: pointer; border: 1px solid #bbb; background: #fff; border-radius: 4px; }
+.main-amount-types button[aria-pressed="true"] { background: #2563eb; color: #fff; border-color: #2563eb; }
+
 .main-filters {
   display: flex;
   flex: 1;
