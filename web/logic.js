@@ -38,10 +38,18 @@ export function filterScholarships(items, filters, today = getToday()) {
       // 선택한 학년 중 하나라도 대상 학년에 포함되면 이 그룹의 조건을 통과한다.
       if (!filters.grades.some((grade) => eligibility.grades.includes(grade))) return false;
     }
-    if (filters.departments.length > 0 && (uncertain.includes('departments') ||
-        !Array.isArray(eligibility.departments) ||
-        // 선택한 학과 중 하나라도 지원 학과에 포함되면 통과한다.
-        !filters.departments.some((department) => eligibility.departments.includes(department)))) return false;
+    if (filters.departments.length > 0) {
+      // 사용자 결정에 따라 비어 있는 학과 값은 미확인 표시와 관계없이 제한 없음에 포함한다.
+      const empty = eligibility.departments == null ||
+        (Array.isArray(eligibility.departments) && eligibility.departments.length === 0);
+      const noRestriction = filters.departments.includes('학과 제한 없음') &&
+        (empty || eligibility.departments === '제한없음');
+      // 구체적인 학과는 확인된 지원 학과 중 하나라도 일치하면 통과한다.
+      const matching = !uncertain.includes('departments') && Array.isArray(eligibility.departments) &&
+        filters.departments.some((department) => department !== '학과 제한 없음' &&
+          eligibility.departments.includes(department));
+      if (!noRestriction && !matching) return false;
+    }
     if (filters.openOnly) {
       const deadline = parseDeadline(item.deadline);
       if (item.closed === true || uncertain.includes('deadline') ||
@@ -123,7 +131,7 @@ export function formatDeadline(deadline, today) {
   return `${deadline} (${label})`;
 }
 
-// 확인된 조건을 학년 → 학과 → 성적 → 소득 → 거주지 순서로 최대 3개 골라 반환한다.
+// 확인된 조건을 최대 3개 고른다. 학과의 제한없음 문자열은 배열과 구분해 표시한다.
 export function getMainConditions(eligibility = {}) {
   const conditions = [];
   const unclear = eligibility?.unclear ?? [];
@@ -133,7 +141,10 @@ export function getMainConditions(eligibility = {}) {
   if (known('grades') && eligibility.grades.length > 0) {
     conditions.push(`${eligibility.grades.join('·')}학년`);
   }
-  if (known('departments') && eligibility.departments.length > 0) {
+  if (known('departments') && eligibility.departments === '제한없음') {
+    conditions.push('학과 제한 없음');
+  } else if (known('departments') && Array.isArray(eligibility.departments) &&
+      eligibility.departments.length > 0) {
     conditions.push(eligibility.departments.join('·'));
   }
   if (known('gpa_min')) conditions.push(`성적 ${eligibility.gpa_min} 이상`);

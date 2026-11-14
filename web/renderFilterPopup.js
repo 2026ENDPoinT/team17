@@ -1,8 +1,8 @@
 // 적용 전 필터를 별도 상태로 편집하는 팝업이다.
 // 입력: 부모 DOM·적용된 필터·적용 이벤트. 출력: 열린 dialog 요소.
-import { FILTER_OPTIONS } from './filterOptions.js';
+import { FILTER_OPTIONS, DEPARTMENT_GROUPS } from './filterOptions.js';
 
-// 유형·학년·학과를 복수 선택하는 임시 필터를 만들고, 적용할 때만 호출자에게 전달한다.
+// 안내·모집 상태를 먼저 표시하고, 유형·학년·학과의 임시 필터를 적용할 때만 전달한다.
 export function renderFilterPopup(container, filters, handlers) {
   const draft = structuredClone(filters);
   const dialog = document.createElement('dialog');
@@ -17,12 +17,19 @@ export function renderFilterPopup(container, filters, handlers) {
 
   const content = document.createElement('div');
   content.className = 'filter-popup-content';
+  const guidance = document.createElement('p');
+  guidance.append(
+    '학과 제한 없음은 제한 없음으로 분류되었거나 학과 값이 비어 있는 항목을 표시하며, 학과 정보 미확인 항목도 포함될 수 있습니다.',
+    document.createElement('br'),
+    '그 외 선택한 조건이 미확인인 장학금은 제외됩니다. 정확한 마감 시각은 공식 공지를 확인하세요.',
+  );
+  content.append(guidance);
   const optionButtons = [];
   for (const [key, label, values] of [
+    ['openOnly', '모집 상태', [true]],
     ['categories', '유형 · 여러 개 선택', FILTER_OPTIONS.categories],
     ['grades', '학년 · 여러 개 선택', FILTER_OPTIONS.grades],
     ['departments', '학과·학부·전공 · 여러 개 선택', FILTER_OPTIONS.departments],
-    ['openOnly', '모집 상태', [true]],
   ]) {
     const group = document.createElement('fieldset');
     const legend = document.createElement('legend');
@@ -30,6 +37,16 @@ export function renderFilterPopup(container, filters, handlers) {
     const options = document.createElement('div');
     options.className = `filter-popup-options filter-popup-options-${key}`;
     for (const value of values) {
+      if (key === 'departments') {
+        // 각 단과대학의 첫 학과 앞에 선택할 수 없는 제목을 붙인다.
+        const college = DEPARTMENT_GROUPS.find((entry) => entry.departments[0] === value);
+        if (college) {
+          const heading = document.createElement('h3');
+          heading.className = 'filter-college-heading';
+          heading.textContent = college.college;
+          options.append(heading);
+        }
+      }
       const button = document.createElement('button');
       button.type = 'button';
       button.className = 'filter-option';
@@ -57,10 +74,6 @@ export function renderFilterPopup(container, filters, handlers) {
     group.append(legend, options);
     content.append(group);
   }
-  const guidance = document.createElement('p');
-  guidance.textContent = '선택한 조건이 미확인인 장학금은 결과에서 제외됩니다. 모집 중은 마감일 당일까지 포함하므로 정확한 마감 시각은 공식 공지를 확인하세요.';
-  content.append(guidance);
-
   const footer = document.createElement('footer');
   const resetButton = document.createElement('button');
   resetButton.type = 'button';

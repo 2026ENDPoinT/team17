@@ -33,7 +33,9 @@
 .filter-popup legend { padding: 0; font-weight: bold; background: transparent; }
 .filter-popup-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 .filter-popup-options-grades { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-.filter-popup-options-openOnly { grid-template-columns: 1fr; }
+/* 모집 중만 보기 역시 기본 3열의 한 칸을 사용해 유형 버튼과 너비를 맞춘다. */
+/* 단과대학 제목 아래 학과 버튼을 왼쪽에서 오른쪽 순서로 배치한다. */
+.filter-college-heading { grid-column: 1 / -1; margin: 16px 0 2px; font-size: 16px; color: var(--color-primary); }
 .filter-popup-content > p { line-height: 1.6; }
 .filter-popup button { padding: 10px 14px; border: 1px solid var(--color-secondary); border-radius: 12px; background: var(--color-surface); color: var(--color-text); font: inherit; cursor: pointer; }
 .filter-option { overflow-wrap: anywhere; }
