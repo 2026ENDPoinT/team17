@@ -2,7 +2,7 @@
 // 입력: 부모 DOM·적용된 필터·적용 이벤트. 출력: 열린 dialog 요소.
 import { FILTER_OPTIONS, DEPARTMENT_GROUPS } from './filterOptions.js';
 
-// 학과를 단과대학 제목 아래 묶어 복수 선택하게 하고, 적용할 때만 임시 필터를 전달한다.
+// 안내·모집 상태를 먼저 표시하고, 유형·학년·학과의 임시 필터를 적용할 때만 전달한다.
 export function renderFilterPopup(container, filters, handlers) {
   const draft = structuredClone(filters);
   const dialog = document.createElement('dialog');
@@ -17,12 +17,19 @@ export function renderFilterPopup(container, filters, handlers) {
 
   const content = document.createElement('div');
   content.className = 'filter-popup-content';
+  const guidance = document.createElement('p');
+  guidance.append(
+    '학과 제한 없음은 학과 값이 비어 있는 항목을 표시하며, 학과 정보 미확인 항목도 포함될 수 있습니다.',
+    document.createElement('br'),
+    '그 외 선택한 조건이 미확인인 장학금은 제외됩니다. 정확한 마감 시각은 공식 공지를 확인하세요.',
+  );
+  content.append(guidance);
   const optionButtons = [];
   for (const [key, label, values] of [
+    ['openOnly', '모집 상태', [true]],
     ['categories', '유형 · 여러 개 선택', FILTER_OPTIONS.categories],
     ['grades', '학년 · 여러 개 선택', FILTER_OPTIONS.grades],
     ['departments', '학과·학부·전공 · 여러 개 선택', FILTER_OPTIONS.departments],
-    ['openOnly', '모집 상태', [true]],
   ]) {
     const group = document.createElement('fieldset');
     const legend = document.createElement('legend');
@@ -67,10 +74,6 @@ export function renderFilterPopup(container, filters, handlers) {
     group.append(legend, options);
     content.append(group);
   }
-  const guidance = document.createElement('p');
-  guidance.textContent = '학과 제한 없음은 학과 값이 비어 있는 항목을 표시하며, 학과 정보 미확인 항목도 포함될 수 있습니다. 그 외 선택한 조건이 미확인인 장학금은 제외됩니다. 정확한 마감 시각은 공식 공지를 확인하세요.';
-  content.append(guidance);
-
   const footer = document.createElement('footer');
   const resetButton = document.createElement('button');
   resetButton.type = 'button';
