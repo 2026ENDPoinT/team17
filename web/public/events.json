@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-11-14T08:47:05+09:00",
+  "generated_at": "2026-11-14T09:06:59+09:00",
   "items": [
     {
       "id": "event-895440",
@@ -113,7 +113,7 @@
       "closed": false,
       "eligibility": {
         "grades": null,
-        "departments": null,
+        "departments": "제한없음",
         "gpa_min": null,
         "score_min": null,
         "income_max": null,
@@ -297,7 +297,7 @@
       "closed": false,
       "eligibility": {
         "grades": null,
-        "departments": null,
+        "departments": "제한없음",
         "gpa_min": 3.0,
         "score_min": null,
         "income_max": null,
@@ -667,7 +667,7 @@
       "closed": false,
       "eligibility": {
         "grades": null,
-        "departments": null,
+        "departments": "제한없음",
         "gpa_min": 3.0,
         "score_min": null,
         "income_max": null,
@@ -728,7 +728,7 @@
       "closed": false,
       "eligibility": {
         "grades": null,
-        "departments": null,
+        "departments": "제한없음",
         "gpa_min": 3.0,
         "score_min": null,
         "income_max": null,
@@ -798,7 +798,7 @@
       "closed": false,
       "eligibility": {
         "grades": null,
-        "departments": null,
+        "departments": "제한없음",
         "gpa_min": null,
         "score_min": null,
         "income_max": null,
@@ -1132,7 +1132,7 @@
           2,
           3
         ],
-        "departments": null,
+        "departments": "제한없음",
         "gpa_min": 3.7,
         "score_min": null,
         "income_max": null,
@@ -1336,7 +1336,7 @@
       "closed": true,
       "eligibility": {
         "grades": null,
-        "departments": null,
+        "departments": "제한없음",
         "gpa_min": null,
         "score_min": 70,
         "income_max": null,
@@ -1818,7 +1818,7 @@
       "closed": false,
       "eligibility": {
         "grades": null,
-        "departments": null,
+        "departments": "제한없음",
         "gpa_min": null,
         "score_min": null,
         "income_max": null,
@@ -1879,7 +1879,7 @@
       "closed": false,
       "eligibility": {
         "grades": null,
-        "departments": null,
+        "departments": "제한없음",
         "gpa_min": 2.75,
         "score_min": null,
         "income_max": 5,
@@ -1952,7 +1952,7 @@
         "grades": [
           1
         ],
-        "departments": null,
+        "departments": "제한없음",
         "gpa_min": 3.0,
         "score_min": null,
         "income_max": null,
@@ -2020,7 +2020,7 @@
         "grades": [
           1
         ],
-        "departments": null,
+        "departments": "제한없음",
         "gpa_min": 2.75,
         "score_min": null,
         "income_max": 5,
@@ -2458,7 +2458,7 @@
       "closed": false,
       "eligibility": {
         "grades": null,
-        "departments": null,
+        "departments": "제한없음",
         "gpa_min": null,
         "score_min": null,
         "income_max": null,
@@ -2589,7 +2589,7 @@
       "closed": false,
       "eligibility": {
         "grades": null,
-        "departments": null,
+        "departments": "제한없음",
         "gpa_min": null,
         "score_min": null,
         "income_max": null,
@@ -2656,7 +2656,7 @@
         "grades": [
           3
         ],
-        "departments": null,
+        "departments": "제한없음",
         "gpa_min": null,
         "score_min": 85,
         "income_max": null,
@@ -2793,7 +2793,7 @@
       "closed": false,
       "eligibility": {
         "grades": null,
-        "departments": null,
+        "departments": "제한없음",
         "gpa_min": null,
         "score_min": 70,
         "income_max": 9,
@@ -2926,7 +2926,7 @@
       "closed": false,
       "eligibility": {
         "grades": null,
-        "departments": null,
+        "departments": "제한없음",
         "gpa_min": null,
         "score_min": null,
         "income_max": null,
@@ -3000,7 +3000,7 @@
       "closed": false,
       "eligibility": {
         "grades": null,
-        "departments": null,
+        "departments": "제한없음",
         "gpa_min": null,
         "score_min": 70,
         "income_max": 9,
@@ -3068,7 +3068,7 @@
       "closed": false,
       "eligibility": {
         "grades": null,
-        "departments": null,
+        "departments": "제한없음",
         "gpa_min": null,
         "score_min": 70,
         "income_max": 9,

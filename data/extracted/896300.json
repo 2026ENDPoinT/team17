@@ -22,7 +22,7 @@
       2,
       3
     ],
-    "departments": null,
+    "departments": "제한없음",
     "gpa_min": 3.7,
     "score_min": null,
     "income_max": null,

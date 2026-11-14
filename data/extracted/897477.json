@@ -20,7 +20,7 @@
     "grades": [
       3
     ],
-    "departments": null,
+    "departments": "제한없음",
     "gpa_min": null,
     "score_min": 85,
     "income_max": null,
