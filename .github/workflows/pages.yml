@@ -1,0 +1,49 @@
+# main의 화면 코드와 events.json을 GitHub Pages에 배포한다.
+# 입력: web/의 HTML·CSS·JS와 web/public/events.json. 출력: 공개 웹사이트.
+name: 웹 GitHub Pages 배포
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'web/**'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: GitHub Pages 설정 확인
+        uses: actions/configure-pages@v5
+
+      - name: 공개할 화면과 데이터만 준비
+        run: |
+          mkdir -p _site/public
+          cp web/*.html web/*.css web/*.js _site/
+          cp web/public/events.json _site/public/
+
+      - name: 배포 파일 업로드
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+      - name: GitHub Pages 배포
+        id: deployment
+        uses: actions/deploy-pages@v4
