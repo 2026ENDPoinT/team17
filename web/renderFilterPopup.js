@@ -19,7 +19,7 @@ export function renderFilterPopup(container, filters, handlers) {
   content.className = 'filter-popup-content';
   const guidance = document.createElement('p');
   guidance.append(
-    '학과 제한 없음은 학과 값이 비어 있는 항목을 표시하며, 학과 정보 미확인 항목도 포함될 수 있습니다.',
+    '학과 제한 없음은 제한 없음으로 분류되었거나 학과 값이 비어 있는 항목을 표시하며, 학과 정보 미확인 항목도 포함될 수 있습니다.',
     document.createElement('br'),
     '그 외 선택한 조건이 미확인인 장학금은 제외됩니다. 정확한 마감 시각은 공식 공지를 확인하세요.',
   );
