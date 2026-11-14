@@ -10,7 +10,7 @@ import time
 from datetime import date
 from pathlib import Path
 
-from config import EXTRACTED_DIR, HQ_SITE, RAW_DIR
+from config import EXTRACTED_DIR, HQ_SITE, NO_DEPARTMENT_LIMIT, RAW_DIR
 from parser import NOT_VALUE_KINDS, Document, other_conditions, parse
 from rules import (
     OPEN_END_NOTE,
@@ -192,6 +192,17 @@ def extract_one(raw: dict) -> dict:
     conditions, src = first(other_conditions, bool)
     mark("other_conditions", src)
 
+    # 원문을 다 읽었는지: 포스터 이미지나 읽지 못한 첨부가 있으면 거기에 값이 있을 수 있다.
+    # 다 읽었는데 값이 없으면 "원문에 없음"으로 본다 (학과 "제한없음", needs_check 줄이기).
+    all_text = "\n".join([body] + [t for _, t in notices])
+    unread = raw.get("has_images") or any(
+        a.get("text_status") != "ok" and not is_form_attachment(a["name"]) and not is_ignored_attachment(a["name"])
+        for a in raw.get("attachments", []))
+    complete = not unread and (len(body.strip()) >= 100 or bool(notices))
+
+    # 학과: 원문을 다 읽었는데 학과 조건이 없으면 "제한없음". 읽지 못한 곳이 있으면 모르므로 None
+    if departments is None and complete:
+        departments = NO_DEPARTMENT_LIMIT
     eligibility["departments"] = departments
     eligibility["residence"] = residence
     eligibility["other_conditions"] = conditions  # 값으로 못 바꾸는 조건 문장 (읽기용)
@@ -218,12 +229,7 @@ def extract_one(raw: dict) -> dict:
 
     # 사람이 꼭 확인해야 하는 항목. 화면에서 "확인 필요"로 보여 줄 수 있다.
     # 값이 비었어도 원문에 그 정보가 아예 없으면 (금액 구·날짜·서류 말이 하나도 없으면) 사람이 봐도 채울 값이 없어서 올리지 않는다.
-    # 화면은 빈 값을 "원문 확인"으로 보여 준다. 포스터 이미지나 읽지 못한 첨부가 있으면 거기 있을 수 있어서 이 규칙을 쓰지 않는다.
-    all_text = "\n".join([body] + [t for _, t in notices])
-    unread = raw.get("has_images") or any(
-        a.get("text_status") != "ok" and not is_form_attachment(a["name"]) and not is_ignored_attachment(a["name"])
-        for a in raw.get("attachments", []))
-    complete = not unread and (len(body.strip()) >= 100 or bool(notices))
+    # 화면은 빈 값을 "원문 확인"으로 보여 준다. 포스터 이미지나 읽지 못한 첨부가 있으면 거기 있을 수 있어서 이 규칙을 쓰지 않는다 (complete).
     needs_check = []
     if amount["type"] == "unknown" and not (complete and not has_amount_phrase(all_text)):
         needs_check.append("amount")

@@ -18,7 +18,7 @@
   "closed": false,
   "eligibility": {
     "grades": null,
-    "departments": null,
+    "departments": "제한없음",
     "gpa_min": null,
     "score_min": 70,
     "income_max": 9,
