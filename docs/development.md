@@ -19,7 +19,9 @@ Python 쪽(수집·추출)은 **uv**로 관리한다. 각자 PC에 깔린 Python
 
    처음 실행하면 Python 3.11을 받아 `.venv/`를 만들고 라이브러리를 설치한다.
 
-## 화면 열기
+## 내 PC에서 화면 열기
+
+배포된 화면은 <https://2026endpoint.github.io/team17/>에 있다. 고친 것을 올리기 전에 확인할 때는 아래처럼 내 PC에서 연다.
 
 화면(`web/`)은 순수 JavaScript 모듈이라 빌드 없이 열 수 있다. 다만 `index.html`을 더블 클릭해 열면 브라우저가 JSON 요청을 막으므로, 저장소 루트에서 정적 서버를 띄운다.
 
@@ -30,6 +32,12 @@ uv run python -m http.server 8000 --directory web
 브라우저에서 <http://localhost:8000>을 연다. 화면은 `web/public/events.json`을 읽는다.
 
 - Vite 설정(`package.json`)은 아직 저장소에 없다. 화면 담당이 추가하면 이 절을 `npm` 명령으로 바꾼다. Node.js는 **24**를 쓴다.
+
+## 배포 (GitHub Pages)
+
+- `main`에 `web/` 아래 파일이 푸시되면 `.github/workflows/pages.yml`이 자동으로 배포한다. Actions 화면에서 수동으로 돌릴 수도 있다.
+- 배포되는 것은 `web/`의 HTML·CSS·JS와 `web/public/events.json`뿐이다. `web/docs/`, `web/samples/`는 올라가지 않는다.
+- 수집 워크플로(`collect.yml`)의 봇이 올린 커밋은 다른 워크플로를 자동으로 시작하지 않는 것이 GitHub의 기본 동작이다. 수집 뒤 화면에 새 데이터가 안 보이면 Actions 화면에서 "웹 GitHub Pages 배포"를 수동으로 돌린다.
 
 ## 자주 쓰는 명령
 
