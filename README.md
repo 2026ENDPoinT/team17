@@ -67,7 +67,7 @@ uv run python -m http.server 8000 --directory web
 서버와 DB 없이, Python 스크립트가 JSON 파일을 만들고 정적 웹 화면이 그 파일을 읽습니다.
 
 ```mermaid
-flowchart LR
+flowchart TD
     A[학교 게시판] -->|crawler/| B[data/raw/<br>공지 원본]
     B -->|classifier/| C[data/extracted/<br>금액·조건·마감 추출]
     C -->|events/| E[web/public/events.json<br>장학금 단위로 묶음]
